@@ -1,0 +1,111 @@
+/**
+ * MCCodes Version 2.0.5b
+ * Copyright (C) 2005-2012 Dabomstew
+ * All rights reserved.
+ *
+ * Redistribution of this code in any form is prohibited, except in
+ * the specific cases set out in the MCCodes Customer License.
+ *
+ * This code license may be used to run one (1) game.
+ * A game is defined as the set of users and other game database data,
+ * so you are permitted to create alternative clients for your game.
+ *
+ * If you did not obtain this code from MCCodes.com, you are in all likelihood
+ * using it illegally. Please contact MCCodes to discuss licensing options
+ * in this case.
+ *
+ * File: css/register.css
+ * Signature: ee13a1eed2e4bf7902ac57305a6820a8
+ * Date: Fri, 20 Apr 12 08:50:30 +0000
+ */
+@CHARSET "ISO-8859-1";
+
+body {
+	background-color: #DEDEDE;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.lgrad {
+	background-image: url("../lgrad.jpg");
+	background-repeat: repeat-y;
+	width: 19px;
+}
+
+.linegrad {
+	background-image: url(../linegrad.PNG);
+	background-repeat: repeat-y;
+	background-align: center;
+	width: 2px;
+}
+
+.rgrad {
+	background-image: url(../rgrad.jpg);
+	background-repeat: repeat-y;
+	width: 19px;
+}
+
+.dgrad {
+	background-image: url(../dgrad.jpg);
+	background-repeat: repeat-x;
+	height: 38px;
+}
+
+.dgradl {
+	background-image: url(../dgradl.jpg);
+	background-repeat: no-repeat;
+	height: 38px;
+	width: 38px;
+}
+
+.dgradr {
+	background-image: url(../dgradr.jpg);
+	background-repeat: no-repeat;
+	height: 38px;
+	width: 38px;
+}
+
+.center {
+	width: 932px;
+	background-color: #FFFFFF;
+	vertical-align: top;
+	text-align: center;
+}
+
+.table {
+	background-color: #000000;
+}
+
+.table3 {
+	background-color: #000000;
+}
+
+.table td {
+	background-color: #DEDEDE;
+	height: 22px;
+}
+
+.table3 td {
+	background-color: #CCCCCC;
+}
+
+td .alt {
+	background-color: #EEEEEE;
+	height: 22px;
+}
+
+td .h {
+	background-image: url(../tablehgrad.png);
+	background-repeat: repeat-x;
+	font-weight: bold;
+	background-color: #D6D6D6;
+}
+
+.table th {
+	background-image: url(../tablehgrad.png);
+	background-repeat: repeat-x;
+	font-weight: bold;
+	background-color: #D6D6D6;
+}
