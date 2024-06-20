@@ -50,10 +50,10 @@ EOF;
      * @param $lv
      * @param $fm
      * @param $cm
-     * @param $dosessh
+     * @param int $dosessh
      * @return void
      */
-    public function userdata($ir, $lv, $fm, $cm, $dosessh = 1): void
+    public function userdata($ir, $lv, $fm, $cm, int $dosessh = 1): void
     {
         global $db, $userid, $set;
         $IP = $db->escape($_SERVER['REMOTE_ADDR']);

@@ -84,13 +84,13 @@ function error_critical($human_error, $debug_error, $action): void
 /**
  * @param $errno
  * @param $errstr
- * @param $errfile
- * @param $errline
- * @param $errcontext
+ * @param string $errfile
+ * @param int $errline
+ * @param array $errcontext
  * @return void
  */
-function error_php($errno, $errstr, $errfile = '', $errline = 0,
-                   $errcontext = []): void
+function error_php($errno, $errstr, string $errfile = '', int $errline = 0,
+                   array $errcontext = []): void
 {
     // What's happened?
     // If it's a PHP warning or user error/warning, don't go further - indicates bad code, unsafe

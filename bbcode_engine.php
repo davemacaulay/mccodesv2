@@ -28,10 +28,10 @@ class bbcode_engine
     public array $htmls = [];
 
     /**
-     * @param $tag
+     * @param string $tag
      * @return void
      */
-    public function simple_bbcode_tag($tag = ''): void
+    public function simple_bbcode_tag(string $tag = ''): void
     {
 
         if (!$tag) {
@@ -42,11 +42,11 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $reptag
+     * @param string $tag
+     * @param string $reptag
      * @return void
      */
-    public function adv_bbcode_tag($tag = '', $reptag = ''): void
+    public function adv_bbcode_tag(string $tag = '', string $reptag = ''): void
     {
 
         if (!$tag) {
@@ -58,11 +58,11 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $optionval
+     * @param string $tag
+     * @param string $optionval
      * @return void
      */
-    public function simple_option_tag($tag = '', $optionval = ''): void
+    public function simple_option_tag(string $tag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '') {
@@ -75,12 +75,12 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $reptag
-     * @param $optionval
+     * @param string $tag
+     * @param string $reptag
+     * @param string $optionval
      * @return void
      */
-    public function adv_option_tag($tag = '', $reptag = '', $optionval = ''): void
+    public function adv_option_tag(string $tag = '', string $reptag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '' || $reptag == '') {
@@ -94,12 +94,12 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $reptag
-     * @param $optionval
+     * @param string $tag
+     * @param string $reptag
+     * @param string $optionval
      * @return void
      */
-    public function adv_option_tag_em($tag = '', $reptag = '', $optionval = ''): void
+    public function adv_option_tag_em(string $tag = '', string $reptag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '' || $reptag == '') {
@@ -113,11 +113,11 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $optionval
+     * @param string $tag
+     * @param string $optionval
      * @return void
      */
-    public function simp_option_notext($tag = '', $optionval = ''): void
+    public function simp_option_notext(string $tag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '') {
@@ -128,12 +128,12 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $reptag
-     * @param $optionval
+     * @param string $tag
+     * @param string $reptag
+     * @param string $optionval
      * @return void
      */
-    public function adv_option_notext($tag = '', $reptag = '', $optionval = ''): void
+    public function adv_option_notext(string $tag = '', string $reptag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '' || $reptag == '') {
@@ -144,12 +144,12 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $reptag
-     * @param $optionval
+     * @param string $tag
+     * @param string $reptag
+     * @param string $optionval
      * @return void
      */
-    public function adv_option_notext_em($tag = '', $reptag = '', $optionval = ''): void
+    public function adv_option_notext_em(string $tag = '', string $reptag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '' || $reptag == '') {
@@ -162,11 +162,11 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $optionval
+     * @param string $tag
+     * @param string $optionval
      * @return void
      */
-    public function simp_bbcode_att($tag = '', $optionval = ''): void
+    public function simp_bbcode_att(string $tag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '') {
@@ -177,12 +177,12 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $reptag
-     * @param $optionval
+     * @param string $tag
+     * @param string $reptag
+     * @param string $optionval
      * @return void
      */
-    public function adv_bbcode_att($tag = '', $reptag = '', $optionval = ''): void
+    public function adv_bbcode_att(string $tag = '', string $reptag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '' || $reptag == '') {
@@ -193,12 +193,12 @@ class bbcode_engine
     }
 
     /**
-     * @param $tag
-     * @param $reptag
-     * @param $optionval
+     * @param string $tag
+     * @param string $reptag
+     * @param string $optionval
      * @return void
      */
-    public function adv_bbcode_att_em($tag = '', $reptag = '', $optionval = ''): void
+    public function adv_bbcode_att_em(string $tag = '', string $reptag = '', string $optionval = ''): void
     {
 
         if ($tag == '' || $optionval == '' || $reptag == '') {
@@ -211,11 +211,11 @@ class bbcode_engine
     }
 
     /**
-     * @param $bbcode
-     * @param $html
+     * @param string $bbcode
+     * @param string $html
      * @return void
      */
-    public function cust_tag($bbcode = '', $html = ''): void
+    public function cust_tag(string $bbcode = '', string $html = ''): void
     {
 
         if ($bbcode == '' || $html == '') {

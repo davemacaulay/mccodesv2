@@ -135,10 +135,10 @@ class database
     }
 
     /**
-     * @param $result
+     * @param int $result
      * @return false|array|null
      */
-    public function fetch_row($result = 0): false|array|null
+    public function fetch_row(int $result = 0): false|array|null
     {
         if (!$result) {
             $result = $this->result;
@@ -147,10 +147,10 @@ class database
     }
 
     /**
-     * @param $result
+     * @param int $result
      * @return int|string
      */
-    public function num_rows($result = 0): int|string
+    public function num_rows(int $result = 0): int|string
     {
         if (!$result) {
             $result = $this->result;
