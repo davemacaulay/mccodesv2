@@ -86,7 +86,7 @@ for ($i = 0; $i <= 2; $i++)
                     8 => [10, $f_x - 10], 9 => [5, $f_y - 5],];
     imagefilledpolygon($first, $points, $red);
 }
-imagestring($first, 4, rand(0, $f_x / 3), rand(0, (int)($f_y / 2.5)),
+imagestring($first, 4, rand(0, (int)($f_x / 3)), rand(0, (int)($f_y / 2.5)),
         $_SESSION['captcha'], $black);
 imagecopyresized($second, $first, 0, 0, 0, 0, $s_x, $s_y, $f_x, $f_y);
 imagedestroy($first);
