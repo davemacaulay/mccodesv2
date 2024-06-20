@@ -41,7 +41,7 @@ if (!isset($_POST['password']))
     die('Whats this document for?'); // Lawl what is this doccument for anyways?
 }
 else
-{ // ElseIf we cant to check the passwords strength.
+{ // ElseIf we cant to check the password's strength.
     $PASS =
             stripslashes(
                     strip_tags(

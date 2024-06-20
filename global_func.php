@@ -778,7 +778,7 @@ function check_level(): void
 }
 
 /**
- * Get the "rank" a user has for a particular stat - if the return is n, then the user has the n'th highest value for that stat.
+ * Get the "rank" a user has for a particular stat - if the return is n, then the user has the nth-highest value for that stat.
  * @param int $stat The value of the current user's stat.
  * @param string $mykey The stat to be ranked in. Must be a valid column name in the userstats table
  * @return int The user's rank in the stat

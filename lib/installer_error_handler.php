@@ -29,7 +29,7 @@ function error_critical($debug_error, $action,
                         $context = []): void
 {
     require_once('./installer_head.php'); // in case it hasn't been included
-    // Setup a new error
+    // Set up a new error
     header('HTTP/1.1 500 Internal Server Error');
     echo '<h1>Installer Error</h1>';
     echo 'A critical error has occurred, and installation has stopped. '
