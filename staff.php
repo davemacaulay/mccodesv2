@@ -40,7 +40,7 @@ default:
 
 function basicsettings()
 {
-    global $db, $ir, $c, $h, $userid, $set;
+    global $db, $ir, $h, $set;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -251,7 +251,7 @@ function basicsettings()
 
 function announcements()
 {
-    global $db, $ir, $c, $h, $userid, $set;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -298,7 +298,7 @@ function announcements()
 
 function index()
 {
-    global $db, $ir, $c, $h, $userid, $set, $_CONFIG;
+    global $db, $ir, $set, $_CONFIG;
     if ($ir['user_level'] == 2)
     {
         $versq = $db->query("SELECT VERSION()");

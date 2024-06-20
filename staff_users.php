@@ -83,7 +83,7 @@ default:
 
 function new_user_form()
 {
-    global $db, $ir, $c;
+    global $ir;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
@@ -142,7 +142,7 @@ function new_user_form()
 
 function new_user_submit()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -274,7 +274,7 @@ function new_user_submit()
 
 function edit_user_begin()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -305,7 +305,7 @@ function edit_user_begin()
 
 function edit_user_form()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -426,7 +426,7 @@ function edit_user_form()
 
 function edit_user_sub()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -636,7 +636,7 @@ function edit_user_sub()
 
 function deluser()
 {
-    global $ir, $c, $h, $userid, $db;
+    global $ir, $h, $db;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
@@ -791,7 +791,7 @@ function deluser()
 
 function inv_user_begin()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -815,7 +815,7 @@ function inv_user_begin()
 
 function inv_user_view()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -905,7 +905,7 @@ function inv_user_view()
 
 function inv_delete()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -954,7 +954,7 @@ function inv_delete()
 
 function credit_user_form()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
@@ -981,7 +981,7 @@ function credit_user_form()
 
 function credit_user_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -1044,7 +1044,7 @@ function credit_user_submit()
 
 function mcredit_user_form()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
@@ -1068,7 +1068,7 @@ function mcredit_user_form()
 
 function mcredit_user_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
@@ -1110,7 +1110,7 @@ function mcredit_user_submit()
 
 function reports_view()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -1169,7 +1169,7 @@ function reports_view()
 
 function forcelogout()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -1231,7 +1231,7 @@ function forcelogout()
 
 function report_clear()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />

@@ -91,7 +91,6 @@ default:
 
 function fed_user_form()
 {
-    global $c;
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
                     ? abs(intval($_GET['XID'])) : 0;
@@ -116,7 +115,7 @@ function fed_user_form()
 
 function fed_user_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h, $userid;
     staff_csrf_stdverify('staff_feduser', 'staff_punit.php?action=fedform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -155,8 +154,7 @@ function fed_user_submit()
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
         die($h->endpage());
     }
-    $re =
-            $db->query(
+    $db->query(
                     "UPDATE `users`
                      SET `fedjail` = 1
                      WHERE `userid` = {$_POST['user']}");
@@ -181,7 +179,6 @@ function fed_user_submit()
 
 function fed_edit_form()
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_fededit');
     echo "
     <h3>Editing Fedjail Reason</h3>
@@ -203,7 +200,7 @@ function fed_edit_form()
 
 function fed_edit_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h, $userid;
     staff_csrf_stdverify('staff_fededit', 'staff_punit.php?action=fedeform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -263,7 +260,6 @@ function fed_edit_submit()
 
 function mail_user_form()
 {
-    global $db, $ir, $c, $h, $userid;
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
                     ? abs(intval($_GET['XID'])) : 0;
@@ -288,7 +284,7 @@ function mail_user_form()
 
 function mail_user_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $c, $h;
     staff_csrf_stdverify('staff_mailbanuser',
             'staff_punit.php?action=mailform');
     $_POST['user'] =
@@ -328,8 +324,7 @@ function mail_user_submit()
         &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
         die($h->endpage());
     }
-    $re =
-            $db->query(
+    $db->query(
                     "UPDATE `users`
                      SET `mailban` = {$_POST['days']},
                      `mb_reason` = '{$_POST['reason']}'
@@ -346,7 +341,6 @@ function mail_user_submit()
 
 function forum_user_form()
 {
-    global $db, $ir, $c, $h, $userid;
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
                     ? abs(intval($_GET['XID'])) : 0;
@@ -371,7 +365,7 @@ function forum_user_form()
 
 function forum_user_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $c, $h;
     staff_csrf_stdverify('staff_forumbanuser',
             'staff_punit.php?action=forumform');
     $_POST['user'] =
@@ -411,8 +405,7 @@ function forum_user_submit()
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
         die($h->endpage());
     }
-    $re =
-            $db->query(
+    $db->query(
                     "UPDATE `users`
                      SET `forumban` = {$_POST['days']},
                      `fb_reason` = '{$_POST['reason']}'
@@ -430,7 +423,6 @@ function forum_user_submit()
 
 function unfed_user_form()
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_unfeduser');
     echo "
     <h3>Unjailing User</h3>
@@ -448,7 +440,7 @@ function unfed_user_form()
 
 function unfed_user_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h, $userid;
     staff_csrf_stdverify('staff_unfeduser', 'staff_punit.php?action=unfedform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -490,7 +482,6 @@ function unfed_user_submit()
 
 function unmail_user_form()
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_unmailbanuser');
     echo "
     <h3>Un-mailbanning User</h3>
@@ -507,7 +498,7 @@ function unmail_user_form()
 
 function unmail_user_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $c, $h;
     staff_csrf_stdverify('staff_unmailbanuser',
             'staff_punit.php?action=unmailform');
     $_POST['user'] =
@@ -546,7 +537,6 @@ function unmail_user_submit()
 
 function unforum_user_form()
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_unforumbanuser');
     echo "
     <h3>Un-forumbanning User</h3>
@@ -564,7 +554,7 @@ function unforum_user_form()
 
 function unforum_user_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $c, $h;
     staff_csrf_stdverify('staff_unforumbanuser',
             'staff_punit.php?action=unforumform');
     $_POST['user'] =
@@ -604,7 +594,6 @@ function unforum_user_submit()
 
 function ip_search_form()
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_ipsearch');
     echo "
     <h3>IP Search</h3>
@@ -619,7 +608,7 @@ function ip_search_form()
 
 function ip_search_submit()
 {
-    global $db, $ir, $c, $h, $userid, $domain;
+    global $db, $h, $domain;
     staff_csrf_stdverify('staff_ipsearch', 'staff_punit.php?action=ipform');
     $_POST['ip'] =
             (filter_input(INPUT_POST, 'ip', FILTER_VALIDATE_IP)) ? $_POST['ip']
@@ -684,7 +673,7 @@ function ip_search_submit()
 
 function mass_jail()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h, $userid;
     staff_csrf_stdverify('staff_massjail', 'staff_punit.php?action=ipform');
     if (!isset($_POST['ids']))
     {
@@ -726,8 +715,7 @@ function mass_jail()
     if (count($ju) > 0)
     {
         $juv = implode(',', $ju);
-        $re =
-                $db->query(
+        $db->query(
                         "UPDATE `users`
                          SET `fedjail` = 1
                          WHERE `userid` IN($juv)");

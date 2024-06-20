@@ -64,7 +64,7 @@ default:
 
 function newspaper_form()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     $q = $db->query("SELECT `content` FROM `papercontent`");
     $news = $db->fetch_row($q);
     $csrf = request_csrf_html('staff_editnews');
@@ -82,7 +82,7 @@ function newspaper_form()
 
 function newspaper_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     staff_csrf_stdverify('staff_editnews', 'staff_special.php?action=editnews');
     $news = $db->escape(strip_tags(stripslashes($_POST['newspaper'])));
     $db->query("UPDATE `papercontent`
@@ -93,7 +93,6 @@ function newspaper_submit()
 
 function give_dp_form()
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_givedp');
     echo "
     <h3>Giving User DP</h3>
@@ -121,7 +120,7 @@ function give_dp_form()
 
 function give_dp_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $c, $h;
     staff_csrf_stdverify('staff_givedp', 'staff_special.php?action=givedpform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -209,7 +208,7 @@ function staff_userlevel_innerform($userid, $level, $desc, $csrf)
 
 function staff_list()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     echo "
     <h3>Staff Management</h3>
     <b>Admins</b>
@@ -352,7 +351,7 @@ function staff_list()
 
 function userlevel()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     staff_csrf_stdverify('staff_userlevel',
             'staff_special.php?action=userlevelform');
     $_POST['level'] =
@@ -393,7 +392,6 @@ function userlevel()
 
 function userlevelform()
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_userlevel');
     echo "
     <h3>User Level Adjust</h3>
@@ -421,7 +419,7 @@ function userlevelform()
 
 function massmailer()
 {
-    global $db, $ir, $c, $userid;
+    global $db;
     $_POST['text'] =
             (isset($_POST['text']))
                     ? $db->escape(strip_tags(stripslashes($_POST['text'])))

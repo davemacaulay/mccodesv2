@@ -49,7 +49,7 @@ default:
 
 function addforum()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $name =
             (isset($_POST['name'])
                     && preg_match(
@@ -115,7 +115,7 @@ function addforum()
 
 function editforum()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     if (!isset($_POST['step']))
     {
         $_POST['step'] = '0';
@@ -257,7 +257,7 @@ function editforum()
 
 function delforum()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['forum'] =
             (isset($_POST['forum']) && is_numeric($_POST['forum']))
                     ? abs(intval($_POST['forum'])) : '';
@@ -346,7 +346,7 @@ function delforum()
 
 function recache_forum($forum)
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $db;
     $forum = abs((int) $forum);
     if ($forum <= 0)
     {

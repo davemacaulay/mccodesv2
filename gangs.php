@@ -69,7 +69,7 @@ else
 
 function gang_view()
 {
-    global $db, $ir, $c, $h, $gangdata;
+    global $db, $gangdata;
     $pq =
             $db->query(
                     "SELECT `userid`, `username`
@@ -138,7 +138,7 @@ function gang_view()
 
 function gang_userlist()
 {
-    global $db, $ir, $c, $h, $gangdata;
+    global $db, $gangdata;
     echo "<h3>Userlist for {$gangdata['gangNAME']}</h3>
 		  <table>
 		  	<tr style='background: gray;'>
@@ -171,7 +171,7 @@ function gang_userlist()
 
 function gang_applyform()
 {
-    global $ir, $c, $h, $gangdata;
+    global $ir;
     if ($ir['gang'] == 0)
     {
         $apply_csrf = request_csrf_code('gang_apply');
@@ -189,7 +189,7 @@ Type the reason you should be in this faction.<br />
 
 function gang_applysubmit()
 {
-    global $db, $ir, $c, $h, $gangdata, $userid;
+    global $db, $ir, $h, $gangdata, $userid;
     $application =
             (isset($_POST['application']) && is_string($_POST['application']))
                     ? $db->escape(

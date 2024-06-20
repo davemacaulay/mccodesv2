@@ -137,7 +137,7 @@ else
 
 function job_index()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir;
     echo "
     <h3>Your Job</h3>
     You currently work in the {$ir['jNAME']}! You receive "
@@ -198,7 +198,7 @@ function job_index()
 
 function job_promote()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     $q =
             $db->query(
                     "SELECT `jrID`,`jrNAME`
@@ -235,7 +235,7 @@ function job_promote()
 
 function quit_job()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid;
     $db->query(
             "UPDATE `users`
              SET `job` = 0, `jobrank` = 0

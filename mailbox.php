@@ -79,7 +79,7 @@ default:
 
 function mail_inbox()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     print
             <<<OUT
 Only the last 25 messages sent to you are visible.<br />
@@ -147,7 +147,7 @@ EOF;
 
 function mail_outbox()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid;
     echo "Only the last 25 messages you have sent are visible.<br />
 	<table width='75%' cellspacing=1 class='table'>
 		<tr>
@@ -183,7 +183,7 @@ function mail_outbox()
 
 function mail_compose()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     echo "
 	<form action='mailbox.php?action=send' method='post'>
 	<table width=75% cellspacing=1 class='table'>
@@ -297,7 +297,7 @@ function mail_compose()
 
 function mail_send()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $subj =
             $db->escape(
                     str_replace("\n", "<br />",
@@ -381,7 +381,7 @@ function mail_send()
 
 function mail_delete()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['ID'] =
             (isset($_GET['ID']) && is_numeric($_GET['ID']))
                     ? abs(intval($_GET['ID'])) : '';
@@ -414,7 +414,6 @@ function mail_delete()
 
 function mail_delall()
 {
-    global $ir, $c, $userid, $h;
     $delall_verf = request_csrf_code('mailbox_delall');
     echo "
 	This will delete all the messages in your inbox.
@@ -429,7 +428,7 @@ function mail_delall()
 
 function mail_delall2()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     if (!isset($_GET['verf'])
             || !verify_csrf_code('mailbox_delall', stripslashes($_GET['verf'])))
     {
@@ -467,7 +466,6 @@ function mail_delall2()
 
 function mail_archive()
 {
-    global $ir, $c, $userid, $h;
     echo "This tool will download an archive of all your messages.<br />
 	&gt; <a href='dlarchive.php?a=inbox'>Download Inbox</a><br />
 	&gt; <a href='dlarchive.php?a=outbox'>Download Outbox</a>";

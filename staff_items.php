@@ -65,7 +65,7 @@ default:
 
 function new_item_form()
 {
-    global $db, $ir, $c;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -147,7 +147,7 @@ function new_item_form()
 
 function new_item_submit()
 {
-    global $db, $ir, $c, $h;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -231,8 +231,7 @@ function new_item_submit()
                                                 (int) $_POST[$efxkey
                                                         . 'amount']))));
     }
-    $m =
-            $db->query(
+    $db->query(
                     "INSERT INTO `items`
                      VALUES(NULL, {$_POST['itmtype']}, '$itmname', '$itmdesc',
                      {$_POST['itmbuyprice']}, {$_POST['itmsellprice']},
@@ -249,7 +248,7 @@ function new_item_submit()
 
 function give_item_form()
 {
-    global $db, $ir, $c;
+    global $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -275,7 +274,7 @@ function give_item_form()
 
 function give_item_submit()
 {
-    global $db, $ir, $c, $h;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -330,7 +329,7 @@ function give_item_submit()
 
 function kill_item_form()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -354,7 +353,7 @@ function kill_item_form()
 
 function kill_item_submit()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -396,8 +395,8 @@ function kill_item_submit()
     $db->query(
             "DELETE FROM `itemmarket`
      		 WHERE `imITEM` = {$_POST['item']}");
-    stafflog_add("Deleted item {$itemi['itmname']}");
-    echo 'The ' . $itemi['itmname']
+    stafflog_add("Deleted item {$itemname}");
+    echo 'The ' . $itemname
             . ' Item was removed from the game.<br />
             &gt; <a href="staff.php">Go Home</a>';
     die($h->endpage());
@@ -405,7 +404,7 @@ function kill_item_submit()
 
 function edit_item_begin()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
@@ -427,7 +426,7 @@ function edit_item_begin()
 
 function edit_item_form()
 {
-    global $db, $ir, $c, $h;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
@@ -561,7 +560,7 @@ function edit_item_form()
 
 function edit_item_sub()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
@@ -682,7 +681,7 @@ function edit_item_sub()
 
 function newitemtype()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />

@@ -54,7 +54,6 @@ default:
 
 function new_shop_form()
 {
-    global $db, $ir, $c, $h;
     $csrf = request_csrf_html('staff_newshop');
     echo "
     <h3>Adding a New Shop</h3>
@@ -74,7 +73,7 @@ function new_shop_form()
 
 function new_shop_submit()
 {
-    global $db, $ir, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_newshop', 'staff_shops.php?action=newshop');
     $_POST['sl'] =
             (isset($_POST['sl']) && is_numeric($_POST['sl']))
@@ -121,7 +120,6 @@ function new_shop_submit()
 
 function new_stock_form()
 {
-    global $db, $ir, $c, $h;
     $csrf = request_csrf_html('staff_newstock');
     echo "
     <h3>Adding an item to a shop</h3>
@@ -139,7 +137,7 @@ function new_stock_form()
 
 function new_stock_submit()
 {
-    global $db, $ir, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_newstock', 'staff_shops.php?action=newstock');
     $_POST['shop'] =
             (isset($_POST['shop']) && is_numeric($_POST['shop']))
@@ -188,7 +186,7 @@ function new_stock_submit()
 
 function delshop()
 {
-    global $db, $ir, $c, $h;
+    global $db, $h;
     $_POST['shop'] =
             (isset($_POST['shop']) && is_numeric($_POST['shop']))
                     ? abs(intval($_POST['shop'])) : '';

@@ -71,7 +71,7 @@ default:
 
 function admin_gang_record()
 {
-    global $db, $ir, $userid, $c, $h;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -170,7 +170,7 @@ function admin_gang_record()
 
 function admin_gang_credit()
 {
-    global $db, $ir, $userid, $c, $h;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -292,7 +292,7 @@ function admin_gang_credit()
 
 function admin_gang_wars()
 {
-    global $db, $ir, $userid, $c, $h;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -348,7 +348,7 @@ function admin_gang_wars()
 
 function admin_gang_wardelete()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
@@ -396,7 +396,7 @@ function admin_gang_wardelete()
 
 function admin_gang_edit_begin()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -565,7 +565,7 @@ function admin_gang_edit_name()
 
 function admin_gang_edit_prefix()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -634,7 +634,7 @@ function admin_gang_edit_prefix()
 
 function admin_gang_edit_finances()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
@@ -735,7 +735,7 @@ function admin_gang_edit_finances()
 
 function admin_gang_edit_staff()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
@@ -826,7 +826,7 @@ function admin_gang_edit_staff()
 
 function admin_gang_edit_capacity()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
@@ -907,7 +907,7 @@ function admin_gang_edit_capacity()
 
 function admin_gang_edit_crime()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />
@@ -998,7 +998,7 @@ function admin_gang_edit_crime()
 
 function admin_gang_edit_ament()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], array(2, 3)))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';

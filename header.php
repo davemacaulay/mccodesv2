@@ -25,7 +25,7 @@ class headers
 
     function startheaders()
     {
-        global $ir, $set;
+        global $set;
         echo <<<EOF
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -45,7 +45,7 @@ EOF;
 
     function userdata($ir, $lv, $fm, $cm, $dosessh = 1)
     {
-        global $db, $c, $userid, $set;
+        global $db, $userid, $set;
         $IP = $db->escape($_SERVER['REMOTE_ADDR']);
         $db->query(
                 "UPDATE `users`
@@ -96,7 +96,7 @@ EOF;
 
         $bgcolor = 'FFFFFF';
 
-        print 
+        print
                 <<<OUT
 <img src="title.jpg" alt="Mccodes Version 2" /><br />
 <!-- Begin Main Content -->
@@ -149,11 +149,11 @@ OUT;
 
     function menuarea()
     {
-        define('jdsf45tji', true, true);
+        define('jdsf45tji', true);
         include 'mainmenu.php';
-        global $ir, $c;
+        global $ir;
         $bgcolor = 'FFFFFF';
-        print 
+        print
                 '</td><td width="2" class="linegrad" bgcolor="#' . $bgcolor
                         . '">&nbsp;</td><td width="80%"  bgcolor="#'
                         . $bgcolor . '" valign="top"><br /><center>';
@@ -170,11 +170,10 @@ OUT;
 
     function smenuarea()
     {
-        define('jdsf45tji', true, true);
+        define('jdsf45tji', true);
         include 'smenu.php';
-        global $ir, $c;
         $bgcolor = 'FFFFFF';
-        print 
+        print
                 '</td><td width="2" class="linegrad" bgcolor="#' . $bgcolor
                         . '">&nbsp;</td><td width="80%"  bgcolor="#'
                         . $bgcolor . '" valign="top"><center>';
@@ -188,7 +187,7 @@ OUT;
         {
             $query_extra = '<br />' . implode('<br />', $db->queries);
         }
-        print 
+        print
                 <<<OUT
 </center>
 </td>

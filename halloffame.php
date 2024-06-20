@@ -154,7 +154,7 @@ case "iq":
 
 function hof_level()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest levels
 <br />
@@ -187,7 +187,7 @@ Showing the 20 users with the highest levels
 
 function hof_money()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest amount of money
 <br />
@@ -220,7 +220,7 @@ Showing the 20 users with the highest amount of money
 
 function hof_crystals()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest amount of crystals
 <br />
@@ -253,7 +253,7 @@ Showing the 20 users with the highest amount of crystals
 
 function hof_respect()
 {
-    global $db, $ir, $c, $userid;
+    global $db, $ir;
     echo "
 Showing the 20 gangs with the highest amount of respect
 <br />
@@ -291,7 +291,7 @@ Showing the 20 gangs with the highest amount of respect
 
 function hof_total()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest total stats
 <br />
@@ -322,7 +322,7 @@ Showing the 20 users with the highest total stats
 
 function hof_strength()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest strength
 <br />
@@ -353,7 +353,7 @@ Showing the 20 users with the highest strength
 
 function hof_agility()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest agility
 <br />
@@ -384,7 +384,7 @@ Showing the 20 users with the highest agility
 
 function hof_guard()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest guard
 <br />
@@ -415,7 +415,7 @@ Showing the 20 users with the highest guard
 
 function hof_labour()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest labour
 <br />
@@ -446,7 +446,7 @@ Showing the 20 users with the highest labour
 
 function hof_iq()
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest IQ
 <br />

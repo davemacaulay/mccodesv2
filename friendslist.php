@@ -49,7 +49,7 @@ default:
 
 function friends_list()
 {
-    global $db, $ir, $c, $userid;
+    global $db, $ir, $userid;
     echo "
 <a href='friendslist.php?action=add'>&gt; Add an friend</a><br />
 These are the people on your friends list.
@@ -134,7 +134,7 @@ Most hated: [";
 
 function add_friend()
 {
-    global $db, $ir, $c, $userid;
+    global $db, $userid;
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
                     ? abs(intval($_POST['ID'])) : '';
@@ -205,7 +205,7 @@ Adding an friend!
 
 function remove_friend()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['f'] =
             (isset($_GET['f']) && is_numeric($_GET['f']))
                     ? abs(intval($_GET['f'])) : '';
@@ -244,7 +244,7 @@ Friends list entry removed!<br />
 
 function change_comment()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_POST['f'] =
             (isset($_POST['f']) && is_numeric($_POST['f']))
                     ? abs(intval($_POST['f'])) : '';

@@ -51,7 +51,7 @@ default:
 
 function contacts_list()
 {
-    global $db, $ir, $c, $userid;
+    global $db, $userid;
     echo "
 <a href='contactlist.php?action=add'>&gt; Add a Contact</a><br />
 These are the people on your contact list.
@@ -99,7 +99,7 @@ These are the people on your contact list.
 
 function add_contact()
 {
-    global $db, $ir, $c, $userid;
+    global $db, $userid;
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
                     ? abs(intval($_POST['ID'])) : '';
@@ -151,7 +151,7 @@ Adding a contact!
 
 function remove_contact()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['contact'] =
             (isset($_GET['contact']) && is_numeric($_GET['contact']))
                     ? abs(intval($_GET['contact'])) : '';

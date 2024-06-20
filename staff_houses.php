@@ -50,7 +50,7 @@ default:
 
 function addhouse()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $price =
             (isset($_POST['price']) && is_numeric($_POST['price']))
                     ? abs(intval($_POST['price'])) : '';
@@ -109,7 +109,7 @@ function addhouse()
 
 function edithouse()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     if (!isset($_POST['step']))
     {
         $_POST['step'] = '0';
@@ -243,7 +243,7 @@ function edithouse()
 
 function delhouse()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['house'] =
             (isset($_POST['house']) && is_numeric($_POST['house']))
                     ? abs(intval($_POST['house'])) : '';

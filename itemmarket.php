@@ -58,7 +58,7 @@ default:
 
 function imarket_index()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid;
     echo '
 	<br />
 	<table width="100%" cellspacing="1" cellpadding="1" class="table" align="center">
@@ -84,7 +84,6 @@ function imarket_index()
                      INNER JOIN `itemtypes` AS `it`
                      ON `i`.`itmtype` = `it`.`itmtypeid`
                      ORDER BY `i`.`itmtype`, `i`.`itmname`, `u`.`username` ASC");
-    $cblah = 1;
     $lt = '';
     while ($r = $db->fetch_row($q))
     {
@@ -382,7 +381,7 @@ function item_buy()
 
 function item_gift1()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $h;
     $_GET['ID'] =
             (isset($_GET['ID']) && is_numeric($_GET['ID']))
                     ? abs(intval($_GET['ID'])) : '';

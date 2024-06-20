@@ -76,7 +76,7 @@ else
 
 function index()
 {
-    global $db, $ir, $c, $userid, $h, $bank_maxfee, $bank_feepercent;
+    global $ir, $bank_maxfee, $bank_feepercent;
     echo "\n<b>You currently have" . money_formatter($ir['bankmoney'])
             . " in the bank.</b><br />
 At the end of each day, your bank balance will go up by 2%.<br />
@@ -94,7 +94,7 @@ Amount: <input type='text' name='withdraw' value='{$ir['bankmoney']}' /><br />
 
 function deposit()
 {
-    global $db, $ir, $c, $userid, $h, $bank_maxfee, $bank_feepercent;
+    global $db, $ir, $userid, $bank_maxfee, $bank_feepercent;
     $_POST['deposit'] = abs((int) $_POST['deposit']);
     if ($_POST['deposit'] > $ir['money'])
     {
@@ -125,7 +125,7 @@ after the fee is taken (" . money_formatter($fee) . ", "
 
 function withdraw()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     $_POST['withdraw'] = abs((int) $_POST['withdraw']);
     if ($_POST['withdraw'] > $ir['bankmoney'])
     {

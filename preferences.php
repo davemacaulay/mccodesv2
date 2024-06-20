@@ -75,7 +75,6 @@ default:
 
 function prefs_home()
 {
-    global $db, $ir, $c, $userid, $h;
     echo "
 	<h3>Preferences</h3>
 	<a href='preferences.php?action=sexchange'>Sex Change</a><br />
@@ -88,7 +87,7 @@ function prefs_home()
 
 function conf_sex_change()
 {
-    global $ir, $c, $userid, $h;
+    global $ir;
     $code = request_csrf_code('prefs_sexchange');
     if ($ir['gender'] == "Male")
     {
@@ -107,7 +106,7 @@ function conf_sex_change()
 
 function do_sex_change()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     if (!isset($_GET['verf'])
             || !verify_csrf_code('prefs_sexchange',
                     stripslashes($_GET['verf'])))
@@ -127,7 +126,6 @@ function do_sex_change()
 
 function pass_change()
 {
-    global $ir, $c, $userid, $h;
     $code = request_csrf_code('prefs_passchange');
     echo "
 	<h3>Password Change</h3>
@@ -143,7 +141,7 @@ function pass_change()
 
 function do_pass_change()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir;
     if (!isset($_POST['verf'])
             || !verify_csrf_code('prefs_passchange',
                     stripslashes($_POST['verf'])))
@@ -180,7 +178,6 @@ function do_pass_change()
 
 function name_change()
 {
-    global $ir, $c, $userid, $h;
     $code = request_csrf_code('prefs_namechange');
     echo "
 	<h3>Name Change</h3>
@@ -196,7 +193,7 @@ function name_change()
 
 function do_name_change()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     if (!isset($_POST['verf'])
             || !verify_csrf_code('prefs_namechange',
                     stripslashes($_POST['verf'])))
@@ -258,7 +255,7 @@ function do_name_change()
 
 function pic_change()
 {
-    global $ir, $c, $userid, $h;
+    global $ir;
     $code = request_csrf_code('prefs_picchange');
     echo "
 	<h3>Pic Change</h3>
@@ -277,7 +274,7 @@ function pic_change()
 
 function do_pic_change()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     if (!isset($_POST['verf'])
             || !verify_csrf_code('prefs_picchange',
                     stripslashes($_POST['verf'])))
@@ -325,7 +322,7 @@ function do_pic_change()
 
 function forum_change()
 {
-    global $ir, $c, $userid, $h;
+    global $ir;
     $code = request_csrf_code('prefs_forumchange');
     echo "
 	<h3>Forum Info Change</h3>
@@ -347,7 +344,7 @@ function forum_change()
 
 function do_forum_change()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     if (!isset($_POST['verf'])
             || !verify_csrf_code('prefs_forumchange',
                     stripslashes($_POST['verf'])))

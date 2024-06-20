@@ -49,7 +49,7 @@ default:
 
 function addcity()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $minlevel =
             (isset($_POST['minlevel']) && is_numeric($_POST['minlevel']))
                     ? abs(intval($_POST['minlevel'])) : '';
@@ -113,7 +113,7 @@ function addcity()
 
 function editcity()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     if (!isset($_POST['step']))
     {
         $_POST['step'] = '0';
@@ -234,7 +234,7 @@ function editcity()
 
 function delcity()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['city'] =
             (isset($_POST['city']) && is_numeric($_POST['city']))
                     ? abs(intval($_POST['city'])) : '';

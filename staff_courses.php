@@ -49,7 +49,7 @@ default:
 
 function addcourse()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $cost =
             (isset($_POST['cost']) && is_numeric($_POST['cost']))
                     ? abs(intval($_POST['cost'])) : '';
@@ -137,7 +137,7 @@ function addcourse()
 
 function editcourse()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     if (!isset($_POST['step']))
     {
         $_POST['step'] = '0';
@@ -282,7 +282,7 @@ function editcourse()
 
 function delcourse()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['course'] =
             (isset($_POST['course']) && is_numeric($_POST['course']))
                     ? abs(intval($_POST['course'])) : '';

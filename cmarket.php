@@ -46,7 +46,7 @@ default:
 
 function cmarket_index()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid;
     echo "
 	<a href='cmarket.php?action=add'>&gt; Add A Listing</a><br /><br />
 	Viewing all listings...
@@ -106,7 +106,7 @@ function cmarket_index()
 
 function crystal_remove()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['ID'] =
             (isset($_GET['ID']) && is_numeric($_GET['ID']))
                     ? abs(intval($_GET['ID'])) : '';
@@ -247,7 +247,7 @@ There is <b>{$r['cmQTY']}</b> available to buy.
 
 function crystal_add()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid, $h;
     $_POST['amnt'] =
             (isset($_POST['amnt']) && is_numeric($_POST['amnt']))
                     ? abs(intval($_POST['amnt'])) : '';

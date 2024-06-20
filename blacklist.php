@@ -49,7 +49,7 @@ default:
 
 function black_list()
 {
-    global $db, $ir, $c, $userid;
+    global $db, $ir, $userid;
     echo "
 <a href='blacklist.php?action=add'>&gt; Add an Enemy</a><br />
 These are the people on your black list.
@@ -128,7 +128,7 @@ Most hated: [";
 
 function add_enemy()
 {
-    global $db, $ir, $c, $userid;
+    global $db, $userid;
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
                     ? abs(intval($_POST['ID'])) : '';
@@ -192,7 +192,7 @@ Adding an enemy!
 
 function remove_enemy()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['b'] =
             (isset($_GET['b']) && is_numeric($_GET['b']))
                     ? abs(intval($_GET['b'])) : '';
@@ -227,7 +227,7 @@ Black list entry removed!<br />
 
 function change_comment()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_POST['b'] =
             (isset($_POST['b']) && is_numeric($_POST['b']))
                     ? abs(intval($_POST['b'])) : '';

@@ -58,13 +58,7 @@ default:
 
 function newjob()
 {
-    global $db, $ir, $userid, $h;
-    $price =
-            (isset($_POST['price']) && is_numeric($_POST['price']))
-                    ? abs(intval($_POST['price'])) : '';
-    $will =
-            (isset($_POST['will']) && is_numeric($_POST['will']))
-                    ? abs(intval($_POST['will'])) : '';
+    global $db, $h;
 
     $_POST['jNAME'] =
             (isset($_POST['jNAME'])
@@ -176,7 +170,7 @@ function newjob()
 
 function jobedit()
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jNAME'] =
             (isset($_POST['jNAME'])
                     && preg_match(
@@ -301,7 +295,7 @@ function jobedit()
 
 function newjobrank()
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jrNAME'] =
             (isset($_POST['jrNAME'])
                     && preg_match(
@@ -393,7 +387,7 @@ function newjobrank()
 
 function jobrankedit()
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jrID'] =
             (isset($_POST['jrID']) && is_numeric($_POST['jrID']))
                     ? abs(intval($_POST['jrID'])) : '';
@@ -534,7 +528,7 @@ function jobrankedit()
 
 function jobrankdele()
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jrID'] =
             (isset($_POST['jrID']) && is_numeric($_POST['jrID']))
                     ? abs(intval($_POST['jrID'])) : '';
@@ -585,7 +579,7 @@ function jobrankdele()
                      INNER JOIN `jobs` AS `j`
                      ON `u`.`job` = `j`.`jID`
                      SET `u`.`jobrank` = `j`.`jFIRST`
-                     WHERE `u`.`job` = {$jr['jrJOB']}
+                     WHERE `u`.`job` = {$aff_job}
                      AND `u`.`jobrank` = {$_POST['jrID']}");
         }
         $db->free_result($q);
@@ -609,7 +603,7 @@ function jobrankdele()
 
 function jobdele()
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jID'] =
             (isset($_POST['jID']) && is_numeric($_POST['jID']))
                     ? abs(intval($_POST['jID'])) : '';

@@ -81,7 +81,7 @@ else
 
 function index()
 {
-    global $db, $ir, $c, $userid, $h, $bank_maxfee_dp, $bank_feepercent_dp, $bank_maxfee_wd, $bank_feepercent_wd;
+    global $ir, $bank_maxfee_dp, $bank_feepercent_dp, $bank_maxfee_wd, $bank_feepercent_wd;
     echo "\n<b>You currently have " . money_formatter($ir['cybermoney'])
             . " in the bank.</b><br />
 At the end of each day, your bank balance will go up by 7%.<br />
@@ -101,7 +101,7 @@ Amount: <input type='text' name='withdraw' value='{$ir['cybermoney']}' /><br />
 
 function deposit()
 {
-    global $db, $ir, $c, $userid, $h, $bank_maxfee_dp, $bank_feepercent_dp;
+    global $db, $ir, $userid, $bank_maxfee_dp, $bank_feepercent_dp;
     $_POST['deposit'] =
             (isset($_POST['deposit']) && is_numeric($_POST['deposit']))
                     ? abs((int) $_POST['deposit']) : 0;
@@ -140,7 +140,7 @@ after the fee is taken (" . money_formatter($fee) . "), "
 
 function withdraw()
 {
-    global $db, $ir, $c, $userid, $h, $bank_maxfee_wd, $bank_feepercent_wd;
+    global $db, $ir, $userid, $bank_maxfee_wd, $bank_feepercent_wd;
     $_POST['withdraw'] =
             (isset($_POST['withdraw']) && is_numeric($_POST['withdraw']))
                     ? abs((int) $_POST['withdraw']) : 0;

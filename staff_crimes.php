@@ -122,7 +122,7 @@ function new_crime_form()
 
 function new_crime_submit()
 {
-    global $c, $userid, $db, $h;
+    global $db, $h;
     $_POST['name'] =
             (isset($_POST['name'])
                     && preg_match(
@@ -246,7 +246,7 @@ function edit_crime_begin()
 
 function edit_crime_form()
 {
-    global $c, $h, $userid, $db;
+    global $h, $db;
     $_POST['crime'] =
             (isset($_POST['crime']) && is_numeric($_POST['crime']))
                     ? abs(intval($_POST['crime'])) : '';
@@ -314,7 +314,7 @@ function edit_crime_form()
 
 function edit_crime_sub()
 {
-    global $c, $h, $userid, $db;
+    global $h, $db;
     $_POST['crimeNAME'] =
             (isset($_POST['crimeNAME'])
                     && preg_match(
@@ -438,7 +438,7 @@ function edit_crime_sub()
 
 function delcrime()
 {
-    global $c, $h, $userid, $db;
+    global $h, $db;
     switch ($_GET['step'])
     {
     default:
@@ -562,7 +562,7 @@ function new_crimegroup_form()
 
 function new_crimegroup_submit()
 {
-    global $c, $userid, $db, $h;
+    global $db, $h;
     $_POST['cgNAME'] =
             (isset($_POST['cgNAME'])
                     && preg_match(
@@ -607,7 +607,6 @@ function new_crimegroup_submit()
 function edit_crimegroup_begin()
 {
     $csrf = request_csrf_html('staff_editcrimegroup1');
-    global $c, $h, $userid, $db;
     echo "
     <h3>Editing A Crime Group</h3>
     <form action='staff_crimes.php?action=editcrimegroupform' method='post'>
@@ -622,7 +621,7 @@ function edit_crimegroup_begin()
 
 function edit_crimegroup_form()
 {
-    global $c, $h, $userid, $db;
+    global $h, $db;
     $_POST['crimeGROUP'] =
             (isset($_POST['crimeGROUP']) && is_numeric($_POST['crimeGROUP']))
                     ? abs(intval($_POST['crimeGROUP'])) : '';
@@ -665,7 +664,7 @@ function edit_crimegroup_form()
 
 function edit_crimegroup_sub()
 {
-    global $c, $h, $userid, $db;
+    global $h, $db;
     $_POST['cgNAME'] =
             (isset($_POST['cgNAME'])
                     && preg_match(
@@ -718,7 +717,7 @@ function edit_crimegroup_sub()
 
 function delcrimegroup()
 {
-    global $c, $h, $userid, $db;
+    global $h, $db;
     switch ($_GET['step'])
     {
     default:
@@ -851,7 +850,7 @@ function delcrimegroup()
 
 function reorder_crimegroups()
 {
-    global $db, $c, $h, $userid;
+    global $db, $h;
     if (isset($_POST['submit']))
     {
         unset($_POST['submit']);

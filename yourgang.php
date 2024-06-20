@@ -136,7 +136,7 @@ else
 
 function gang_index()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir, $userid, $gangdata;
     echo "
     <table cellspacing=1 class='table'>
     		<tr>
@@ -211,7 +211,7 @@ function gang_index()
 
 function gang_summary()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata;
     echo "
     <b>General</b>
     <br />
@@ -276,7 +276,7 @@ function gang_summary()
 
 function gang_memberlist()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $userid, $gangdata;
     echo "
     <table cellspacing='1' class='table'>
     		<tr>
@@ -402,7 +402,7 @@ function gang_staff_kick()
 
 function gang_forums()
 {
-    global $db, $ir, $c, $userid, $gangdata, $domain;
+    global $db, $ir, $gangdata, $domain;
     $q =
             $db->query(
                     "SELECT `ff_id`, `ff_name`
@@ -440,7 +440,7 @@ function gang_forums()
 
 function gang_donate()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $ir;
     $csrf = request_csrf_html('yourgang_donate');
     echo "
     <b>Enter the amounts you wish to donate.</b>
@@ -473,7 +473,7 @@ function gang_donate()
 
 function gang_donate2()
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $ir, $userid, $gangdata, $h;
     csrf_stdverify('yourgang_donate', 'donate');
     $_POST['money'] =
             (isset($_POST['money']) && is_numeric($_POST['money']))
@@ -532,7 +532,7 @@ function gang_donate2()
 
 function gang_leave()
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $ir, $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid
             || $gangdata['gangVICEPRES'] == $userid)
     {
@@ -581,7 +581,7 @@ function gang_leave()
 
 function gang_warview()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir, $gangdata;
     $wq =
             $db->query(
                     "SELECT *
@@ -629,7 +629,7 @@ function gang_warview()
 
 function gang_atklogs()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir;
     $atks =
             $db->query(
                     "SELECT `a`.*, `u1`.`username` AS `attackern`,
@@ -693,7 +693,7 @@ function gang_crimes()
 
 function gang_staff()
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid
             || $gangdata['gangVICEPRES'] == $userid)
     {
@@ -766,7 +766,7 @@ function gang_staff()
 
 function gang_staff_idx()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $userid, $gangdata;
     echo "
     <b>General</b>
     <br />
@@ -978,7 +978,7 @@ function gang_staff_apps()
 
 function gang_staff_vault()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $c, $gangdata;
     $_POST['who'] =
             (isset($_POST['who']) && is_numeric($_POST['who']))
                     ? abs(intval($_POST['who'])) : '';
@@ -1084,7 +1084,7 @@ function gang_staff_vault()
 
 function gang_staff_vicepres()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $c, $gangdata;
     if (isset($_POST['subm']))
     {
         csrf_stdverify('gang_staff_vicepres', 'staff&amp;act2=vicepres');
@@ -1134,7 +1134,7 @@ function gang_staff_vicepres()
 
 function gang_staff_wardeclare()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata;
     if (isset($_POST['subm']))
     {
         csrf_stdverify('yourgang_staff_declare', 'staff&amp;act2=declare');
@@ -1209,7 +1209,7 @@ function gang_staff_wardeclare()
 
 function gang_staff_surrender()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata;
     if (!isset($_POST['subm']))
     {
         $wq =
@@ -1236,7 +1236,6 @@ function gang_staff_surrender()
                 {
                     $f = "warDECLARER";
                 }
-                $d = date('F j, Y, g:i:s a', $r['warTIME']);
                 $ggq =
                         $db->query(
                                 "SELECT `gangNAME`
@@ -1285,12 +1284,10 @@ function gang_staff_surrender()
         $db->free_result($wq);
         if ($gangdata['gangID'] == $r['warDECLARER'])
         {
-            $w = "You";
             $f = "warDECLARED";
         }
         else if ($gangdata['gangID'] == $r['warDECLARED'])
         {
-            $w = "Them";
             $f = "warDECLARER";
         }
         else
@@ -1329,7 +1326,7 @@ function gang_staff_surrender()
 
 function gang_staff_viewsurrenders()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata;
     if (!isset($_POST['subm']))
     {
         $wq =
@@ -1443,7 +1440,7 @@ function gang_staff_viewsurrenders()
 
 function gang_staff_orgcrimes()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata;
     $_POST['crime'] =
             (isset($_POST['crime']) && is_numeric($_POST['crime']))
                     ? abs(intval($_POST['crime'])) : 0;
@@ -1521,7 +1518,7 @@ function gang_staff_orgcrimes()
 
 function gang_staff_pres()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $c, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']))
@@ -1578,7 +1575,7 @@ function gang_staff_pres()
 
 function gang_staff_upgrades()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata;
     if (isset($_POST['membs']))
     {
         csrf_stdverify('yourgang_staff_capacity', 'staff&amp;act2=upgrade');
@@ -1623,7 +1620,7 @@ function gang_staff_upgrades()
 
 function gang_staff_massmailer()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir, $gangdata;
     $_POST['text'] =
             (isset($_POST['text']) && strlen($_POST['text']) < 500)
                     ? $db->escape(
@@ -1673,7 +1670,7 @@ function gang_staff_massmailer()
 
 function gang_staff_masspayment()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $c, $gangdata;
     $_POST['amt'] =
             (isset($_POST['amt']) && is_numeric($_POST['amt']))
                     ? abs(intval($_POST['amt'])) : 0;
@@ -1734,7 +1731,7 @@ function gang_staff_masspayment()
 
 function gang_staff_desc()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']) && isset($_POST['desc']))
@@ -1777,7 +1774,7 @@ function gang_staff_desc()
 
 function gang_staff_ament()
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']) && isset($_POST['ament']))
@@ -1820,7 +1817,7 @@ function gang_staff_ament()
 
 function gang_staff_name()
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']) && isset($_POST['name']))
@@ -1859,7 +1856,7 @@ function gang_staff_name()
 
 function gang_staff_tag()
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']) && isset($_POST['tag']))

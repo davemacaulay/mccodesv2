@@ -49,7 +49,6 @@ default:
 
 function startpoll()
 {
-    global $ir, $c, $userid, $db;
     $csrf = request_csrf_html('staff_startpoll');
     echo "
         Fill out question and choices to start a poll.
@@ -89,7 +88,7 @@ function startpoll()
 
 function startpollsub()
 {
-    global $ir, $c, $userid, $db, $h;
+    global $db, $h;
     echo 'Starting new poll...';
     staff_csrf_stdverify('staff_startpoll', 'staff_polls.php?action=spoll');
     $question =
@@ -142,8 +141,7 @@ function startpollsub()
         &gt; <a href="staff_polls.php?action=spoll">Go Back</a>';
         die($h->endpage());
     }
-    $poll =
-            $db->query(
+    $db->query(
                     "INSERT INTO `polls`
                      (`active`, `question`, `choice1`, `choice2`, `choice3`,
                      `choice4`, `choice5`, `choice6`, `choice7`, `choice8`,
@@ -159,7 +157,7 @@ function startpollsub()
 
 function endpoll()
 {
-    global $ir, $c, $userid, $db, $h;
+    global $db, $h;
     $_POST['poll'] =
             (isset($_POST['poll']) && is_numeric($_POST['poll']))
                     ? abs(intval($_POST['poll'])) : '';

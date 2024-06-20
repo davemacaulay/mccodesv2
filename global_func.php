@@ -164,7 +164,6 @@ function item2_dropdown($connection, $ddname = "item", $selected = -1)
         if ($selected == $r['itmid'])
         {
             $ret .= " selected='selected'";
-            $first = 1;
         }
         $ret .= ">{$r['itmname']}</option>";
     }
@@ -768,8 +767,7 @@ function event_add($userid, $text, $connection = 0)
  */
 function check_level()
 {
-    global $db;
-    global $ir, $c, $userid;
+    global $db, $ir, $userid;
     $ir['exp_needed'] =
             (int) (($ir['level'] + 1) * ($ir['level'] + 1)
                     * ($ir['level'] + 1) * 2.2);
@@ -805,8 +803,7 @@ function check_level()
  */
 function get_rank($stat, $mykey)
 {
-    global $db;
-    global $ir, $userid, $c;
+    global $db, $userid;
     $q =
             $db->query(
                     "SELECT count(`u`.`userid`)

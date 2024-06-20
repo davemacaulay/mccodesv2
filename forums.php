@@ -279,7 +279,7 @@ default:
 
 function idx()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $db;
     $q =
             $db->query(
                     "SELECT `ff_lp_time`, `ff_id`, `ff_name`, `ff_desc`,
@@ -360,7 +360,7 @@ function idx()
 
 function viewforum()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $db;
     $_GET['viewforum'] =
             (isset($_GET['viewforum']) && is_numeric($_GET['viewforum']))
                     ? abs(intval($_GET['viewforum'])) : '';
@@ -464,7 +464,7 @@ You have no permission to view this forum.<br />
 
 function viewtopic()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $bbc, $db;
     $precache = array();
     $_GET['viewtopic'] =
             (isset($_GET['viewtopic']) && is_numeric($_GET['viewtopic']))
@@ -750,7 +750,7 @@ EOF;
 
 function reply()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $userid, $h, $db;
     $_GET['reply'] =
             (isset($_GET['reply']) && is_numeric($_GET['reply']))
                     ? abs(intval($_GET['reply'])) : '';
@@ -869,7 +869,7 @@ function reply()
 
 function newtopicform()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $db;
     $_GET['forum'] =
             (isset($_GET['forum']) && is_numeric($_GET['forum']))
                     ? abs(intval($_GET['forum'])) : '';
@@ -935,7 +935,7 @@ EOF;
 
 function newtopic()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $userid, $h, $db;
     $_GET['forum'] =
             (isset($_GET['forum']) && is_numeric($_GET['forum']))
                     ? abs(intval($_GET['forum'])) : '';
@@ -1045,7 +1045,7 @@ You have no permission to view this forum.<br />
 
 function emptyallforums()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $db;
     $db->query(
             "UPDATE `forum_forums`
              SET `ff_lp_time` = 0, `ff_lp_poster_id` = 0,
@@ -1057,7 +1057,7 @@ function emptyallforums()
 
 function quote()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $db;
     $_GET['viewtopic'] =
             (isset($_GET['viewtopic']) && is_numeric($_GET['viewtopic']))
                     ? abs(intval($_GET['viewtopic'])) : '';
@@ -1164,7 +1164,7 @@ EOF;
 
 function edit()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $db;
     $_GET['topic'] =
             (isset($_GET['topic']) && is_numeric($_GET['topic']))
                     ? abs(intval($_GET['topic'])) : '';
@@ -1275,7 +1275,7 @@ EOF;
 
 function editsub()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $userid, $h, $db;
     $_GET['post'] =
             (isset($_GET['post']) && is_numeric($_GET['post']))
                     ? abs(intval($_GET['post'])) : '';
@@ -1383,7 +1383,7 @@ You have no permission to edit this post.<br />
 
 function recache_forum($forum)
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $db;
     $forum = abs((int) $forum);
     if ($forum <= 0)
     {
@@ -1445,7 +1445,7 @@ function recache_forum($forum)
 
 function recache_topic($topic)
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $db;
     $topic = abs((int) $topic);
     if ($topic <= 0)
     {
@@ -1493,7 +1493,7 @@ function recache_topic($topic)
 
 function move()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $db;
     if (!in_array($ir['user_level'], array(2, 3, 5)))
     {
         echo 'There seems to be a error somewhere.<br />
@@ -1557,7 +1557,7 @@ function move()
 
 function lock()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $db;
     if (!in_array($ir['user_level'], array(2, 3, 5)))
     {
         echo 'There seems to be a error somewhere.<br />
@@ -1611,7 +1611,7 @@ function lock()
 
 function pin()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $db;
     if (!in_array($ir['user_level'], array(2, 3, 5)))
     {
         echo 'There seems to be a error somewhere.<br />
@@ -1665,7 +1665,7 @@ function pin()
 
 function delepost()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $ir, $h, $db;
     if (!in_array($ir['user_level'], array(2, 3, 5)))
     {
         echo 'There seems to be a error somewhere.<br />
@@ -1710,7 +1710,6 @@ function delepost()
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);
-    $u = $db->escape($post['fp_poster_name']);
     $db->query(
             "DELETE FROM `forum_posts`
     		    WHERE `fp_id` = {$post['fp_id']}");
@@ -1723,7 +1722,7 @@ function delepost()
 
 function deletopic()
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $h, $db;
     $_GET['topic'] =
             (isset($_GET['topic']) && is_numeric($_GET['topic']))
                     ? abs(intval($_GET['topic'])) : '';

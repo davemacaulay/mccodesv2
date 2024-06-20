@@ -49,7 +49,7 @@ default:
 
 function addbot()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['userid'] =
             (isset($_POST['userid']) && is_numeric($_POST['userid']))
                     ? abs(intval($_POST['userid'])) : '';
@@ -121,7 +121,7 @@ function addbot()
 
 function editbot()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_GET['step'] =
             (isset($_GET['step']) && in_array($_GET['step'], array(1, 2, 3)))
                     ? abs(intval($_GET['step'])) : '';
@@ -247,7 +247,7 @@ function editbot()
 
 function delbot()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['userid'] =
             (isset($_POST['userid']) && is_numeric($_POST['userid']))
                     ? abs(intval($_POST['userid'])) : '';

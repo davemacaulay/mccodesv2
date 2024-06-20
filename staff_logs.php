@@ -62,7 +62,7 @@ default:
 
 function view_attack_logs()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     echo "
 	<h3>Attack Logs</h3>
 	<hr />
@@ -175,7 +175,7 @@ function view_attack_logs()
 
 function view_itm_logs()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     echo "<h3>Item Xfer Logs</h3><hr />";
     if (!isset($_GET['st']))
     {
@@ -268,7 +268,7 @@ function view_itm_logs()
 
 function view_cash_logs()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     echo "<h3>Cash Xfer Logs</h3>";
     if (!isset($_GET['st']))
     {
@@ -369,7 +369,7 @@ function view_cash_logs()
 
 function view_bank_logs()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     echo "<h3>Bank Xfer Logs</h3>";
     if (!isset($_GET['st']))
     {
@@ -473,7 +473,7 @@ function view_bank_logs()
 
 function view_crys_logs()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     echo "<h3>Crystal Xfer Logs</h3>";
     if (!isset($_GET['st']))
     {
@@ -574,7 +574,7 @@ function view_crys_logs()
 
 function view_mail_logs()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     echo "<h3>Mail Logs</h3>";
     if (!isset($_GET['st']))
     {
@@ -665,7 +665,7 @@ function view_mail_logs()
 
 function view_staff_logs()
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'Page cannot be accessed.';
