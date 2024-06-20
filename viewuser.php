@@ -67,13 +67,13 @@ else
                         3 => 'Secretary', 5 => 'Assistant'];
         $userl = $checkulevel[$r['user_level']];
         $lon =
-                ($r['laston'] > 0) ? date('F j, Y g:i:s a', $r['laston'])
+                ($r['laston'] > 0) ? date('F j, Y g:i:s a', (int)$r['laston'])
                         : 'Never';
         $ula = ($r['laston'] == 0) ? 'Never' : datetime_parse($r['laston']);
         $ull =
                 ($r['last_login'] == 0) ? 'Never'
                         : datetime_parse($r['last_login']);
-        $sup = date('F j, Y g:i:s a', $r['signedup']);
+        $sup = date('F j, Y g:i:s a', (int)$r['signedup']);
         $u_duties =
                 ($r['user_level'] > 1) ? 'Duties: ' . $r['duties'] . '<br />'
                         : '';

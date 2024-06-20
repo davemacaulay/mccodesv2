@@ -125,7 +125,7 @@ function view_attack_logs(): void
     {
         echo '
 		<tr>
-        	<td>' . date('F j, Y, g:i:s a', $r['time'])
+        	<td>' . date('F j, Y, g:i:s a', (int)$r['time'])
                 . "</td>
         	<td>{$r['un_attacker']} [{$r['attacker']}]</td>
         	<td>{$r['un_attacked']} [{$r['attacked']}]</td>
@@ -246,7 +246,7 @@ function view_itm_logs(): void
                         : '<span style="color: green;">No</span>';
         echo '
 		<tr>
-        	<td>' . date('F j Y, g:i:s a', $r['ixTIME'])
+        	<td>' . date('F j Y, g:i:s a', (int)$r['ixTIME'])
                 . "</td>
         	<td>{$r['sender']} [{$r['ixFROM']}]</td>
         	<td>{$r['sent']} [{$r['ixTO']}]</td>
@@ -341,7 +341,7 @@ function view_cash_logs(): void
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date('F j, Y, g:i:s a', $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -447,7 +447,7 @@ function view_bank_logs(): void
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date('F j, Y, g:i:s a', $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -553,7 +553,7 @@ function view_crys_logs(): void
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date('F j, Y, g:i:s a', $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -651,7 +651,7 @@ function view_mail_logs(): void
         echo "
 		<tr>
         	<td>{$r['mail_id']}</td>
-        	<td>" . date('F j, Y, g:i:s a', $r['mail_time'])
+        	<td>" . date('F j, Y, g:i:s a', (int)$r['mail_time'])
                 . "</td>
         	<td>{$r['sender']} [{$r['mail_from']}]</td>
         	<td>{$r['sent']} [{$r['mail_to']}]</td>
@@ -744,7 +744,7 @@ function view_staff_logs(): void
 		<tr>
         	<td>{$r['username']} [{$r['user']}]</td>
         	<td>{$r['action']}</td>
-        	<td>" . date('F j Y g:i:s a', $r['time'])
+        	<td>" . date('F j Y g:i:s a', (int)$r['time'])
                 . "</td>
         	<td>{$r['ip']}</td>
         </tr>

@@ -35,6 +35,9 @@ $q =
                  SUM(IF(`gender` = 'Female', 1, 0)) AS `c_female`
                  FROM `users`");
 $mem_info = $db->fetch_row($q);
+foreach ($mem_info as $col => $value) {
+    $mem_info[$col] = (int)$value;
+}
 $membs = $mem_info['c_users'];
 $total = $mem_info['s_money'];
 $avg = (int) ($total / (max($membs, 1)));
@@ -48,15 +51,15 @@ $fem = $mem_info['c_female'];
 $db->free_result($q);
 $q = $db->query('SELECT SUM(`inv_qty`)
 				 FROM `inventory`');
-$totali = $db->fetch_single($q);
+$totali = (int)$db->fetch_single($q);
 $db->free_result($q);
 $q = $db->query('SELECT COUNT(`mail_id`)
 				 FROM `mail`');
-$mail = $db->fetch_single($q);
+$mail = (int)$db->fetch_single($q);
 $db->free_result($q);
 $q = $db->query('SELECT COUNT(`evID`)
 				 FROM `events`');
-$events = $db->fetch_single($q);
+$events = (int)$db->fetch_single($q);
 $db->free_result($q);
 echo "<h3>{$set['game_name']} Statistics</h3>
 You step into the Statistics Department and login to the service. You see some stats that interest you.<br />

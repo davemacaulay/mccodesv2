@@ -48,7 +48,7 @@ while ($r = $db->fetch_row($q))
     $r['a_text'] = nl2br($r['a_text']);
     echo '
 		<tr>
-	<td valign=top>' . date('F j Y, g:i:s a', $r['a_time']) . $new
+	<td valign=top>' . date('F j Y, g:i:s a', (int)$r['a_time']) . $new
             . '</td>
 	<td valign=top>' . $r['a_text'] . '</td>
 		</tr>

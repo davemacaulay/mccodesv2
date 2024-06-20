@@ -54,7 +54,7 @@ Here is the detailed view on this crime.
 <br />
 <b>Crime:</b> {$r['ocCRIMEN']}
 <br />
-<b>Time Executed:</b> " . date('F j, Y, g:i:s a', $r['ocTIME'])
+<b>Time Executed:</b> " . date('F j, Y, g:i:s a', (int)$r['ocTIME'])
         . "
 <br />
         {$r['oclLOG']}

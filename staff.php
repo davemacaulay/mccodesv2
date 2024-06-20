@@ -310,7 +310,7 @@ function index(): void
             <tr>
                 <td>{$r['username']} [{$r['user']}]</td>
                 <td>{$r['action']}</td>
-                <td>" . date('F j Y g:i:s a', $r['time'])
+                <td>" . date('F j Y g:i:s a', (int)$r['time'])
                 . "</td>
                 <td>{$r['ip']}</td>
             </tr>

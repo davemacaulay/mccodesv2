@@ -103,7 +103,7 @@ OUT;
                      LIMIT 25");
     while ($r = $db->fetch_row($q))
     {
-        $sent = date('F j, Y, g:i:s a', $r['mail_time']);
+        $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
         echo '<tr>
         		<td>';
         if ($r['userid'])
@@ -171,7 +171,7 @@ function mail_outbox(): void
                      LIMIT 25");
     while ($r = $db->fetch_row($q))
     {
-        $sent = date('F j, Y, g:i:s a', $r['mail_time']);
+        $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
         echo "<tr>
         		<td>
         			<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a>
@@ -293,7 +293,7 @@ function mail_compose(): void
         {
             $sender =
                     ($_GET['ID'] == $r['mail_from']) ? $user : $ir['username'];
-            $sent = date('F j, Y, g:i:s a', $r['mail_time']);
+            $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
             echo "<tr>
             		<td>$sent</td>
             		<td><b>{$sender} wrote:</b> {$r['mail_text']}</td>

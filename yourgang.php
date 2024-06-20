@@ -211,7 +211,7 @@ function gang_index(): void
     {
         echo '
 		<tr>
-			<td>' . date('F j Y, g:i:s a', $r['gevTIME'])
+			<td>' . date('F j Y, g:i:s a', (int)$r['gevTIME'])
                 . "</td>
 			<td>{$r['gevTEXT']}</td>
 		</tr>
@@ -629,7 +629,7 @@ function gang_warview(): void
             $w = 'Them';
             $f = 'warDECLARER';
         }
-        $d = date('F j, Y, g:i:s a', $r['warTIME']);
+        $d = date('F j, Y, g:i:s a', (int)$r['warTIME']);
         $ggq =
                 $db->query(
                         'SELECT `gangID`, gangNAME`
@@ -687,7 +687,7 @@ function gang_atklogs(): void
         {
             $color = 'red';
         }
-        $d = date('F j, Y, g:i:s a', $r['time']);
+        $d = date('F j, Y, g:i:s a', (int)$r['time']);
         echo "<tr>
         		<td>$d</td>
         		<td>

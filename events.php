@@ -123,7 +123,7 @@ echo "
 while ($r = $db->fetch_row($q))
 {
     echo '<tr>
-			<td>' . date('F j Y, g:i:s a', $r['evTIME']);
+			<td>' . date('F j Y, g:i:s a', (int)$r['evTIME']);
     if (!$r['evREAD'])
     {
         echo '<br /><b>New!</b>';

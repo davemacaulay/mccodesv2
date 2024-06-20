@@ -64,7 +64,7 @@ foreach ($staff as $r)
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
 			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . date('F j, Y, g:i:s a', $r['laston']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';
@@ -97,7 +97,7 @@ foreach ($staff as $r)
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
 			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . date('F j, Y, g:i:s a', $r['laston']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';
@@ -130,7 +130,7 @@ foreach ($staff as $r)
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
 			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . date('F j, Y, g:i:s a', $r['laston']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';

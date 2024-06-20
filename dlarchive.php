@@ -49,7 +49,7 @@ if ($_GET['a'] == 'inbox')
                     ORDER BY `mail_time` DESC");
     while ($r = $db->fetch_row($q))
     {
-        $sent = date('F j, Y, g:i:s a', $r['mail_time']);
+        $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
         echo '<tr>
         		<td>';
         if ($r['userid'])
@@ -92,7 +92,7 @@ elseif ($_GET['a'] == 'outbox')
                     ORDER BY `mail_time` DESC");
     while ($r = $db->fetch_row($q))
     {
-        $sent = date('F j, Y, g:i:s a', $r['mail_time']);
+        $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
         echo "<tr>
         	  	<td>{$r['username']} [{$r['userid']}]</td>
         	  	<td>{$r['mail_subject']}</td>

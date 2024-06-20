@@ -314,7 +314,7 @@ function idx(): void
     		</tr>\n";
     while ($r = $db->fetch_row($q))
     {
-        $t = date('F j Y, g:i:s a', $r['ff_lp_time']);
+        $t = date('F j Y, g:i:s a', (int)$r['ff_lp_time']);
         echo "<tr>
         		<td align='center'>
         			<a href='forums.php?viewforum={$r['ff_id']}'
@@ -353,7 +353,7 @@ function idx(): void
         		</tr>\n";
         while ($r = $db->fetch_row($q))
         {
-            $t = date('F j Y, g:i:s a', $r['ff_lp_time']);
+            $t = date('F j Y, g:i:s a', (int)$r['ff_lp_time']);
             echo "<tr>
         			<td align='center'>
         			<a href='forums.php?viewforum={$r['ff_id']}'
@@ -447,8 +447,8 @@ You have no permission to view this forum.<br />
                      ORDER BY `ft_pinned` DESC, `ft_last_time` DESC");
     while ($r2 = $db->fetch_row($q))
     {
-        $t1 = date('F j Y, g:i:s a', $r2['ft_start_time']);
-        $t2 = date('F j Y, g:i:s a', $r2['ft_last_time']);
+        $t1 = date('F j Y, g:i:s a', (int)$r2['ft_start_time']);
+        $t2 = date('F j Y, g:i:s a', (int)$r2['ft_last_time']);
         if ($r2['ft_pinned'])
         {
             $pt = '<b>Pinned:</b>&nbsp;';
@@ -597,7 +597,7 @@ You have no permission to view this forum.<br />
     while ($r = $db->fetch_row($q3))
     {
         [$qlink, $elink, $dlink] = get_links($r, $no);
-        $t = date('F j Y, g:i:s a', $r['fp_time']);
+        $t = date('F j Y, g:i:s a', (int)$r['fp_time']);
         $edittext = get_edit_text($r);
         [$memb, $av, $rank] = get_cached_userdata($r['fp_poster_id'], $precache);
         $r['fp_text'] = $bbc->bbcode_parse($r['fp_text']);
@@ -647,7 +647,7 @@ function get_edit_text(array $r): string
 {
     return $r['fp_edit_count'] > 0
         ? "\n<br /><i>Last edited by <a href='viewuser.php?u={$r['fp_editor_id']}'>{$r['fp_editor_name']}</a> at "
-            . date('F j Y, g:i:s a', $r['fp_editor_time'])
+            . date('F j Y, g:i:s a', (int)$r['fp_editor_time'])
             . ", edited <b>{$r['fp_edit_count']}</b> times in total.</i>"
         : '';
 }

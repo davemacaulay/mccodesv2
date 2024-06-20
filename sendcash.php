@@ -127,7 +127,7 @@ else
         while ($r = $db->fetch_row($q))
         {
             echo '<tr>
-            		<td>' . date('F j, Y, g:i:s a', $r['cxTIME'])
+            		<td>' . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                     . "</td>
                     <td>{$ir['username']} [{$ir['userid']}] </td>
                     <td>{$r['recipient']} [{$r['cxTO']}] </td>
