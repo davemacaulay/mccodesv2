@@ -141,20 +141,20 @@ class bbcode
 
 function check_image($src)
 {
-    if (strpos($src, ".php") !== false || strpos($src, ".asp") !== false
-            || strpos($src, ".aspx") !== false
-            || strpos($src, ".htm") !== false)
+    if (str_contains($src, ".php") || str_contains($src, ".asp")
+            || str_contains($src, ".aspx")
+            || str_contains($src, ".htm"))
     {
         return "invalid image";
     }
-    if (strpos($src, ".gif") === false && strpos($src, ".jpg") === false
-            && strpos($src, ".png") === false
-            && strpos($src, ".jpeg") === false)
+    if (!str_contains($src, ".gif") && !str_contains($src, ".jpg")
+            && !str_contains($src, ".png")
+            && !str_contains($src, ".jpeg"))
     {
         return "invalid image";
     }
 
-    if (strpos($src, "http://") !== 0)
+    if (!str_starts_with($src, "http://"))
     {
         $src = "http://" . $src;
     }

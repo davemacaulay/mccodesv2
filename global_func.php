@@ -1181,11 +1181,11 @@ function get_filesize_remote($url)
         return 0; // no file
     }
     $is_ssl = false;
-    if (substr($url, 0, 7) == 'http://')
+    if (str_starts_with($url, 'http://'))
     {
         $port = 80;
     }
-    else if (substr($url, 0, 8) == 'https://' && extension_loaded('openssl'))
+    else if (str_starts_with($url, 'https://') && extension_loaded('openssl'))
     {
         $port = 443;
         $is_ssl = true;
@@ -1201,7 +1201,7 @@ function get_filesize_remote($url)
     unset($url_parts[1]);
     unset($url_parts[0]);
     $path = '/' . implode('/', $url_parts);
-    if (strpos($host, ':') !== false)
+    if (str_contains($host, ':'))
     {
         $host_parts = explode(':', $host);
         if (count($host_parts) == 2 && ctype_digit($host_parts[1]))
@@ -1231,7 +1231,7 @@ function get_filesize_remote($url)
         {
             break;
         }
-        if (strpos($line, ':') !== false)
+        if (str_contains($line, ':'))
         {
             [$key, $val] = explode(':', $line, 2);
             $headers[strtolower($key)] = trim($val);

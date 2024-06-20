@@ -443,10 +443,10 @@ EOF;
     fclose($fo);
     foreach ($lines as $line)
     {
-        if (!(strpos($line, "--") === 0) && trim($line) != '')
+        if (!(str_starts_with($line, "--")) && trim($line) != '')
         {
             $query .= $line;
-            if (!(strpos($line, ";") === FALSE))
+            if (!(!str_contains($line, ";")))
             {
                 $db->query($query);
                 $query = '';

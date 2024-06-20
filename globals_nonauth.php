@@ -20,7 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-if (strpos($_SERVER['PHP_SELF'], "globals_nonauth.php") !== false)
+if (str_contains($_SERVER['PHP_SELF'], "globals_nonauth.php"))
 {
     exit;
 }

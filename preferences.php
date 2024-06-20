@@ -287,7 +287,7 @@ function do_pic_change()
     if (!empty($npic))
     {
         if (strlen($npic) < 8
-                || !(substr($npic, 0, 7) == 'http://'
+                || !(str_starts_with($npic, 'http://')
                         || substr($npic, 0, 8 == 'https://')))
         {
             echo 'Invalid Image.<br />
@@ -358,7 +358,7 @@ function do_forum_change()
     if (!empty($av))
     {
         if (strlen($av) < 8
-                || !(substr($av, 0, 7) == 'http://'
+                || !(str_starts_with($av, 'http://')
                         || substr($av, 0, 8 == 'https://')))
         {
             echo 'Invalid Image.<br />
