@@ -31,7 +31,7 @@ if (!defined('MONO_ON'))
 </tr>
 <tr>
     <td colspan="3">
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <table style="width:100%;border:none;padding:0;">
             <tr>
                 <td class="dgradl">&nbsp;</td>
                 <td class="dgrad">&nbsp;</td>
