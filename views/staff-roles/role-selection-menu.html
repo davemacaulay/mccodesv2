@@ -1,0 +1,34 @@
+<style>
+    .form-group {
+        width: 25%;
+        padding: 2px;
+    }
+
+    .form-control {
+        padding: 2px 1px;
+        margin: 1px;
+    }
+
+    .group-control {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+</style>
+<form action="{{FORM-LOCATION}}" method="get" onchange="this.submit();">
+    <input type="hidden" name="action" value="{{FORM-ACTION}}">
+    <div class="group-control">
+        <div class="form-group" style="width: 100%;">
+            <label for="id">Role</label>
+            <select name="id" id="id" class="form-control">
+                <option value="0" selected disabled>-- SELECT --</option>
+                {{ROLES}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn">
+            Select
+        </button>
+    </div>
+</form>

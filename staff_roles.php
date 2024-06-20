@@ -99,6 +99,79 @@ class StaffRolesManagement
     }
 
     /**
+     * @param int|null $role_id
+     * @return string[]
+     */
+    private function doUpsertRole(?int $role_id = null): array
+    {
+        $permission_columns = $this->getPermCols();
+        $_POST['name']      = array_key_exists('name', $_POST) ? strip_tags(trim($_POST['name'])) : null;
+        if (empty($_POST['name'])) {
+            return [
+                'type' => 'error',
+                'message' => 'You didn\'t enter a valid name',
+            ];
+        }
+        $conf = [
+            'insert' => [
+                'cols' => ['name'],
+                'params' => ['\'' . $this->mysql->escape($_POST['name']) . '\''],
+            ],
+            'update' => 'name = \'' . $this->mysql->escape($_POST['name']) . '\'',
+        ];
+        foreach ($permission_columns as $column) {
+            $_POST[$column]             = array_key_exists($column, $_POST) ? strip_tags(trim($_POST[$column])) : null;
+            $conf['insert']['cols'][]   = $column;
+            $conf['insert']['params'][] = isset($_POST[$column]) ? 1 : 0;
+            $conf['update']             .= $column . ' = ' . (isset($_POST[$column]) ? 1 : 0) . ',';
+        }
+        $get_dupe = $this->mysql->query(
+            'SELECT COUNT(*) FROM staff_roles WHERE LOWER(name) = \'' . strtolower($_POST['name']) . '\'' . ($role_id ? ' AND id <> ' . $role_id : '')
+        );
+        if ($this->mysql->fetch_single($get_dupe)) {
+            return [
+                'type' => 'error',
+                'message' => 'Another role with that name already exists',
+            ];
+        }
+        if (empty($role_id)) {
+            $names  = implode(', ', $conf['insert']['cols']);
+            $values = implode(', ', $conf['insert']['params']);
+            $this->mysql->query(
+                'INSERT INTO staff_roles (' . $names . ') VALUES (' . $values . ')'
+            );
+        } else {
+            $this->mysql->query(
+                'UPDATE staff_roles SET ' . rtrim($conf['update'], ', ') . ' WHERE id = ' . $role_id
+            );
+        }
+        stafflog_add(ucfirst($_GET['action']) . 'ed staff role: ' . $_POST['name']);
+        $this->setRoles();
+        return [
+            'type' => 'success',
+            'message' => $_POST['name'] . ' role successfully ' . $_GET['action'] . 'ed',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function getPermCols(): array
+    {
+        $get_cols = $this->mysql->query(
+            'SHOW COLUMNS FROM staff_roles'
+        );
+        $cols     = [];
+        while ($row = $this->mysql->fetch_row($get_cols)) {
+            if (in_array($row['Field'], ['id', 'name'])) {
+                continue;
+            }
+            $cols[] = $row['Field'];
+        }
+        return $cols;
+    }
+
+    /**
      * @return void
      */
     private function roleIndex(): void
@@ -155,7 +228,95 @@ class StaffRolesManagement
      */
     private function viewUpsertRole(?int $role_id = null): void
     {
+        if ($_GET['action'] === 'edit' && !$role_id) {
+            $this->displayRoleSelectionMenu();
+            return;
+        }
+        $role     = $role_id ? $this->getRole($role_id) : null;
+        $template = file_get_contents($this->viewPath . '/staff-roles/role-upsert.html');
+        echo strtr($template, [
+            '{{ROLE-ID}}' => $role['id'] ?? '',
+            '{{ROLE-NAME}}' => $role['name'] ?? '',
+            '{{ROLE-PERMISSIONS}}' => $this->upsertRolePermissionsForm($role),
+            '{{BTN-ACTION}}' => $role_id ? 'Edit' : 'Add',
+            '{{FORM-ACTION}}' => $role_id ? 'staff_roles.php?action=edit&id=' . $role_id : 'staff_roles.php?action=add',
+        ]);
+    }
 
+    /**
+     * @return void
+     */
+    private function displayRoleSelectionMenu(): void
+    {
+        $template = file_get_contents($this->viewPath . '/staff-roles/role-selection-menu.html');
+        echo strtr($template, [
+            '{{FORM-LOCATION}}' => 'staff_roles.php',
+            '{{FORM-ACTION}}' => $_GET['action'],
+            '{{ROLES}}' => $this->renderRoleMenuOpts(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    private function renderRoleMenuOpts(): string
+    {
+        $ret = '';
+        foreach ($this->roles as $id => $role) {
+            $ret .= '<option value="' . $id . '">' . $role['name'] . '</a>';
+        }
+        return $ret;
+    }
+
+    /**
+     * @param int $role_id
+     * @return array|null
+     */
+    private function getRole(int $role_id): ?array
+    {
+        return $this->roles[$role_id] ?? null;
+    }
+
+    /**
+     * @param array|null $role
+     * @return string
+     */
+    private function upsertRolePermissionsForm(?array $role): string
+    {
+        $permission_columns = $this->getPermCols();
+        $ret                = '';
+        foreach ($permission_columns as $column) {
+            $ret .= '
+                <div class="form-group">
+                    <label for="' . $column . '" class="switch">
+                        <input type="checkbox" name="' . $column . '" id="' . $column . '" value="1"' . ($role && $role[$column] ? ' checked' : '') . '>
+                        <span class="slider round"></span>
+                        ' . ucwords(str_replace('_', ' ', $column)) . '
+                    </label>
+                </div>
+            ';
+        }
+        return $ret;
+    }
+
+    /**
+     * @param int|null $role_id
+     * @return void
+     */
+    private function viewRemoveRole(?int $role_id = null): void
+    {
+        if (!$role_id) {
+            $this->displayRoleSelectionMenu();
+            return;
+        }
+        $role     = $this->getRole($role_id);
+        $template = file_get_contents($this->viewPath . '/staff-roles/role-remove.html');
+        echo strtr($template, [
+            '{{ROLE-ID}}' => $role['id'],
+            '{{ROLE-NAME}}' => $role['name'],
+            '{{FORM-ACTION}}' => 'staff_roles.php?action=remove&id=' . $role['id'],
+            '{{BTN-ACTION}}' => 'Remove',
+        ]);
     }
 
     /**

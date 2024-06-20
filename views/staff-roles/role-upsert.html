@@ -1,0 +1,30 @@
+<style>
+    .form-group {
+        width: 25%;
+        padding: 2px;
+    }
+    .form-control {
+        padding: 2px 1px;
+        margin: 1px;
+    }
+    .group-control {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+</style>
+<form action="{{FORM-ACTION}}" method="post">
+    <input type="hidden" name="id" value="{{ROLE-ID}}">
+    <div class="group-control">
+        <div class="form-group" style="width:100%;">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ROLE-NAME}}">
+        </div>
+        {{ROLE-PERMISSIONS}}
+    </div>
+    <div class="form-group">
+        <button type="submit" name="submit" class="btn">
+            {{BTN-ACTION}}
+        </button>
+    </div>
+</form>
