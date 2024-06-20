@@ -779,7 +779,7 @@ function check_level()
  * Get the "rank" a user has for a particular stat - if the return is n, then the user has the n'th highest value for that stat.
  * @param int $stat The value of the current user's stat.
  * @param string $mykey The stat to be ranked in. Must be a valid column name in the userstats table
- * @return integer The user's rank in the stat
+ * @return int The user's rank in the stat
  */
 function get_rank($stat, $mykey)
 {
@@ -1033,7 +1033,7 @@ function request_csrf_html($formid)
  * Check the CSRF code we received against the one that was registered for the form - return false if the request shouldn't be processed...
  * @param string $formid A unique string used to identify this form to match up its submission with the right token.
  * @param string $code The code the user's form input returned.
- * @return boolean Whether the user provided a valid code or not
+ * @return bool Whether the user provided a valid code or not
  */
 function verify_csrf_code($formid, $code)
 {
@@ -1077,7 +1077,7 @@ function verify_csrf_code($formid, $code)
  * @param string $salt 	The user's unique pass salt
  * @param string $pass	The user's encrypted password
  *
- * @return boolean	true for equal, false for not (login failed etc)
+ * @return bool    true for equal, false for not (login failed etc)
  *
  */
 function verify_user_password($input, $salt, $pass)
@@ -1091,7 +1091,7 @@ function verify_user_password($input, $salt, $pass)
  *
  * @param string $password 		The password to be encoded
  * @param string $salt			The user's unique pass salt
- * @param boolean $already_md5	Whether the specified password is already
+ * @param bool $already_md5	Whether the specified password is already
  * 								a md5 hash. This would be true for legacy
  * 								v2 passwords.
  *
@@ -1153,7 +1153,7 @@ function determine_game_urlbase()
  * Check to see if this request was made via XMLHttpRequest.
  * Uses variables supported by most JS frameworks.
  *
- * @return boolean Whether the request was made via AJAX or not.
+ * @return bool Whether the request was made via AJAX or not.
  **/
 
 function is_ajax()
