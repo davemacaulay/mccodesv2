@@ -33,7 +33,7 @@ if ($ir['gang'])
     echo "You're already in a gang!";
     die($h->endpage());
 }
-if (isset($_POST['submit']) && isset($_POST['name']) && isset($_POST['desc'])
+if (isset($_POST['submit']) && isset($_POST['desc'])
         && !empty($_POST['name']))
 {
     if (!isset($_POST['verf'])

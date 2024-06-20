@@ -39,7 +39,7 @@ if (!isset($_POST['password']))
 { // If they are trying to view this without ?password=password.
     die('Whats this document for?'); // Lawl what is this doccument for anyways?
 }
-elseif (isset($_POST['password']))
+else
 { // ElseIf we cant to check the passwords strength.
     $PASS =
             stripslashes(
@@ -221,7 +221,7 @@ elseif (isset($_POST['password']))
         echo 'Password strength: ' . $overall; // Tells them their passwords strength.
 
     }
-    elseif ($PASS == NULL)
+    else
     { // ElseIf their password is NULL (empty).
         echo ''; // Dont display anything.
     } // End ElseIf.

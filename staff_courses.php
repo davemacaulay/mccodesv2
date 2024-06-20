@@ -88,7 +88,7 @@ function addcourse()
                             $_POST['desc']))
                     ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
                     : '';
-    if ($_POST['name'] && $_POST['desc'] && $cost && $days && $cost && $energy
+    if ($_POST['name'] && $_POST['desc'] && $cost && $days && $cost > 0 && $energy
             && $str && $agil && $gua && $lab && $iq)
     {
         staff_csrf_stdverify('staff_addcourse',
@@ -184,7 +184,7 @@ function editcourse()
                         ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
                         : '';
         if (empty($_POST['name']) || empty($_POST['desc']) || empty($cost)
-                || empty($days) || empty($cost) || empty($energy)
+                || empty($days) || empty($energy)
                 || empty($str) || empty($agil) || empty($gua) || empty($lab)
                 || empty($iq))
         {

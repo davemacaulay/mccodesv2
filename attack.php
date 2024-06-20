@@ -165,9 +165,6 @@ if ($_GET['wepid'])
     	WHERE `userid` = {$userid}
 SQL;
     $db->query($attackstatus_sql);
-    $_GET['nextstep'] =
-            (isset($_GET['nextstep']) && is_numeric($_GET['nextstep']))
-                    ? abs(intval($_GET['nextstep'])) : '';
     if ($_GET['wepid'] != $ir['equip_primary']
             && $_GET['wepid'] != $ir['equip_secondary'])
     {

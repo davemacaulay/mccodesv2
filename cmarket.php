@@ -170,7 +170,7 @@ function crystal_buy()
     $_POST['QTY'] =
             (isset($_POST['QTY']) && is_numeric($_POST['QTY']))
                     ? abs(intval($_POST['QTY'])) : '';
-    if ($_GET['ID'] && $_POST['QTY'])
+    if ($_GET['ID'] > 0 && $_POST['QTY'])
     {
         $cprice = $r['cmPRICE'] * $_POST['QTY'];
         if ($cprice > $ir['money'])
@@ -225,7 +225,7 @@ function crystal_buy()
 	><a href="cmarket.php">Back</a>
 	';
     }
-    elseif ($_GET['ID'] AND !$_POST['QTY'])
+    elseif ($_GET['ID'] > 0 AND !$_POST['QTY'])
     {
 
         echo "

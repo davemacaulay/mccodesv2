@@ -258,7 +258,7 @@ function announcements()
         &gt; <a href="staff.php">Go Back</a>';
         die($h->endpage());
     }
-    if (isset($_POST['text']) && !empty($_POST['text']))
+    if (!empty($_POST['text']))
     {
         staff_csrf_stdverify('staff_announcement', 'staff.php?action=announce');
         $_POST['text'] =

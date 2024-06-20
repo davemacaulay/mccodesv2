@@ -1576,7 +1576,7 @@ function gang_staff_upgrades()
     {
         csrf_stdverify('yourgang_staff_capacity', 'staff&amp;act2=upgrade');
         $_POST['membs'] =
-                (isset($_POST['membs']) && is_numeric($_POST['membs']))
+                (is_numeric($_POST['membs']))
                         ? abs(intval($_POST['membs'])) : 0;
         if ($_POST['membs'] == 0)
         {
