@@ -152,12 +152,12 @@ function new_crime_submit(): void
     global $db, $h;
     process_crime_post_data();
     if (empty($_POST['name']) || empty($_POST['brave'])
-        || empty($_POST['percform']) || empty($_POST['money'])
-        || empty($_POST['crys']) || empty($_POST['group'])
+        || empty($_POST['percform']) || $_POST['money'] < 0
+        || $_POST['crys'] < 0 || empty($_POST['group'])
         || empty($_POST['itext']) || empty($_POST['stext'])
         || empty($_POST['ftext']) || empty($_POST['jtext'])
-        || empty($_POST['jailtime']) || empty($_POST['jailreason'])
-        || empty($_POST['crimexp'])) {
+        || $_POST['jailtime'] < 0 || empty($_POST['jailreason'])
+        || $_POST['crimexp'] < 0) {
         echo 'One or more of the inputs seems to of the wrong format,
         		please go back and try again.<br />
         	  &gt; <a href="staff_crimes.php?action=newcrime">Go back</a>';
