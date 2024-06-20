@@ -44,8 +44,9 @@ function datetime_parse(int $time_stamp): string
 
 /**
  * Format money in the way humans expect to read it.
- * @param int $muny The amount of money to display
+ * @param int|float $muny The amount of money to display
  * @param string $symb The money unit symbol to use, e.g. $
+ * @return string
  */
 function money_formatter(int|float $muny, string $symb = '$'): string
 {

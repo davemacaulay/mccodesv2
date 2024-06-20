@@ -36,7 +36,7 @@ function staff_csrf_error($goBackTo): void
  * If verification fails, end execution immediately.
  * If not, continue.
  * @param string $formid A unique string used to identify this form to match up its submission with the right token.
- * @param string $code The code the user's form input returned.
+ * @param $goBackTo
  * @return bool Whether the user provided a valid code or not
  */
 function staff_csrf_stdverify(string $formid, $goBackTo): bool
