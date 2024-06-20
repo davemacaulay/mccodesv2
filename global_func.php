@@ -1278,3 +1278,74 @@ function userBox(int|string $target_id): string
 {
     return $target_id;
 }
+
+/**
+ * @param string|array $permissions
+ * @param bool $exit
+ * @param int|null $target_id
+ * @return bool|void
+ */
+function check_access(string|array $permissions, bool $exit = true, ?int $target_id = null)
+{
+    global $db, $h, $userid;
+    // We want an array
+    if (is_string($permissions)) {
+        $permissions = [$permissions];
+    }
+    // We're quite permissive with formats allowed in $permissions, turn them back into "true" permission format
+    $permissions = array_map(function ($permission) {
+        return strtolower(str_replace([' ', '-'], '_', $permission));
+    }, $permissions);
+    // If target_id isn't provided, use the current user
+    $target_id ??= (int)$userid;
+    // Get the target's roles
+    $get_user_roles = $db->query(
+        'SELECT staff_roles FROM users WHERE userid = '.$target_id,
+    );
+    $target_roles = $db->fetch_single($get_user_roles);
+    // They don't have any
+    if (!$target_roles) {
+        // Do we exit?
+        if ($exit) {
+            echo '403: Forbidden';
+            $h->endpage();
+            exit;
+        }
+        return false;
+    }
+    // Get the corresponding role data
+    $get_staff_roles = $db->query(
+        'SELECT * FROM staff_roles WHERE id IN ('.$target_roles.')',
+    );
+    $role_permissions = [];
+    while ($row = $db->fetch_row($get_staff_roles)) {
+        foreach ($row as $key => $value) {
+            // id and name aren't permissions
+            if (in_array($key, ['id', 'name'])) {
+                continue;
+            }
+            // If the target has the `administrator` permission, grant all accesses
+            if ($row['administrator']) {
+                $value = true;
+            }
+            // If we've not already added it and it's true, add it
+            if (!array_key_exists($key, $role_permissions) && $value) {
+                $role_permissions[] = $key;
+            }
+        }
+    }
+    // Check the given permissions against the roles' combined permissions
+    $matches = array_intersect($role_permissions, $permissions);
+    // No matches
+    if (empty($matches)) {
+        // Again, do we exit?
+        if ($exit) {
+            echo '403: Forbidden';
+            $h->endpage();
+            exit;
+        }
+        return false;
+    }
+    // No need to exit. Access granted!
+    return true;
+}
