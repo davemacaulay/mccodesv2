@@ -63,7 +63,7 @@ foreach ($staff as $r)
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
 			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
@@ -96,7 +96,7 @@ foreach ($staff as $r)
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
 			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
@@ -129,7 +129,7 @@ foreach ($staff as $r)
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
 			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>

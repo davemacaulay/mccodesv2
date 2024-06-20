@@ -66,7 +66,7 @@ else
         die(
         'Sorry,you or the person you are sending to does not have a bank account.');
     }
-    if ((int) $_POST['xfer'])
+    if ($_POST['xfer'] > 0)
     {
         if (!isset($_POST['verf'])
                 || !verify_csrf_code("sendbank_{$_GET['ID']}",

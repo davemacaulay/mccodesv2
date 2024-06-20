@@ -147,7 +147,7 @@ function view_attack_logs(): void
             else
             {
                 echo "{$r['un_attacker']} mugged "
-                        . money_formatter($r['stole'])
+                        . money_formatter((int)$r['stole'])
                         . " from {$r['un_attacked']}";
             }
             echo '</td>';
@@ -352,7 +352,7 @@ function view_cash_logs(): void
         		[{$r['cxTO']}] (IP: {$r['cxTOIP']})
         	</td>
         	<td>$m</td>
-        	<td> " . money_formatter($r['cxAMOUNT'])
+        	<td> " . money_formatter((int)$r['cxAMOUNT'])
                 . "</td>
         	<td>
         		[<a href='staff_punit.php?action=fedform&amp;XID={$r['cxFROM']}'>Jail Sender</a>]
@@ -458,7 +458,7 @@ function view_bank_logs(): void
         		[{$r['cxTO']}] (IP: {$r['cxTOIP']})
         	</td>
         	<td>$m</td>
-        	<td> " . money_formatter($r['cxAMOUNT'])
+        	<td> " . money_formatter((int)$r['cxAMOUNT'])
                 . "</td>
             <td>$mb</td>
             <td>

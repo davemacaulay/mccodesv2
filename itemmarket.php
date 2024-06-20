@@ -105,15 +105,15 @@ function imarket_index(): void
 		</tr>
    ';
         }
-        $ctprice = ($r['imPRICE'] * $r['imQTY']);
+        $ctprice = (int)($r['imPRICE'] * $r['imQTY']);
         if ($r['imCURRENCY'] == 'money')
         {
-            $price = money_formatter($r['imPRICE']);
+            $price = money_formatter((int)$r['imPRICE']);
             $tprice = money_formatter($ctprice);
         }
         else
         {
-            $price = number_format($r['imPRICE']) . ' crystal(s)';
+            $price = number_format((int)$r['imPRICE']) . ' crystal(s)';
             $tprice = number_format($ctprice) . ' crystal(s)';
         }
         if ($r['imADDER'] == $userid)
@@ -304,7 +304,7 @@ function item_buy(): void
             exit;
         }
         $curr = $r['imCURRENCY'];
-        $final_price = $r['imPRICE'] * $_POST['QTY'];
+        $final_price = (int)($r['imPRICE'] * $_POST['QTY']);
         if ($final_price > $ir[$curr])
         {
             echo '
@@ -451,12 +451,12 @@ function item_gift1(): void
     {
         echo "
 		Buying the <b>{$r['itmname']}</b> for "
-                . money_formatter($r['imPRICE']) . ' each as a gift.';
+                . money_formatter((int)$r['imPRICE']) . ' each as a gift.';
     }
     else
     {
         echo "
-		Buying the <b>{$r['itmname']}</b> for " . number_format($r['imPRICE'])
+		Buying the <b>{$r['itmname']}</b> for " . number_format((int)$r['imPRICE'])
                 . ' crystals each as a gift.';
     }
     $imgift_csrf = request_csrf_code("imgift_{$_GET['ID']}");

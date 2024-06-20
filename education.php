@@ -106,7 +106,7 @@ if ($ir['course'] > 0)
         echo "<tr>
             		<td>{$r['crNAME']}</td>
             		<td>{$r['crDESC']}</td>
-            		<td>" . money_formatter($r['crCOST'])
+            		<td>" . money_formatter((int)$r['crCOST'])
             . "</td>
                     <td>$do</td>
                   </tr>";

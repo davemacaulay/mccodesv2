@@ -47,7 +47,7 @@ if ($db->num_rows($od) > 0)
     }
     else
     {
-        $stole = round($r['money'] / (rand(200, 5000) / 10));
+        $stole = (int)round($r['money'] / (rand(200, 5000) / 10));
         echo "You beat {$r['username']}!!<br />
 		You knock {$r['username']} on the floor a few times to make sure he is unconscious, "
                 . 'then open his wallet, snatch ' . money_formatter($stole)
@@ -124,7 +124,7 @@ if ($db->num_rows($od) > 0)
                                         WHERE `userid` = $userid AND `npcid` = {$r['userid']}");
                 if ($db->fetch_single($qk) > 0)
                 {
-                    $m = $cb['cb_money'];
+                    $m = (int)$cb['cb_money'];
                     $db->query(
                             "UPDATE `users` SET `money` = `money` + $m WHERE `userid` = $userid");
                     echo '<br /> You gained ' . money_formatter($m)

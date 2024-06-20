@@ -131,7 +131,7 @@ else
                     . "</td>
                     <td>{$ir['username']} [{$ir['userid']}] </td>
                     <td>{$r['recipient']} [{$r['cxTO']}] </td>
-                    <td> " . money_formatter($r['cxAMOUNT'])
+                    <td> " . money_formatter((int)$r['cxAMOUNT'])
                     . '</td>
                   </tr>';
         }

@@ -70,7 +70,7 @@ else
    ";
         if ($id['itmbuyprice'])
         {
-            echo money_formatter($id['itmbuyprice']);
+            echo money_formatter((int)$id['itmbuyprice']);
         }
         else
         {
@@ -82,7 +82,7 @@ else
    ';
         if ($id['itmsellprice'])
         {
-            echo money_formatter($id['itmsellprice'])
+            echo money_formatter((int)$id['itmsellprice'])
                     . '
 	</td>
 		</tr>

@@ -63,7 +63,7 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
     echo 'You place ' . money_formatter($_POST['bet'])
             . " into the slot and pull the pole.<br />
 	You see the numbers: <b>$slot[1] $slot[2] $slot[3]</b><br />
-	You bet " . money_formatter($_GET['bet']) . ' ';
+	You bet " . money_formatter($_POST['bet']) . ' ';
     if ($slot[1] == $slot[2] && $slot[2] == $slot[3])
     {
         $won = $_POST['bet'] * 26;

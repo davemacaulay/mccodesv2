@@ -930,9 +930,9 @@ function inv_user_view(): void
             	<td>' . $i['itmname'] . ' '
                     . (($i['inv_qty'] > 1) ? '&nbsp;x' . $i['inv_qty'] : '')
                     . '</td>
-            	<td>' . money_formatter($i['itmsellprice'])
+            	<td>' . money_formatter((int)$i['itmsellprice'])
                     . '</td>
-            	<td>' . money_formatter($i['itmsellprice'] * $i['inv_qty'])
+            	<td>' . money_formatter((int)($i['itmsellprice'] * $i['inv_qty']))
                     . '</td>
             	<td>
             		<form action="staff_users.php?action=deleinv" method="post">

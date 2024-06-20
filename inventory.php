@@ -138,10 +138,10 @@ else
             echo "&nbsp;x{$i['inv_qty']}";
         }
         echo '</td>
-        	  <td>' . money_formatter($i['itmsellprice'])
+        	  <td>' . money_formatter((int)$i['itmsellprice'])
                 . '</td>
         	  <td>';
-        echo money_formatter($i['itmsellprice'] * $i['inv_qty']);
+        echo money_formatter((int)($i['itmsellprice'] * $i['inv_qty']));
         echo "</td>
         	  <td>
         	  	[<a href='iteminfo.php?ID={$i['itmid']}'>Info</a>]

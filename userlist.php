@@ -100,7 +100,7 @@ while ($r = $db->fetch_row($q))
 			<td>' . $r['userid'] . '</td>
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
             . $r['gangPREF'] . ' ' . $r['username'] . '</a></td>
-			<td>' . money_formatter($r['money']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
 			<td>' . $r['level'] . '</td>
 			<td>' . $r['gender'] . '</td>
 			<td>'

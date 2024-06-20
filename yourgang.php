@@ -282,7 +282,7 @@ function gang_summary(): void
     <hr />
     <b>Financial:</b>
     <br />
-    Money in vault: " . money_formatter($gangdata['gangMONEY'])
+    Money in vault: " . money_formatter((int)$gangdata['gangMONEY'])
             . "
     <br />
     Crystals in vault: {$gangdata['gangCRYSTALS']}
@@ -983,7 +983,7 @@ function gang_staff_apps(): void
             		[{$r['userid']}]
             	</td>
             	<td>{$r['level']}</td>
-            	<td>" . money_formatter($r['money'])
+            	<td>" . money_formatter((int)$r['money'])
                     . "</td>
             	<td>{$r['appTEXT']}</td>
             	<td>
@@ -1085,7 +1085,7 @@ function gang_staff_vault(): void
     else
     {
         $csrf = request_csrf_html('yourgang_staff_vault');
-        echo 'The vault has ' . money_formatter($gangdata['gangMONEY'])
+        echo 'The vault has ' . money_formatter((int)$gangdata['gangMONEY'])
                 . " and {$gangdata['gangCRYSTALS']} crystals.<br />
         <form action='yourgang.php?action=staff&amp;act2=vault' method='post'>
         Give

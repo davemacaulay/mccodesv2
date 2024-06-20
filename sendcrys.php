@@ -135,7 +135,7 @@ else
                     . "</td>
                     <td>{$ir['username']} [{$ir['userid']}] </td>
                     <td>{$r['recipient']} [{$r['cxTO']}] </td>
-                    <td> " . number_format($r['cxAMOUNT'])
+                    <td> " . number_format((int)$r['cxAMOUNT'])
                     . ' crystals</td>
                   </tr>';
         }

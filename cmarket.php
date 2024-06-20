@@ -89,7 +89,7 @@ function cmarket_index(): void
                     "<a href='cmarket.php?action=buy&ID={$r['cmID']}'>Buy</a>";
         }
         $each = (float) $r['cmPRICE'] * $r['cmQTY'];
-        $r['money'] = number_format($r['money']);
+        $r['money'] = number_format((int)$r['money']);
 
         echo "
 		<br />
@@ -98,8 +98,8 @@ function cmarket_index(): void
 		<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a> [{$r['userid']}]
 		</td>
 		<td>{$r['cmQTY']}</td>
-		<td> " . money_formatter($r['cmPRICE']) . '</td> <td>'
-                . money_formatter($each)
+		<td> " . money_formatter((int)$r['cmPRICE']) . '</td> <td>'
+                . money_formatter((int)$each)
                 . "</td> <td>[{$link}]
 		</td> </tr>";
     }
@@ -228,11 +228,11 @@ function crystal_buy(): void
 
         event_add($r['cmADDER'],
             "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> bought of {$_POST['QTY']} your crystals from the market for "
-            . money_formatter($cprice) . '.');
+            . money_formatter((int)$cprice) . '.');
 
         echo '
 	You bought the ' . $_POST['QTY'] . ' crystals from the market for $'
-                . number_format($cprice)
+                . number_format((int)$cprice)
                 . '.
 	<br />
 	><a href="cmarket.php">Back</a>

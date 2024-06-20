@@ -76,7 +76,7 @@ else
             exit;
         }
 
-        $price = ($itemd['itmbuyprice'] * $_POST['qty']);
+        $price = (int)($itemd['itmbuyprice'] * $_POST['qty']);
         item_add($userid, $itemd['itmid'], $_POST['qty']);
         $db->query(
                 "UPDATE `users`

@@ -91,7 +91,7 @@ Money - " . money_formatter($set['ct_moneypercrys'])
                   or did not fill out the form.<br />
 			      <a href='crystaltemple.php?spend=IQ'>Back</a>";
     } else {
-        $iqgain = $_POST['crystals'] * $set['ct_iqpercrys'];
+        $iqgain = (int)($_POST['crystals'] * $set['ct_iqpercrys']);
         $db->query(
             "UPDATE `users`
                      SET `crystals` = `crystals` - {$_POST['crystals']}

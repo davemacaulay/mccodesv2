@@ -221,7 +221,7 @@ Showing the 20 users with the highest amount of money
 	<td>' . $p . '</td>
 	<td>' . $r['gangPREF'] . ' ' . $r['username'] . ' [' . $r['userid']
                 . ']</td>
-	<td>' . money_formatter($r['money']) . '</td>
+	<td>' . money_formatter((int)$r['money']) . '</td>
 		</tr>
    ';
     }
@@ -257,7 +257,7 @@ Showing the 20 users with the highest amount of crystals
 	<td>' . $p . '</td>
 	<td>' . $r['gangPREF'] . ' ' . $r['username'] . ' [' . $r['userid']
                 . ']</td>
-	<td>' . money_formatter($r['crystals'], '') . '</td>
+	<td>' . money_formatter((int)$r['crystals'], '') . '</td>
 		</tr>
    ';
     }
@@ -298,7 +298,7 @@ Showing the 20 gangs with the highest amount of respect
 		<tr ' . $bold_hof . '>
 	<td>' . $p . '</td>
 	<td>' . $r['gangNAME'] . ' [' . $r['gangID'] . ']</td>
-	<td>' . money_formatter($r['gangRESPECT'], '') . '</td>
+	<td>' . money_formatter((int)$r['gangRESPECT'], '') . '</td>
 		</tr>
    ';
     }

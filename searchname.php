@@ -64,8 +64,8 @@ else
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a></td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . number_format($r['crystals']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
+			<td>' . number_format((int)$r['crystals']) . '</td>
 		</tr>
    		';
     }

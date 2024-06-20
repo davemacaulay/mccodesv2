@@ -118,7 +118,7 @@ else
                 Online: $on<br />
                 Days Old: {$r['daysold']}<br />
                 Location: {$r['cityname']}</td><td>
-                Money: " . money_formatter($r['money'])
+                Money: " . money_formatter((int)$r['money'])
                 . "<br />
                 Crystals: {$r['crystals']}<br />
                 Property: {$r['hNAME']}<br />

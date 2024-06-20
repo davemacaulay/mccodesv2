@@ -116,7 +116,7 @@ You beat {$r['username']} severely on the ground. When there is lots of blood sh
                                         WHERE `userid` = $userid AND `npcid` = {$r['userid']}");
                 if ($db->fetch_single($qk) > 0)
                 {
-                    $m = $cb['cb_money'];
+                    $m = (int)$cb['cb_money'];
                     $db->query(
                             "UPDATE `users` SET `money` = `money` + $m WHERE `userid` = $userid");
                     echo '<br /> You gained ' . money_formatter($m)
