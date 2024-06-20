@@ -238,7 +238,7 @@ function new_item_submit(): void
         $h->endpage();
         exit;
     }
-    $itmbuy = ($_POST['itmbuyable'] == 'on') ? 1 : 0;
+    $itmbuy = (isset($_POST['itmbuyable']) && $_POST['itmbuyable'] == 'on') ? 1 : 0;
     $effects = generate_item_effects();
     $db->query(
                     "INSERT INTO `items`
