@@ -92,9 +92,6 @@ else
     }
     switch ($_GET['action'])
     {
-    case 'idx':
-        gang_index();
-        break;
     case 'summary':
         gang_summary();
         break;
@@ -703,9 +700,6 @@ function gang_staff()
         }
         switch ($_GET['act2'])
         {
-        case 'idx':
-            gang_staff_idx();
-            break;
         case 'apps':
             gang_staff_apps();
             break;

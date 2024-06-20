@@ -48,9 +48,6 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case 'inbox':
-    mail_inbox();
-    break;
 case 'outbox':
     mail_outbox();
     break;

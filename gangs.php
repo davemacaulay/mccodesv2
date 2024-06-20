@@ -45,11 +45,7 @@ else
     }
     switch ($_GET['action'])
     {
-    case 'view':
-        gang_view();
-        break;
-
-    case 'userlist':
+        case 'userlist':
         gang_userlist();
         break;
 
