@@ -231,7 +231,7 @@ function new_item_submit(): void
     staff_csrf_stdverify('staff_newitem', 'staff_items.php?action=newitem');
     process_items_post_data();
     if (empty($_POST['itmname']) || empty($_POST['itmdesc']) || empty($_POST['itmtype'])
-            || empty($_POST['itmbuyprice']) || empty($_POST['itmsellprice']))
+            || $_POST['itmbuyprice'] < 0 || $_POST['itmsellprice'] < 0)
     {
         echo 'You missed one or more of the fields. Please go back and try again.<br />
         &gt; <a href="staff_items.php?action=newitem">Go Back</a>';
