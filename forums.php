@@ -30,12 +30,28 @@ require_once('globals.php');
  */
 class bbcode
 {
-    public bbcode_engine|string $engine = '';
+    private static ?self $inst = null;
+    public ?bbcode_engine $engine = null;
 
-    public function bbcode()
+    public static function getInstance(): ?self
+    {
+        if (self::$inst === null) {
+            self::$inst = new self();
+        }
+        return self::$inst;
+    }
+    private function getEngine(): ?bbcode_engine
+    {
+        if ($this->engine === null) {
+            $this->engine = bbcode_engine::getInstance();
+        }
+        return $this->engine;
+    }
+
+    public function __construct()
     {
         require 'bbcode_engine.php';
-        $this->engine = new bbcode_engine();
+        $this->engine = $this->getEngine();
         $this->engine->cust_tag('/</', '&lt;');
         $this->engine->cust_tag('/>/', '&gt;');
         $this->engine->cust_tag("/\r\n/", "\n");
@@ -204,7 +220,7 @@ function forums_rank($tp): string
     return $new_rank;
 }
 
-$bbc = new bbcode();
+$bbc = bbcode::getInstance();
 echo '<h3>Forums</h3><hr />';
 if ($ir['forumban'] > 0)
 {

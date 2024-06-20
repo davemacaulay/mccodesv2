@@ -25,8 +25,16 @@ declare(strict_types=1);
 
 class bbcode_engine
 {
+    private static ?self $instance = null;
     public array $parsings = [];
     public array $htmls = [];
+    public static function getInstance(): ?self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
 
     /**
      * @param string $tag
