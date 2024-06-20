@@ -26,7 +26,8 @@ require_once('globals.php');
 if ($ir['donatordays'] == 0)
 {
     echo 'This feature is for donators only.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 echo '<h3>Black List</h3>';
 if (!isset($_GET['action']))
@@ -204,7 +205,8 @@ function remove_enemy(): void
 You didn\'t select a real enemy.<br />
 &gt; <a href="blacklist.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 
     $q =
@@ -213,7 +215,8 @@ You didn\'t select a real enemy.<br />
     if ($db->num_rows($q) == 0)
     {
         echo 'Listing doesn\'t exist.';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -257,7 +260,8 @@ Comment for enemy changed!<br />
 Invalid enemy.<br />
 <a href='blacklist.php'>&gt; Back</a>
    ";
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(

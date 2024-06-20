@@ -159,7 +159,8 @@ function itemm_remove(): void
     {
         echo 'Something went wrong.
         <br />&gt; <a href="itemmarket.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -175,7 +176,8 @@ function itemm_remove(): void
 			<br />
 			&gt; <a href='itemmarket.php'>Back</a>
 			";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     item_add($userid, $r['imITEM'], $r['imQTY']);
@@ -223,7 +225,8 @@ function item_buy(): void
 			<br />
 			&gt; <a href='itemmarket.php'>Back</a>
 			";
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -267,7 +270,8 @@ function item_buy(): void
 			<br />
 			&gt; <a href="itemmarket.php">Back</a>
    			';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -283,7 +287,8 @@ function item_buy(): void
 			Error, you cannot buy your own items.<br />
 			&gt; <a href="itemmarket.php">Back</a>
 			';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $curr = $r['imCURRENCY'];
         $final_price = $r['imPRICE'] * $_POST['QTY'];
@@ -294,7 +299,8 @@ function item_buy(): void
 			<br />
 			&gt; <a href="itemmarket.php">Back</a>
    			';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         if ($_POST['QTY'] > $r['imQTY'])
         {
@@ -306,7 +312,8 @@ function item_buy(): void
 			&gt; <a href="itemmarket.php?action=buy&ID=' . $_GET['ID']
                     . '">Back</a>
 			';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         item_add($userid, $r['imITEM'], $_POST['QTY']);
         $i = ($db->insert_id()) ? $db->insert_id() : 99999;
@@ -391,7 +398,8 @@ function item_gift1(): void
     {
         echo 'Something went wrong.
         <br />&gt; <a href="itemmarket.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -407,7 +415,8 @@ function item_gift1(): void
 		<br />
 		&gt; <a href='itemmarket.php'>Back</a>
 		";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -419,7 +428,8 @@ function item_gift1(): void
 		<br />
 		&gt; <a href="itemmarket.php">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if ($curr == 'money')
     {
@@ -467,7 +477,8 @@ function item_gift2(): void
     {
         echo 'Something went wrong.
         <br />&gt; <a href="itemmarket.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!isset($_POST['verf'])
             || !verify_csrf_code("imgift_{$_POST['ID']}",
@@ -487,7 +498,8 @@ function item_gift2(): void
   		<br />
  		&gt; <a href="itemmarket.php">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($query_user_exist);
     $q =
@@ -505,7 +517,8 @@ function item_gift2(): void
 		<br />
 		&gt; <a href="itemmarket.php">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -515,7 +528,8 @@ function item_gift2(): void
 		Error, you cannot buy your own items.<br />
 		&gt; <a href="itemmarket.php">Back</a>
 		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $curr = $r['imCURRENCY'];
     $final_price = $r['imPRICE'] * $_POST['QTY'];
@@ -526,7 +540,8 @@ function item_gift2(): void
 		<br />
 		&gt; <a href='itemmarket.php'>Back</a>
 		";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if ($_POST['QTY'] > $r['imQTY'])
     {
@@ -538,7 +553,8 @@ function item_gift2(): void
 		&gt; <a href="itemmarket.php?action=buy&ID=' . $_POST['ID']
                 . '">Back</a>
 		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     item_add($_POST['user'], $r['imITEM'], $_POST['QTY']);
     $i = ($db->insert_id()) ? $db->insert_id() : 99999;

@@ -27,7 +27,8 @@ if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -83,7 +84,8 @@ function addcity(): void
             $db->free_result($q);
             echo 'Sorry, you cannot have two cities with the same name.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -148,7 +150,8 @@ function editcity(): void
         {
             echo 'Something went wrong.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editcity2',
                 'staff_cities.php?action=editcity');
@@ -162,7 +165,8 @@ function editcity(): void
         {
             $db->free_result($q);
             echo 'Sorry, you cannot have two cities with the same name.<br />&gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -183,7 +187,8 @@ function editcity(): void
         {
             echo 'Something went wrong.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editcity1',
                 'staff_cities.php?action=editcity');
@@ -197,7 +202,8 @@ function editcity(): void
             $db->free_result($q);
             echo 'City doesn\'t exist.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $old = $db->fetch_row($q);
         $db->free_result($q);
@@ -252,7 +258,8 @@ function delcity(): void
             $db->free_result($q);
             echo 'City doesn\'t exist.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_delcity',
                 'staff_cities.php?action=delcity');
@@ -262,7 +269,8 @@ function delcity(): void
         {
             echo 'This city cannot be deleted.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->query(
                 "UPDATE `users`

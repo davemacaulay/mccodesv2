@@ -26,7 +26,8 @@ require_once('globals.php');
 if ($ir['donatordays'] == 0)
 {
     echo 'This feature is for donators only.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 echo '<h3>Friends List</h3>';
 if (!isset($_GET['action']))
@@ -217,7 +218,8 @@ function remove_friend(): void
 You didn\'t select a real friend.<br />
 &gt; <a href="friendslist.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 
     $q =
@@ -228,7 +230,8 @@ You didn\'t select a real friend.<br />
     if ($db->num_rows($q) == 0)
     {
         echo 'Listing doesn\'t exist.';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->query(
@@ -263,7 +266,8 @@ function change_comment(): void
         {
             $db->free_result($q);
             echo 'Listing doesn\'t exist.';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -286,7 +290,8 @@ Comment for friend changed!<br />
 Invalid friend.<br />
 <a href='friendslist.php'>&gt; Back</a>
    ";
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(

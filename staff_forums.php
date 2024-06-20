@@ -27,7 +27,8 @@ if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -81,7 +82,8 @@ function addforum(): void
             $db->free_result($q);
             echo 'Forum name already exists, please try another.<br />
             &gt; <a href="staff_forums.php?action=addforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -147,7 +149,8 @@ function editforum(): void
         {
             echo 'Invalid input.<br />
             &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editforum2',
                 'staff_forums.php?action=editforum');
@@ -162,7 +165,8 @@ function editforum(): void
             $db->free_result($q);
             echo 'Forum name already exists.<br />
             &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $q =
@@ -175,7 +179,8 @@ function editforum(): void
             $db->free_result($q);
             echo 'Forum id doesn\'t exist.<br />
             &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -196,7 +201,8 @@ function editforum(): void
         {
             echo 'Invalid input.<br />
             &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editforum1',
                 'staff_forums.php?action=editforum');
@@ -210,7 +216,8 @@ function editforum(): void
             $db->free_result($q);
             echo 'Forum id doesn\'t exist.<br />
             &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $old = $db->fetch_row($q);
         $db->free_result($q);
@@ -274,7 +281,8 @@ function delforum(): void
         {
             echo 'Fields are the same.<br />
             &gt; <a href="staff_forums.php?action=delforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(
@@ -287,7 +295,8 @@ function delforum(): void
             $db->free_result($q);
             echo 'One of the two forums selected doesn\'t exist.<br />
             &gt; <a href="staff_forums.php?action=delforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(

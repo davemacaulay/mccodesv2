@@ -54,7 +54,8 @@ else
         if (!$r['effect1_on'] && !$r['effect2_on'] && !$r['effect3_on'])
         {
             echo 'Sorry, this item cannot be used as it has no effect.';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         for ($enum = 1; $enum <= 3; $enum++)
         {

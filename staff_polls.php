@@ -26,7 +26,8 @@ require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 //This contains shop stuffs
 if (!isset($_GET['action']))
@@ -141,7 +142,8 @@ function startpollsub(): void
     {
         echo 'You must input a question and atleast two answers.<br />
         &gt; <a href="staff_polls.php?action=spoll">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
                     "INSERT INTO `polls`
@@ -154,7 +156,8 @@ function startpollsub(): void
                      '{$_POST['hidden']}')");
     echo 'New Poll Started.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function endpoll(): void
@@ -205,7 +208,8 @@ function endpoll(): void
             $db->free_result($q);
             echo 'Invalid poll.<br />
             &gt; <a href="staff_polls.php?action=endpoll">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -214,7 +218,8 @@ function endpoll(): void
                  WHERE `id` = {$_POST['poll']}");
         echo 'Poll closed.<br />
         &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 }
 $h->endpage();

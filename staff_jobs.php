@@ -27,7 +27,8 @@ if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -133,7 +134,8 @@ function newjob(): void
          		 WHERE `jID` = $i");
         echo 'Job created!<br />
         &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -212,7 +214,8 @@ function jobedit(): void
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=jobedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $q =
@@ -225,7 +228,8 @@ function jobedit(): void
             $db->free_result($q);
             echo 'Invalid rank.<br />
             &gt; <a href="staff_jobs.php?action=jobedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -237,7 +241,8 @@ function jobedit(): void
                  WHERE `jID` = {$_POST['jID']}");
         echo 'Job updated!<br />
         &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     elseif (!empty($_POST['jID']))
     {
@@ -252,7 +257,8 @@ function jobedit(): void
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=jobedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -345,7 +351,8 @@ function newjobrank(): void
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=newjobrank">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -356,7 +363,8 @@ function newjobrank(): void
                  {$_POST['jrSTRN']})");
         echo 'Job rank created!<br />
         &gt; <a href="staff_jobs.php?action=newjobrank">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -441,7 +449,8 @@ function jobrankedit(): void
             $db->free_result($q);
             echo 'Invalid rank.<br />
             &gt; <a href="staff_jobs.php?action=jobrankedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $q =
@@ -454,7 +463,8 @@ function jobrankedit(): void
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=jobrankedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -484,7 +494,8 @@ function jobrankedit(): void
         {
             echo 'Invalid rank.<br />
             &gt; <a href="staff_jobs.php?action=jobrankedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $csrf = request_csrf_html('staff_editjobrank2');
@@ -548,7 +559,8 @@ function jobrankdele(): void
             $db->free_result($q);
             echo 'Invalid rank.<br />
             &gt; <a href="staff_jobs.php?action=jobrankdele">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $aff_job = $db->fetch_single($q);
         $db->free_result($q);
@@ -622,7 +634,8 @@ function jobdele(): void
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=jobdele">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(

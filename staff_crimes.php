@@ -27,7 +27,8 @@ if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 //This contains crime stuffs
 if (!isset($_GET['action']))
@@ -192,7 +193,8 @@ function new_crime_submit(): void
         echo 'One or more of the inputs seems to of the wrong format,
         		please go back and try again.<br />
         	  &gt; <a href="staff_crimes.php?action=newcrime">Go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_newcrime', 'staff_crimes.php?action=newcrime');
     if (!empty($_POST['item']))
@@ -208,7 +210,8 @@ function new_crime_submit(): void
         {
             echo 'Item you selected doesn\'t seem to exist.<br />
             &gt; <a href="staff_crimes.php?action=newcrime">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
     }
     $db->query(
@@ -267,7 +270,8 @@ function edit_crime_form(): void
     {
         $db->free_result($d);
         echo 'Crime doesn\'t seem to exist.<br />&gt; <a href="staff_crimes.php?action=newcrime">Go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $itemi = $db->fetch_row($d);
     $db->free_result($d);
@@ -394,7 +398,8 @@ function edit_crime_sub(): void
         echo 'One or more of the inputs seems to be of the wrong format,
         		please go back and try again.<br />
         &gt; <a href="staff_crimes.php?action=editcrime">Go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_editcrime2',
             'staff_crimes.php?action=editcrime');
@@ -411,7 +416,8 @@ function edit_crime_sub(): void
         {
             echo 'Item you selected doesn\'t seem to exist.<br />
             &gt; <a href="staff_crimes.php?action=editcrime">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
     }
     $db->query(
@@ -467,7 +473,8 @@ function delcrime(): void
         {
             echo 'Invalid Crime.<br />
             &gt; <a href="staff_crimes.php?action=delcrime">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $d =
                 $db->query(
@@ -479,7 +486,8 @@ function delcrime(): void
             $db->free_result($d);
             echo 'Crime you selected doesn\'t seem to exist.<br />
             &gt; <a href="staff_crimes.php?action=delcrime">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $itemi = $db->fetch_row($d);
         $db->free_result($d);
@@ -506,7 +514,8 @@ function delcrime(): void
         {
             echo 'Invalid Crime.<br />
             &gt; <a href="staff_crimes.php?action=delcrime">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $_POST['yesorno'] =
                 (isset($_POST['yesorno'])
@@ -518,7 +527,8 @@ function delcrime(): void
         	Crime not deleted.<br />
         	&gt; <a href="staff.php">Goto Main</a>
            	';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $d =
                 $db->query(
@@ -530,7 +540,8 @@ function delcrime(): void
             $db->free_result($d);
             echo 'Crime you selected doesn\'t seem to exist.<br />
             &gt; <a href="staff_crimes.php?action=delcrime">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $itemi = $db->fetch_row($d);
         $db->free_result($d);
@@ -580,7 +591,8 @@ function new_crimegroup_submit(): void
         echo 'You missed one or more of the required fields.
         		Please go back and try again.<br />
         &gt; <a href="staff_crimes.php?action=newcrimegroup">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_newcrimegroup',
             'staff_crimes.php?action=newcrimegroup');
@@ -594,7 +606,8 @@ function new_crimegroup_submit(): void
         $db->free_result($d);
         echo 'You cannot put two crime groups in the same order.<br />
         &gt; <a href="staff_crimes.php?action=newcrimegroup">Go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($d);
     $db->query(
@@ -633,7 +646,8 @@ function edit_crimegroup_form(): void
     {
         echo 'Invalid Group.<br />
         &gt; <a href="staff_crimes.php?action=editcrimegroup">Go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -645,7 +659,8 @@ function edit_crimegroup_form(): void
         $db->free_result($d);
         echo 'Group you selected doesn\'t seem to exist.<br />
         &gt; <a href="staff_crimes.php?action=editcrimegroup">Go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $itemi = $db->fetch_row($d);
     $db->free_result($d);
@@ -687,7 +702,8 @@ function edit_crimegroup_sub(): void
         echo 'You missed one or more of the required fields.
         		Please go back and try again.<br />
         &gt; <a href="staff_crimes.php?action=editcrimegroup">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -703,7 +719,8 @@ function edit_crimegroup_sub(): void
             $db->free_result($d);
             echo 'You cannot put two crime groups in the same order.<br />
             &gt; <a href="staff_crimes.php?action=editcrimegroup">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($d);
         $db->query(
@@ -753,7 +770,8 @@ function delcrimegroup(): void
             1) You didn\'t input the fields correctly.<br />
             2) Fields are the same.<br />
             &gt; <a href="staff_crimes.php?action=delcrimegroup">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(
@@ -765,7 +783,8 @@ function delcrimegroup(): void
             $db->free_result($q);
             echo 'One of the two or both groups selected don\'t exist.<br />
             &gt; <a href="staff_crimes.php?action=delcrimegroup">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $d =
@@ -804,7 +823,8 @@ function delcrimegroup(): void
             1) You didn\'t input the fields correctly.<br />
             2) Fields are the same.<br />
             &gt; <a href="staff_crimes.php?action=delcrimegroup">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(
@@ -816,7 +836,8 @@ function delcrimegroup(): void
             $db->free_result($q);
             echo 'One of the two or both groups selected don\'t exist.<br />
             &gt; <a href="staff_crimes.php?action=delcrimegroup">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $_POST['yesorno'] =
@@ -827,7 +848,8 @@ function delcrimegroup(): void
         {
             echo 'Group not deleted.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $d =
                 $db->query(
@@ -867,13 +889,15 @@ function reorder_crimegroups(): void
             {
                 echo 'Invalid group.<br />
                 &gt; <a href="staff_crimes.php?action=reorder">Go Back</a>';
-                die($h->endpage());
+                $h->endpage();
+                exit;
             }
             if (in_array($v, $used))
             {
                 echo 'You have used the same order number twice.<br />
                 &gt; <a href="staff_crimes.php?action=reorder">Go Back</a>';
-                die($h->endpage());
+                $h->endpage();
+                exit;
             }
             $used[] = $v;
         }
@@ -889,7 +913,8 @@ function reorder_crimegroups(): void
             $db->free_result($c_g);
             echo 'Group order doesn\'t exist.<br />
             &gt; <a href="staff_crimes.php?action=reorder">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($c_g);
         foreach ($_POST as $k => $v)

@@ -114,7 +114,8 @@ function crystal_remove(): void
     if (empty($_GET['ID']))
     {
         echo 'Something went wrong.<br />&gt; <a href="cmarket.php" alt="Go Back" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -150,7 +151,8 @@ function crystal_buy(): void
     if (empty($_GET['ID']))
     {
         echo 'Something went wrong.<br />&gt; <a href="cmarket.php" alt="Go Back" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(

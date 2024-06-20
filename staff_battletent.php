@@ -27,7 +27,8 @@ if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -72,7 +73,8 @@ function addbot(): void
             $db->free_result($q);
             echo 'Non-existant user.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -80,7 +82,8 @@ function addbot(): void
         {
             echo 'Challenge bots must be NPCs.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q2 =
                 $db->query(
@@ -91,7 +94,8 @@ function addbot(): void
         {
             $db->free_result($q2);
             echo 'This user is already a Challenge Bot. If you wish to change the payout, edit the Challenge Bot.<br />&gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q2);
         $db->query(
@@ -139,7 +143,8 @@ function editbot(): void
         if (empty($_POST['userid']) || empty($_POST['money']))
         {
             echo 'Something went wrong.<br />&gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editbot_2',
                 'staff_battletent.php?action=editbot');
@@ -153,7 +158,8 @@ function editbot(): void
             $db->free_result($q);
             echo 'Non-existing user.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -166,7 +172,8 @@ function editbot(): void
         {
             $db->free_result($q2);
             echo 'This user is not a Challenge Bot.<br />&gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q2);
         $db->query(
@@ -185,7 +192,8 @@ function editbot(): void
         {
             echo 'Something went wrong.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editbot_1',
                 'staff_battletent.php?action=editbot');
@@ -198,7 +206,8 @@ function editbot(): void
         {
             echo 'Non-existant user.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -212,7 +221,8 @@ function editbot(): void
             $db->free_result($q2);
             echo 'This user is not a Challenge Bot.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $mn = $db->fetch_single($q2);
         $db->free_result($q2);
@@ -270,7 +280,8 @@ function delbot(): void
             $db->free_result($q);
             echo 'Non-existant user.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -284,7 +295,8 @@ function delbot(): void
             $db->free_result($q2);
             echo 'This user is not a Challenge Bot.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q2);
         $db->query(

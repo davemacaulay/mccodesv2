@@ -62,7 +62,8 @@ else
     {
         echo "Error: Your gang has been deleted.<br />
         &gt; <a href='index.php'>Home</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gangdata = $db->fetch_row($gq);
     $db->free_result($gq);
@@ -477,7 +478,8 @@ function gang_donate2(): void
     {
         echo 'Invalid amount, please go back and try again.<br />
         &gt; <a href="yourgang.php?action=donate">Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if ($_POST['money'] > $ir['money'])
     {
@@ -741,7 +743,8 @@ function gang_staff(): void
     {
         echo 'Are you lost?<br />
         &gt; <a href="yourgang.php">Go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 }
 

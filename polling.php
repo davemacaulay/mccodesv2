@@ -43,7 +43,8 @@ if ($_POST['choice'] && $_POST['poll'])
     {
         echo "You've already voted in this poll.<br />
 		&gt; <a href='explore.php'>Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $check_q =
             $db->query(
@@ -56,7 +57,8 @@ if ($_POST['choice'] && $_POST['poll'])
         $db->free_result($check_q);
         echo "You are trying to vote in an invalid or finished poll.<br />
   		&gt; <a href='explore.php'>Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($check_q);
     $ir['voted'][$_POST['poll']] = $_POST['choice'];

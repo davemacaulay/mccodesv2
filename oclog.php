@@ -30,7 +30,8 @@ if (empty($_GET['ID']))
 {
     echo 'Invalid command.<br />
     &gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $q =
         $db->query(
@@ -42,7 +43,8 @@ if ($db->num_rows($q) == 0)
     $db->free_result($q);
     echo 'Invalid OC.<br />
     &gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $r = $db->fetch_row($q);
 $db->free_result($q);

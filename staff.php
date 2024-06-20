@@ -47,7 +47,8 @@ function basicsettings(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['game_name'] =
             (isset($_POST['game_name'])
@@ -228,7 +229,8 @@ function basicsettings(): void
 				The item you tried to input doesn\'t seem to be a real item.<br />
 				&gt; <a href="staff.php?action=basicset">Go Back</a>
    				';
-                die($h->endpage());
+                $h->endpage();
+                exit;
             }
         }
         else
@@ -258,7 +260,8 @@ function announcements(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!empty($_POST['text']))
     {

@@ -27,12 +27,14 @@ if ($ir['energy'] < 10)
 {
     echo 'Sorry, it costs 10 energy to bust someone. '
             . "You only have {$ir['energy']} energy. " . 'Come back later.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if ($ir['jail'])
 {
     echo 'You cannot bust out people while in jail.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))
@@ -46,14 +48,16 @@ if ($db->num_rows($jail_q) == 0)
 {
     $db->free_result($jail_q);
     echo 'Invalid user';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $r = $db->fetch_row($jail_q);
 $db->free_result($jail_q);
 if (!$r['jail'])
 {
     echo 'That user is not in jail!';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $mult = $r['level'] * $r['level'];
 $chance = min(($ir['crimexp'] / $mult) * 50 + 1, 95);

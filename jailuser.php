@@ -27,7 +27,8 @@ if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $_POST['user'] =
         (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -51,7 +52,8 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
     		Please try again.<br />
     		&gt; <a href="jailuser.php?userid=' . $_POST['user']
                 . '">Try Again</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -62,7 +64,8 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
     {
         $db->free_result($q);
         echo 'Invalid user.<br />&gt; <a href="jailuser.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_q = $db->fetch_row($q);
     $db->free_result($q);
@@ -70,7 +73,8 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
     {
         echo 'You cannot fed admins, please destaff them first.
         <br />&gt; <a href="jailuser.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "UPDATE `users`

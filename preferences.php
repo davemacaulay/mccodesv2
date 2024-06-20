@@ -211,7 +211,8 @@ function do_name_change(): void
 		You did not enter a new username.<br />
 		&gt; <a href="preferences.php?action=namechange">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     elseif (((strlen($_POST['newname']) > 32)
             OR (strlen($_POST['newname']) < 3)))
@@ -220,7 +221,8 @@ function do_name_change(): void
 		Usernames can only be a max of 32 characters or a min of 3 characters.<br />
 		&gt; <a href="preferences.php?action=namechange">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!preg_match("/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
             $_POST['newname']))
@@ -229,7 +231,8 @@ function do_name_change(): void
 		Your username can only consist of Numbers, Letters, underscores and spaces.<br />
 		&gt; <a href="preferences.php?action=namechange">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $check_ex =
             $db->query(
@@ -243,7 +246,8 @@ function do_name_change(): void
 		This username is already in use.<br />
 		&gt; <a href="preferences.php">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['newname'] =
             $db->escape(
@@ -294,7 +298,8 @@ function do_pic_change(): void
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=picchange">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $sz = get_filesize_remote($npic);
         if ($sz <= 0 || $sz >= 1048576)
@@ -309,7 +314,8 @@ function do_pic_change(): void
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=picchange">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
     }
     echo htmlentities($_POST['newpic'], ENT_QUOTES, 'ISO-8859-1') . '<br />';
@@ -365,7 +371,8 @@ function do_forum_change(): void
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=forumchange">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $sz = get_filesize_remote($av);
         if ($sz <= 0 || $sz >= 1048576)
@@ -380,7 +387,8 @@ function do_forum_change(): void
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=forumchange">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
     }
 
@@ -390,7 +398,8 @@ function do_forum_change(): void
     {
         echo 'You may only have a forums signature consisting of 250 characters or less.
         <br />&gt; <a href="preferences.php?action=forumchange">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "UPDATE `users`

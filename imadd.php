@@ -46,7 +46,8 @@ if ($_POST['price'] && $_POST['QTY'] && $_GET['ID'])
         echo "Your request to add this item to the market has expired.
         Please try again.<br />
 		&gt; <a href='imadd.php?ID={$_GET['ID']}'>Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(

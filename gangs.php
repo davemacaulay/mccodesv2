@@ -201,7 +201,8 @@ function gang_applysubmit(): void
         Your request to apply to this gang has expired. Please try again.<br />
         &gt; <a href='gangs.php?action=apply&amp;ID={$_GET['ID']}'>Back</a>
            ";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!$ir['gang'])
     {

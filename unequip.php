@@ -29,12 +29,14 @@ if (!isset($_GET['type'])
                 true))
 {
     echo 'This slot ID is not valid.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if ($ir[$_GET['type']] == 0)
 {
     echo 'You do not have anything equipped in this slot.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 item_add($userid, $ir[$_GET['type']], 1);
 $db->query(

@@ -37,7 +37,8 @@ if (in_array($ir['user_level'], [2, 3, 5]))
     {
         echo 'You must enter data for this to work.
         <br />&gt; <a href="index.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -49,7 +50,8 @@ if (in_array($ir['user_level'], [2, 3, 5]))
         $db->free_result($q);
         echo 'That user does not exist.
         <br />&gt; <a href="index.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $old = $db->escape($db->fetch_single($q));
     $db->free_result($q);

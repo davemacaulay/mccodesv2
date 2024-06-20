@@ -27,7 +27,8 @@ if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 //This contains house stuffs
 if (!isset($_GET['action']))
@@ -80,7 +81,8 @@ function addhouse(): void
             $db->free_result($q);
             echo 'Sorry, you cannot have two houses with the same maximum will.<br />
             &gt; <a href="staff_houses.php?action=addhouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -90,7 +92,8 @@ function addhouse(): void
         echo 'House ' . $name
                 . ' added to the game.<br />
                 &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -132,7 +135,8 @@ function edithouse(): void
         {
             echo 'Sorry, invalid input.
             <br />&gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_edithouse2',
                 'staff_houses.php?action=edithouse');
@@ -145,7 +149,8 @@ function edithouse(): void
         {
             echo 'Sorry, you cannot have two houses with the same maximum will.
             <br />&gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(
@@ -157,7 +162,8 @@ function edithouse(): void
             $db->free_result($q);
             echo 'Invalid house.<br />
             &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $oldwill = $db->fetch_single($q);
         $name =
@@ -171,7 +177,8 @@ function edithouse(): void
         {
             echo 'Sorry, this house\'s will bar cannot be edited.<br />
             &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->query(
                 "UPDATE `houses`
@@ -185,7 +192,8 @@ function edithouse(): void
         echo 'House ' . $name
                 . ' was edited successfully.<br />
                 &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     case '1':
         $_POST['house'] =
                 (isset($_POST['house']) && is_numeric($_POST['house']))
@@ -202,7 +210,8 @@ function edithouse(): void
             $db->free_result($q);
             echo 'Invalid house.<br />
             &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $old = $db->fetch_row($q);
         $db->free_result($q);
@@ -262,7 +271,8 @@ function delhouse(): void
             $db->free_result($q);
             echo 'Invalid house.<br />
             &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $old = $db->fetch_row($q);
         $db->free_result($q);
@@ -270,7 +280,8 @@ function delhouse(): void
         {
             echo 'This house cannot be deleted.<br />
             &gt; <a href="staff_houses.php?action=delhouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->query(
                 "UPDATE `users`
@@ -284,7 +295,8 @@ function delhouse(): void
         echo 'House ' . $old['hNAME']
                 . ' deleted.<br />
                 &gt; <a href="staff_houses.php?action=delhouse">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {

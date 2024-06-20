@@ -41,7 +41,8 @@ else
     {
         $db->free_result($check_it);
         echo 'This location doesn\'t exist.<br />&gt; <a href="search.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($check_it);
     $q =

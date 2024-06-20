@@ -27,12 +27,14 @@ if ($ir['money'] < $cg_price)
 {
     echo "You don't have enough money. You need " . money_formatter($cg_price)
             . '.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if ($ir['gang'])
 {
     echo "You're already in a gang!";
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (isset($_POST['submit']) && isset($_POST['desc'])
         && !empty($_POST['name']))
@@ -44,7 +46,8 @@ if (isset($_POST['submit']) && isset($_POST['desc'])
     This transaction has been blocked for your security.<br />
     Please create your gang quickly after you open the form - do not leave it open in tabs.<br />
     &gt; <a href="creategang.php">Try Again</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $name =
             $db->escape(

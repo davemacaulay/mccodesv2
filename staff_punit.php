@@ -26,7 +26,8 @@ require_once('sglobals.php');
 if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 //This contains punishment stuffs
 if (!isset($_GET['action']))
@@ -134,7 +135,8 @@ function fed_user_submit(): void
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -146,7 +148,8 @@ function fed_user_submit(): void
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_userlevel = $db->fetch_single($q);
     $db->free_result($q);
@@ -154,7 +157,8 @@ function fed_user_submit(): void
     {
         echo 'You cannot fed admins, please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
                     "UPDATE `users`
@@ -176,7 +180,8 @@ function fed_user_submit(): void
                     . ', reason: ' . $_POST['reason']);
     echo 'User jailed.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function fed_edit_form(): void
@@ -219,7 +224,8 @@ function fed_edit_submit(): void
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -233,7 +239,8 @@ function fed_edit_submit(): void
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_userlevel = $db->fetch_single($q);
     $db->free_result($q);
@@ -241,7 +248,8 @@ function fed_edit_submit(): void
     {
         echo 'You cannot fed admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "DELETE FROM `fedjail`
@@ -257,7 +265,8 @@ function fed_edit_submit(): void
     stafflog_add('Edited user ID ' . $_POST['user'] . '\'s fedjail sentence');
     echo 'User\'s sentence edited.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function mail_user_form(): void
@@ -304,7 +313,8 @@ function mail_user_submit(): void
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -316,7 +326,8 @@ function mail_user_submit(): void
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_userlevel = $db->fetch_single($q);
     $db->free_result($q);
@@ -324,7 +335,8 @@ function mail_user_submit(): void
     {
         echo 'You cannot mail ban admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
                     "UPDATE `users`
@@ -337,7 +349,8 @@ function mail_user_submit(): void
             "Mail banned User ID {$_POST['user']} for {$_POST['days']} days");
     echo 'User mail banned.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function forum_user_form(): void
@@ -384,7 +397,8 @@ function forum_user_submit(): void
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -396,7 +410,8 @@ function forum_user_submit(): void
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_userlevel = $db->fetch_single($q);
     $db->free_result($q);
@@ -404,7 +419,8 @@ function forum_user_submit(): void
     {
         echo 'You cannot forum ban admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
                     "UPDATE `users`
@@ -418,7 +434,8 @@ function forum_user_submit(): void
                     . $_POST['days'] . ' days');
     echo 'User forum banned.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function unfed_user_form(): void
@@ -449,7 +466,8 @@ function unfed_user_submit(): void
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=unfedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -461,7 +479,8 @@ function unfed_user_submit(): void
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=unfedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(
@@ -477,7 +496,8 @@ function unfed_user_submit(): void
     stafflog_add("Unfedded user ID {$_POST['user']}");
     echo 'User unjailed.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function unmail_user_form(): void
@@ -508,7 +528,8 @@ function unmail_user_submit(): void
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=unmailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -520,7 +541,8 @@ function unmail_user_submit(): void
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=unmailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(
@@ -532,7 +554,8 @@ function unmail_user_submit(): void
     stafflog_add('Un-mailbanned user ID ' . $_POST['user']);
     echo 'User un-mailbanned.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function unforum_user_form(): void
@@ -564,7 +587,8 @@ function unforum_user_submit(): void
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=unforumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -576,7 +600,8 @@ function unforum_user_submit(): void
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=unforumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(
@@ -588,7 +613,8 @@ function unforum_user_submit(): void
     stafflog_add("Un-forumbanned user ID {$_POST['user']}");
     echo 'User un-forumbanned.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function ip_search_form(): void
@@ -616,7 +642,8 @@ function ip_search_submit(): void
     {
         echo 'Invalid ip.<br />
         &gt; <a href="staff_punit.php?action=ipform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $echoip =
             htmlentities(stripslashes($_POST['ip']), ENT_QUOTES, 'ISO-8859-1');
@@ -692,7 +719,8 @@ function mass_jail(): void
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=ipform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     foreach ($ids as $id)
     {
@@ -725,6 +753,7 @@ function mass_jail(): void
         echo 'No users jailed...<br />';
     }
     echo '&gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $h->endpage();

@@ -195,7 +195,8 @@ You have been forum banned for {$ir['forumban']} days.<br />
 <br />
 <b>Reason: {$ir['fb_reason']}</font></b>
    ";
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['act']))
 {
@@ -362,7 +363,8 @@ function viewforum(): void
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -374,7 +376,8 @@ function viewforum(): void
         $db->free_result($q);
         echo 'Forum doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -386,7 +389,8 @@ function viewforum(): void
 You have no permission to view this forum.<br />
 &gt; <a href="forums.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if ($_GET['viewforum'] != 1 OR $ir['user_level'] == 2)
     {
@@ -467,7 +471,8 @@ function viewtopic(): void
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -480,7 +485,8 @@ function viewtopic(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);
@@ -494,7 +500,8 @@ function viewtopic(): void
         $db->free_result($q2);
         echo 'Forum doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
@@ -506,7 +513,8 @@ function viewtopic(): void
 You have no permission to view this forum.<br />
 &gt; <a href="forums.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     echo "<big>
     		<a href='forums.php'>Forums Home</a>
@@ -754,7 +762,8 @@ function reply(): void
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -766,7 +775,8 @@ function reply(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);
@@ -780,7 +790,8 @@ function reply(): void
         $db->free_result($q2);
         echo 'Forum doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
@@ -791,7 +802,8 @@ function reply(): void
         You have no permission to reply to this topic.<br />
         &gt; <a href="forums.php">Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!isset($_POST['verf'])
             || !verify_csrf_code("forums_reply_{$topic['ft_id']}",
@@ -801,7 +813,8 @@ function reply(): void
         Your request to reply to this topic has expired. Please post replies quickly.<br />
         &gt; <a href="forums.php">Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if ($topic['ft_locked'] == 0)
     {
@@ -819,13 +832,15 @@ function reply(): void
         if ((strlen($_POST['fp_subject']) > 150))
         {
             echo 'You can only submit a max of 150 characters.<br />&gt; <a href="forums.php">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $_POST['fp_text'] = $db->escape(stripslashes($_POST['fp_text']));
         if ((strlen($_POST['fp_text']) > 65535))
         {
             echo 'You can only submit a max of 65535 characters.<br />&gt; <a href="forums.php">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $post_time = time();
         $db->query(
@@ -873,7 +888,8 @@ function newtopicform(): void
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -885,7 +901,8 @@ function newtopicform(): void
         $db->free_result($q);
         echo 'Forum doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -896,7 +913,8 @@ function newtopicform(): void
         You have no permission to view this forum.<br />
         &gt; <a href="forums.php">Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $nt_csrf = request_csrf_code("forums_newtopic_{$_GET['forum']}");
     echo <<<EOF
@@ -939,7 +957,8 @@ function newtopic(): void
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -951,7 +970,8 @@ function newtopic(): void
         $db->free_result($q);
         echo 'Forum doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -962,7 +982,8 @@ function newtopic(): void
 You have no permission to view this forum.<br />
 &gt; <a href="forums.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!isset($_POST['verf'])
             || !verify_csrf_code("forums_newtopic_{$_GET['forum']}",
@@ -972,7 +993,8 @@ You have no permission to view this forum.<br />
         Your request to create this topic has expired. Please post topics quickly.<br />
         &gt; <a href="forums.php">Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $u = htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
     if ($ir['donatordays'] > 0)
@@ -988,20 +1010,23 @@ You have no permission to view this forum.<br />
     if ((strlen($_POST['ft_name']) > 255))
     {
         echo 'You can only submit a max of 255 characters.<br />&gt; <a href="forums.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['ft_desc'] =
             $db->escape(strip_tags(stripslashes($_POST['ft_desc'])));
     if ((strlen($_POST['ft_desc']) > 255))
     {
         echo 'You can only submit a max of 255 characters.<br />&gt; <a href="forums.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['fp_text'] = $db->escape(stripslashes($_POST['fp_text']));
     if ((strlen($_POST['fp_text']) > 65535))
     {
         echo 'You can only submit a max of 65535 characters.<br />&gt; <a href="forums.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $post_time = time();
     $db->query(
@@ -1061,13 +1086,15 @@ function quote(): void
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!isset($_GET['quotename']) || !isset($_GET['quotetext']))
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -1079,7 +1106,8 @@ function quote(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);
@@ -1093,7 +1121,8 @@ function quote(): void
         $db->free_result($q2);
         echo 'Forum doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
@@ -1104,7 +1133,8 @@ function quote(): void
 You have no permission to reply to this topic.<br />
 &gt; <a href="forums.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     echo "<big>
     		<a href='forums.php'>Forums Home</a>
@@ -1168,7 +1198,8 @@ function edit(): void
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -1180,7 +1211,8 @@ function edit(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);
@@ -1194,7 +1226,8 @@ function edit(): void
         $db->free_result($q2);
         echo 'Forum doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
@@ -1205,7 +1238,8 @@ function edit(): void
 You have no permission to view this forum.<br />
 &gt; <a href="forums.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_GET['post'] =
             (isset($_GET['post']) && is_numeric($_GET['post']))
@@ -1214,7 +1248,8 @@ You have no permission to view this forum.<br />
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q3 =
             $db->query(
@@ -1226,7 +1261,8 @@ You have no permission to view this forum.<br />
         $db->free_result($q3);
         echo 'Post doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $post = $db->fetch_row($q3);
     $db->free_result($q3);
@@ -1236,7 +1272,8 @@ You have no permission to view this forum.<br />
 You have no permission to edit this post.<br />
 &gt; <a href="forums.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     echo "<big>
     		<a href='forums.php'>Forums Home</a>
@@ -1282,7 +1319,8 @@ function editsub(): void
     {
         echo 'Something went wrong.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -1294,7 +1332,8 @@ function editsub(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);
@@ -1308,7 +1347,8 @@ function editsub(): void
         $db->free_result($q2);
         echo 'Forum doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
@@ -1319,7 +1359,8 @@ function editsub(): void
 You have no permission to view this forum.<br />
 &gt; <a href="forums.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q3 =
             $db->query(
@@ -1331,7 +1372,8 @@ You have no permission to view this forum.<br />
         $db->free_result($q3);
         echo 'Post doesn\'t exist.<br />
         	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $post = $db->fetch_row($q3);
     $db->free_result($q3);
@@ -1341,7 +1383,8 @@ You have no permission to view this forum.<br />
 You have no permission to edit this post.<br />
 &gt; <a href="forums.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['fp_subject'] =
             $db->escape(strip_tags(stripslashes($_POST['fp_subject'])));
@@ -1349,14 +1392,16 @@ You have no permission to edit this post.<br />
     {
         echo 'You can only submit a max of 150 characters.
         <br />&gt; <a href="forums.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['fp_text'] = $db->escape(stripslashes($_POST['fp_text']));
     if ((strlen($_POST['fp_text']) > 65535))
     {
         echo 'You can only submit a max of 65535 characters.
         <br />&gt; <a href="forums.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "UPDATE `forum_posts`
@@ -1492,7 +1537,8 @@ function move(): void
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_GET['topic'] =
             (isset($_GET['topic']) && is_numeric($_GET['topic']))
@@ -1504,7 +1550,8 @@ function move(): void
     {
         echo 'Something went wrong.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -1516,7 +1563,8 @@ function move(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);
@@ -1530,7 +1578,8 @@ function move(): void
         $db->free_result($q2);
         echo 'Destination forum doesn\'t exist.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
@@ -1556,7 +1605,8 @@ function lock(): void
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_GET['topic'] =
             (isset($_GET['topic']) && is_numeric($_GET['topic']))
@@ -1565,7 +1615,8 @@ function lock(): void
     {
         echo 'Something went wrong.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -1577,7 +1628,8 @@ function lock(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -1610,7 +1662,8 @@ function pin(): void
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_GET['topic'] =
             (isset($_GET['topic']) && is_numeric($_GET['topic']))
@@ -1619,7 +1672,8 @@ function pin(): void
     {
         echo 'Something went wrong.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -1631,7 +1685,8 @@ function pin(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -1664,7 +1719,8 @@ function delepost(): void
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_GET['post'] =
             (isset($_GET['post']) && is_numeric($_GET['post']))
@@ -1673,7 +1729,8 @@ function delepost(): void
     {
         echo 'Something went wrong.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q3 =
             $db->query(
@@ -1686,7 +1743,8 @@ function delepost(): void
         $db->free_result($q3);
         echo 'Post doesn\'t exist.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $post = $db->fetch_row($q3);
     $db->free_result($q3);
@@ -1700,7 +1758,8 @@ function delepost(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);
@@ -1724,7 +1783,8 @@ function deletopic(): void
     {
         echo 'Something went wrong.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -1736,7 +1796,8 @@ function deletopic(): void
         $db->free_result($q);
         echo 'Topic doesn\'t exist.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $topic = $db->fetch_row($q);
     $db->free_result($q);

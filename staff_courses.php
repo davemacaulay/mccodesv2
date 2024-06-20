@@ -27,7 +27,8 @@ if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -102,7 +103,8 @@ function addcourse(): void
                  '$iq')");
         echo 'Course ' . $_POST['name']
                 . ' added.<br />&gt; <a href="staff.php">Goto Main</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -192,7 +194,8 @@ function editcourse(): void
         {
             echo 'Something went wrong.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editcourse2',
                 'staff_courses.php?action=editcourse');
@@ -208,7 +211,8 @@ function editcourse(): void
                 . ' was edited successfully.<br />
                 &gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Edited course {$_POST['name']}");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     case '1':
         $_POST['course'] =
                 (isset($_POST['course']) && is_numeric($_POST['course']))
@@ -225,7 +229,8 @@ function editcourse(): void
             $db->free_result($q);
             echo 'Invalid course.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editcourse1',
                 'staff_courses.php?action=editcourse');
@@ -301,7 +306,8 @@ function delcourse(): void
             $db->free_result($q);
             echo 'Invalid course.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $old = $db->fetch_row($q);
         $db->free_result($q);
@@ -316,7 +322,8 @@ function delcourse(): void
                 . ' deleted.<br />
                 &gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Deleted course {$old['crNAME']}");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {

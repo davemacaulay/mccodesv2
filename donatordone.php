@@ -38,7 +38,8 @@ elseif ($_GET['action'] == 'done')
     if (!$_GET['tx'])
     {
         echo 'Get a life.';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     echo 'Thank you for your payment to ' . $set['game_name']
             . '. Your transaction has been completed, and a receipt for

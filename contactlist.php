@@ -163,7 +163,8 @@ function remove_contact(): void
 You didn\'t select a real contact.<br />
 &gt; <a href="contactlist.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $qc =
             $db->query(
@@ -173,7 +174,8 @@ You didn\'t select a real contact.<br />
     if ($exist_count == 0)
     {
         echo 'Listing doesn\'t exist.<br />&gt; <a href="contactlist.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "DELETE FROM `contactlist` WHERE `cl_ID` = {$_GET['contact']} AND `cl_ADDER` = $userid");

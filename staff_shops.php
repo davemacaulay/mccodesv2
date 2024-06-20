@@ -26,7 +26,8 @@ require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -106,7 +107,8 @@ function new_shop_submit(): void
             $db->free_result($q);
             echo 'Location doesn\'t seem to exist.<br />
             &gt; <a href="staff_shops.php?action=newshop">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -116,7 +118,8 @@ function new_shop_submit(): void
         echo 'The ' . $_POST['sn']
                 . ' Shop was successfully added to the game.<br />
                 &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 }
 
@@ -151,7 +154,8 @@ function new_stock_submit(): void
     {
         echo 'Invalid shop/item.<br />
         &gt; <a href="staff_shops.php?action=newstock">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -169,7 +173,8 @@ function new_stock_submit(): void
         $db->free_result($q2);
         echo 'Invalid shop/item.<br />
         &gt; <a href="staff_shops.php?action=newstock">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->free_result($q2);
@@ -183,7 +188,8 @@ function new_stock_submit(): void
             . $_POST['shop']
             . '<br />
             &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function delshop(): void
@@ -205,7 +211,8 @@ function delshop(): void
             $db->free_result($shpq);
             echo "Invalid shop.<br />
             &gt; <a href='staff_shops.php?action=delshop'>Go back</a>";
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $sn = $db->fetch_single($shpq);
         $db->free_result($shpq);
@@ -219,7 +226,8 @@ function delshop(): void
         echo 'Shop ' . $sn
                 . ' Deleted.<br />
                 &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {

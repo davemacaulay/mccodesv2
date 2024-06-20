@@ -72,7 +72,8 @@ function new_item_form(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_newitem');
     echo "
@@ -154,7 +155,8 @@ function new_item_submit(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_newitem', 'staff_items.php?action=newitem');
     $itmname =
@@ -189,7 +191,8 @@ function new_item_submit(): void
     {
         echo 'You missed one or more of the fields. Please go back and try again.<br />
         &gt; <a href="staff_items.php?action=newitem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $itmbuy = ($_POST['itmbuyable'] == 'on') ? 1 : 0;
     $effects = [];
@@ -245,7 +248,8 @@ function new_item_submit(): void
     echo 'The ' . $_POST['itmname']
             . ' Item was added to the game.<br />
             &gt; <a href="staff_items.php?action=newitem">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function give_item_form(): void
@@ -255,7 +259,8 @@ function give_item_form(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_giveitem');
     echo "
@@ -281,7 +286,8 @@ function give_item_submit(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_giveitem', 'staff_items.php?action=giveitem');
     $_POST['item'] =
@@ -297,7 +303,8 @@ function give_item_submit(): void
     {
         echo 'Something was inputted incorrectly, please try again.<br />
         &gt; <a href="staff_items.php?action=giveitem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -315,7 +322,8 @@ function give_item_submit(): void
         $db->free_result($q2);
         echo 'Item/User doesn\'t seem to exist.<br />
         &gt; <a href="staff_items.php?action=giveitem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->free_result($q2);
@@ -326,7 +334,8 @@ function give_item_submit(): void
             . ' to user ID ' . $_POST['user']
             . '<br />
             &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function kill_item_form(): void
@@ -336,7 +345,8 @@ function kill_item_form(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_killitem');
     echo "
@@ -360,7 +370,8 @@ function kill_item_submit(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_killitem', 'staff_items.php?action=killitem');
     $_POST['item'] =
@@ -370,7 +381,8 @@ function kill_item_submit(): void
     {
         echo 'Invalid Item.<br />
         &gt; <a href="staff_items.php?action=killitem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -382,7 +394,8 @@ function kill_item_submit(): void
         $db->free_result($d);
         echo 'Item doesn\'t seem to exist.<br />
         &gt; <a href="staff_items.php?action=killitem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $itemname = $db->fetch_single($d);
     $db->free_result($d);
@@ -401,7 +414,8 @@ function kill_item_submit(): void
     echo 'The ' . $itemname
             . ' Item was removed from the game.<br />
             &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function edit_item_begin(): void
@@ -410,7 +424,8 @@ function edit_item_begin(): void
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_edititem1');
     echo "
@@ -433,7 +448,8 @@ function edit_item_form(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_edititem1', 'staff_items.php?action=edititem');
     $_POST['item'] =
@@ -443,7 +459,8 @@ function edit_item_form(): void
     {
         echo 'Invalid Item.<br />
         &gt; <a href="staff_items.php?action=killitem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -455,7 +472,8 @@ function edit_item_form(): void
         $db->free_result($d);
         echo 'Item doesn\'t seem to exist.<br />
         &gt; <a href="staff_items.php?action=edititem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $itemi = $db->fetch_row($d);
     $db->free_result($d);
@@ -566,7 +584,8 @@ function edit_item_sub(): void
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_edititem2', 'staff_items.php?action=edititem');
     $itmname =
@@ -605,7 +624,8 @@ function edit_item_sub(): void
     {
         echo 'You missed one or more of the fields. Please go back and try again.<br />
         &gt; <a href="staff_items.php?action=edititem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -617,7 +637,8 @@ function edit_item_sub(): void
         $db->free_result($q);
         echo 'Invalid item.<br />
         &gt; <a href="staff_items.php?action=edititem">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $itmbuy = ($_POST['itmbuyable'] == 'on') ? 1 : 0;
@@ -678,7 +699,8 @@ function edit_item_sub(): void
     echo 'The ' . $_POST['itmname']
             . ' Item was edited successfully.<br />
             &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function newitemtype(): void
@@ -688,7 +710,8 @@ function newitemtype(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['name'] =
             (isset($_POST['name'])
@@ -708,7 +731,8 @@ function newitemtype(): void
         echo 'Item Type ' . $_POST['name']
                 . ' added.<br />
                 &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {

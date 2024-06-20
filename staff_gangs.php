@@ -77,7 +77,8 @@ function admin_gang_record(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_POST['gang']) && is_numeric($_POST['gang']))
@@ -176,7 +177,8 @@ function admin_gang_credit(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_POST['gang']) && is_numeric($_POST['gang']))
@@ -205,7 +207,8 @@ function admin_gang_credit(): void
         {
             $db->free_result($q);
             echo 'Invalid gang.';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_gangs_credit2',
                 'staff_gangs.php?action=gcredit');
@@ -235,7 +238,8 @@ function admin_gang_credit(): void
         {
             $db->free_result($q);
             echo 'Invalid gang.';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $csrf = request_csrf_html('staff_gangs_credit2');
         echo '
@@ -298,7 +302,8 @@ function admin_gang_wars(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     echo '
 	<h3>Manage Gang Wars</h3>
@@ -353,7 +358,8 @@ function admin_gang_wardelete(): void
     if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_GET['war'] =
             (isset($_GET['war']) && is_numeric($_GET['war']))
@@ -378,7 +384,8 @@ function admin_gang_wardelete(): void
         $db->free_result($q);
         echo 'Invalid war.<br />
         &gt; <a href="staff_gangs.php?action=gwar">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -402,7 +409,8 @@ function admin_gang_edit_begin(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_POST['gang']) && is_numeric($_POST['gang']))
@@ -418,7 +426,8 @@ function admin_gang_edit_begin(): void
         {
             $db->free_result($q);
             echo 'Invalid gang.';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $theirname = $db->fetch_single($q);
         $edits =
@@ -485,7 +494,8 @@ function admin_gang_edit_name(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
@@ -511,7 +521,8 @@ function admin_gang_edit_name(): void
         $db->free_result($q);
         echo 'Invalid gang.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -527,7 +538,8 @@ function admin_gang_edit_name(): void
         echo 'Gang has been successfully modified.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
         stafflog_add("{$ir['username']} edited gang ID $gang's name and/or description");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -569,7 +581,8 @@ function admin_gang_edit_prefix(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
@@ -588,7 +601,8 @@ function admin_gang_edit_prefix(): void
         $db->free_result($q);
         echo 'Invalid gang.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -603,7 +617,8 @@ function admin_gang_edit_prefix(): void
         echo 'Gang has been successfully modified.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
         stafflog_add("{$ir['username']} edited gang ID $gang's prefix");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -637,7 +652,8 @@ function admin_gang_edit_finances(): void
     if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
@@ -669,7 +685,8 @@ function admin_gang_edit_finances(): void
         $db->free_result($q);
         echo 'Invalid gang.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -686,7 +703,8 @@ function admin_gang_edit_finances(): void
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
         stafflog_add(
                 "{$ir['username']} edited gang ID $gang's finances with the reason $reason");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -738,7 +756,8 @@ function admin_gang_edit_staff(): void
     if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
@@ -766,7 +785,8 @@ function admin_gang_edit_staff(): void
         $db->free_result($q);
         echo 'Invalid gang.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -783,7 +803,8 @@ function admin_gang_edit_staff(): void
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
         stafflog_add(
                 "{$ir['username']} edited gang ID $gang's staff with the reason $reason");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -829,7 +850,8 @@ function admin_gang_edit_capacity(): void
     if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
@@ -854,7 +876,8 @@ function admin_gang_edit_capacity(): void
         $db->free_result($q);
         echo 'Invalid gang.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -870,7 +893,8 @@ function admin_gang_edit_capacity(): void
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
         stafflog_add(
                 "{$ir['username']} edited gang ID $gang's capacity with the reason $reason");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -911,7 +935,8 @@ function admin_gang_edit_crime(): void
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
@@ -939,7 +964,8 @@ function admin_gang_edit_crime(): void
         $db->free_result($q);
         echo 'Invalid gang.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -955,7 +981,8 @@ function admin_gang_edit_crime(): void
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
         stafflog_add(
                 "{$ir['username']} edited gang ID $gang's organised crime with the reason $reason");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -1001,7 +1028,8 @@ function admin_gang_edit_ament(): void
     if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
@@ -1020,7 +1048,8 @@ function admin_gang_edit_ament(): void
         $db->free_result($q);
         echo 'Invalid gang.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -1035,7 +1064,8 @@ function admin_gang_edit_ament(): void
         echo 'Gang has been successfully modified.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
         stafflog_add("{$ir['username']} edited gang ID $gang's announcement");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {

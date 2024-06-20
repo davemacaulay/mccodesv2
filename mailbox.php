@@ -311,7 +311,8 @@ function mail_send(): void
 		You must enter a message and subject.<br />
 		&gt; <a href="mailbox.php">Go Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     elseif ((strlen($msg) > 250) || (strlen($subj) > 50))
     {
@@ -319,7 +320,8 @@ function mail_send(): void
 		Messages/Subjects are limited to 250/50 characters per time.<br />
 		&gt; <a href="mailbox.php">Go Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['user1'] =
             (isset($_POST['user1'])
@@ -344,13 +346,15 @@ function mail_send(): void
 		<br />
 		<a href='mailbox.php'>&gt; Back</a>
    ";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (empty($_POST['user1']) && empty($_POST['user2']))
     {
         echo "You must select a contact or enter a username.<br />
 		<a href='mailbox.php'>&gt; Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $sendto = $_POST['user1'] ?: $_POST['user2'];
     $q =
@@ -363,7 +367,8 @@ function mail_send(): void
         $db->free_result($q);
         echo "You cannot send mail to nonexistant users.<br />
 <a href='mailbox.php'>&gt; Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $to = $db->fetch_single($q);
     $db->free_result($q);
@@ -387,7 +392,8 @@ function mail_delete(): void
     if (empty($_GET['ID']))
     {
         echo 'Invalid ID.<br />&gt; <a href="mailbox.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -400,7 +406,8 @@ function mail_delete(): void
         $db->free_result($q);
         echo 'Invalid ID.
         <br />&gt; <a href="mailbox.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(

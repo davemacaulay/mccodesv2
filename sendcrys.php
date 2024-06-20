@@ -71,7 +71,8 @@ else
     		This transaction has been blocked for your security.<br />
     		Please send money quickly after you open the form - do not leave it open in tabs.<br />
     		&gt; <a href="sendcrys.php?ID=' . $_GET['ID'] . '">Try Again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         elseif ($_POST['crystals'] > $ir['crystals'])
         {

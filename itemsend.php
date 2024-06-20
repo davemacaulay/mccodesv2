@@ -64,7 +64,8 @@ if (!empty($_POST['qty']) && !empty($_POST['user']))
    			This transaction has been blocked for your security.<br />
     		Please send items quickly after you open the form - do not leave it open in tabs.<br />
     		&gt; <a href="itemsend.php?ID=' . $_GET['ID'] . '">Try Again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         elseif ($_POST['qty'] > $r['inv_qty'])
         {

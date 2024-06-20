@@ -27,7 +27,8 @@ if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -135,7 +136,8 @@ function give_dp_submit(): void
     {
         echo 'Something went wrong.<br />
         &gt; <a href="staff_special.php?action=givedpform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $don = 'u.userid = u.userid';
     $d = 0;
@@ -184,7 +186,8 @@ function give_dp_submit(): void
             "Gave ID {$_POST['user']} a {$d}-day donator pack (Pack {$_POST['type']})");
     echo 'User given a DP.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function staff_userlevel_innerform($userid, $level, $desc, $csrf): string
@@ -358,7 +361,8 @@ function userlevel(): void
     {
         echo 'Invalid input.<br />
         &gt; <a href="staff_special.php?action=userlevelform">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -370,7 +374,8 @@ function userlevel(): void
         $db->free_result($d);
         echo 'Invalid user.<br />
         &gt; <a href="staff_special.php?action=userlevelform">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($d);
     $db->query(
@@ -380,7 +385,8 @@ function userlevel(): void
     stafflog_add('Adjusted user ID ' . $_POST['ID'] . '\'s staff status.');
     echo 'User\'s level adjusted.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
 function userlevelform(): void
@@ -431,7 +437,8 @@ function massmailer(): void
         {
             echo 'Please select one of the sending options, not both.<br />
             &gt; <a href="staff_special.php?action=massmailer">Try again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_massmailer',
                 'staff_special.php?action=massmailer');

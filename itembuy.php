@@ -58,19 +58,22 @@ else
             echo 'You don\'t have enough money to buy ' . $_POST['qty'] . ' '
                     . $itemd['itmname']
                     . '!<br />&gt; <a href="index.php">Go Home</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         if ($itemd['itmbuyable'] == 0)
         {
             echo 'This item can\'t be bought!
             <br />&gt; <a href="index.php">Go Home</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         if ($itemd['shopLOCATION'] != $ir['location'])
         {
             echo 'You can\'t buy items from other cities.
             <br />&gt; <a href="index.php">Go Home</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
 
         $price = ($itemd['itmbuyprice'] * $_POST['qty']);

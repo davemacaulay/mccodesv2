@@ -55,7 +55,8 @@ if (!empty($_POST['qty']) && !empty($_GET['ID']))
     		This transaction has been blocked for your security.<br />
     		Please sell items quickly after you open the form - do not leave it open in tabs.<br />
     		&gt; <a href="itemsell.php?ID=' . $_GET['ID'] . '">Try Again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         if ($_POST['qty'] > $r['inv_qty'])
         {

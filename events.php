@@ -86,7 +86,8 @@ if (isset($_GET['delall2']) && $_GET['delall2'])
     {
         echo 'You have no events to delete.<br />
         	  &gt; <a href="events.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query("DELETE FROM `events`
     			WHERE `evUSER` = $userid");
@@ -94,7 +95,8 @@ if (isset($_GET['delall2']) && $_GET['delall2'])
 All <b>{$am}</b> events you had were deleted.<br />
 <br />&gt; <a href='events.php'>Go Back</a>
    ";
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 echo "
 <b>Latest 10 events</b>
