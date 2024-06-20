@@ -80,7 +80,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == 0)
     header("Location: {$login_url}");
     exit;
 }
-$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 0;
+$userid = $_SESSION['userid'] ?? 0;
 require "header.php";
 
 include "config.php";
