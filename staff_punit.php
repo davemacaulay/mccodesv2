@@ -139,23 +139,7 @@ function fed_user_submit(): void
         $h->endpage();
         exit;
     }
-    $q =
-            $db->query(
-                    'SELECT `user_level`
-                     FROM `users`
-                     WHERE `userid` = ' . $_POST['user']);
-    if ($db->num_rows($q) == 0)
-    {
-        $db->free_result($q);
-        echo 'Invalid user.<br />
-        &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
-    $f_userlevel = $db->fetch_single($q);
-    $db->free_result($q);
-    if ($f_userlevel == 2)
-    {
+    if (check_access('administrator', false, $_POST['user'])) {
         echo 'You cannot fed admins, please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
         $h->endpage();
@@ -234,25 +218,7 @@ function fed_edit_submit(): void
         $h->endpage();
         exit;
     }
-    $q =
-            $db->query(
-                    'SELECT `user_level`
-                     FROM `users`
-                     WHERE `userid` = ' . $_POST['user']
-                            . '
-                     AND `fedjail` > 0');
-    if ($db->num_rows($q) == 0)
-    {
-        $db->free_result($q);
-        echo 'Invalid user.<br />
-        &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
-    $f_userlevel = $db->fetch_single($q);
-    $db->free_result($q);
-    if ($f_userlevel == 2)
-    {
+    if (check_access('administrator', false, $_POST['user'])) {
         echo 'You cannot fed admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
         $h->endpage();
@@ -329,23 +295,7 @@ function mail_user_submit(): void
         $h->endpage();
         exit;
     }
-    $q =
-            $db->query(
-                    'SELECT `user_level`
-                     FROM `users`
-                     WHERE `userid` = ' . $_POST['user']);
-    if ($db->num_rows($q) == 0)
-    {
-        $db->free_result($q);
-        echo 'Invalid user.<br />
-        &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
-    $f_userlevel = $db->fetch_single($q);
-    $db->free_result($q);
-    if ($f_userlevel == 2)
-    {
+    if (check_access('administrator', false, $_POST['user'])) {
         echo 'You cannot mail ban admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
         $h->endpage();
@@ -419,23 +369,7 @@ function forum_user_submit(): void
         $h->endpage();
         exit;
     }
-    $q =
-            $db->query(
-                    'SELECT `user_level`
-                     FROM `users`
-                     WHERE `userid` = ' . $_POST['user']);
-    if ($db->num_rows($q) == 0)
-    {
-        $db->free_result($q);
-        echo 'Invalid user.<br />
-        &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
-    $f_userlevel = $db->fetch_single($q);
-    $db->free_result($q);
-    if ($f_userlevel == 2)
-    {
+    if (check_access('administrator', false, $_POST['user'])) {
         echo 'You cannot forum ban admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
         $h->endpage();

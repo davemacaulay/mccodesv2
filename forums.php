@@ -288,7 +288,7 @@ function viewforum(): void
     $r = $db->fetch_row($q);
     $db->free_result($q);
     if (($r['ff_auth'] == 'gang' && $ir['gang'] != $r['ff_owner']
-            && $ir['user_level'] < 2)
+            && !check_access('manage_forums', false))
             || ($r['ff_auth'] == 'staff' && !check_access('use_staff_forums', false)))
     {
         echo '
@@ -436,8 +436,8 @@ function viewtopic(): void
     $topic = get_topic($_GET['viewtopic']);
     $forum = get_forum((int)$topic['ft_forum_id']);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner']
-            && !check_access('use_staff_forums', false))
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            && !check_access('manage_forums', false))
+            || ($forum['ff_auth'] == 'staff' && !check_access('use_staff_forums', false)))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -865,7 +865,7 @@ function newtopic(): void
     $r = $db->fetch_row($q);
     $db->free_result($q);
     if (($r['ff_auth'] == 'gang' && $ir['gang'] != $r['ff_owner'])
-            || ($r['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($r['ff_auth'] == 'staff' && !check_access('use_staff_forums', false)))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -1254,7 +1254,7 @@ function editsub(): void
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner'])
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($forum['ff_auth'] == 'staff' && !check_access('use_staff_forums', false)))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -1576,7 +1576,7 @@ function lock(): void
 function pin(): void
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], [2, 3, 5]))
+    if (!check_access('manage_forums',false))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';

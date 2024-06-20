@@ -103,7 +103,7 @@ class StaffRolesManagement
      */
     private function roleIndex(): void
     {
-        $template = file_get_contents($this->viewPath . '/staff-roles/role-index.php');
+        $template = file_get_contents($this->viewPath . '/staff-roles/role-index.html');
         $roles    = $this->renderRoles();
         echo strtr($template, [
             '{{STAFF-ROLES}}' => $roles,
@@ -116,7 +116,7 @@ class StaffRolesManagement
     private function renderRoles(): string
     {
         $ret      = '';
-        $template = file_get_contents($this->viewPath . '/staff-roles/role-index-entry.php');
+        $template = file_get_contents($this->viewPath . '/staff-roles/role-index-entry.html');
         foreach ($this->roles as $id => $role) {
             $ret .= strtr($template, [
                 '{{ROLE-ID}}' => $id,

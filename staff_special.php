@@ -222,6 +222,19 @@ function massmailer(): void
         staff_csrf_stdverify('staff_massmailer',
                 'staff_special.php?action=massmailer');
         $subj = 'Mass mail from Administrator';
+        $get_roles = $db->query(
+            'SELECT * FROM staff_roles',
+        );
+        $roles = [];
+        while ($role = $db->fetch_row($get_roles)) {
+            $roles[] = $role;
+        }
+        $administrators = array_map(function ($role) {
+            if ($role['administrator']) {
+                return $role['id'];
+            }
+            return null;
+        }, $roles);
         if ($_POST['cat'] == 1)
         {
             $q =
