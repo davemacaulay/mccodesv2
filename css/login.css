@@ -1,3 +1,4 @@
+@CHARSET "ISO-8859-1";
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,7 +19,6 @@
  * Signature: cbae5999fc5ee7f66abb1dfeb0c0db49
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-@CHARSET "ISO-8859-1";
 
 body {
 	background-color: #DEDEDE;
