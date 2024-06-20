@@ -84,7 +84,7 @@ else
                     SET `money` = {$ir['money']},
                     `crystals` = {$ir['crystals']}, `exp` = {$ir['exp']},
                     `crimexp` = `crimexp` + {$r['crimeXP']}
-                    WHERE `userid` = $userid", $c);
+                    WHERE `userid` = $userid");
             if ($r['crimeSUCCESSITEM'])
             {
                 item_add($userid, $r['crimeSUCCESSITEM'], 1);

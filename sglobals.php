@@ -89,7 +89,7 @@ define("MONO_ON", 1);
 require "class/class_db_{$_CONFIG['driver']}.php";
 $db = new database;
 $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
-        $_CONFIG['password'], $_CONFIG['database'], $_CONFIG['persistent']);
+        $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
 $c = $db->connection_id;
 $set = array();

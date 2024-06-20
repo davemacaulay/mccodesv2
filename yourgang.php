@@ -1689,7 +1689,7 @@ function gang_staff_masspayment()
                 $db->query(
                         "UPDATE `users`
                          SET `money` = `money` + {$_POST['amt']}
-                         WHERE `userid` = {$r['userid']}", $c);
+                         WHERE `userid` = {$r['userid']}");
                 $gangdata['gangMONEY'] -= $_POST['amt'];
                 echo "Money sent to {$r['username']}.<br />";
             }

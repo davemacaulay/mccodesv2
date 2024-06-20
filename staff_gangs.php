@@ -525,9 +525,7 @@ function admin_gang_edit_name()
                  WHERE `gangID` = $gang");
         echo 'Gang has been successfully modified.<br />
         &gt; <a href="staff_gangs.php?action=gedit">Go Back</a>';
-        stafflog_add($userid,
-                "{$ir['username']} edited gang ID $gang's name and/or description",
-                $c);
+        stafflog_add("{$ir['username']} edited gang ID $gang's name and/or description");
         die($h->endpage());
     }
     else
