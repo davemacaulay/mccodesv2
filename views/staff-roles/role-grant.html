@@ -1,0 +1,38 @@
+<style>
+    .form-group {
+        width: 25%;
+        padding: 2px;
+    }
+    .form-control {
+        padding: 2px 1px;
+        margin: 1px;
+    }
+    .group-control {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+</style>
+<form action="staff_roles.php?action=grant" method="post">
+    <div class="group-control">
+        <div class="form-group" style="width:100%;">
+            <label for="user">User</label>
+            <select name="user" id="user" class="form-control" required>
+                <option value="0" disabled selected>-- SELECT --</option>
+                {{USER-MENU}}
+            </select>
+        </div>
+        <div class="form-group" style="width:100%;">
+            <label for="role">Role</label>
+            <select name="role" id="role" class="form-control" required>
+                <option value="0" disabled selected>-- SELECT --</option>
+                {{ROLE-MENU}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" name="submit" class="btn">
+            Grant
+        </button>
+    </div>
+</form>

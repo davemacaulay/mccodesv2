@@ -11,7 +11,7 @@ class StaffRolesManagement
 {
     private static ?self $inst = null;
     private string $viewPath = '';
-    private ?database $mysql = null;
+    private ?database $db = null;
     private array $roles = [];
 
     /**
@@ -39,7 +39,7 @@ class StaffRolesManagement
      */
     private function setDb(database $db): void
     {
-        $this->mysql = $db;
+        $this->db = $db;
     }
 
     /**
@@ -47,12 +47,13 @@ class StaffRolesManagement
      */
     private function setRoles(): void
     {
-        $get_roles = $this->mysql->query(
+        $get_roles = $this->db->query(
             'SELECT * FROM staff_roles ORDER BY id'
         );
-        while ($row = $this->mysql->fetch_row($get_roles)) {
+        while ($row = $this->db->fetch_row($get_roles)) {
             $this->roles[$row['id']] = $row;
         }
+        $this->db->free_result($get_roles);
     }
 
     /**
@@ -103,9 +104,9 @@ class StaffRolesManagement
         $conf = [
             'insert' => [
                 'cols' => ['name'],
-                'params' => ['\'' . $this->mysql->escape($_POST['name']) . '\''],
+                'params' => ['\'' . $this->db->escape($_POST['name']) . '\''],
             ],
-            'update' => 'name = \'' . $this->mysql->escape($_POST['name']) . '\'',
+            'update' => 'name = \'' . $this->db->escape($_POST['name']) . '\'',
         ];
         foreach ($permission_columns as $column) {
             $_POST[$column]             = array_key_exists($column, $_POST) ? strip_tags(trim($_POST[$column])) : null;
@@ -113,31 +114,34 @@ class StaffRolesManagement
             $conf['insert']['params'][] = isset($_POST[$column]) ? 1 : 0;
             $conf['update']             .= $column . ' = ' . (isset($_POST[$column]) ? 1 : 0) . ',';
         }
-        $get_dupe = $this->mysql->query(
+        $get_dupe = $this->db->query(
             'SELECT COUNT(*) FROM staff_roles WHERE LOWER(name) = \'' . strtolower($_POST['name']) . '\'' . ($role_id ? ' AND id <> ' . $role_id : '')
         );
-        if ($this->mysql->fetch_single($get_dupe)) {
+        if ($this->db->fetch_single($get_dupe)) {
+            $this->db->free_result($get_dupe);
             return [
                 'type' => 'error',
                 'message' => 'Another role with that name already exists',
             ];
         }
+        $this->db->free_result($get_dupe);
         if (empty($role_id)) {
             $names  = implode(', ', $conf['insert']['cols']);
             $values = implode(', ', $conf['insert']['params']);
-            $this->mysql->query(
+            $this->db->query(
                 'INSERT INTO staff_roles (' . $names . ') VALUES (' . $values . ')'
             );
         } else {
-            $this->mysql->query(
+            $this->db->query(
                 'UPDATE staff_roles SET ' . rtrim($conf['update'], ', ') . ' WHERE id = ' . $role_id
             );
         }
-        stafflog_add(ucfirst($_GET['action']) . 'ed staff role: ' . $_POST['name']);
+        $log = $_GET['action'] . 'ed the staff role: ' . $_POST['name'];
+        stafflog_add(ucfirst($log));
         $this->setRoles();
         return [
             'type' => 'success',
-            'message' => $_POST['name'] . ' role successfully ' . $_GET['action'] . 'ed',
+            'message' => $log,
         ];
     }
 
@@ -146,16 +150,17 @@ class StaffRolesManagement
      */
     private function getPermCols(): array
     {
-        $get_cols = $this->mysql->query(
+        $get_cols = $this->db->query(
             'SHOW COLUMNS FROM staff_roles'
         );
         $cols     = [];
-        while ($row = $this->mysql->fetch_row($get_cols)) {
+        while ($row = $this->db->fetch_row($get_cols)) {
             if (in_array($row['Field'], ['id', 'name'])) {
                 continue;
             }
             $cols[] = $row['Field'];
         }
+        $this->db->free_result($get_cols);
         return $cols;
     }
 
@@ -178,17 +183,18 @@ class StaffRolesManagement
                 'message' => 'You must confirm the desire to remove the staff role: ' . $role['name'],
             ];
         }
-        $this->mysql->query(
+        $this->db->query(
             'DELETE FROM users_roles WHERE staff_role = ' . $role_id,
         );
-        $this->mysql->query(
+        $this->db->query(
             'DELETE FROM staff_roles WHERE id = ' . $role_id,
         );
-        stafflog_add('Deleted staff role: ' . $role['name']);
+        $log = 'deleted the staff role: ' . $role['name'];
+        stafflog_add(ucfirst($log));
         $this->setRoles();
         return [
             'type' => 'success',
-            'message' => 'The staff role "' . $role['name'] . '" has been deleted',
+            'message' => 'You\'ve ' . $log,
         ];
     }
 
@@ -199,6 +205,69 @@ class StaffRolesManagement
     private function getRole(int $role_id): ?array
     {
         return $this->roles[$role_id] ?? null;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function doGrantRole(): array
+    {
+        $nums = ['user', 'role'];
+        foreach ($nums as $num) {
+            $_POST[$num] = array_key_exists($num, $_POST) && is_numeric($_POST[$num]) ? (int)$_POST[$num] : null;
+        }
+        if (empty($_POST['user'])) {
+            return [
+                'type' => 'error',
+                'message' => 'Invalid user given',
+            ];
+        }
+        if (empty($_POST['role'])) {
+            return [
+                'type' => 'error',
+                'message' => 'Invalid role given',
+            ];
+        }
+        $get_user = $this->db->query(
+            'SELECT userid, username FROM users WHERE userid = ' . $_POST['user'],
+        );
+        $user     = $this->db->fetch_row($get_user);
+        $this->db->free_result($get_user);
+        if (empty($user)) {
+            return [
+                'type' => 'error',
+                'message' => 'User not found',
+            ];
+        }
+        $get_role = $this->db->query(
+            'SELECT id, name FROM staff_roles WHERE id = ' . $_POST['role'],
+        );
+        $role     = $this->db->fetch_row($get_role);
+        $this->db->free_result($get_role);
+        if (empty($role)) {
+            return [
+                'type' => 'error',
+                'message' => 'Role not found',
+            ];
+        }
+        $get_has_role = $this->db->query(
+            'SELECT COUNT(*) FROM users_roles WHERE userid = ' . $user['userid'] . ' AND staff_role = ' . $role['id'],
+        );
+        if ($this->db->fetch_single($get_has_role)) {
+            return [
+                'type' => 'error',
+                'message' => $user['username'] . ' already has the ' . $role['name'] . ' role',
+            ];
+        }
+        $this->db->query(
+            'INSERT INTO users_roles (userid, staff_role) VALUES (' . $user['userid'] . ', ' . $role['id'] . ')',
+        );
+        $log = 'granted staff role ' . $role['name'] . ' to ' . $user['username'];
+        stafflog_add(ucfirst($log));
+        return [
+            'type' => 'success',
+            'message' => 'You\'ve ' . $log,
+        ];
     }
 
     /**
@@ -336,6 +405,34 @@ class StaffRolesManagement
             '{{ROLE-NAME}}' => $role['name'],
             '{{FORM-ACTION}}' => 'staff_roles.php?action=remove&id=' . $role['id'],
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    private function viewGrantRole(): void
+    {
+        $template = file_get_contents($this->viewPath . '/staff-roles/role-grant.html');
+        echo strtr($template, [
+            '{{USER-MENU}}' => $this->renderUserMenuOpts(),
+            '{{ROLE-MENU}}' => $this->renderRoleMenuOpts(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    private function renderUserMenuOpts(): string
+    {
+        $ret       = '';
+        $get_users = $this->db->query(
+            'SELECT userid, username FROM users ORDER BY username'
+        );
+        while ($row = $this->db->fetch_row($get_users)) {
+            $ret .= '<option value="' . $row['userid'] . '">' . $row['username'] . '</option>';
+        }
+        $this->db->free_result($get_users);
+        return $ret;
     }
 
     /**
