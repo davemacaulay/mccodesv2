@@ -1158,6 +1158,7 @@ function get_filesize_remote(string $url): int
         return 0; // no file
     }
     $is_ssl = false;
+    /** @noinspection HttpUrlsUsage */
     if (str_starts_with($url, 'http://'))
     {
         $port = 80;
