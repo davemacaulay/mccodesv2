@@ -306,10 +306,10 @@ else
 }
 
 /**
- * @param $in
+ * @param string|null $in
  * @return string
  */
-function checkblank($in): string
+function checkblank(?string $in): string
 {
     if (!$in)
     {
