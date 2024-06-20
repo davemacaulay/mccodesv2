@@ -48,7 +48,7 @@ case 'delshop':
     delshop();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
@@ -62,7 +62,7 @@ function new_shop_form()
     	<br />
     	Shop Desc: <input type='text' name='sd' value='' />
     	<br />
-    	Shop Location: " . location_dropdown("sl")
+    	Shop Location: " . location_dropdown('sl')
             . "
     	<br />
     	{$csrf}
@@ -124,9 +124,9 @@ function new_stock_form()
     echo "
     <h3>Adding an item to a shop</h3>
     <form action='staff_shops.php?action=newstocksub' method='post'>
-    	Shop: " . shop_dropdown() . "
+    	Shop: " . shop_dropdown() . '
     	<br />
-    	Item: " . item_dropdown()
+    	Item: ' . item_dropdown()
             . "
     	<br />
     	{$csrf}

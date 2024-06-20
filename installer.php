@@ -42,10 +42,10 @@ if (!isset($_GET['code']))
 }
 switch ($_GET['code'])
 {
-case "install":
+case 'install':
     install();
     break;
-case "config":
+case 'config':
     config();
     break;
 default:
@@ -59,7 +59,7 @@ function menuprint($highlight)
             ['diag' => '1. Diagnostics', 'input' => '2. Configuration',
                     'sql' => '3. Installation & Extras',];
     $c = 0;
-    echo "<hr />";
+    echo '<hr />';
     foreach ($items as $k => $v)
     {
         $c++;
@@ -81,7 +81,7 @@ function menuprint($highlight)
 
 function diagnostics()
 {
-    menuprint("diag");
+    menuprint('diag');
     if (version_compare(phpversion(), '5.2.0') < 0)
     {
         $pv = '<span style="color: red">Failed</span>';
@@ -160,7 +160,7 @@ function diagnostics()
 
 function config()
 {
-    menuprint("input");
+    menuprint('input');
     echo "
     <h3>Configuration:</h3>
     <form action='installer.php?code=install' method='post'>
@@ -383,11 +383,11 @@ function install()
     }
     if (count($errors) > 0)
     {
-        echo "Installation failed.<br />
+        echo 'Installation failed.<br />
         There were one or more problems with your input.<br />
         <br />
         <b>Problem(s) encountered:</b>
-        <ul>";
+        <ul>';
         foreach ($errors as $error)
         {
             echo "<li><span style='color: red;'>{$error}</span></li>";
@@ -409,9 +409,9 @@ function install()
     echo 'Writing game config file...<br />';
     echo 'Write Config...<br />';
     $code = md5(rand(1, 100000000000));
-    if (file_exists("config.php"))
+    if (file_exists('config.php'))
     {
-        unlink("config.php");
+        unlink('config.php');
     }
     $e_db_hostname = addslashes($db_hostname);
     $e_db_username = addslashes($db_username);
@@ -437,7 +437,7 @@ EOF;
     fclose($f);
     echo '... file written.<br />';
     echo 'Writing base database schema...<br />';
-    $fo = fopen("dbdata.sql", "r");
+    $fo = fopen('dbdata.sql', 'r');
     $query = '';
     $lines = explode("\n", fread($fo, 1024768));
     fclose($fo);
@@ -513,35 +513,35 @@ EOF;
     0 0 * * * php $path/cron_day.php $code
     </pre>
        ";
-    echo "<h3>Installer Security</h3>
-    Attempting to remove installer... ";
+    echo '<h3>Installer Security</h3>
+    Attempting to remove installer... ';
     @unlink('./installer.php');
     $success = !file_exists('./installer.php');
     echo "<span style='color: "
             . ($success ? "green;'>Succeeded" : "red;'>Failed")
-            . "</span><br />";
+            . '</span><br />';
     if (!$success)
     {
-        echo "Attempting to lock installer... ";
+        echo 'Attempting to lock installer... ';
         @touch('./installer.lock');
         $success2 = file_exists('installer.lock');
         echo "<span style='color: "
                 . ($success2 ? "green;'>Succeeded" : "red;'>Failed")
-                . "</span><br />";
+                . '</span><br />';
         if ($success2)
         {
             echo "<span style='font-weight: bold;'>"
-                    . "You should now remove installer.php from your server."
-                    . "</span>";
+                    . 'You should now remove installer.php from your server.'
+                    . '</span>';
         }
         else
         {
             echo "<span style='font-weight: bold; font-size: 20pt;'>"
-                    . "YOU MUST REMOVE installer.php "
-                    . "from your server.<br />"
-                    . "Failing to do so will allow other people "
-                    . "to run the installer again and potentially "
-                    . "mess up your game entirely." . "</span>";
+                    . 'YOU MUST REMOVE installer.php '
+                    . 'from your server.<br />'
+                    . 'Failing to do so will allow other people '
+                    . 'to run the installer again and potentially '
+                    . 'mess up your game entirely.' . '</span>';
         }
     }
     else

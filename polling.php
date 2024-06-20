@@ -21,8 +21,8 @@
  */
 
 require_once('globals.php');
-echo "<h3>Polling Booth</h3>
-Cast your vote today!<br />";
+echo '<h3>Polling Booth</h3>
+Cast your vote today!<br />';
 $_POST['poll'] =
         (isset($_POST['poll']) && is_numeric($_POST['poll']))
                 ? abs(intval($_POST['poll'])) : '';
@@ -80,7 +80,7 @@ else
     				 WHERE `active` = '1'");
     if (!$db->num_rows($q))
     {
-        echo "<b>There are no active polls at this time</b>";
+        echo '<b>There are no active polls at this time</b>';
     }
     else
     {
@@ -165,7 +165,7 @@ else
                         }
                         else
                         {
-                            $c = "";
+                            $c = '';
                         }
                         echo "<tr>
                     		<td>{$r[$k]}</td>

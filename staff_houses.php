@@ -34,17 +34,17 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addhouse":
+case 'addhouse':
     addhouse();
     break;
-case "edithouse":
+case 'edithouse':
     edithouse();
     break;
-case "delhouse":
+case 'delhouse':
     delhouse();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
@@ -116,7 +116,7 @@ function edithouse()
     }
     switch ($_POST['step'])
     {
-    case "2":
+    case '2':
         $price =
                 (isset($_POST['price']) && is_numeric($_POST['price']))
                         ? abs(intval($_POST['price'])) : 0;
@@ -185,7 +185,7 @@ function edithouse()
                 &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
         die($h->endpage());
         break;
-    case "1":
+    case '1':
         $_POST['house'] =
                 (isset($_POST['house']) && is_numeric($_POST['house']))
                         ? abs(intval($_POST['house'])) : 0;

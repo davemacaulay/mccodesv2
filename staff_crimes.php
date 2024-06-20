@@ -95,9 +95,9 @@ function new_crime_form()
     	Success Crystals (1-9 chars only): <input type='text' name='crys' />
     <br />
     	Success Item: " . item2_dropdown()
-            . "
+            . '
     <br />
-    	Group: " . crimegroup_dropdown('group')
+    	Group: ' . crimegroup_dropdown('group')
             . "
     <br />
     	Initial Text: <textarea rows='4' cols='40' name='itext'></textarea>
@@ -286,9 +286,9 @@ function edit_crime_form()
     <br />
     	Success Item: "
             . item2_dropdown('crimeSUCCESSITEM',
-            $itemi['crimeSUCCESSITEM']) . "
+            $itemi['crimeSUCCESSITEM']) . '
     <br />
-    	Group: "
+    	Group: '
             . crimegroup_dropdown('crimeGROUP', $itemi['crimeGROUP'])
             . "
     <br />
@@ -482,9 +482,9 @@ function delcrime()
         $itemi = $db->fetch_row($d);
         $db->free_result($d);
         $csrf = request_csrf_html('staff_delcrime2');
-        echo "
+        echo '
         <h3>Confirm</h3>
-        Delete crime -  " . $itemi["crimeNAME"]
+        Delete crime -  ' . $itemi['crimeNAME']
                 . "?
         <form action='staff_crimes.php?action=delcrime&amp;step=3' method='post'>
         	<input type='hidden' name='crimeID' value='$target' />
@@ -726,8 +726,8 @@ function delcrimegroup()
         <h3>Deleting Crime Group</h3>
         <form action='staff_crimes.php?action=delcrimegroup&amp;step=2' method='post' name='theform' onsubmit='return checkme();'>
               Crime Group: " . crimegroup_dropdown('crimeGROUP')
-                . "<br />
-        Move crimes in deleted group to: "
+                . '<br />
+        Move crimes in deleted group to: '
                 . crimegroup_dropdown('crimeGROUP2')
                 . "<br />
               {$csrf}
@@ -774,9 +774,9 @@ function delcrimegroup()
         $itemi = $db->fetch_single($d);
         $db->free_result($d);
         $csrf = request_csrf_html('staff_delcrimegroup2');
-        echo "
+        echo '
         <h3>Confirm</h3>
-        Delete crime group -  " . $itemi
+        Delete crime group -  ' . $itemi
                 . "?
         <form action='staff_crimes.php?action=delcrimegroup&amp;step=3' method='post'>
         	<input type='hidden' name='cgID' value='$target' />
@@ -892,22 +892,22 @@ function reorder_crimegroups()
         $db->free_result($c_q);
         foreach ($_POST as $k => $v)
         {
-            $cg = str_replace("order", "", $k);
+            $cg = str_replace('order', '', $k);
             $db->query(
                     "UPDATE `crimegroups`
                      SET `cgORDER` = {$v}
                      WHERE `cgID` = {$cg}");
         }
-        echo "Crime group order updated!";
-        stafflog_add("Reordered crime groups");
+        echo 'Crime group order updated!';
+        stafflog_add('Reordered crime groups');
     }
     else
     {
         $q =
                 $db->query(
-                        "SELECT `cgID`, `cgNAME`
+                    'SELECT `cgID`, `cgNAME`
                         FROM `crimegroups`
-                        ORDER BY `cgORDER` ASC, `cgID` ASC");
+                        ORDER BY `cgORDER` ASC, `cgID` ASC');
         $rows = $db->num_rows($q);
         $i = 0;
         $csrf = request_csrf_html('staff_reorder_crimegroups');

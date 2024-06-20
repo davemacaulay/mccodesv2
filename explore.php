@@ -24,7 +24,7 @@ require_once('globals.php');
 $tresder = rand(100, 999);
 if ($ir['jail'] > 0 || $ir['hospital'] > 0)
 {
-    die("This page cannot be accessed while in jail or hospital.");
+    die('This page cannot be accessed while in jail or hospital.');
 }
 echo "<b>You begin exploring the area you're in,
 		you see a bit that interests you.</b><br />

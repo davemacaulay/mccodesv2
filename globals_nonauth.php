@@ -51,9 +51,9 @@ if (get_magic_quotes_gpc() == 0)
         $_GET[$k] = addslashes($v);
     }
 }
-require "lib/basic_error_handler.php";
+require 'lib/basic_error_handler.php';
 set_error_handler('error_php');
-include "config.php";
+include 'config.php';
 const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";
 require_once('global_func.php');
@@ -63,8 +63,8 @@ $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
 $db->connect();
 $c = $db->connection_id;
 $set = [];
-$settq = $db->query("SELECT *
-					 FROM `settings`");
+$settq = $db->query('SELECT *
+					 FROM `settings`');
 while ($r = $db->fetch_row($settq))
 {
     $set[$r['conf_name']] = $r['conf_value'];

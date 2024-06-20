@@ -23,13 +23,13 @@
 require_once('globals.php');
 if ($ir['energy'] < 10)
 {
-    echo "Sorry, it costs 10 energy to bust someone. "
-            . "You only have {$ir['energy']} energy. " . "Come back later.";
+    echo 'Sorry, it costs 10 energy to bust someone. '
+            . "You only have {$ir['energy']} energy. " . 'Come back later.';
     die($h->endpage());
 }
 if ($ir['jail'])
 {
-    echo "You cannot bust out people while in jail.";
+    echo 'You cannot bust out people while in jail.';
     die($h->endpage());
 }
 $_GET['ID'] =
@@ -43,14 +43,14 @@ $jail_q =
 if ($db->num_rows($jail_q) == 0)
 {
     $db->free_result($jail_q);
-    echo "Invalid user";
+    echo 'Invalid user';
     die($h->endpage());
 }
 $r = $db->fetch_row($jail_q);
 $db->free_result($jail_q);
 if (!$r['jail'])
 {
-    echo "That user is not in jail!";
+    echo 'That user is not in jail!';
     die($h->endpage());
 }
 $mult = $r['level'] * $r['level'];

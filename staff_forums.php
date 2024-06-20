@@ -33,13 +33,13 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addforum":
+case 'addforum':
     addforum();
     break;
-case "editforum":
+case 'editforum':
     editforum();
     break;
-case "delforum":
+case 'delforum':
     delforum();
     break;
 default:
@@ -122,7 +122,7 @@ function editforum()
     }
     switch ($_POST['step'])
     {
-    case "2":
+    case '2':
         $name =
                 (isset($_POST['name'])
                         && preg_match(
@@ -186,7 +186,7 @@ function editforum()
                 &gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Edited forum $name");
         break;
-    case "1":
+    case '1':
         $_POST['id'] =
                 (isset($_POST['id']) && is_numeric($_POST['id']))
                         ? abs(intval($_POST['id'])) : '';
@@ -245,7 +245,7 @@ function editforum()
         <h3>Editing a Forum</h3><hr />
         <form action='staff_forums.php?action=editforum' method='post'>
         	<input type='hidden' name='step' value='1' />
-        	Forum: " . forum2_dropdown("id")
+        	Forum: " . forum2_dropdown('id')
                 . "<br />
             {$csrf}
         	<input type='submit' value='Edit Forum' />
@@ -332,10 +332,10 @@ function delforum()
         Deleting a forum is permanent - be sure.
         <form action='staff_forums.php?action=delforum' method='post' name='theform' onsubmit='return checkme();'>
         	Forum: " . forum2_dropdown()
-                . "
+                . '
         <br />
-        	Move posts &amp; topics in the deleted forum to: "
-                . forum2_dropdown("forum2")
+        	Move posts &amp; topics in the deleted forum to: '
+                . forum2_dropdown('forum2')
                 . "
         <br />
         	{$csrf}
@@ -372,7 +372,7 @@ function recache_forum($forum)
                  `ff_lp_poster_name` = 'N/A', `ff_lp_t_id` = 0,
                  `ff_lp_t_name` = 'N/A', `ff_posts` = 0, `ff_topics` = 0
                   WHERE `ff_id` = {$forum}");
-        echo " ... Done<br />";
+        echo ' ... Done<br />';
     }
     else
     {
@@ -402,7 +402,7 @@ function recache_forum($forum)
                  `ff_lp_t_name` = '$tn', `ff_posts` = $posts,
                  `ff_topics` = $topics
                  WHERE `ff_id` = {$forum}");
-        echo " ... Done<br />";
+        echo ' ... Done<br />';
     }
 }
 $h->endpage();

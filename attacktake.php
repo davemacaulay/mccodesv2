@@ -41,7 +41,7 @@ if ($db->num_rows($od))
     $db->free_result($od);
     if ($r['hp'] == 1)
     {
-        echo "What a cheater u are.";
+        echo 'What a cheater u are.';
     }
     else
     {
@@ -88,7 +88,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
                     $ga['gangRESPECT'] -= 1;
                     $db->query(
                             "UPDATE `gangs` SET `gangRESPECT` = `gangRESPECT` + 1 WHERE `gangID` = {$ir['gang']}");
-                    echo "<br />You earnt 1 respect for your gang!";
+                    echo '<br />You earnt 1 respect for your gang!';
 
                 }
                 $db->free_result($warq);
@@ -98,7 +98,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
                     $db->query(
                             "UPDATE `users` SET `gang` = 0 WHERE `gang` = {$r['gang']}");
 
-                    $db->query("DELETE FROM `gangs` WHERE `gangRESPECT` <= 0");
+                    $db->query('DELETE FROM `gangs` WHERE `gangRESPECT` <= 0');
                     $db->query(
                             "DELETE FROM `gangwars`
                                     WHERE `warDECLARER` = {$ga['gangID']} OR `warDECLARED` = {$ga['gangID']}");
@@ -124,7 +124,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
                     $m = $cb['cb_money'];
                     $db->query(
                             "UPDATE `users` SET `money` = `money` + $m WHERE `userid` = $userid");
-                    echo "<br /> You gained " . money_formatter($m)
+                    echo '<br /> You gained ' . money_formatter($m)
                             . " for beating the challenge bot {$r['username']}";
                     $db->query(
                             "INSERT INTO `challengesbeaten` VALUES($userid, {$r['userid']})");
@@ -139,7 +139,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
 else
 {
     $db->free_result($od);
-    echo "You beat Mr. non-existant!";
+    echo 'You beat Mr. non-existant!';
 }
 
 $h->endpage();

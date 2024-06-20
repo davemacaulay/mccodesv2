@@ -47,7 +47,7 @@ IQ - {$set['ct_iqpercrys']} IQ per crystal
 </a><br />
 <a href='crystaltemple.php?spend=money'>
 Money - " . money_formatter($set['ct_moneypercrys'])
-            . " per crystal</a><br />";
+            . ' per crystal</a><br />';
 }
 else
 {
@@ -59,7 +59,7 @@ else
         }
         else if ($ir['energy'] == $ir['maxenergy'])
         {
-            echo "You already have full energy.";
+            echo 'You already have full energy.';
         }
         else
         {
@@ -152,7 +152,7 @@ else
                      `money` = `money` + $iqgain
             		 WHERE `userid` = $userid");
             echo "You traded {$_POST['crystals']} crystals for "
-                    . money_formatter($iqgain) . ".";
+                    . money_formatter($iqgain) . '.';
         }
     }
 }

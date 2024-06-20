@@ -103,7 +103,7 @@ else
                     . $_SERVER['REQUEST_TIME']
                     . "
              WHERE `userid` = {$mem['userid']}");
-    if ($set['validate_period'] == "login" && $set['validate_on'])
+    if ($set['validate_period'] == 'login' && $set['validate_on'])
     {
         $db->query(
                 "UPDATE `users`
@@ -114,4 +114,3 @@ else
     header("Location: {$loggedin_url}");
     exit;
 }
-

@@ -26,7 +26,7 @@ $_POST['name'] =
                 ? stripslashes($_POST['name']) : '';
 if (!$_POST['name'])
 {
-    echo "Invalid use of file";
+    echo 'Invalid use of file';
 }
 elseif (!preg_match("/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
         $_POST['name']))

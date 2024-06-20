@@ -28,7 +28,7 @@ if (!isset($_GET['ID']))
 $_GET['ID'] = abs((int) $_GET['ID']);
 if (!$_GET['ID'])
 {
-    echo "Invalid use of file";
+    echo 'Invalid use of file';
 }
 else
 {
@@ -107,7 +107,7 @@ function gang_view()
     }
     else
     {
-        print "President: N/A<br />";
+        print 'President: N/A<br />';
     }
     if ($coldr['userid'] > 0)
     {
@@ -116,14 +116,14 @@ function gang_view()
     }
     else
     {
-        print "Vice-President: N/A<hr />";
+        print 'Vice-President: N/A<hr />';
     }
     $cnt =
             $db->query(
                     "SELECT COUNT(`userid`)
                      FROM `users`
                      WHERE `gang` = {$gangdata['gangID']}");
-    echo "<b>Members:</b> " . $db->fetch_single($cnt)
+    echo '<b>Members:</b> ' . $db->fetch_single($cnt)
             . "<br />
 		  <b>Description: </b> {$gangdata['gangDESC']}<br />
 		  <b>Respect Level: </b> {$gangdata['gangRESPECT']}<br />
@@ -183,7 +183,7 @@ Type the reason you should be in this faction.<br />
     }
     else
     {
-        echo "You cannot apply for a gang when you are already in one.";
+        echo 'You cannot apply for a gang when you are already in one.';
     }
 }
 
@@ -213,7 +213,7 @@ function gang_applysubmit()
         $gev =
                 $db->escape(
                         "<a href='viewuser.php?u={$userid}'>{$ir['username']}</a>"
-                                . " sent an application to join this gang.");
+                                . ' sent an application to join this gang.');
         $db->query(
                 "INSERT INTO `gangevents`
                  VALUES(NULL, {$_GET['ID']}, " . time() . ", '{$gev}')");
@@ -221,7 +221,7 @@ function gang_applysubmit()
     }
     else
     {
-        echo "You cannot apply for a gang when you are already in one.";
+        echo 'You cannot apply for a gang when you are already in one.';
     }
 }
 $h->endpage();

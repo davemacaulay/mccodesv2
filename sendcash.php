@@ -33,11 +33,11 @@ $_GET['ID'] = abs((int) $_GET['ID']);
 $_POST['money'] = abs((int) $_POST['money']);
 if (!((int) $_GET['ID']))
 {
-    echo "Invalid User ID";
+    echo 'Invalid User ID';
 }
 else if ($_GET['ID'] == $userid)
 {
-    echo "Haha, what does sending money to yourself do anyway?";
+    echo 'Haha, what does sending money to yourself do anyway?';
 }
 else
 {
@@ -67,7 +67,7 @@ else
         }
         else if ($_POST['money'] > $ir['money'])
         {
-            echo "Not enough money to send.";
+            echo 'Not enough money to send.';
         }
         else
         {
@@ -79,10 +79,10 @@ else
                     "UPDATE `users`
                      SET `money` = `money` + {$_POST['money']}
                      WHERE `userid` = {$_GET['ID']}");
-            echo "You sent " . money_formatter($_POST['money'])
+            echo 'You sent ' . money_formatter($_POST['money'])
                     . " to {$er['username']} (ID {$_GET['ID']}).";
             event_add($_GET['ID'],
-                "You received " . money_formatter($_POST['money'])
+                'You received ' . money_formatter($_POST['money'])
                 . " from {$ir['username']}.");
             $db->query(
                     "INSERT INTO `cashxferlogs`
@@ -122,17 +122,17 @@ else
                          LIMIT 5");
         while ($r = $db->fetch_row($q))
         {
-            echo "<tr>
-            		<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+            echo '<tr>
+            		<td>' . date('F j, Y, g:i:s a', $r['cxTIME'])
                     . "</td>
                     <td>{$ir['username']} [{$ir['userid']}] </td>
                     <td>{$r['recipient']} [{$r['cxTO']}] </td>
                     <td> " . money_formatter($r['cxAMOUNT'])
-                    . "</td>
-                  </tr>";
+                    . '</td>
+                  </tr>';
         }
         $db->free_result($q);
-        echo "</table>";
+        echo '</table>';
     }
 }
 $h->endpage();

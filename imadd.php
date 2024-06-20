@@ -57,7 +57,7 @@ if ($_POST['price'] && $_POST['QTY'] && $_GET['ID'])
     if ($db->num_rows($q) == 0)
     {
         $db->free_result($q);
-        echo "Invalid Item ID";
+        echo 'Invalid Item ID';
     }
     else
     {
@@ -107,7 +107,7 @@ if ($_POST['price'] && $_POST['QTY'] && $_GET['ID'])
                 "INSERT INTO `imarketaddlogs`
                 VALUES (NULL, {$r['inv_itemid']}, {$_POST['price']},
                 {$r['inv_id']}, $userid, " . time() . ", '{$imadd_log}')");
-        echo "Item added to market.";
+        echo 'Item added to market.';
     }
 }
 else

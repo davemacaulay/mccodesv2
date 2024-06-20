@@ -23,7 +23,7 @@
 require_once('globals.php');
 if (!$set['sendbank_on'])
 {
-    die("Sorry, the game owner has disabled this feature.");
+    die('Sorry, the game owner has disabled this feature.');
 }
 if (!isset($_GET['ID']))
 {
@@ -37,11 +37,11 @@ $_GET['ID'] = abs((int) $_GET['ID']);
 $_POST['xfer'] = abs((int) $_POST['xfer']);
 if (!((int) $_GET['ID']))
 {
-    echo "Invalid User ID";
+    echo 'Invalid User ID';
 }
 else if ($_GET['ID'] == $userid)
 {
-    echo "Haha, what does sending money to yourself do anyway?";
+    echo 'Haha, what does sending money to yourself do anyway?';
 }
 else
 {
@@ -62,7 +62,7 @@ else
     if ($er['cybermoney'] == -1 || $ir['cybermoney'] == -1)
     {
         die(
-                "Sorry,you or the person you are sending to does not have a cyber bank account.");
+        'Sorry,you or the person you are sending to does not have a cyber bank account.');
     }
     if ((int) $_POST['xfer'])
     {
@@ -78,7 +78,7 @@ else
         }
         else if ($_POST['xfer'] > $ir['cybermoney'])
         {
-            echo "Not enough money to send.";
+            echo 'Not enough money to send.';
         }
         else
         {
@@ -90,11 +90,11 @@ else
                     "UPDATE `users`
                      SET `cybermoney` = `cybermoney` + {$_POST['xfer']}
                      WHERE `userid` = {$_GET['ID']}");
-            echo "You CyberBank Transferred "
+            echo 'You CyberBank Transferred '
                     . money_formatter($_POST['xfer'])
                     . " to {$er['username']} (ID {$_GET['ID']}).";
             event_add($_GET['ID'],
-                "You received " . money_formatter($_POST['xfer'])
+                'You received ' . money_formatter($_POST['xfer'])
                 . " into your cyber bank account from {$ir['username']}.");
 
             $db->query(

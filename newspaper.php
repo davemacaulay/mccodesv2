@@ -22,8 +22,8 @@
 
 require_once('globals.php');
 echo '<h3>The MonoPaper</h3>';
-$paperQ = $db->query("SELECT `content`
-					  FROM `papercontent`");
+$paperQ = $db->query('SELECT `content`
+					  FROM `papercontent`');
 $paper = $db->fetch_single($paperQ);
 $db->free_result($paperQ);
 echo '

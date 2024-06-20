@@ -101,15 +101,15 @@ OUT;
     while ($r = $db->fetch_row($q))
     {
         $sent = date('F j, Y, g:i:s a', $r['mail_time']);
-        echo "<tr>
-        		<td>";
+        echo '<tr>
+        		<td>';
         if ($r['userid'])
         {
             echo "<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a> [{$r['userid']}]";
         }
         else
         {
-            echo "SYSTEM";
+            echo 'SYSTEM';
         }
         $fm = urlencode($r['mail_text']);
         print
@@ -200,7 +200,7 @@ function mail_compose()
                      ORDER BY u.`username` ASC");
     if ($db->num_rows($q) == 0)
     {
-        echo "You have no contacts!";
+        echo 'You have no contacts!';
     }
     else
     {
@@ -210,7 +210,7 @@ function mail_compose()
             $esc_part = addslashes($r['username']);
             echo "<option value='{$esc_part}'>{$r['username']}</option>";
         }
-        echo "</select>";
+        echo '</select>';
     }
     $db->free_result($q);
     $_GET['ID'] =
@@ -291,7 +291,7 @@ function mail_compose()
             	  </tr>";
         }
         $db->free_result($q);
-        echo "</table>";
+        echo '</table>';
     }
 }
 
@@ -300,11 +300,11 @@ function mail_send()
     global $db, $userid, $h;
     $subj =
             $db->escape(
-                    str_replace("\n", "<br />",
+                    str_replace("\n", '<br />',
                             strip_tags(stripslashes($_POST['subject']))));
     $msg =
             $db->escape(
-                    str_replace("\n", "<br />",
+                    str_replace("\n", '<br />',
                             strip_tags(stripslashes($_POST['message']))));
     if (empty($subj) || empty($msg))
     {
@@ -455,8 +455,8 @@ function mail_delall2()
         $db->query(
                 "DELETE FROM `mail`
                  WHERE `mail_to` = $userid");
-        echo "
-		All " . $db->affected_rows()
+        echo '
+		All ' . $db->affected_rows()
                 . " mails in your inbox were deleted.<br />
 		&gt; <a href='mailbox.php'>Go Back</a>
    		";

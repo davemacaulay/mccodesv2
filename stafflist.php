@@ -24,11 +24,11 @@ require_once('globals.php');
 $staff = [];
 $q =
         $db->query(
-                "SELECT `userid`, `laston`, `username`, `level`, `money`,
+            'SELECT `userid`, `laston`, `username`, `level`, `money`,
  				 `user_level`
  				 FROM `users`
  				 WHERE `user_level` IN(2, 3, 5)
- 				 ORDER BY `userid` ASC");
+ 				 ORDER BY `userid` ASC');
 while ($r = $db->fetch_row($q))
 {
     $staff[$r['userid']] = $r;
@@ -61,7 +61,7 @@ foreach ($staff as $r)
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
 			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . date("F j, Y, g:i:s a", $r['laston']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', $r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';
@@ -94,7 +94,7 @@ foreach ($staff as $r)
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
 			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . date("F j, Y, g:i:s a", $r['laston']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', $r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';
@@ -127,7 +127,7 @@ foreach ($staff as $r)
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
 			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . date("F j, Y, g:i:s a", $r['laston']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', $r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';

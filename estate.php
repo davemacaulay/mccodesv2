@@ -48,7 +48,7 @@ if (isset($_GET['property']) && is_numeric($_GET['property']))
     $db->free_result($npq);
     if ($np['hWILL'] < $mp['hWILL'])
     {
-        echo "You cannot go backwards in houses!";
+        echo 'You cannot go backwards in houses!';
     }
     else if ($np['hPRICE'] > $ir['money'])
     {
@@ -62,14 +62,14 @@ if (isset($_GET['property']) && is_numeric($_GET['property']))
                  `will` = 0, `maxwill` = {$np['hWILL']}
                  WHERE `userid` = $userid");
         echo "Congrats, you bought the {$np['hNAME']} for "
-                . money_formatter($np['hPRICE']) . "!";
+                . money_formatter($np['hPRICE']) . '!';
     }
 }
 else if (isset($_GET['sellhouse']))
 {
     if ($ir['maxwill'] == 100)
     {
-        echo "You already live in the lowest property!";
+        echo 'You already live in the lowest property!';
     }
     else
     {
@@ -98,7 +98,7 @@ The houses you can buy are listed below. Click a house to buy it.<br />";
     while ($r = $db->fetch_row($hq))
     {
         echo "<a href='estate.php?property={$r['hID']}'>{$r['hNAME']}</a>"
-                . "&nbsp;&nbsp - Cost: " . money_formatter($r['hPRICE'])
+                . '&nbsp;&nbsp - Cost: ' . money_formatter($r['hPRICE'])
                 . "&nbsp;&nbsp - Will Bar: {$r['hWILL']}<br />";
     }
     $db->free_result($hq);

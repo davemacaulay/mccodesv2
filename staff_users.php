@@ -77,7 +77,7 @@ case 'forcelogout':
     forcelogout();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
@@ -404,7 +404,7 @@ function edit_user_form()
     	<br />
     	Jail reason: <input type='text' name='jail_reason' value='{$itemi['jail_reason']}' />
     	<br />
-    	House: " . house2_dropdown("maxwill", $itemi['maxwill'])
+    	House: " . house2_dropdown('maxwill', $itemi['maxwill'])
             . "
     	<br />
     	<h4>Stats</h4>
@@ -1130,7 +1130,7 @@ function reports_view()
     $csrf = request_csrf_html('staff_clear_preport');
     $q =
             $db->query(
-                    "SELECT `prID`, `prTEXT`, `prREPORTED`, `prREPORTER`,
+                'SELECT `prID`, `prTEXT`, `prREPORTED`, `prREPORTER`,
                     `u1`.`username` AS `reporter`,
                     `u2`.`username` AS `offender`
                      FROM `preports` AS `pr`
@@ -1138,7 +1138,7 @@ function reports_view()
                      ON `u1`.`userid` = `pr`.`prREPORTER`
                      INNER JOIN `users` AS `u2`
                      ON `u2`.`userid` = `pr`.`prREPORTED`
-                     ORDER BY `pr`.`prID` DESC");
+                     ORDER BY `pr`.`prID` DESC');
     while ($r = $db->fetch_row($q))
     {
         echo "

@@ -24,14 +24,14 @@ $macropage = 'criminal.php';
 require_once('globals.php');
 if ($ir['jail'] || $ir['hospital'])
 {
-    die("This page cannot be accessed while in jail or hospital.");
+    die('This page cannot be accessed while in jail or hospital.');
 }
 $crimes = [];
 $q2 =
         $db->query(
-                "SELECT `crimeGROUP`, `crimeNAME`, `crimeBRAVE`, `crimeID`
+            'SELECT `crimeGROUP`, `crimeNAME`, `crimeBRAVE`, `crimeID`
                          FROM `crimes`
-                         ORDER BY `crimeBRAVE` ASC");
+                         ORDER BY `crimeBRAVE` ASC');
 while ($r2 = $db->fetch_row($q2))
 {
     $crimes[] = $r2;
@@ -39,7 +39,7 @@ while ($r2 = $db->fetch_row($q2))
 $db->free_result($q2);
 $q =
         $db->query(
-                "SELECT `cgID`, `cgNAME` FROM `crimegroups` ORDER BY `cgORDER` ASC");
+            'SELECT `cgID`, `cgNAME` FROM `crimegroups` ORDER BY `cgORDER` ASC');
 echo "<h3>Criminal Centre</h3><br />
 <table width='75%' cellspacing='1' class='table'><tr><th>Crime</th><th>Cost</th><th>Do</th></tr>";
 while ($r = $db->fetch_row($q))
@@ -54,5 +54,5 @@ while ($r = $db->fetch_row($q))
     }
 }
 $db->free_result($q);
-echo "</table>";
+echo '</table>';
 $h->endpage();

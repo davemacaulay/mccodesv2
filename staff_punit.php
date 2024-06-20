@@ -168,7 +168,7 @@ function fed_user_submit()
     $db->query(
             "INSERT INTO `jaillogs`
              VALUES(NULL, $userid, {$_POST['user']}, {$_POST['days']},
-             '{$_POST['reason']}', " . time() . ")");
+             '{$_POST['reason']}', " . time() . ')');
     stafflog_add(
             'Fedded ID ' . $_POST['user'] . ' for ' . $_POST['days']
                     . ', reason: ' . $_POST['reason']);
@@ -251,7 +251,7 @@ function fed_edit_submit()
     $db->query(
             "INSERT INTO `jaillogs`
              VALUES(NULL, $userid, {$_POST['user']}, {$_POST['days']},
-             '{$_POST['reason']}', " . time() . ")");
+             '{$_POST['reason']}', " . time() . ')');
     stafflog_add('Edited user ID ' . $_POST['user'] . '\'s fedjail sentence');
     echo 'User\'s sentence edited.<br />
     &gt; <a href="staff.php">Go Home</a>';
@@ -471,7 +471,7 @@ function unfed_user_submit()
      		 WHERE `fed_userid` = {$_POST['user']}");
     $db->query(
             "INSERT INTO `unjaillogs`
-             VALUES(NULL, $userid, {$_POST['user']}, " . time() . ")");
+             VALUES(NULL, $userid, {$_POST['user']}, " . time() . ')');
     stafflog_add("Unfedded user ID {$_POST['user']}");
     echo 'User unjailed.<br />
     &gt; <a href="staff.php">Go Home</a>';
@@ -526,7 +526,7 @@ function unmail_user_submit()
              SET `mailban` = 0
              WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-        "You were unbanned from mail. You can now use it again.");
+        'You were unbanned from mail. You can now use it again.');
     stafflog_add('Un-mailbanned user ID ' . $_POST['user']);
     echo 'User un-mailbanned.<br />
     &gt; <a href="staff.php">Go Home</a>';
@@ -582,7 +582,7 @@ function unforum_user_submit()
              SET `forumban` = 0
              WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-        "You were unbanned from the forums. You can now use them again.");
+        'You were unbanned from the forums. You can now use them again.');
     stafflog_add("Un-forumbanned user ID {$_POST['user']}");
     echo 'User un-forumbanned.<br />
     &gt; <a href="staff.php">Go Home</a>';
@@ -655,7 +655,7 @@ function ip_search_submit()
     <b>Mass Jail</b>
     <br />
     <form action='staff_punit.php?action=massjailip' method='post'>
-    	<input type='hidden' name='ids' value='" . implode(",", $ids)
+    	<input type='hidden' name='ids' value='" . implode(',', $ids)
             . "' />
     	Days: <input type='text' name='days' value='300' />
     	<br />
@@ -676,7 +676,7 @@ function mass_jail()
     {
         $_POST['ids'] = '';
     }
-    $ids = explode(",", $_POST['ids']);
+    $ids = explode(',', $_POST['ids']);
     $ju = [];
     $_POST['reason'] =
             (isset($_POST['reason']))
@@ -704,7 +704,7 @@ function mass_jail()
             $db->query(
                     "INSERT INTO `jaillogs`
                      VALUES(NULL, $userid, {$safe_id}, {$_POST['days']},
-                     '{$_POST['reason']}', " . time() . ")");
+                     '{$_POST['reason']}', " . time() . ')');
             echo 'User jailed : ' . $id . '<br />';
             $ju[] = $id;
         }

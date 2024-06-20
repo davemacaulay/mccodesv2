@@ -33,17 +33,17 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addcourse":
+case 'addcourse':
     addcourse();
     break;
-case "editcourse":
+case 'editcourse':
     editcourse();
     break;
-case "delcourse":
+case 'delcourse':
     delcourse();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
@@ -144,7 +144,7 @@ function editcourse()
     }
     switch ($_POST['step'])
     {
-    case "2":
+    case '2':
         $cost =
                 (isset($_POST['cost']) && is_numeric($_POST['cost']))
                         ? abs(intval($_POST['cost'])) : '';
@@ -208,7 +208,7 @@ function editcourse()
         stafflog_add("Edited course {$_POST['name']}");
         die($h->endpage());
         break;
-    case "1":
+    case '1':
         $_POST['course'] =
                 (isset($_POST['course']) && is_numeric($_POST['course']))
                         ? abs(intval($_POST['course'])) : '';

@@ -65,7 +65,7 @@ default:
 function newspaper_form()
 {
     global $db;
-    $q = $db->query("SELECT `content` FROM `papercontent`");
+    $q = $db->query('SELECT `content` FROM `papercontent`');
     $news = $db->fetch_row($q);
     $csrf = request_csrf_html('staff_editnews');
     echo "
@@ -88,7 +88,7 @@ function newspaper_submit()
     $db->query("UPDATE `papercontent`
     			SET `content` = '$news'");
     echo 'Newspaper updated!';
-    stafflog_add("Updated game newspaper");
+    stafflog_add('Updated game newspaper');
 }
 
 function give_dp_form()
@@ -138,42 +138,42 @@ function give_dp_submit()
     if ($_POST['type'] == 1)
     {
         $don =
-                "`u`.`money` = `u`.`money` + 5000,
+            '`u`.`money` = `u`.`money` + 5000,
                  `u`.`crystals` = `u`.`crystals` + 50,
                  `us`.`IQ` = `us`.`IQ` + 50,
-                 `u`.`donatordays` = `u`.`donatordays` + 30";
+                 `u`.`donatordays` = `u`.`donatordays` + 30';
         $d = 30;
     }
     else if ($_POST['type'] == 2)
     {
         $don =
-                "`u`.`crystals` = `u`.`crystals` + 100,
-                 `u`.`donatordays` = `u`.`donatordays` + 30";
+            '`u`.`crystals` = `u`.`crystals` + 100,
+                 `u`.`donatordays` = `u`.`donatordays` + 30';
         $d = 30;
     }
     else if ($_POST['type'] == 3)
     {
         $don =
-                "`us`.`IQ` = `us`.`IQ` + 120,
-                 `u`.`donatordays` = `u`.`donatordays` + 30";
+            '`us`.`IQ` = `us`.`IQ` + 120,
+                 `u`.`donatordays` = `u`.`donatordays` + 30';
         $d = 30;
     }
     else if ($_POST['type'] == 4)
     {
         $don =
-                "`u`.`money` = `u`.`money` + 15000,
+            '`u`.`money` = `u`.`money` + 15000,
                  `u`.`crystals` = `u`.`crystals` + 75,
                  `us`.`IQ` = `us`.`IQ` + 80,
-                 `u`.`donatordays` = `u`.`donatordays` + 55";
+                 `u`.`donatordays` = `u`.`donatordays` + 55';
         $d = 55;
     }
     else if ($_POST['type'] == 5)
     {
         $don =
-                "`u`.`money` = `u`.`money` + 35000,
+            '`u`.`money` = `u`.`money` + 35000,
                  `u`.`crystals` = `u`.`crystals` + 160,
                  `us`.`IQ` = `us`.`IQ` + 180,
-                 `u`.`donatordays` = `u`.`donatordays` + 115";
+                 `u`.`donatordays` = `u`.`donatordays` + 115';
         $d = 115;
     }
     $db->query(
@@ -221,11 +221,11 @@ function staff_list()
     $staff = [];
     $q =
             $db->query(
-                    "SELECT `userid`, `laston`, `username`, `level`, `money`,
+                'SELECT `userid`, `laston`, `username`, `level`, `money`,
  				 	 `user_level`
  				 	 FROM `users`
  				 	 WHERE `user_level` IN(2, 3, 5)
- 				 	 ORDER BY `userid` ASC");
+ 				 	 ORDER BY `userid` ASC');
     while ($r = $db->fetch_row($q))
     {
         $staff[$r['userid']] = $r;
@@ -249,16 +249,16 @@ function staff_list()
     			<td>
     				"
                     . staff_userlevel_innerform($r['userid'], 3, 'Secretary',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 5, 'Assistant',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . "
+                            $csrf) . '
     			</td>
     		</tr>
-       		";
+       		';
         }
     }
     echo "
@@ -290,16 +290,16 @@ function staff_list()
     			<td>
     				"
                     . staff_userlevel_innerform($r['userid'], 2, 'Admin',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 5, 'Assistant',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . "
+                            $csrf) . '
     			</td>
     		</tr>
-       		";
+       		';
         }
     }
     echo "
@@ -331,16 +331,16 @@ function staff_list()
     			<td>
     				"
                     . staff_userlevel_innerform($r['userid'], 2, 'Admin',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 3, 'Secretary',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . "
+                            $csrf) . '
     			</td>
     		</tr>
-       		";
+       		';
         }
     }
     echo '</table>';
@@ -444,25 +444,25 @@ function massmailer()
         {
             $q =
                     $db->query(
-                            "SELECT `userid`
+                        'SELECT `userid`
                              FROM `users`
-                             WHERE `user_level` != 0");
+                             WHERE `user_level` != 0');
         }
         else if ($_POST['cat'] == 2)
         {
             $q =
                     $db->query(
-                            "SELECT `userid`
+                        'SELECT `userid`
                              FROM `users`
-                             WHERE `user_level` > 1");
+                             WHERE `user_level` > 1');
         }
         else if ($_POST['cat'] == 3)
         {
             $q =
                     $db->query(
-                            "SELECT `userid`
+                        'SELECT `userid`
                              FROM users
-                             WHERE `user_level` = 2");
+                             WHERE `user_level` = 2');
         }
         else
         {

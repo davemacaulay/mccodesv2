@@ -59,7 +59,7 @@ else
             if ($r["effect{$enum}_on"])
             {
                 $einfo = unserialize($r["effect{$enum}"]);
-                if ($einfo['inc_type'] == "percent")
+                if ($einfo['inc_type'] == 'percent')
                 {
                     if (in_array($einfo['stat'],
                             ['energy', 'will', 'brave', 'hp']))
@@ -81,7 +81,7 @@ else
                 {
                     $inc = $einfo['inc_amount'];
                 }
-                if ($einfo['dir'] == "pos")
+                if ($einfo['dir'] == 'pos')
                 {
                     if (in_array($einfo['stat'],
                             ['energy', 'will', 'brave', 'hp']))

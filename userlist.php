@@ -32,9 +32,9 @@ $allowed_ord = ['asc', 'desc', 'ASC', 'DESC'];
 $ord =
         (isset($_GET['ord']) && in_array($_GET['ord'], $allowed_ord, true))
                 ? $_GET['ord'] : 'ASC';
-echo "<h3>Userlist</h3>";
-$cnt = $db->query("SELECT COUNT(`userid`)
-				   FROM `users`");
+echo '<h3>Userlist</h3>';
+$cnt = $db->query('SELECT COUNT(`userid`)
+				   FROM `users`');
 $membs = $db->fetch_single($cnt);
 $db->free_result($cnt);
 $pages = (int) ($membs / 100) + 1;
@@ -42,7 +42,7 @@ if ($membs % 100 == 0)
 {
     $pages--;
 }
-echo "Pages: ";
+echo 'Pages: ';
 for ($i = 1; $i <= $pages; $i++)
 {
     $stl = ($i - 1) * 100;

@@ -29,14 +29,14 @@ if (!$ir['job'])
 {
     if (!$_GET['interview'])
     {
-        echo "
+        echo '
 		You do not yet have a job. A list of jobs is available below.
 		<br />
-   		";
+   		';
         $q =
                 $db->query(
-                        "SELECT `jID`,`jDESC`,`jNAME`
-        				 FROM `jobs`");
+                    'SELECT `jID`,`jDESC`,`jNAME`
+        				 FROM `jobs`');
         while ($r = $db->fetch_row($q))
         {
             echo "
@@ -59,7 +59,7 @@ if (!$ir['job'])
         if ($db->num_rows($q) == 0)
         {
             $db->free_result($q);
-            print "Invalid job specified.";
+            print 'Invalid job specified.';
             $h->endpage();
             exit;
         }

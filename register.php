@@ -92,7 +92,7 @@ if (!empty($username))
     }
     $e_gender = $db->escape(stripslashes($_POST['gender']));
     $sm = 100;
-    if (isset($_POST['promo']) && $_POST['promo'] == "Your Promo Code Here")
+    if (isset($_POST['promo']) && $_POST['promo'] == 'Your Promo Code Here')
     {
         $sm += 100;
     }
@@ -215,7 +215,7 @@ else
         $chars =
                 "123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?\\/%^";
         $len = strlen($chars);
-        $_SESSION['captcha'] = "";
+        $_SESSION['captcha'] = '';
         for ($i = 0; $i < 6; $i++)
             $_SESSION['captcha'] .= $chars[rand(0, $len - 1)];
     }

@@ -55,10 +55,10 @@ echo "<h3>&gt; {$set['game_name']} Log-In</h3>
 <td width='50%'>
 <fieldset>
 <legend>About {$set['game_name']}</legend>
-" . nl2br($set['game_description']) . "
+" . nl2br($set['game_description']) . '
 </fieldset>
 </td>
-<td>";
+<td>';
 echo <<<EOF
 <fieldset>
 <legend>Login</legend>

@@ -203,7 +203,7 @@ function admin_gang_credit()
         if ($db->num_rows($q) == 0)
         {
             $db->free_result($q);
-            echo "Invalid gang.";
+            echo 'Invalid gang.';
             die($h->endpage());
         }
         staff_csrf_stdverify('staff_gangs_credit2',
@@ -233,12 +233,12 @@ function admin_gang_credit()
         if ($db->num_rows($q) == 0)
         {
             $db->free_result($q);
-            echo "Invalid gang.";
+            echo 'Invalid gang.';
             die($h->endpage());
         }
         $csrf = request_csrf_html('staff_gangs_credit2');
-        echo "
-        You are crediting " . $db->fetch_single($q) . " with "
+        echo '
+        You are crediting ' . $db->fetch_single($q) . ' with '
                 . money_formatter($money)
                 . " and/or $crystals crystals.
         <br />
@@ -305,7 +305,7 @@ function admin_gang_wars()
    	';
     $q =
             $db->query(
-                    "SELECT `warID`, `warDECLARED`, `warDECLARER`,
+                'SELECT `warID`, `warDECLARED`, `warDECLARER`,
                      `g1`.`gangNAME` AS `declarer`,
                      `g1`.`gangRESPECT` AS `drespect`,
                      `g2`.`gangNAME` AS `defender`,
@@ -314,7 +314,7 @@ function admin_gang_wars()
                      LEFT JOIN `gangs` AS `g1`
                      ON `w`.`warDECLARER` = `g1`.`gangID`
                      LEFT JOIN `gangs` AS `g2`
-                     ON `w`.`warDECLARED` = `g2`.`gangID`");
+                     ON `w`.`warDECLARED` = `g2`.`gangID`');
     while ($r = $db->fetch_row($q))
     {
         $csrf = request_csrf_html("staff_gangs_wardelete{$r['warID']}");
@@ -416,7 +416,7 @@ function admin_gang_edit_begin()
         if ($db->num_rows($q) == 0)
         {
             $db->free_result($q);
-            echo "Invalid gang.";
+            echo 'Invalid gang.';
             die($h->endpage());
         }
         $theirname = $db->fetch_single($q);
@@ -452,7 +452,7 @@ function admin_gang_edit_begin()
             else
             {
                 $a = "red'>No";
-                $l = "N/A";
+                $l = 'N/A';
             }
             echo "
 			<tr>

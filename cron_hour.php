@@ -31,14 +31,14 @@ else if (!isset($_GET['code']) || $_GET['code'] !== $_CONFIG['code'])
     exit;
 }
 $db->query(
-        "UPDATE `gangs` SET `gangCHOURS` = `gangCHOURS` - 1 WHERE `gangCRIME` > 0");
+    'UPDATE `gangs` SET `gangCHOURS` = `gangCHOURS` - 1 WHERE `gangCRIME` > 0');
 $q =
         $db->query(
-                "SELECT `gangID`,`ocSTARTTEXT`, `ocSUCCTEXT`, `ocFAILTEXT`,
+            'SELECT `gangID`,`ocSTARTTEXT`, `ocSUCCTEXT`, `ocFAILTEXT`,
                 `ocMINMONEY`, `ocMAXMONEY`, `ocID`, `ocNAME`
                 FROM `gangs` AS `g`
                 LEFT JOIN `orgcrimes` AS `oc` ON `g`.`gangCRIME` = `oc`.`ocID`
-                WHERE `g`.`gangCRIME` > 0 AND `g`.`gangCHOURS` <= 0");
+                WHERE `g`.`gangCRIME` > 0 AND `g`.`gangCHOURS` <= 0');
 while ($r = $db->fetch_row($q))
 {
     $suc = rand(0, 1);
@@ -52,7 +52,7 @@ while ($r = $db->fetch_row($q))
         $db->query(
                 "INSERT INTO `oclogs` VALUES (NULL, {$r['ocID']}, {$r['gangID']},
                         '$log', 'success', $muny, '{$r['ocNAME']}', " . time()
-                        . ")");
+                        . ')');
         $i = $db->insert_id();
         $qm =
                 $db->query(
@@ -74,7 +74,7 @@ while ($r = $db->fetch_row($q))
         $db->query(
                 "INSERT INTO `oclogs` VALUES (NULL,{$r['ocID']},{$r['gangID']},
                          '$log', 'failure', $muny, '{$r['ocNAME']}', "
-                        . time() . ")");
+                        . time() . ')');
         $i = $db->insert_id();
         $qm =
                 $db->query(
@@ -92,16 +92,16 @@ if (date('G') == 17)
 {
     // Job stats update
     $db->query(
-            "UPDATE `users` AS `u`
+        'UPDATE `users` AS `u`
     		    INNER JOIN `userstats` AS `us` ON `u`.`userid` = `us`.`userid`
     		    LEFT JOIN `jobranks` AS `jr` ON `jr`.`jrID` = `u`.`jobrank`
     		    SET `u`.`money` = `u`.`money` + `jr`.`jrPAY`, `u`.`exp` = `u`.`exp` + (`jr`.`jrPAY` / 20),
     		    `us`.`strength` = (`us`.`strength` + 1) + `jr`.`jrSTRG` - 1,
     		    `us`.`labour` = (`us`.`labour` + 1) + `jr`.`jrLABOURG` - 1,
     		    `us`.`IQ` = (`us`.`IQ`+1) + `jr`.`jrIQG` - 1
-    		    WHERE `u`.`job` > 0 AND `u`.`jobrank` > 0");
+    		    WHERE `u`.`job` > 0 AND `u`.`jobrank` > 0');
 }
 if ($set['validate_period'] == 60 && $set['validate_on'])
 {
-    $db->query("UPDATE `users` SET `verified` = 0");
+    $db->query('UPDATE `users` SET `verified` = 0');
 }

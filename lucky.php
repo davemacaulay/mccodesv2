@@ -21,7 +21,7 @@
  */
 
 require_once('globals.php');
-echo "<h3>Lucky Boxes</h3><hr />";
+echo '<h3>Lucky Boxes</h3><hr />';
 $box_cost = 1000;
 $bc_format = money_formatter($box_cost);
 if (isset($_GET['open']) && $_GET['open'])
@@ -29,7 +29,7 @@ if (isset($_GET['open']) && $_GET['open'])
     if ($ir['boxes_opened'] >= 5)
     {
         die(
-                "Sorry, you have already opened 5 boxes today. Come back tomorrow.");
+        'Sorry, you have already opened 5 boxes today. Come back tomorrow.');
     }
     if ($ir['money'] < $box_cost)
     {
@@ -55,7 +55,7 @@ if (isset($_GET['open']) && $_GET['open'])
         break;
     case 2:
         $money = rand(330, 3300);
-        echo "Second outcome here (gained " . money_formatter($money) . ")";
+        echo 'Second outcome here (gained ' . money_formatter($money) . ')';
         $db->query(
                 "UPDATE `users`
                  SET `money` = `money` + {$money}
@@ -63,17 +63,17 @@ if (isset($_GET['open']) && $_GET['open'])
         break;
     case 3:
         $stole = min(rand($ir['money'] / 10, $ir['money'] / 5), 5000);
-        echo "Third outcome here (lost " . money_formatter($stole) . ")";
+        echo 'Third outcome here (lost ' . money_formatter($stole) . ')';
         $db->query(
                 "UPDATE `users`
                  SET `money` = `money` - {$stole}
                  WHERE `userid` = {$userid}");
         break;
     case 4:
-        echo "Fourth outcome here (nothing)";
+        echo 'Fourth outcome here (nothing)';
         break;
     case 5:
-        echo "Fifth outcome here (nothing)";
+        echo 'Fifth outcome here (nothing)';
         break;
     }
     echo "<hr />

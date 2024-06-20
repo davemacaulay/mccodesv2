@@ -36,7 +36,7 @@ $id =
 if ($db->num_rows($id) == 0)
 {
     $db->free_result($id);
-    echo "Invalid item ID";
+    echo 'Invalid item ID';
     $h->endpage();
     exit;
 }
@@ -47,7 +47,7 @@ else
 }
 if ($r['armor'] <= 0)
 {
-    echo "This item cannot be equipped to this slot.";
+    echo 'This item cannot be equipped to this slot.';
     $h->endpage();
     exit;
 }
@@ -55,7 +55,7 @@ if (isset($_POST['type']))
 {
     if ($_POST['type'] !== 'equip_armor')
     {
-        echo "This slot ID is not valid.";
+        echo 'This slot ID is not valid.';
         $h->endpage();
         exit;
     }

@@ -33,13 +33,13 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "add":
+case 'add':
     add_enemy();
     break;
-case "remove":
+case 'remove':
     remove_enemy();
     break;
-case "ccomment":
+case 'ccomment':
     change_comment();
     break;
 default:
@@ -59,7 +59,7 @@ These are the people on your black list.
 Most hated: [";
     $q2r =
             $db->query(
-                    "SELECT `username`, `userid` FROM `users` ORDER BY `enemy_count` DESC LIMIT 5");
+                'SELECT `username`, `userid` FROM `users` ORDER BY `enemy_count` DESC LIMIT 5');
     $r = 0;
     while ($r2r = $db->fetch_row($q2r))
     {
@@ -98,7 +98,7 @@ Most hated: [";
                 ($r['laston'] >= (($_SERVER['REQUEST_TIME'] - 15) * 60))
                         ? '<font color="green"><b>Online</b></font>'
                         : '<font color="red"><b>Offline</b></font>';
-        $d = "";
+        $d = '';
         if ($r['donatordays'])
         {
             $r['username'] = "<font color=red>{$r['username']}</font>";
@@ -123,7 +123,7 @@ Most hated: [";
    ";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
 
 function add_enemy()
@@ -150,11 +150,11 @@ function add_enemy()
         if ($dupe_count > 0)
         {
 
-            echo "You cannot add the same person twice.";
+            echo 'You cannot add the same person twice.';
         }
         else if ($userid == $_POST['ID'])
         {
-            echo "You cannot be so lonely that you have to try and add yourself.";
+            echo 'You cannot be so lonely that you have to try and add yourself.';
         }
         else if ($db->num_rows($q) == 0)
         {

@@ -54,11 +54,11 @@ if ($db->num_rows($q) > 0)
                 </td>
               </tr>";
     }
-    echo "</table>";
+    echo '</table>';
 }
 else
 {
-    echo "</table>There are currently no gang wars in progress.";
+    echo '</table>There are currently no gang wars in progress.';
 }
 $db->free_result($q);
 $h->endpage();

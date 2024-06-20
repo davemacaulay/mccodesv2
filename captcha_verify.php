@@ -122,7 +122,7 @@ for ($i = 0; $i < 5; $i++)
             imagecolorallocate($second, rand(100, 255), rand(100, 255),
                     rand(100, 255));
 }
-@header("Content-Type: image/png");
+@header('Content-Type: image/png');
 $finished =
         imagerotate($second, rand(0, 15) - 7.5,
                 $bgcolor[2] * 65536 + $bgcolor[1] * 256 + $bgcolor[0]);

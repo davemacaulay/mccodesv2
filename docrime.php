@@ -29,11 +29,11 @@ $macropage = "docrime.php?c={$_GET['c']}";
 require_once('globals.php');
 if ($ir['jail'] > 0 || $ir['hospital'] > 0)
 {
-    die("This page cannot be accessed while in jail or hospital.");
+    die('This page cannot be accessed while in jail or hospital.');
 }
 if ($_GET['c'] <= 0)
 {
-    echo "Invalid crime";
+    echo 'Invalid crime';
 }
 else
 {
@@ -53,17 +53,17 @@ else
     $db->free_result($q);
     if ($ir['brave'] < $r['crimeBRAVE'])
     {
-        echo "You do not have enough Brave to perform this crime.";
+        echo 'You do not have enough Brave to perform this crime.';
     }
     else
     {
         $ec =
                 "\$sucrate="
                         . str_replace(
-                                ["LEVEL", "CRIMEXP", "EXP", "WILL", "IQ"],
+                                ['LEVEL', 'CRIMEXP', 'EXP', 'WILL', 'IQ'],
                                 [$ir['level'], $ir['crimexp'],
                                         $ir['exp'], $ir['will'], $ir['IQ']],
-                                $r['crimePERCFORM']) . ";";
+                                $r['crimePERCFORM']) . ';';
         eval($ec);
         print $r['crimeITEXT'];
         $ir['brave'] -= $r['crimeBRAVE'];
@@ -74,7 +74,7 @@ else
         if (rand(1, 100) <= $sucrate)
         {
             print
-                    str_replace("{money}", $r['crimeSUCCESSMUNY'],
+                    str_replace('{money}', $r['crimeSUCCESSMUNY'],
                             $r['crimeSTEXT']);
             $ir['money'] += $r['crimeSUCCESSMUNY'];
             $ir['crystals'] += $r['crimeSUCCESSCRYS'];

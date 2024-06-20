@@ -25,91 +25,91 @@ require_once('globals.php');
 
 class bbcode
 {
-    var $engine = "";
+    var $engine = '';
 
     function bbcode()
     {
-        require "bbcode_engine.php";
+        require 'bbcode_engine.php';
         $this->engine = new bbcode_engine;
-        $this->engine->cust_tag("/</", "&lt;");
-        $this->engine->cust_tag("/>/", "&gt;");
+        $this->engine->cust_tag('/</', '&lt;');
+        $this->engine->cust_tag('/>/', '&gt;');
         $this->engine->cust_tag("/\r\n/", "\n");
         $this->engine->cust_tag("/\r/", "\n");
-        $this->engine->cust_tag("/\n/", "&nbrlb;");
-        $this->engine->simple_bbcode_tag("b");
-        $this->engine->simple_bbcode_tag("i");
-        $this->engine->simple_bbcode_tag("u");
-        $this->engine->simple_bbcode_tag("s");
-        $this->engine->simple_bbcode_tag("sub");
-        $this->engine->simple_bbcode_tag("sup");
-        $this->engine->simple_bbcode_tag("big");
-        $this->engine->simple_bbcode_tag("small");
-        $this->engine->cust_tag("/\[ul\](.+?)\[\/ul\]/is",
+        $this->engine->cust_tag("/\n/", '&nbrlb;');
+        $this->engine->simple_bbcode_tag('b');
+        $this->engine->simple_bbcode_tag('i');
+        $this->engine->simple_bbcode_tag('u');
+        $this->engine->simple_bbcode_tag('s');
+        $this->engine->simple_bbcode_tag('sub');
+        $this->engine->simple_bbcode_tag('sup');
+        $this->engine->simple_bbcode_tag('big');
+        $this->engine->simple_bbcode_tag('small');
+        $this->engine->cust_tag('/\[ul\](.+?)\[\/ul\]/is',
                 "<table><tr><td align='left'><ul>\\1</ul></td></tr></table>");
-        $this->engine->cust_tag("/\[ol\](.+?)\[\/ol\]/is",
+        $this->engine->cust_tag('/\[ol\](.+?)\[\/ol\]/is',
                 "<table><tr><td align='left'><ol>\\1</ol></td></tr></table>");
-        $this->engine->cust_tag("/\[list\](.+?)\[\/list\]/is",
+        $this->engine->cust_tag('/\[list\](.+?)\[\/list\]/is',
                 "<table><tr><td align='left'><ul>\\1</ul></td></tr></table>");
-        $this->engine->cust_tag("/\[olist\](.+?)\[\/olist\]/is",
+        $this->engine->cust_tag('/\[olist\](.+?)\[\/olist\]/is',
                 "<table><tr><td align='left'><ol>\\1</ol></td></tr></table>");
-        $this->engine->adv_bbcode_tag("item", "li");
-        $this->engine->adv_option_tag("font", "font", "face");
-        $this->engine->adv_option_tag("size", "font", "size");
-        $this->engine->adv_option_tag("url", "a", "href");
-        $this->engine->adv_option_tag("color", "font", "color");
-        $this->engine->adv_option_tag("style", "span", "style");
-        $this->engine->cust_tag("/\(c\)/", "&copy;");
-        $this->engine->cust_tag("/\(tm\)/", "&#153;");
-        $this->engine->cust_tag("/\(r\)/", "&reg;");
-        $this->engine->adv_option_tag_em("email", "a", "href");
-        $this->engine->adv_bbcode_att_em("email", "a", "href");
-        $this->engine->cust_tag("/\[left\](.+?)\[\/left\]/i",
+        $this->engine->adv_bbcode_tag('item', 'li');
+        $this->engine->adv_option_tag('font', 'font', 'face');
+        $this->engine->adv_option_tag('size', 'font', 'size');
+        $this->engine->adv_option_tag('url', 'a', 'href');
+        $this->engine->adv_option_tag('color', 'font', 'color');
+        $this->engine->adv_option_tag('style', 'span', 'style');
+        $this->engine->cust_tag('/\(c\)/', '&copy;');
+        $this->engine->cust_tag('/\(tm\)/', '&#153;');
+        $this->engine->cust_tag('/\(r\)/', '&reg;');
+        $this->engine->adv_option_tag_em('email', 'a', 'href');
+        $this->engine->adv_bbcode_att_em('email', 'a', 'href');
+        $this->engine->cust_tag('/\[left\](.+?)\[\/left\]/i',
                 "<div align='left'>\\1</div>");
-        $this->engine->cust_tag("/\[center\](.+?)\[\/center\]/i",
+        $this->engine->cust_tag('/\[center\](.+?)\[\/center\]/i',
                 "<div align='center'>\\1</div>");
-        $this->engine->cust_tag("/\[right\](.+?)\[\/right\]/i",
+        $this->engine->cust_tag('/\[right\](.+?)\[\/right\]/i',
                 "<div align='right'>\\1</div>");
-        $this->engine->cust_tag("/\[quote=(.+?)\]/i",
+        $this->engine->cust_tag('/\[quote=(.+?)\]/i',
                 "<div class='quotetop'>QUOTE (\\1)</div><div class='quotemain'>");
-        $this->engine->cust_tag("/\[quote\]/i",
+        $this->engine->cust_tag('/\[quote\]/i',
                 "<div class='quotetop'>QUOTE</div><div class='quotemain'>");
-        $this->engine->cust_tag("/\[\/quote\]/i", "</div>");
-        $this->engine->cust_tag("/\[code\](.+?)\[\/code\]/i",
+        $this->engine->cust_tag('/\[\/quote\]/i', '</div>');
+        $this->engine->cust_tag('/\[code\](.+?)\[\/code\]/i',
                 "<div class='codetop'>CODE</div><div class='codemain'><code>\\1</code></div>");
-        $this->engine->cust_tag("/\[codebox\](.+?)\[\/codebox\]/i",
+        $this->engine->cust_tag('/\[codebox\](.+?)\[\/codebox\]/i',
                 "<div class='codetop'>CODE</div><div class='codemain' style='height:200px;white-space:pre;overflow:auto'>\\1</div>");
-        $this->engine->cust_tag("/\[img=(.+?)\]/ie", "check_image('\\1')");
-        $this->engine->cust_tag("/\[img](.+?)\[\/img\]/ie",
+        $this->engine->cust_tag('/\[img=(.+?)\]/ie', "check_image('\\1')");
+        $this->engine->cust_tag('/\[img](.+?)\[\/img\]/ie',
                 "check_image('\\1')");
-        $this->engine->cust_tag("/&nbrlb;/", "<br />");
-        $this->engine->cust_tag("/\[userbox\]([0-9]+)\[\/userbox\]/ie",
+        $this->engine->cust_tag('/&nbrlb;/', '<br />');
+        $this->engine->cust_tag('/\[userbox\]([0-9]+)\[\/userbox\]/ie',
                 "userBox(\\1)");
-        $this->engine->cust_tag("/\[hr\]/is", "<hr />");
-        $this->engine->cust_tag("/\[\*\]/", "<li>");
+        $this->engine->cust_tag('/\[hr\]/is', '<hr />');
+        $this->engine->cust_tag('/\[\*\]/', '<li>');
     }
 
     function bbcode_parse($html)
     {
         $html =
                 str_ireplace(
-                        ["javascript:", "document.", "onClick",
-                                "onDblClick", "onLoad", "onMouseOver",
-                                "onBlur", "onChange", "onFocus", "onkeydown",
-                                "onkeypress", "onkeyup", "onmousedown",
-                                "onmouseup", 'onmouseout', 'onmousemove',
-                                'onresize', 'onscroll'], "", $html);
+                        ['javascript:', 'document.', 'onClick',
+                            'onDblClick', 'onLoad', 'onMouseOver',
+                            'onBlur', 'onChange', 'onFocus', 'onkeydown',
+                            'onkeypress', 'onkeyup', 'onmousedown',
+                            'onmouseup', 'onmouseout', 'onmousemove',
+                                'onresize', 'onscroll'], '', $html);
         $html =
-                str_replace(['"', "'"], ["&quot;", "&#39;"], $html);
+                str_replace(['"', "'"], ['&quot;', '&#39;'], $html);
         return $this->engine->parse_bbcode($this->quote_corrector($html));
     }
 
     function quote_corrector($in)
     {
-        $quotes = substr_count($in, "[/quote]");
-        $quote_starts = substr_count($in, "[quote");
+        $quotes = substr_count($in, '[/quote]');
+        $quote_starts = substr_count($in, '[quote');
         if ($quote_starts > $quotes)
         {
-            return $in . str_repeat("[/quote]", $quote_starts - $quotes);
+            return $in . str_repeat('[/quote]', $quote_starts - $quotes);
         }
         elseif ($quotes > $quote_starts)
         {
@@ -117,7 +117,7 @@ class bbcode
             $poss = [];
             for ($i = 0; $i < $quotes; $i++)
             {
-                $kx = strpos($in, "[/quote]", $so);
+                $kx = strpos($in, '[/quote]', $so);
                 $so = $kx;
                 $poss[] = $kx;
             }
@@ -126,7 +126,7 @@ class bbcode
                 $num = $quotes - 1;
                 $in =
                         substr($in, 0, $poss[$num])
-                                . ($poss[$num] + 8 >= strlen($in) ? ""
+                                . ($poss[$num] + 8 >= strlen($in) ? ''
                                         : substr($in, $poss[$num] + 8));
                 $quotes--;
             }
@@ -145,18 +145,18 @@ function check_image($src)
             || str_contains($src, ".aspx")
             || str_contains($src, ".htm"))
     {
-        return "invalid image";
+        return 'invalid image';
     }
     if (!str_contains($src, ".gif") && !str_contains($src, ".jpg")
             && !str_contains($src, ".png")
             && !str_contains($src, ".jpeg"))
     {
-        return "invalid image";
+        return 'invalid image';
     }
 
     if (!str_starts_with($src, "http://"))
     {
-        $src = "http://" . $src;
+        $src = 'http://' . $src;
     }
     $image = (@getimagesize($src));
     if (!is_array($image))
@@ -164,7 +164,7 @@ function check_image($src)
         return 'Invalid Image.';
     }
 
-    $alt_title = explode("/", $src);
+    $alt_title = explode('/', $src);
     $the_title = $alt_title[count($alt_title) - 1];
     return "<img src='{$src}' title='{$the_title}' alt='{$the_title}' />";
 }
@@ -191,7 +191,7 @@ function forums_rank($tp)
 }
 
 $bbc = new bbcode;
-echo "<h3>Forums</h3><hr />";
+echo '<h3>Forums</h3><hr />';
 if ($ir['forumban'] > 0)
 {
     echo "
@@ -384,7 +384,7 @@ function viewforum()
     $r = $db->fetch_row($q);
     $db->free_result($q);
     if (($r['ff_auth'] == 'gang' && $ir['gang'] != $r['ff_owner']
-            && $ir["user_level"] < 2)
+            && $ir['user_level'] < 2)
             || ($r['ff_auth'] == 'staff' && $ir['user_level'] < 2))
     {
         echo '
@@ -400,7 +400,7 @@ You have no permission to view this forum.<br />
     }
     else
     {
-        $ntl = "";
+        $ntl = '';
     }
     echo "<big>
     	   <a href='forums.php'>Forums Home</a>
@@ -427,19 +427,19 @@ You have no permission to view this forum.<br />
         $t2 = date('F j Y, g:i:s a', $r2['ft_last_time']);
         if ($r2['ft_pinned'])
         {
-            $pt = "<b>Pinned:</b>&nbsp;";
+            $pt = '<b>Pinned:</b>&nbsp;';
         }
         else
         {
-            $pt = "";
+            $pt = '';
         }
         if ($r2['ft_locked'])
         {
-            $lt = "&nbsp;<b>(Locked)</b>";
+            $lt = '&nbsp;<b>(Locked)</b>';
         }
         else
         {
-            $lt = "";
+            $lt = '';
         }
         echo "<tr>
         		<td align='center'>
@@ -457,7 +457,7 @@ You have no permission to view this forum.<br />
                 </td>
               </tr>\n";
     }
-    echo "</table>";
+    echo '</table>';
     $db->free_result($q);
 }
 
@@ -504,7 +504,7 @@ function viewtopic()
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner']
-            && $ir["user_level"] < 2)
+            && $ir['user_level'] < 2)
             || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
     {
         echo '
@@ -530,27 +530,27 @@ You have no permission to view this forum.<br />
         $st = ($pages - 1) * 20;
     }
     $pst = -20;
-    echo "Pages: ";
+    echo 'Pages: ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $pst += 20;
         echo "<a href='forums.php?viewtopic={$topic['ft_id']}&st=$pst'>";
         if ($pst == $st)
         {
-            echo "<b>";
+            echo '<b>';
         }
         echo $i;
         if ($pst == $st)
         {
-            echo "</b>";
+            echo '</b>';
         }
-        echo "</a>&nbsp;";
+        echo '</a>&nbsp;';
         if ($i % 25 == 0)
         {
-            echo "<br />";
+            echo '<br />';
         }
     }
-    echo "<br />";
+    echo '<br />';
     if ($ir['user_level'] > 1)
     {
         echo "
@@ -589,7 +589,7 @@ You have no permission to view this forum.<br />
                 "[<a href='forums.php?act=quote&amp;viewtopic={$_GET['viewtopic']}&amp;quotename="
                         . urlencode(
                                 htmlentities($r['fp_poster_name'], ENT_QUOTES,
-                                        'ISO-8859-1')) . "&amp;quotetext="
+                                        'ISO-8859-1')) . '&amp;quotetext='
                         . urlencode(
                                 htmlentities($r['fp_text'], ENT_QUOTES,
                                         'ISO-8859-1')) . "'>Quote Post</a>]";
@@ -600,7 +600,7 @@ You have no permission to view this forum.<br />
         }
         else
         {
-            $elink = "";
+            $elink = '';
         }
         $no++;
         if ($no > 1 and $ir['user_level'] > 1)
@@ -610,7 +610,7 @@ You have no permission to view this forum.<br />
         }
         else
         {
-            $dlink = "";
+            $dlink = '';
         }
         $t = date('F j Y, g:i:s a', $r['fp_time']);
         if ($r['fp_edit_count'] > 0)
@@ -622,7 +622,7 @@ You have no permission to view this forum.<br />
         }
         else
         {
-            $edittext = "";
+            $edittext = '';
         }
         if (!isset($precache[$r['fp_poster_id']]))
         {
@@ -681,7 +681,7 @@ You have no permission to view this forum.<br />
         }
         else
         {
-            print "<b>Deleted User</b>";
+            print '<b>Deleted User</b>';
         }
         print
                 "</td>
@@ -694,26 +694,26 @@ You have no permission to view this forum.<br />
 		</tr>";
     }
     $db->free_result($q3);
-    echo "</table>";
+    echo '</table>';
     $pst = -20;
-    echo "Pages: ";
+    echo 'Pages: ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $pst += 20;
         echo "<a href='forums.php?viewtopic={$topic['ft_id']}&amp;st=$pst'>";
         if ($pst == $st)
         {
-            echo "<b>";
+            echo '<b>';
         }
         echo $i;
         if ($pst == $st)
         {
-            echo "</b>";
+            echo '</b>';
         }
-        echo "</a>&nbsp;";
+        echo '</a>&nbsp;';
         if ($i % 25 == 0)
         {
-            echo "<br />";
+            echo '<br />';
         }
     }
     if ($topic['ft_locked'] == 0)
@@ -742,8 +742,8 @@ EOF;
     }
     else
     {
-        echo "<br /><br />
-<i>This topic has been locked, you cannot reply to it.</i>";
+        echo '<br /><br />
+<i>This topic has been locked, you cannot reply to it.</i>';
     }
 }
 
@@ -853,7 +853,7 @@ function reply()
                 "UPDATE `users`
         		    SET `posts` = `posts` + 1
         		    WHERE `userid` = {$userid}");
-        echo "<b>Reply Posted!</b><hr /><br />";
+        echo '<b>Reply Posted!</b><hr /><br />';
         $_GET['lastpost'] = 1;
         $_GET['viewtopic'] = $_GET['reply'];
         viewtopic();
@@ -1408,7 +1408,7 @@ function recache_forum($forum)
                  `ff_lp_poster_name` = 'N/A', `ff_lp_t_id` = 0,
                  `ff_lp_t_name` = 'N/A', `ff_posts` = 0, `ff_topics` = 0
                   WHERE `ff_id` = {$forum}");
-        echo " ... Done<br />";
+        echo ' ... Done<br />';
     }
     else
     {
@@ -1438,7 +1438,7 @@ function recache_forum($forum)
                  `ff_lp_t_name` = '$tn', `ff_posts` = $posts,
                  `ff_topics` = $topics
                  WHERE `ff_id` = {$forum}");
-        echo " ... Done<br />";
+        echo ' ... Done<br />';
     }
 }
 
@@ -1466,7 +1466,7 @@ function recache_topic($topic)
                  SET `ft_last_id` = 0, `ft_last_time` = 0,
                  `ft_last_name` = 'N/A', `ft_posts` = 0
                  WHERE `ft_id` = {$topic}");
-        echo " ... Done<br />";
+        echo ' ... Done<br />';
     }
     else
     {
@@ -1486,7 +1486,7 @@ function recache_topic($topic)
                  `ft_last_time` = {$r['fp_time']}, `ft_last_name` = '$pn',
                  `ft_posts` = $posts
                  WHERE `ft_id` = {$topic}");
-        echo " ... Done<br />";
+        echo ' ... Done<br />';
     }
 }
 
@@ -1751,7 +1751,7 @@ function deletopic()
     $db->query(
             "DELETE FROM `forum_posts`
              WHERE `fp_topic_id` = {$_GET['topic']}");
-    echo "Deleting topic... Done<br />";
+    echo 'Deleting topic... Done<br />';
     recache_forum($topic['ft_forum_id']);
     stafflog_add("Deleted topic {$topic['ft_name']}");
 }

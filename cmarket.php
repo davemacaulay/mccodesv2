@@ -30,13 +30,13 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "buy":
+case 'buy':
     crystal_buy();
     break;
-case "remove":
+case 'remove':
     crystal_remove();
     break;
-case "add":
+case 'add':
     crystal_add();
     break;
 default:
@@ -61,12 +61,12 @@ function cmarket_index()
 	</tr>";
 
     $sql =
-            "SELECT `cm`.`cmADDER`, `cm`.`cmPRICE`, `cmID`, `cmQTY`,
+        'SELECT `cm`.`cmADDER`, `cm`.`cmPRICE`, `cmID`, `cmQTY`,
               `u`.`userid`, `username`, `level`, `money`, `crystals`,
               `gender`, `donatordays`
               FROM `crystalmarket` AS `cm`
               LEFT JOIN `users` AS `u` ON `u`.`userid` = `cm`.`cmADDER`
-              ORDER BY (`cmPRICE`/`cmQTY`) ASC";
+              ORDER BY (`cmPRICE`/`cmQTY`) ASC';
     $q = $db->query($sql);
 
     while ($r = $db->fetch_row($q))
@@ -93,15 +93,15 @@ function cmarket_index()
 		<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a> [{$r['userid']}]
 		</td>
 		<td>{$r['cmQTY']}</td>
-		<td> " . money_formatter($r['cmPRICE']) . "</td> <td>"
+		<td> " . money_formatter($r['cmPRICE']) . '</td> <td>'
                 . money_formatter($each)
                 . "</td> <td>[{$link}]
 		</td> </tr>";
     }
     $db->free_result($q);
-    echo "
+    echo '
 	</table>
-	";
+	';
 }
 
 function crystal_remove()
@@ -215,7 +215,7 @@ function crystal_buy()
 
         event_add($r['cmADDER'],
             "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> bought of {$_POST['QTY']} your crystals from the market for "
-            . money_formatter($cprice) . ".");
+            . money_formatter($cprice) . '.');
 
         echo '
 	You bought the ' . $_POST['QTY'] . ' crystals from the market for $'

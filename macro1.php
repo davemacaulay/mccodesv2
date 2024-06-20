@@ -23,13 +23,13 @@
 require_once('globals.php');
 if (!$set['validate_on'] || $ir['verified'])
 {
-    echo "What are you doing on this page? Go somewhere else.";
+    echo 'What are you doing on this page? Go somewhere else.';
     $h->endpage();
     exit;
 }
 if (!isset($_GET['refer']) || !is_string($_GET['refer']))
 {
-    echo "Invalid usage.";
+    echo 'Invalid usage.';
     $h->endpage();
     exit;
 }
@@ -37,7 +37,7 @@ unset($_SESSION['captcha']);
 $chars =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?\\/%^";
 $len = strlen($chars);
-$_SESSION['captcha'] = "";
+$_SESSION['captcha'] = '';
 for ($i = 0; $i < 6; $i++)
 {
     $_SESSION['captcha'] .= $chars[rand(0, $len - 1)];

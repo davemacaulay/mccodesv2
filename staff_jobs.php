@@ -52,7 +52,7 @@ case 'jobrankdele':
     jobrankdele();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
@@ -365,7 +365,7 @@ function newjobrank()
         	<br />
         	<b>Pays:</b> <input type='text' name='jrPAY' value='10' />
         	<br />
-        	<b>Job:</b> " . job_dropdown("jrJOB", -1)
+        	<b>Job:</b> " . job_dropdown('jrJOB', -1)
                 . "
         	<br />
         	<b>Gains:</b>
@@ -553,7 +553,7 @@ function jobrankdele()
         $db->query(
                 "DELETE FROM `jobranks`
          		 WHERE `jrID` = {$_POST['jrID']}");
-        echo "Job rank successfully deleted!";
+        echo 'Job rank successfully deleted!';
         $q =
                 $db->query(
                         "SELECT `jNAME`

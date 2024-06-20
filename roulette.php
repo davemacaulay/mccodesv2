@@ -39,7 +39,7 @@ if (($_SESSION['tresde'] == $_GET['tresde']) || $_GET['tresde'] < 100)
 }
 $_SESSION['tresde'] = $_GET['tresde'];
 
-echo "<h3>Roulette: Pick a number between 0 - 36</h3>";
+echo '<h3>Roulette: Pick a number between 0 - 36</h3>';
 if (isset($_POST['bet']) && is_numeric($_POST['bet']))
 {
     $_POST['bet'] = abs((int) $_POST['bet']);
@@ -69,23 +69,23 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
     }
     $slot = [];
     $slot[1] = rand(0, 36);
-    echo "You place " . money_formatter($_POST['bet'])
+    echo 'You place ' . money_formatter($_POST['bet'])
             . " into the slot and pull the pole.<br />
 	You see the number: <b>$slot[1]</b><br />
-	You bet " . money_formatter($_POST['bet']) . " ";
+	You bet " . money_formatter($_POST['bet']) . ' ';
     if ($slot[1] == $_POST['number'])
     {
         $won = $_POST['bet'] * 37;
         $gain = $_POST['bet'] * 36;
-        echo "and won " . money_formatter($won)
-                . " by matching the number you bet pocketing you "
-                . money_formatter($gain) . " extra.";
+        echo 'and won ' . money_formatter($won)
+                . ' by matching the number you bet pocketing you '
+                . money_formatter($gain) . ' extra.';
     }
     else
     {
         $won = 0;
         $gain = -$_POST['bet'];
-        echo "and lost it.";
+        echo 'and lost it.';
     }
     $db->query(
             "UPDATE `users`
@@ -103,8 +103,8 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
 }
 else
 {
-    echo "Ready to try your luck? Play today!<br />
-	The maximum bet for your level is " . money_formatter($maxbet)
+    echo 'Ready to try your luck? Play today!<br />
+	The maximum bet for your level is ' . money_formatter($maxbet)
             . ".<br />
 	<form action='roulette.php?tresde={$tresder}' method='POST'>
 		Bet: \$<input type='text' name='bet' value='5' /><br />

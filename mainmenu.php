@@ -129,4 +129,4 @@ echo "
 <a href='viewuser.php?u={$ir['userid']}'>My Profile</a><br />
 <a href='logout.php'>Logout</a><br /><br />
 Time is now<br />
-" . date('F j, Y') . "<br />" . date('g:i:s a');
+" . date('F j, Y') . '<br />' . date('g:i:s a');

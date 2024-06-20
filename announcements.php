@@ -24,8 +24,8 @@ require_once('globals.php');
 $ac = $ir['new_announcements'];
 $q =
         $db->query(
-                "SELECT `a_text`, `a_time` FROM `announcements` "
-                        . "ORDER BY `a_time` DESC");
+                'SELECT `a_text`, `a_time` FROM `announcements` '
+                        . 'ORDER BY `a_time` DESC');
 echo '
 <table width="80%" cellspacing="1" cellpadding="1" class="table">
 		<tr>
@@ -58,7 +58,7 @@ echo '</table>';
 if ($ir['new_announcements'] > 0)
 {
     $db->query(
-            "UPDATE `users` " . "SET `new_announcements` = 0 "
+            'UPDATE `users` ' . 'SET `new_announcements` = 0 '
                     . "WHERE `userid` = '{$userid}'");
 }
 $h->endpage();

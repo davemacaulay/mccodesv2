@@ -56,25 +56,25 @@ case 'stafflogs':
     view_staff_logs();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
 function view_attack_logs()
 {
     global $db;
-    echo "
+    echo '
 	<h3>Attack Logs</h3>
 	<hr />
- 	  ";
+ 	  ';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`attacker`)
-    				 FROM `attacklogs`");
+    $q = $db->query('SELECT COUNT(`attacker`)
+    				 FROM `attacklogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -117,14 +117,14 @@ function view_attack_logs()
                      LIMIT $st, $app");
     while ($r = $db->fetch_row($q))
     {
-        echo "
+        echo '
 		<tr>
-        	<td>" . date('F j, Y, g:i:s a', $r['time'])
+        	<td>' . date('F j, Y, g:i:s a', $r['time'])
                 . "</td>
         	<td>{$r['un_attacker']} [{$r['attacker']}]</td>
         	<td>{$r['un_attacked']} [{$r['attacked']}]</td>
            ";
-        if ($r['result'] == "won")
+        if ($r['result'] == 'won')
         {
             echo "
 			<td>{$r['un_attacker']}</td>
@@ -156,11 +156,11 @@ function view_attack_logs()
         echo '</tr>';
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -176,15 +176,15 @@ function view_attack_logs()
 function view_itm_logs()
 {
     global $db;
-    echo "<h3>Item Xfer Logs</h3><hr />";
+    echo '<h3>Item Xfer Logs</h3><hr />';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`ixFROM`)
-    				 FROM `itemxferlogs`");
+    $q = $db->query('SELECT COUNT(`ixFROM`)
+    				 FROM `itemxferlogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -235,9 +235,9 @@ function view_itm_logs()
                 ($r['ixFROMIP'] == $r['ixTOIP'])
                         ? '<span style="color: red;">Yes</span>'
                         : '<span style="color: green;">No</span>';
-        echo "
+        echo '
 		<tr>
-        	<td>" . date('F j Y, g:i:s a', $r['ixTIME'])
+        	<td>' . date('F j Y, g:i:s a', $r['ixTIME'])
                 . "</td>
         	<td>{$r['sender']} [{$r['ixFROM']}]</td>
         	<td>{$r['sent']} [{$r['ixTO']}]</td>
@@ -249,11 +249,11 @@ function view_itm_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -269,15 +269,15 @@ function view_itm_logs()
 function view_cash_logs()
 {
     global $db;
-    echo "<h3>Cash Xfer Logs</h3>";
+    echo '<h3>Cash Xfer Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`cxFROM`)
-    				 FROM `cashxferlogs`");
+    $q = $db->query('SELECT COUNT(`cxFROM`)
+    				 FROM `cashxferlogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -329,7 +329,7 @@ function view_cash_logs()
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', $r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -350,11 +350,11 @@ function view_cash_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -370,15 +370,15 @@ function view_cash_logs()
 function view_bank_logs()
 {
     global $db;
-    echo "<h3>Bank Xfer Logs</h3>";
+    echo '<h3>Bank Xfer Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`cxFROM`)
-    				 FROM `bankxferlogs`");
+    $q = $db->query('SELECT COUNT(`cxFROM`)
+    				 FROM `bankxferlogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -432,7 +432,7 @@ function view_bank_logs()
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', $r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -454,11 +454,11 @@ function view_bank_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -474,7 +474,7 @@ function view_bank_logs()
 function view_crys_logs()
 {
     global $db;
-    echo "<h3>Crystal Xfer Logs</h3>";
+    echo '<h3>Crystal Xfer Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
@@ -483,8 +483,8 @@ function view_crys_logs()
     $app = 100;
     $q =
             $db->query(
-                    "SELECT COUNT(`cxFROM`)
-    				 FROM `crystalxferlogs`");
+                'SELECT COUNT(`cxFROM`)
+    				 FROM `crystalxferlogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -535,7 +535,7 @@ function view_crys_logs()
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', $r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -555,11 +555,11 @@ function view_crys_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -575,15 +575,15 @@ function view_crys_logs()
 function view_mail_logs()
 {
     global $db;
-    echo "<h3>Mail Logs</h3>";
+    echo '<h3>Mail Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`mail_from`)
-    				 FROM `mail`");
+    $q = $db->query('SELECT COUNT(`mail_from`)
+    				 FROM `mail`');
     $attacks = $db->fetch_single($q);
     if ($attacks == 0)
     {
@@ -630,7 +630,7 @@ function view_mail_logs()
         echo "
 		<tr>
         	<td>{$r['mail_id']}</td>
-        	<td>" . date("F j, Y, g:i:s a", $r['mail_time'])
+        	<td>" . date('F j, Y, g:i:s a', $r['mail_time'])
                 . "</td>
         	<td>{$r['sender']} [{$r['mail_from']}]</td>
         	<td>{$r['sent']} [{$r['mail_to']}]</td>
@@ -645,11 +645,11 @@ function view_mail_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -671,15 +671,15 @@ function view_staff_logs()
         echo 'Page cannot be accessed.';
         die($h->endpage());
     }
-    echo "<h3>Staff Logs</h3>";
+    echo '<h3>Staff Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`user`)
-    				 FROM `stafflog`");
+    $q = $db->query('SELECT COUNT(`user`)
+    				 FROM `stafflog`');
     $attacks = $db->fetch_single($q);
     if ($attacks == 0)
     {
@@ -726,11 +726,11 @@ function view_staff_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;

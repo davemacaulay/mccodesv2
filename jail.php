@@ -34,13 +34,13 @@ echo "
    ";
 $q =
         $db->query(
-                "SELECT `jail_reason`, `jail`, `level`, `username`, `userid`,
+            'SELECT `jail_reason`, `jail`, `level`, `username`, `userid`,
                 `gangPREF`
                 FROM `users` AS `u`
                 LEFT JOIN `gangs` AS `g`
                 ON `u`.`gang` = `g`.`gangID`
                 WHERE `u`.`jail` > 0
-                ORDER BY `u`.`jail` DESC");
+                ORDER BY `u`.`jail` DESC');
 while ($r = $db->fetch_row($q))
 {
     echo "

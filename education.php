@@ -21,7 +21,7 @@
  */
 
 require_once('globals.php');
-echo "<h3>Schooling</h3>";
+echo '<h3>Schooling</h3>';
 if ($ir['course'] > 0)
 {
     $cd =
@@ -47,7 +47,7 @@ else
                          WHERE `crID` = {$_GET['cstart']}");
         if ($db->num_rows($cd) == 0)
         {
-            echo "You are trying to start a non-existant course!";
+            echo 'You are trying to start a non-existant course!';
         }
         else
         {
@@ -68,7 +68,7 @@ else
             if ($db->fetch_single($cdo) > 0)
             {
                 $db->free_result($cdo);
-                echo "You have already done this course.";
+                echo 'You have already done this course.';
                 $h->endpage();
                 exit;
             }
@@ -86,11 +86,11 @@ else
     else
     {
         //list courses
-        echo "Here is a list of available courses.<br />";
+        echo 'Here is a list of available courses.<br />';
         $q =
                 $db->query(
-                        "SELECT `crID`, `crNAME`, `crDESC`, `crCOST`
-        				 FROM `courses`");
+                    'SELECT `crID`, `crNAME`, `crDESC`, `crCOST`
+        				 FROM `courses`');
         echo "<table width='75%' cellspacing='1' class='table'>
         		<tr style='background:gray;'>
         			<th>Course</th>
@@ -108,7 +108,7 @@ else
                              AND `courseid` = {$r['crID']}");
             if ($db->fetch_single($cdo) > 0)
             {
-                $do = "<i>Done</i>";
+                $do = '<i>Done</i>';
             }
             else
             {
@@ -124,7 +124,7 @@ else
                   </tr>";
         }
         $db->free_result($q);
-        echo "</table>";
+        echo '</table>';
     }
 }
 $h->endpage();

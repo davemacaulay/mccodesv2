@@ -23,14 +23,14 @@
 require_once('globals.php');
 $q =
         $db->query(
-                "SELECT `fed_userid`, `fed_days`, `fed_reason`, `fed_jailedby`,
+            'SELECT `fed_userid`, `fed_days`, `fed_reason`, `fed_jailedby`,
                 `u`.`username`, `u2`.`username` AS `jailer`
                 FROM `fedjail` AS `f`
                 LEFT JOIN `users` AS `u`
                 ON `f`.`fed_userid` = `u`.`userid`
                 LEFT JOIN `users` AS `u2`
                 ON `f`.`fed_jailedby` = `u2`.`userid`
-                ORDER BY `f`.`fed_days` ASC");
+                ORDER BY `f`.`fed_days` ASC');
 echo "<b>Federal Jail</b><br />
 If you ever cheat the game your name will become a permanent
 	part of this list...<br />
@@ -55,13 +55,13 @@ while ($r = $db->fetch_row($q))
     	</tr>";
 }
 $db->free_result($q);
-echo "</table>";
+echo '</table>';
 $q =
         $db->query(
-                "SELECT `userid`, `username`, `mailban`, `mb_reason`
+            'SELECT `userid`, `username`, `mailban`, `mb_reason`
 				 FROM `users`
 				 WHERE `mailban` > 0
-				 ORDER BY `mailban` ASC");
+				 ORDER BY `mailban` ASC');
 echo "<b>Mail Ban</b><br />
 If you ever swear or do other bad things with mail,
 	your name will become a permanent part of this list...<br />
@@ -81,5 +81,5 @@ while ($r = $db->fetch_row($q))
     </tr>";
 }
 $db->free_result($q);
-echo "</table>";
+echo '</table>';
 $h->endpage();

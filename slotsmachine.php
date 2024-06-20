@@ -38,7 +38,7 @@ if (($_SESSION['tresde'] == $_GET['tresde']) || $_GET['tresde'] < 100)
 			<a href='slotsmachine.php?tresde=$tresder'>&gt; Back</a>");
 }
 $_SESSION['tresde'] = $_GET['tresde'];
-echo "<h3>Slots</h3>";
+echo '<h3>Slots</h3>';
 if (isset($_POST['bet']) && is_numeric($_POST['bet']))
 {
     $_POST['bet'] = abs((int) $_POST['bet']);
@@ -58,32 +58,32 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
     $slot[1] = rand(0, 9);
     $slot[2] = rand(0, 9);
     $slot[3] = rand(0, 9);
-    echo "You place " . money_formatter($_POST['bet'])
+    echo 'You place ' . money_formatter($_POST['bet'])
             . " into the slot and pull the pole.<br />
 	You see the numbers: <b>$slot[1] $slot[2] $slot[3]</b><br />
-	You bet " . money_formatter($_GET['bet']) . " ";
+	You bet " . money_formatter($_GET['bet']) . ' ';
     if ($slot[1] == $slot[2] && $slot[2] == $slot[3])
     {
         $won = $_POST['bet'] * 26;
         $gain = $_POST['bet'] * 25;
-        echo "and won " . money_formatter($won)
-                . " by lining up 3 numbers pocketing you "
-                . money_formatter($gain) . " extra.";
+        echo 'and won ' . money_formatter($won)
+                . ' by lining up 3 numbers pocketing you '
+                . money_formatter($gain) . ' extra.';
     }
     else if ($slot[1] == $slot[2] || $slot[2] == $slot[3]
             || $slot[1] == $slot[3])
     {
         $won = $_POST['bet'] * 3;
         $gain = $_POST['bet'] * 2;
-        echo "and won " . money_formatter($won)
-                . " by lining up 2 numbers pocketing you "
-                . money_formatter($gain) . " extra.";
+        echo 'and won ' . money_formatter($won)
+                . ' by lining up 2 numbers pocketing you '
+                . money_formatter($gain) . ' extra.';
     }
     else
     {
         $won = 0;
         $gain = -$_POST['bet'];
-        echo "and lost it.";
+        echo 'and lost it.';
     }
     $db->query(
             "UPDATE `users`
@@ -100,8 +100,8 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
 }
 else
 {
-    echo "Ready to try your luck? Play today!<br />
-	The maximum bet for your level is " . money_formatter($maxbet)
+    echo 'Ready to try your luck? Play today!<br />
+	The maximum bet for your level is ' . money_formatter($maxbet)
             . ".<br />
 	<form action='slotsmachine.php?tresde={$tresder}' method='POST'>
 		Bet: \$<input type='text' name='bet' value='5' /><br />

@@ -93,9 +93,9 @@ if ($_GET['action'] != 'respect')
                     . '&filter=all">All Users</a>'
                     . (($filter == 'all') ? '</b>' : '');
 }
-echo "
+echo '
 <h3>Hall Of Fame</h3>
-"
+'
         . (($_GET['action'] != 'respect')
                 ? '<hr />Filter: [' . $non_don . ' | ' . $is_don . ' | '
                         . $all_us . ']<hr />' : '')
@@ -120,34 +120,34 @@ echo "
    ";
 switch ($_GET['action'])
 {
-case "level":
+case 'level':
     hof_level();
     break;
-case "money":
+case 'money':
     hof_money();
     break;
-case "crystals":
+case 'crystals':
     hof_crystals();
     break;
-case "respect":
+case 'respect':
     hof_respect();
     break;
-case "total":
+case 'total':
     hof_total();
     break;
-case "strength":
+case 'strength':
     hof_strength();
     break;
-case "agility":
+case 'agility':
     hof_agility();
     break;
-case "guard":
+case 'guard':
     hof_guard();
     break;
-case "labour":
+case 'labour':
     hof_labour();
     break;
-case "iq":
+case 'iq':
     hof_iq();
     break;
 }
@@ -266,10 +266,10 @@ Showing the 20 gangs with the highest amount of respect
    ";
     $q =
             $db->query(
-                    "SELECT `gangID`, `gangNAME`, `gangRESPECT`
+                'SELECT `gangID`, `gangNAME`, `gangRESPECT`
                      FROM `gangs`
                      ORDER BY `gangRESPECT` DESC, `gangID` ASC
-                     LIMIT 20");
+                     LIMIT 20');
     $p = 0;
     while ($r = $db->fetch_row($q))
     {

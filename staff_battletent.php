@@ -33,17 +33,17 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addbot":
+case 'addbot':
     addbot();
     break;
-case "editbot":
+case 'editbot':
     editbot();
     break;
-case "delbot":
+case 'delbot':
     delbot();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
@@ -127,7 +127,7 @@ function editbot()
                     ? abs(intval($_GET['step'])) : '';
     switch ($_GET['step'])
     {
-    case "2":
+    case '2':
         $_POST['userid'] =
                 (isset($_POST['userid']) && is_numeric($_POST['userid']))
                         ? abs(intval($_POST['userid'])) : '';
@@ -175,7 +175,7 @@ function editbot()
                 . ' was updated.<br />&gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Edited Challenge Bot {$r['username']}.");
         break;
-    case "1":
+    case '1':
         $_POST['userid'] =
                 (isset($_POST['userid']) && is_numeric($_POST['userid']))
                         ? abs(intval($_POST['userid'])) : '';
@@ -307,7 +307,7 @@ function delbot()
         <hr />
         This will not delete the user from the game, only remove their entry as a Battle Tent Challenge Bot.
         <form action='staff_battletent.php?action=delbot' method='post'>
-        	Bot: " . challengebot_dropdown("userid")
+        	Bot: " . challengebot_dropdown('userid')
                 . "
         	<br />
         	Delete challengesbeaten entries for this bot?

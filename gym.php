@@ -20,11 +20,11 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-$macropage = "gym.php";
+$macropage = 'gym.php';
 require_once('globals.php');
 if ($ir['hospital'])
 {
-    die("This page cannot be accessed while in hospital.");
+    die('This page cannot be accessed while in hospital.');
 }
 $statnames =
         ['Strength' => 'strength', 'Agility' => 'agility',
@@ -36,22 +36,22 @@ if (!isset($_POST['amnt']))
 $_POST['amnt'] = abs((int) $_POST['amnt']);
 if ($ir['jail'] <= 0)
 {
-    echo "<h3>Gym</h3><hr />";
+    echo '<h3>Gym</h3><hr />';
 }
 else
 {
-    echo "<h3>Jail Gym</h3><hr />";
+    echo '<h3>Jail Gym</h3><hr />';
 }
 if (isset($_POST['stat']) && $_POST['amnt'])
 {
     if (!isset($statnames[$_POST['stat']]))
     {
-        die("This stat cannot be trained.");
+        die('This stat cannot be trained.');
     }
     $stat = $statnames[$_POST['stat']];
     if ($_POST['amnt'] > $ir['energy'])
     {
-        print("You do not have enough energy to train that much.<hr />");
+        print('You do not have enough energy to train that much.<hr />');
     }
     else
     {
@@ -82,31 +82,31 @@ if (isset($_POST['stat']) && $_POST['amnt'])
                  WHERE `userid` = $userid");
         $inc = $ir[$stat] + $gain;
         $inc2 = $ir['energy'] - $_POST['amnt'];
-        if ($stat == "strength")
+        if ($stat == 'strength')
         {
             echo "You begin lifting some weights.<br />
       You have gained {$gain} strength by doing {$_POST['amnt']} sets of weights.<br />
       You now have {$inc} strength and {$inc2} energy left.";
         }
-        elseif ($stat == "agility")
+        elseif ($stat == 'agility')
         {
             echo "You begin running on a treadmill.<br />
       You have gained {$gain} agility by doing {$_POST['amnt']} minutes of running.<br />
       You now have {$inc} agility and {$inc2} energy left.";
         }
-        elseif ($stat == "guard")
+        elseif ($stat == 'guard')
         {
             echo "You jump into the pool and begin swimming.<br />
       You have gained {$gain} guard by doing {$_POST['amnt']} minutes of swimming.<br />
       You now have {$inc} guard and {$inc2} energy left.";
         }
-        elseif ($stat == "labour")
+        elseif ($stat == 'labour')
         {
             echo "You walk over to some boxes filled with gym equipment and start moving them.<br />
       You have gained {$gain} labour by moving {$_POST['amnt']} boxes.<br />
       You now have {$inc} labour and {$inc2} energy left.";
         }
-        echo "<hr />";
+        echo '<hr />';
         $ir['energy'] -= $_POST['amnt'];
         $ir[$stat] += $gain;
     }

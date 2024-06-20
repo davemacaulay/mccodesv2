@@ -63,7 +63,7 @@ EOF;
         }
         if ($dosessh && ($_SESSION['attacking'] || $ir['attacking']))
         {
-            echo "You lost all your EXP for running from the fight.";
+            echo 'You lost all your EXP for running from the fight.';
             $db->query(
                     "UPDATE `users`
                      SET `exp` = 0, `attacking` = 0
@@ -80,7 +80,7 @@ EOF;
         $exopp = 100 - $experc;
         $bropp = 100 - $brperc;
         $hpopp = 100 - $hpperc;
-        $d = "";
+        $d = '';
         $u = $ir['username'];
         if ($ir['donatordays'])
         {
@@ -91,7 +91,7 @@ EOF;
                      title='Donator: {$ir['donatordays']} Days Left' />";
         }
 
-        $gn = "";
+        $gn = '';
         global $staffpage;
 
         $bgcolor = 'FFFFFF';

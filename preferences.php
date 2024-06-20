@@ -89,13 +89,13 @@ function conf_sex_change()
 {
     global $ir;
     $code = request_csrf_code('prefs_sexchange');
-    if ($ir['gender'] == "Male")
+    if ($ir['gender'] == 'Male')
     {
-        $g = "Female";
+        $g = 'Female';
     }
     else
     {
-        $g = "Male";
+        $g = 'Male';
     }
     echo "
 	Are you sure you want to become a $g?
@@ -113,7 +113,7 @@ function do_sex_change()
     {
         csrf_error('sexchange');
     }
-    $g = ($ir['gender'] == "Female") ? 'Male' : 'Female';
+    $g = ($ir['gender'] == 'Female') ? 'Male' : 'Female';
     $db->query(
             "UPDATE `users`
     		 SET `gender` = '$g'
@@ -250,7 +250,7 @@ function do_name_change()
             "UPDATE `users`
              SET `username` = '{$_POST['newname']}'
              WHERE `userid` = $userid");
-    echo "Username changed!";
+    echo 'Username changed!';
 }
 
 function pic_change()

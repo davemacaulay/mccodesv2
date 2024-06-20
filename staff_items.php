@@ -59,7 +59,7 @@ case 'newitemtype':
     newitemtype();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
@@ -224,10 +224,10 @@ function new_item_submit()
         $effects[$i] =
                 $db->escape(
                         serialize(
-                                ["stat" => $_POST[$efxkey . 'stat'],
-                                        "dir" => $_POST[$efxkey . 'dir'],
-                                        "inc_type" => $_POST[$efxkey . 'type'],
-                                        "inc_amount" => abs(
+                                ['stat' => $_POST[$efxkey . 'stat'],
+                                        'dir' => $_POST[$efxkey . 'dir'],
+                                        'inc_type' => $_POST[$efxkey . 'type'],
+                                        'inc_amount' => abs(
                                                 (int) $_POST[$efxkey
                                                         . 'amount'])]));
     }
@@ -259,9 +259,9 @@ function give_item_form()
     echo "
     <h3>Giving Item To User</h3>
     <form action='staff_items.php?action=giveitemsub' method='post'>
-    	User: " . user_dropdown() . "
+    	User: " . user_dropdown() . '
     	<br />
-    	Item: " . item_dropdown()
+    	Item: ' . item_dropdown()
             . "
     	<br />
     	Quantity: <input type='text' name='qty' value='1' />
@@ -484,29 +484,29 @@ function edit_item_form()
     	<hr />
        ";
     $stats =
-            ["energy" => "Energy", "will" => "Will", "brave" => "Brave",
-                    "hp" => "Health", "strength" => "Strength",
-                    "agility" => "Agility", "guard" => "Guard",
-                    "labour" => "Labour", "IQ" => "IQ",
-                    "hospital" => "Hospital Time", "jail" => "Jail Time",
-                    "money" => "Money", "crystals" => "Crystals",
-                    "cdays" => "Education Days Left",
-                    "bankmoney" => "Bank money",
-                    "cybermoney" => "Cyber money", "crimexp" => "Crime XP"];
+            ['energy' => 'Energy', 'will' => 'Will', 'brave' => 'Brave',
+                    'hp' => 'Health', 'strength' => 'Strength',
+                    'agility' => 'Agility', 'guard' => 'Guard',
+                    'labour' => 'Labour', 'IQ' => 'IQ',
+                    'hospital' => 'Hospital Time', 'jail' => 'Jail Time',
+                    'money' => 'Money', 'crystals' => 'Crystals',
+                    'cdays' => 'Education Days Left',
+                    'bankmoney' => 'Bank money',
+                    'cybermoney' => 'Cyber money', 'crimexp' => 'Crime XP'];
     for ($i = 1; $i <= 3; $i++)
     {
-        if (!empty($itemi["effect" . $i]))
+        if (!empty($itemi['effect' . $i]))
         {
-            $efx = unserialize($itemi["effect" . $i]);
+            $efx = unserialize($itemi['effect' . $i]);
         }
         else
         {
-            $efx = ["inc_amount" => 0];
+            $efx = ['inc_amount' => 0];
         }
         $switch1 =
-                ($itemi['effect' . $i . '_on'] > 0) ? " checked='checked'" : "";
+                ($itemi['effect' . $i . '_on'] > 0) ? " checked='checked'" : '';
         $switch2 =
-                ($itemi['effect' . $i . '_on'] > 0) ? "" : " checked='checked'";
+                ($itemi['effect' . $i . '_on'] > 0) ? '' : " checked='checked'";
         echo "
         <b><u>Effect {$i}</u></b>
         <br />
@@ -524,13 +524,13 @@ function edit_item_form()
                     : '<option value="' . $k . '">' . $v . '</option>';
         }
         $str =
-                ($efx['dir'] == "neg")
+                ($efx['dir'] == 'neg')
                         ? '<option value="pos">Increase</option>
                         	<option value="neg" selected="selected">Decrease</option>'
                         : '<option value="pos" selected="selected">Increase</option>
                         	<option value="neg">Decrease</option>';
         $str2 =
-                ($efx['inc_type'] == "percent")
+                ($efx['inc_type'] == 'percent')
                         ? '<option value="figure">Value</option>
                         	<option value="percent" selected="selected">Percent</option>'
                         : '<option value="figure" selected="selected">Value</option>
@@ -653,10 +653,10 @@ function edit_item_sub()
         $effects[$i] =
                 $db->escape(
                         serialize(
-                                ["stat" => $_POST[$efxkey . 'stat'],
-                                        "dir" => $_POST[$efxkey . 'dir'],
-                                        "inc_type" => $_POST[$efxkey . 'type'],
-                                        "inc_amount" => abs(
+                                ['stat' => $_POST[$efxkey . 'stat'],
+                                        'dir' => $_POST[$efxkey . 'dir'],
+                                        'inc_type' => $_POST[$efxkey . 'type'],
+                                        'inc_amount' => abs(
                                                 (int) $_POST[$efxkey
                                                         . 'amount'])]));
     }

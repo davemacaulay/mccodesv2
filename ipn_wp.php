@@ -33,7 +33,7 @@ foreach ($_POST as $key => $value)
 // post back to PayPal system to validate
 $header .= "POST /cgi-bin/webscr HTTP/1.0\r\n";
 $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
-$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
+$header .= 'Content-Length: ' . strlen($req) . "\r\n\r\n";
 $fp = fsockopen('www.paypal.com', 80, $errno, $errstr, 30);
 
 // assign posted variables to local variables
@@ -56,14 +56,14 @@ else
     while (!feof($fp))
     {
         $res = fgets($fp, 1024);
-        if (strcmp($res, "VERIFIED") == 0)
+        if (strcmp($res, 'VERIFIED') == 0)
         {
             $txn_db = $db->escape(stripslashes($txn_id));
             // check the payment_status is Completed
-            if ($payment_status != "Completed")
+            if ($payment_status != 'Completed')
             {
                 fclose($fp);
-                die("");
+                die('');
             }
             $dp_check =
                     $db->query(
@@ -74,7 +74,7 @@ else
             {
                 $db->free_result($dp_check);
                 fclose($fp);
-                die("");
+                die('');
             }
             $db->free_result($dp_check);
             $wp_check =
@@ -86,7 +86,7 @@ else
             {
                 $db->free_result($wp_check);
                 fclose($fp);
-                die("");
+                die('');
             }
             $db->free_result($wp_check);
             // check that txn_id has not been previously processed
@@ -94,42 +94,42 @@ else
             if ($receiver_email != $set['paypal'])
             {
                 fclose($fp);
-                die("");
+                die('');
             }
             // check that payment_amount/payment_currency are correct
-            if ($payment_currency != "USD")
+            if ($payment_currency != 'USD')
             {
                 fclose($fp);
-                die("");
+                die('');
             }
             // parse for pack
             $packr = explode('|', $item_name);
-            if (str_replace("www.", "", $packr[0])
-                    != str_replace("www.", "", $_SERVER['HTTP_HOST']))
+            if (str_replace('www.', '', $packr[0])
+                    != str_replace('www.', '', $_SERVER['HTTP_HOST']))
             {
                 fclose($fp);
-                die("");
+                die('');
             }
-            if ($packr[1] != "WP")
+            if ($packr[1] != 'WP')
             {
                 fclose($fp);
-                die("");
+                die('');
             }
             $pack = $packr[2];
             if ($pack != 1 and $pack != 5)
             {
                 fclose($fp);
-                die("");
+                die('');
             }
-            if (($pack == 1) && $payment_amount != "1.00")
+            if (($pack == 1) && $payment_amount != '1.00')
             {
                 fclose($fp);
-                die("");
+                die('');
             }
-            if ($pack == 5 && $payment_amount != "4.50")
+            if ($pack == 5 && $payment_amount != '4.50')
             {
                 fclose($fp);
-                die("");
+                die('');
             }
             // grab IDs
             $buyer = abs((int) $packr[3]);
@@ -154,7 +154,7 @@ else
                      VALUES(NULL, {$buyer}, {$for}, '$pack', " . time()
                             . ", '$txn_db')");
         }
-        else if (strcmp($res, "INVALID") == 0)
+        else if (strcmp($res, 'INVALID') == 0)
         {
         }
     }

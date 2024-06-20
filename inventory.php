@@ -28,7 +28,7 @@ $q =
                  WHERE `itmid`
                   IN({$ir['equip_primary']}, {$ir['equip_secondary']},
                      {$ir['equip_armor']})");
-echo "<h3>Equipped Items</h3><hr />";
+echo '<h3>Equipped Items</h3><hr />';
 $equip = [];
 while ($r = $db->fetch_row($q))
 {
@@ -47,12 +47,12 @@ if (isset($equip[$ir['equip_primary']]))
 }
 else
 {
-    echo "None equipped.</td><td>&nbsp;</td>";
+    echo 'None equipped.</td><td>&nbsp;</td>';
 }
-echo "</tr>
+echo '</tr>
 <tr>
 <th>Secondary Weapon</th>
-<td>";
+<td>';
 if (isset($equip[$ir['equip_secondary']]))
 {
     print
@@ -61,12 +61,12 @@ if (isset($equip[$ir['equip_secondary']]))
 }
 else
 {
-    echo "None equipped.</td><td>&nbsp;</td>";
+    echo 'None equipped.</td><td>&nbsp;</td>';
 }
-echo "</tr>
+echo '</tr>
 <tr>
 <th>Armor</th>
-<td>";
+<td>';
 if (isset($equip[$ir['equip_armor']]))
 {
     print
@@ -75,11 +75,11 @@ if (isset($equip[$ir['equip_armor']]))
 }
 else
 {
-    echo "None equipped.</td><td>&nbsp;</td>";
+    echo 'None equipped.</td><td>&nbsp;</td>';
 }
-echo "</tr>
+echo '</tr>
 </table><hr />
-<h3>Inventory</h3><hr />";
+<h3>Inventory</h3><hr />';
 $inv =
         $db->query(
                 "SELECT `inv_qty`, `itmsellprice`, `itmid`, `inv_id`,
@@ -94,7 +94,7 @@ $inv =
                  ORDER BY `i`.`itmtype` ASC, `i`.`itmname` ASC");
 if ($db->num_rows($inv) == 0)
 {
-    echo "<b>You have no items!</b>";
+    echo '<b>You have no items!</b>';
 }
 else
 {
@@ -106,7 +106,7 @@ else
 		<td class=\"h\">Total Sell Value</td>
 		<td class=\"h\">Links</td>
 	</tr>";
-    $lt = "";
+    $lt = '';
     while ($i = $db->fetch_row($inv))
     {
         if ($lt != $i['itmtypename'])
@@ -134,10 +134,10 @@ else
         {
             echo "&nbsp;x{$i['inv_qty']}";
         }
-        echo "</td>
-        	  <td>" . money_formatter($i['itmsellprice'])
-                . "</td>
-        	  <td>";
+        echo '</td>
+        	  <td>' . money_formatter($i['itmsellprice'])
+                . '</td>
+        	  <td>';
         echo money_formatter($i['itmsellprice'] * $i['inv_qty']);
         echo "</td>
         	  <td>
@@ -157,10 +157,10 @@ else
         {
             echo " [<a href='equip_armor.php?ID={$i['inv_id']}'>Equip as Armor</a>]";
         }
-        echo "</td>
-        </tr>";
+        echo '</td>
+        </tr>';
     }
-    echo "</table>";
+    echo '</table>';
     $db->free_result($inv);
     echo "<small><b>NB:</b> Items with a small red </small><span style='color: red;'>*</span><small> next to their name can be used as weapons in combat.<br />
 Items with a small green </small><span style='color: green;'>*</span><small> next to their name can be used as armor in combat.</small>";

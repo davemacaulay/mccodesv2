@@ -117,8 +117,8 @@ echo "
    ";
 while ($r = $db->fetch_row($q))
 {
-    echo "<tr>
-			<td>" . date('F j Y, g:i:s a', $r['evTIME']);
+    echo '<tr>
+			<td>' . date('F j Y, g:i:s a', $r['evTIME']);
     if (!$r['evREAD'])
     {
         echo '<br /><b>New!</b>';
@@ -128,7 +128,7 @@ while ($r = $db->fetch_row($q))
 			<td><a href='events.php?delete={$r['evID']}'>Delete</a></td>
 		</tr>";
 }
-echo "</table>";
+echo '</table>';
 $db->free_result($q);
 if ($ir['new_events'] > 0)
 {

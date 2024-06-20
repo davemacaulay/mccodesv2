@@ -23,7 +23,7 @@
 require_once('globals.php');
 if (!isset($_GET['type'])
         || !in_array($_GET['type'],
-                ["equip_primary", "equip_secondary", "equip_armor"],
+                ['equip_primary', 'equip_secondary', 'equip_armor'],
                 true))
 {
     echo 'This slot ID is not valid.';

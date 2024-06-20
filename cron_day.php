@@ -32,8 +32,8 @@ else if (!isset($_GET['code']) || $_GET['code'] !== $_CONFIG['code'])
 {
     exit;
 }
-$db->query("UPDATE `fedjail` SET `fed_days` = `fed_days` - 1");
-$q = $db->query("SELECT * FROM `fedjail` WHERE `fed_days` <= 0");
+$db->query('UPDATE `fedjail` SET `fed_days` = `fed_days` - 1');
+$q = $db->query('SELECT * FROM `fedjail` WHERE `fed_days` <= 0');
 $ids = [];
 while ($r = $db->fetch_row($q))
 {
@@ -43,23 +43,23 @@ $db->free_result($q);
 if (count($ids) > 0)
 {
     $db->query(
-            "UPDATE `users` SET `fedjail` = 0 WHERE `userid` IN("
-                    . implode(",", $ids) . ")");
+            'UPDATE `users` SET `fedjail` = 0 WHERE `userid` IN('
+                    . implode(',', $ids) . ')');
 }
-$db->query("DELETE FROM `fedjail` WHERE `fed_days` <= 0");
+$db->query('DELETE FROM `fedjail` WHERE `fed_days` <= 0');
 $user_update_query =
-        "UPDATE `users` SET 
+    'UPDATE `users` SET 
          `daysingang` = `daysingang` + IF(`gang` > 0, 1, 0),
          `daysold` = `daysold` + 1, `boxes_opened` = 0,
          `mailban` = `mailban` - IF(`mailban` > 0, 1, 0),
          `donatordays` = `donatordays` - IF(`donatordays` > 0, 1, 0),
          `cdays` = `cdays` - IF(`course` > 0, 1, 0),
          `bankmoney` = `bankmoney` + IF(`bankmoney` > 0, `bankmoney` / 50, 0),
-         `cybermoney` = `cybermoney` + IF(`cybermoney` > 0, `cybermoney` / 100 * 7, 0)";
+         `cybermoney` = `cybermoney` + IF(`cybermoney` > 0, `cybermoney` / 100 * 7, 0)';
 $db->query($user_update_query);
 $q =
         $db->query(
-                "SELECT `userid`, `course` FROM `users` WHERE `cdays` <= 0 AND `course` > 0");
+            'SELECT `userid`, `course` FROM `users` WHERE `cdays` <= 0 AND `course` > 0');
 $course_cache = [];
 while ($r = $db->fetch_row($q))
 {
@@ -81,8 +81,8 @@ while ($r = $db->fetch_row($q))
     $userid = $r['userid'];
     $db->query(
             "INSERT INTO `coursesdone` VALUES({$r['userid']}, {$r['course']})");
-    $upd = "";
-    $ev = "";
+    $upd = '';
+    $ev = '';
     if ($coud['crSTR'] > 0)
     {
         $upd .= ", us.strength = us.strength + {$coud['crSTR']}";
@@ -118,4 +118,4 @@ while ($r = $db->fetch_row($q))
         "Congratulations, you completed the {$coud['crNAME']} and gained {$ev}!");
 }
 $db->free_result($q);
-$db->query("TRUNCATE TABLE `votes`");
+$db->query('TRUNCATE TABLE `votes`');

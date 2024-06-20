@@ -33,17 +33,17 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addcity":
+case 'addcity':
     addcity();
     break;
-case "editcity":
+case 'editcity':
     editcity();
     break;
-case "delcity":
+case 'delcity':
     delcity();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
@@ -120,7 +120,7 @@ function editcity()
     }
     switch ($_POST['step'])
     {
-    case "2":
+    case '2':
         $minlevel =
                 (isset($_POST['minlevel']) && is_numeric($_POST['minlevel']))
                         ? abs(intval($_POST['minlevel'])) : '';
@@ -173,7 +173,7 @@ function editcity()
                 &gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Edited city $name");
         break;
-    case "1":
+    case '1':
         $_POST['city'] =
                 (isset($_POST['city']) && is_numeric($_POST['city']))
                         ? abs(intval($_POST['city'])) : '';
@@ -221,7 +221,7 @@ function editcity()
         <hr />
         <form action='staff_cities.php?action=editcity' method='post'>
         	<input type='hidden' name='step' value='1' />
-        	City: " . location_dropdown("city")
+        	City: " . location_dropdown('city')
                 . "
         <br />
         	{$csrf}
@@ -285,7 +285,7 @@ function delcity()
         <hr />
         Deleting a city is permanent - be sure. Any users and shops that are currently in the city you delete will be moved to the default city (ID 1).
         <form action='staff_cities.php?action=delcity' method='post'>
-        	City: " . location_dropdown("city")
+        	City: " . location_dropdown('city')
                 . "
         <br />
         	{$csrf}

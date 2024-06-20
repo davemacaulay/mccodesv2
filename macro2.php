@@ -24,13 +24,13 @@ $nohdr = 1;
 require_once('globals.php');
 if (!$set['validate_on'] || $ir['verified'])
 {
-    echo "What are you doing on this page? Go somewhere else.";
+    echo 'What are you doing on this page? Go somewhere else.';
     exit;
 }
 if (!isset($_POST['refer']) || !is_string($_POST['refer'])
         || !isset($_POST['captcha']) || !is_string($_POST['captcha']))
 {
-    echo "Invalid usage.";
+    echo 'Invalid usage.';
     exit;
 }
 $macro1_url =

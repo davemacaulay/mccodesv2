@@ -67,8 +67,8 @@ if ($db->num_rows($q) == 0)
 }
 $odata = $db->fetch_row($q);
 $db->free_result($q);
-$myabbr = ($ir['gender'] == "Male") ? "his" : "her";
-$oabbr = ($odata['gender'] == "Male") ? "his" : "her";
+$myabbr = ($ir['gender'] == 'Male') ? 'his' : 'her';
+$oabbr = ($odata['gender'] == 'Male') ? 'his' : 'her';
 if ($ir['attacking'] && $ir['attacking'] != $_GET['ID'])
 {
     $_SESSION['attacklost'] = 0;
@@ -277,7 +277,7 @@ SQL;
                         "SELECT `itmname`,`weapon` FROM  `items` WHERE `itmid` IN({$odata['equip_primary']}, {$odata['equip_secondary']})");
         if ($db->num_rows($eq) == 0)
         {
-            $wep = "Fists";
+            $wep = 'Fists';
             $dam =
                     (int) ((((int) ($odata['strength'] / $ir['guard'] / 100))
                             + 1) * (rand(8000, 12000) / 10000));
@@ -427,10 +427,10 @@ else
     }
     else
     {
-        echo "You have nothing to fight with.";
+        echo 'You have nothing to fight with.';
     }
     $db->free_result($mw);
-    echo "</table>";
+    echo '</table>';
     echo "<table width='50%' align='center'><tr><td align=right>Your Health: </td><td><img src=greenbar.png width={$vars['hpperc']} height=10><img src=redbar.png width={$vars['hpopp']} height=10></td><tr><td align=right>Opponents Health:  </td><td><img src=greenbar.png width={$vars2['hpperc']} height=10><img src=redbar.png width={$vars2['hpopp']} height=10></td></tr></table>";
 }
 $h->endpage();

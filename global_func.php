@@ -58,15 +58,15 @@ function money_formatter($muny, $symb = '$')
  * Not specifying this or setting it to -1 makes the first item type alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function itemtype_dropdown($ddname = "item_type", $selected = -1)
+function itemtype_dropdown($ddname = 'item_type', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `itmtypeid`, `itmtypename`
+                'SELECT `itmtypeid`, `itmtypename`
     				 FROM `itemtypes`
-    				 ORDER BY `itmtypename` ASC");
+    				 ORDER BY `itmtypename` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -97,15 +97,15 @@ function itemtype_dropdown($ddname = "item_type", $selected = -1)
  * Not specifying this or setting it to -1 makes the first item alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function item_dropdown($ddname = "item", $selected = -1)
+function item_dropdown($ddname = 'item', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `itmid`, `itmname`
+                'SELECT `itmid`, `itmname`
     				 FROM `items`
-    				 ORDER BY `itmname` ASC");
+    				 ORDER BY `itmname` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -136,15 +136,15 @@ function item_dropdown($ddname = "item", $selected = -1)
  * Not specifying this or setting it to a number less than 1 makes "None" selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function item2_dropdown($ddname = "item", $selected = -1)
+function item2_dropdown($ddname = 'item', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `itmid`, `itmname`
+                'SELECT `itmid`, `itmname`
     				 FROM `items`
-    				 ORDER BY `itmname` ASC");
+    				 ORDER BY `itmname` ASC');
     if ($selected < 1)
     {
         $ret .= "<option value='0' selected='selected'>-- None --</option>";
@@ -174,15 +174,15 @@ function item2_dropdown($ddname = "item", $selected = -1)
  * Not specifying this or setting it to -1 makes the first item alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function location_dropdown($ddname = "location", $selected = -1)
+function location_dropdown($ddname = 'location', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `cityid`, `cityname`
+                'SELECT `cityid`, `cityname`
     				 FROM `cities`
-    				 ORDER BY `cityname` ASC");
+    				 ORDER BY `cityname` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -213,15 +213,15 @@ function location_dropdown($ddname = "location", $selected = -1)
  * Not specifying this or setting it to -1 makes the first shop alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function shop_dropdown($ddname = "shop", $selected = -1)
+function shop_dropdown($ddname = 'shop', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `shopID`, `shopNAME`
+                'SELECT `shopID`, `shopNAME`
     				 FROM `shops`
-    				 ORDER BY `shopNAME` ASC");
+    				 ORDER BY `shopNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -252,15 +252,15 @@ function shop_dropdown($ddname = "shop", $selected = -1)
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function user_dropdown($ddname = "user", $selected = -1)
+function user_dropdown($ddname = 'user', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `userid`, `username`
+                'SELECT `userid`, `username`
     				 FROM `users`
-    				 ORDER BY `username` ASC");
+    				 ORDER BY `username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -291,17 +291,17 @@ function user_dropdown($ddname = "user", $selected = -1)
  * Not specifying this or setting it to -1 makes the first bot alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function challengebot_dropdown($ddname = "bot", $selected = -1)
+function challengebot_dropdown($ddname = 'bot', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `u`.`userid`, `u`.`username`
+                'SELECT `u`.`userid`, `u`.`username`
                      FROM `challengebots` AS `cb`
                      INNER JOIN `users` AS `u`
                      ON `cb`.`cb_npcid` = `u`.`userid`
-                     ORDER BY `u`.`username` ASC");
+                     ORDER BY `u`.`username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -332,16 +332,16 @@ function challengebot_dropdown($ddname = "bot", $selected = -1)
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function fed_user_dropdown($ddname = "user", $selected = -1)
+function fed_user_dropdown($ddname = 'user', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `userid`, `username`
+                'SELECT `userid`, `username`
                      FROM `users`
                      WHERE `fedjail` = 1
-                     ORDER BY `username` ASC");
+                     ORDER BY `username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -372,16 +372,16 @@ function fed_user_dropdown($ddname = "user", $selected = -1)
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function mailb_user_dropdown($ddname = "user", $selected = -1)
+function mailb_user_dropdown($ddname = 'user', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `userid`, `username`
+                'SELECT `userid`, `username`
                      FROM `users`
                      WHERE `mailban` > 0
-                     ORDER BY `username` ASC");
+                     ORDER BY `username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -412,16 +412,16 @@ function mailb_user_dropdown($ddname = "user", $selected = -1)
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forumb_user_dropdown($ddname = "user", $selected = -1)
+function forumb_user_dropdown($ddname = 'user', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `userid`, `username`
+                'SELECT `userid`, `username`
                      FROM `users`
                      WHERE `forumban` > 0
-                     ORDER BY `username` ASC");
+                     ORDER BY `username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -452,15 +452,15 @@ function forumb_user_dropdown($ddname = "user", $selected = -1)
  * Not specifying this or setting it to -1 makes the first job alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function job_dropdown($ddname = "job", $selected = -1)
+function job_dropdown($ddname = 'job', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `jID`, `jNAME`
+                'SELECT `jID`, `jNAME`
     				 FROM `jobs`
-    				 ORDER BY `jNAME` ASC");
+    				 ORDER BY `jNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -491,17 +491,17 @@ function job_dropdown($ddname = "job", $selected = -1)
  * Not specifying this or setting it to -1 makes the first job's first job rank alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function jobrank_dropdown($ddname = "jobrank", $selected = -1)
+function jobrank_dropdown($ddname = 'jobrank', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `jrID`, `jNAME`, `jrNAME`
+                'SELECT `jrID`, `jNAME`, `jrNAME`
                      FROM `jobranks` AS `jr`
                      INNER JOIN `jobs` AS `j`
                      ON `jr`.`jrJOB` = `j`.`jID`
-                     ORDER BY `j`.`jNAME` ASC, `jr`.`jrNAME` ASC");
+                     ORDER BY `j`.`jNAME` ASC, `jr`.`jrNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -532,15 +532,15 @@ function jobrank_dropdown($ddname = "jobrank", $selected = -1)
  * Not specifying this or setting it to -1 makes the first house alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function house_dropdown($ddname = "house", $selected = -1)
+function house_dropdown($ddname = 'house', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `hID`, `hNAME`
+                'SELECT `hID`, `hNAME`
     				 FROM houses
-    				 ORDER BY `hNAME` ASC");
+    				 ORDER BY `hNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -572,15 +572,15 @@ function house_dropdown($ddname = "house", $selected = -1)
  * Not specifying this or setting it to -1 makes the first house alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function house2_dropdown($ddname = "house", $selected = -1)
+function house2_dropdown($ddname = 'house', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `hWILL`, `hNAME`
+                'SELECT `hWILL`, `hNAME`
     				 FROM houses
-    				 ORDER BY `hNAME` ASC");
+    				 ORDER BY `hNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -611,15 +611,15 @@ function house2_dropdown($ddname = "house", $selected = -1)
  * Not specifying this or setting it to -1 makes the first course alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function course_dropdown($ddname = "course", $selected = -1)
+function course_dropdown($ddname = 'course', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `crID`, `crNAME`
+                'SELECT `crID`, `crNAME`
     				 FROM `courses`
-    				 ORDER BY `crNAME` ASC");
+    				 ORDER BY `crNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -650,15 +650,15 @@ function course_dropdown($ddname = "course", $selected = -1)
  * Not specifying this or setting it to -1 makes the first crime alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function crime_dropdown($ddname = "crime", $selected = -1)
+function crime_dropdown($ddname = 'crime', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `crimeID`, `crimeNAME`
+                'SELECT `crimeID`, `crimeNAME`
     				 FROM `crimes`
-    				 ORDER BY `crimeNAME` ASC");
+    				 ORDER BY `crimeNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -689,16 +689,16 @@ function crime_dropdown($ddname = "crime", $selected = -1)
  * Not specifying this or setting it to -1 makes the first crime group alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function crimegroup_dropdown($ddname = "crimegroup",
+function crimegroup_dropdown($ddname = 'crimegroup',
                              $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `cgID`, `cgNAME`
+                'SELECT `cgID`, `cgNAME`
     				 FROM `crimegroups`
-    				 ORDER BY `cgNAME` ASC");
+    				 ORDER BY `cgNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -891,15 +891,15 @@ function item_remove($user, $itemid, $qty)
  * Not specifying this or setting it to -1 makes the first forum alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forum_dropdown($ddname = "forum", $selected = -1)
+function forum_dropdown($ddname = 'forum', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `ff_id`, `ff_name`
+                'SELECT `ff_id`, `ff_name`
     				 FROM `forum_forums`
-    				 ORDER BY `ff_name` ASC");
+    				 ORDER BY `ff_name` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -930,7 +930,7 @@ function forum_dropdown($ddname = "forum", $selected = -1)
  * Not specifying this or setting it to -1 makes the first forum alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forum2_dropdown($ddname = "forum", $selected = -1)
+function forum2_dropdown($ddname = 'forum', $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -972,18 +972,18 @@ function forum2_dropdown($ddname = "forum", $selected = -1)
 function make_bigint($str, $positive = 1)
 {
     $str = (string) $str;
-    $ret = "";
+    $ret = '';
     for ($i = 0; $i < strlen($str); $i++)
     {
         if ((ord($str[$i]) > 47 && ord($str[$i]) < 58)
-                or ($str[$i] == "-" && $positive == 0))
+                or ($str[$i] == '-' && $positive == 0))
         {
             $ret .= $str[$i];
         }
     }
     if (strlen($ret) == 0)
     {
-        return "0";
+        return '0';
     }
     return $ret;
 }

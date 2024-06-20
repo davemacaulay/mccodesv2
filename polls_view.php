@@ -29,7 +29,7 @@ $q =
 				 ORDER BY `id` DESC");
 if (!$db->num_rows($q))
 {
-    echo "<b>There are no finished polls right now</b>";
+    echo '<b>There are no finished polls right now</b>';
 }
 else
 {
@@ -74,9 +74,9 @@ else
         	  </tr>
 			  <tr>
 			  	<th colspan='4'>Winner: " . $r['choice' . $r['winner']]
-                . "</th>
+                . '</th>
               </tr>
-		</table><br />";
+		</table><br />';
     }
 }
 $db->free_result($q);

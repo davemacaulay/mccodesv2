@@ -81,7 +81,7 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
     $db->query(
             "INSERT INTO `jaillogs`
              VALUES(NULL, $userid, {$_POST['user']}, {$_POST['days']},
-             '{$_POST['reason']}', " . time() . ")");
+             '{$_POST['reason']}', " . time() . ')');
     echo 'User was fedded.<br />
     &gt; <a href="index.php">Go Home</a>';
 }

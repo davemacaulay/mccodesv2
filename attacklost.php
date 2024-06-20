@@ -63,7 +63,7 @@ if ($db->num_rows($od) > 0)
                     "UPDATE `gangs` SET `gangRESPECT` = `gangRESPECT` + 1 WHERE `gangID` = {$r['gang']}");
             $db->query(
                     "UPDATE `gangs` SET `gangRESPECT` = `gangRESPECT` - 1 WHERE `gangID` = {$ir['gang']}");
-            echo "<br />You lost 1 respect for your gang!";
+            echo '<br />You lost 1 respect for your gang!';
         }
         $db->free_result($warq);
     }
@@ -71,6 +71,6 @@ if ($db->num_rows($od) > 0)
 else
 {
     $db->free_result($od);
-    echo "You lost to Mr. Non-existant! =O";
+    echo 'You lost to Mr. Non-existant! =O';
 }
 $h->endpage();

@@ -63,11 +63,11 @@ class database
     {
         if (!$this->host)
         {
-            $this->host = "localhost";
+            $this->host = 'localhost';
         }
         if (!$this->user)
         {
-            $this->user = "root";
+            $this->user = 'root';
         }
         $conn =
                 mysqli_connect($this->host, $this->user, $this->pass,
@@ -170,22 +170,22 @@ class database
             $i++;
             if ($i > 1)
             {
-                $query .= ", ";
+                $query .= ', ';
             }
             $query .= $k;
         }
-        $query .= ") VALUES(";
+        $query .= ') VALUES(';
         $i = 0;
         foreach ($data as $k => $v)
         {
             $i++;
             if ($i > 1)
             {
-                $query .= ", ";
+                $query .= ', ';
             }
             $query .= "'" . $this->escape($v) . "'";
         }
-        $query .= ")";
+        $query .= ')';
         return $this->query($query);
     }
 

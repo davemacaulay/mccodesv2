@@ -131,7 +131,7 @@ function basicsettings()
         	Paypal Address: <input type='text' name='paypal' value='{$set['paypal']}' /><br />
         	Gym/Crimes Validation: <select name='validate_on' type='dropdown'>
            ";
-        $opt = ["1" => "On", "0" => "Off"];
+        $opt = ['1' => 'On', '0' => 'Off'];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['validate_on'])
@@ -144,8 +144,8 @@ function basicsettings()
         <br />
         	Validation Period: <select name='validate_period' type='dropdown'>";
         $opt =
-                ["5" => "Every 5 Minutes", "15" => "Every 15 Minutes",
-                        "60" => "Every Hour", "login" => "Every Login"];
+                ['5' => 'Every 5 Minutes', '15' => 'Every 15 Minutes',
+                        '60' => 'Every Hour', 'login' => 'Every Login'];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['validate_period'])
@@ -157,7 +157,7 @@ function basicsettings()
         </select>
         <br />
         	Registration CAPTCHA: <select name='regcap_on' type='dropdown'>";
-        $opt = ["1" => "On", "0" => "Off"];
+        $opt = ['1' => 'On', '0' => 'Off'];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['regcap_on'])
@@ -169,7 +169,7 @@ function basicsettings()
         </select>
         <br />
         	Send Crystals: <select name='sendcrys_on' type='dropdown'>";
-        $opt = ["1" => "On", "0" => "Off"];
+        $opt = ['1' => 'On', '0' => 'Off'];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['sendcrys_on'])
@@ -181,7 +181,7 @@ function basicsettings()
         </select>
         <br />
         	Bank Transfers: <select name='sendbank_on' type='dropdown'>";
-        $opt = ["1" => "On", "0" => "Off"];
+        $opt = ['1' => 'On', '0' => 'Off'];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['sendbank_on'])
@@ -202,7 +202,7 @@ function basicsettings()
         		<input type='text' name='ct_moneypercrys' value='{$set['ct_moneypercrys']}' />
         	<br />
         	Will Potion Item: "
-                . item_dropdown("willp_item", $set['willp_item'])
+                . item_dropdown('willp_item', $set['willp_item'])
                 . "<br />
             {$csrf}
         	<input type='submit' value='Update Settings' />
@@ -245,7 +245,7 @@ function basicsettings()
         Settings updated!<br />
         &gt; <a href="staff.php?action=basicset">Go Back</a>
            ';
-        stafflog_add("Updated the basic game settings");
+        stafflog_add('Updated the basic game settings');
     }
 }
 
@@ -267,15 +267,15 @@ function announcements()
                                 'ISO-8859-1'));
         $db->query(
                 "INSERT INTO `announcements`
-                 VALUES('{$_POST['text']}', " . time() . ")");
+                 VALUES('{$_POST['text']}', " . time() . ')');
         $db->query(
-                "UPDATE `users`
-                 SET `new_announcements` = `new_announcements` + 1");
+            'UPDATE `users`
+                 SET `new_announcements` = `new_announcements` + 1');
         echo '
 		Announcement added!<br />
 		&gt; <a href="staff.php">Back</a>
    		';
-        stafflog_add("Added a new announcement");
+        stafflog_add('Added a new announcement');
     }
     else
     {
@@ -301,7 +301,7 @@ function index()
     global $db, $ir, $set, $_CONFIG;
     if ($ir['user_level'] == 2)
     {
-        $versq = $db->query("SELECT VERSION()");
+        $versq = $db->query('SELECT VERSION()');
         $mv = $db->fetch_single($versq);
         $db->free_result($versq);
         $versionno = intval('20503');
@@ -349,12 +349,12 @@ function index()
            ";
         $q =
                 $db->query(
-                        "SELECT `user`, `action`, `time`, `ip`, `username`
+                    'SELECT `user`, `action`, `time`, `ip`, `username`
                          FROM `stafflog` AS `s`
                          INNER JOIN `users` AS `u`
                          ON `s`.`user` = `u`.`userid`
                          ORDER BY `s`.`time` DESC
-                         LIMIT 20");
+                         LIMIT 20');
         while ($r = $db->fetch_row($q))
         {
             echo "

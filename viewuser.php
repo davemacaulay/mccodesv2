@@ -65,7 +65,7 @@ else
         $userl = $checkulevel[$r['user_level']];
         $lon =
                 ($r['laston'] > 0) ? date('F j, Y g:i:s a', $r['laston'])
-                        : "Never";
+                        : 'Never';
         $ula = ($r['laston'] == 0) ? 'Never' : DateTime_Parse($r['laston']);
         $ull =
                 ($r['last_login'] == 0) ? 'Never'
@@ -129,7 +129,7 @@ else
                 ? '<img src="' . $r['display_pic']
                         . '" width="150px" height="150px" alt="User Display Pic" title="User Display Pic" />'
                 : 'No Image';
-        $sh = ($ir['user_level'] > 1) ? "Staff Info" : "&nbsp;";
+        $sh = ($ir['user_level'] > 1) ? 'Staff Info' : '&nbsp;';
         echo "
 			</td>
 		</tr>
@@ -237,10 +237,10 @@ else
         <br />
            ";
         }
-        echo "
+        echo '
 			</td>
 			<td>
-   		";
+   		';
         if (in_array($ir['user_level'], [2, 3, 5]))
         {
             $r['lastiph'] = @gethostbyaddr($r['lastip']);
@@ -297,7 +297,7 @@ function checkblank($in)
 {
     if (!$in)
     {
-        return "N/A";
+        return 'N/A';
     }
     return $in;
 }

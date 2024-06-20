@@ -57,6 +57,6 @@ Here is the detailed view on this crime.
 <br />
 <b>Result:</b> {$r['oclRESULT']}
 <br />
-<b>Money Made:</b> " . money_formatter($r['oclMONEY']) . "
-   ";
+<b>Money Made:</b> " . money_formatter($r['oclMONEY']) . '
+   ';
 $h->endpage();

@@ -33,13 +33,13 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "add":
+case 'add':
     add_friend();
     break;
-case "remove":
+case 'remove':
     remove_friend();
     break;
-case "ccomment":
+case 'ccomment':
     change_comment();
     break;
 default:
@@ -59,10 +59,10 @@ These are the people on your friends list.
 Most hated: [";
     $q2r =
             $db->query(
-                    "SELECT `username`, `userid`
+                'SELECT `username`, `userid`
                      FROM `users`
                      ORDER BY `friend_count` DESC
-                     LIMIT 5");
+                     LIMIT 5');
     $r = 0;
     while ($r2r = $db->fetch_row($q2r))
     {
@@ -101,7 +101,7 @@ Most hated: [";
                 ($r['laston'] >= (($_SERVER['REQUEST_TIME'] - 15) * 60))
                         ? '<span style="color: green; font-weight: bold;">Online</font>'
                         : '<span style="color: red; font-weight: bold;">Offline</font>';
-        $d = "";
+        $d = '';
         if ($r['donatordays'] > 0)
         {
             $r['username'] =
@@ -129,7 +129,7 @@ Most hated: [";
    ";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
 
 function add_friend()
@@ -160,11 +160,11 @@ function add_friend()
                          WHERE `userid` = {$_POST['ID']}");
         if ($dupe_count > 0)
         {
-            echo "You cannot add the same person twice.";
+            echo 'You cannot add the same person twice.';
         }
         else if ($userid == $_POST['ID'])
         {
-            echo "You cannot be so lonely that you have to try and add yourself.";
+            echo 'You cannot be so lonely that you have to try and add yourself.';
         }
         else if ($db->num_rows($q) == 0)
         {

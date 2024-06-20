@@ -55,23 +55,23 @@ while ($r = $db->fetch_row($q))
             && !$ir['hospital'] && !$ir['jail'] && !$r['hospital']
             && !$r['jail'])
     {
-        echo "<font color=green>Yes</font>";
+        echo '<font color=green>Yes</font>';
     }
     else
     {
-        echo "<font color=red>No</font>";
+        echo '<font color=red>No</font>';
     }
     echo "</td><td>{$r['cityname']}</td><td>$earn</td><td>";
     if ($r['npcid'])
     {
-        echo "<i>Already</i>";
+        echo '<i>Already</i>';
     }
     else
     {
         echo "<a href='attack.php?ID={$r['userid']}'>Challenge</a>";
     }
-    echo "</td></tr>";
+    echo '</td></tr>';
 }
 $db->free_result($q);
-echo "</table>";
+echo '</table>';
 $h->endpage();

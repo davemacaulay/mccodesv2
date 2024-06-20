@@ -27,11 +27,11 @@ if (!isset($_GET['action']))
     header('HTTP/1.1 400 Bad Request');
     exit;
 }
-if ($_GET['action'] == "cancel")
+if ($_GET['action'] == 'cancel')
 {
     echo 'You have cancelled your donation. Please donate later...';
 }
-else if ($_GET['action'] == "done")
+else if ($_GET['action'] == 'done')
 {
     if (!$_GET['tx'])
     {

@@ -48,15 +48,15 @@ if ($_GET['a'] == 'inbox')
     while ($r = $db->fetch_row($q))
     {
         $sent = date('F j, Y, g:i:s a', $r['mail_time']);
-        echo "<tr>
-        		<td>";
+        echo '<tr>
+        		<td>';
         if ($r['userid'])
         {
             echo "{$r['username']} [{$r['userid']}]";
         }
         else
         {
-            echo "SYSTEM";
+            echo 'SYSTEM';
         }
         echo "</td>
         	<td>{$r['mail_subject']}</td>
@@ -67,7 +67,7 @@ if ($_GET['a'] == 'inbox')
         </tr>";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
 else if ($_GET['a'] == 'outbox')
 {
@@ -101,7 +101,7 @@ else if ($_GET['a'] == 'outbox')
         	  </tr>";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
 else
 {

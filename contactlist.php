@@ -38,10 +38,10 @@ echo '
 
 switch ($_GET['action'])
 {
-case "add":
+case 'add':
     add_contact();
     break;
-case "remove":
+case 'remove':
     remove_contact();
     break;
 default:
@@ -115,11 +115,11 @@ function add_contact()
                         "SELECT `username` FROM `users` WHERE `userid` = {$_POST['ID']}");
         if ($dupe_count > 0)
         {
-            echo "You cannot add the same person twice.";
+            echo 'You cannot add the same person twice.';
         }
         else if ($userid == $_POST['ID'])
         {
-            echo "There is no point in adding yourself to your own list.";
+            echo 'There is no point in adding yourself to your own list.';
         }
         else if ($db->num_rows($q) == 0)
         {

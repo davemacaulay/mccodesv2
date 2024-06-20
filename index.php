@@ -22,7 +22,7 @@
 
 $housequery = 1;
 require_once('globals.php');
-echo "<h3>General Info:</h2>";
+echo '<h3>General Info:</h2>';
 $exp = (int) ($ir['exp'] / $ir['exp_needed'] * 100);
 echo "<table><tr><td><b>Name:</b> {$ir['username']}</td><td><b>Crystals:</b> {$cm}</td></tr><tr>
 <td><b>Level:</b> {$ir['level']}</td>
@@ -30,7 +30,7 @@ echo "<table><tr><td><b>Name:</b> {$ir['username']}</td><td><b>Crystals:</b> {$c
 <td><b>Money:</b> $fm</td>
 <td><b>HP:</b> {$ir['hp']}/{$ir['maxhp']}</td></tr>
 <tr><td><b>Property:</b> {$ir['hNAME']}</td></tr></table>";
-echo "<hr /><h3>Stats Info:</h3>";
+echo '<hr /><h3>Stats Info:</h3>';
 $ts =
         $ir['strength'] + $ir['agility'] + $ir['guard'] + $ir['labour']
                 + $ir['IQ'];
