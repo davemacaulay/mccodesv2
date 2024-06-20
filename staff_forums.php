@@ -372,7 +372,6 @@ function recache_forum($forum)
                  `ff_lp_poster_name` = 'N/A', `ff_lp_t_id` = 0,
                  `ff_lp_t_name` = 'N/A', `ff_posts` = 0, `ff_topics` = 0
                   WHERE `ff_id` = {$forum}");
-        echo ' ... Done<br />';
     }
     else
     {
@@ -402,7 +401,7 @@ function recache_forum($forum)
                  `ff_lp_t_name` = '$tn', `ff_posts` = $posts,
                  `ff_topics` = $topics
                  WHERE `ff_id` = {$forum}");
-        echo ' ... Done<br />';
     }
+    echo ' ... Done<br />';
 }
 $h->endpage();

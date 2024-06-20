@@ -1408,7 +1408,6 @@ function recache_forum($forum)
                  `ff_lp_poster_name` = 'N/A', `ff_lp_t_id` = 0,
                  `ff_lp_t_name` = 'N/A', `ff_posts` = 0, `ff_topics` = 0
                   WHERE `ff_id` = {$forum}");
-        echo ' ... Done<br />';
     }
     else
     {
@@ -1438,8 +1437,8 @@ function recache_forum($forum)
                  `ff_lp_t_name` = '$tn', `ff_posts` = $posts,
                  `ff_topics` = $topics
                  WHERE `ff_id` = {$forum}");
-        echo ' ... Done<br />';
     }
+    echo ' ... Done<br />';
 }
 
 function recache_topic($topic)
@@ -1466,7 +1465,6 @@ function recache_topic($topic)
                  SET `ft_last_id` = 0, `ft_last_time` = 0,
                  `ft_last_name` = 'N/A', `ft_posts` = 0
                  WHERE `ft_id` = {$topic}");
-        echo ' ... Done<br />';
     }
     else
     {
@@ -1486,8 +1484,8 @@ function recache_topic($topic)
                  `ft_last_time` = {$r['fp_time']}, `ft_last_name` = '$pn',
                  `ft_posts` = $posts
                  WHERE `ft_id` = {$topic}");
-        echo ' ... Done<br />';
     }
+    echo ' ... Done<br />';
 }
 
 function move()

@@ -62,7 +62,6 @@ while ($r = $db->fetch_row($q))
             event_add($rm['userid'],
                 "Your Gang's Organised Crime Succeeded. Go <a href='oclog.php?ID=$i'>here</a> to view the details.");
         }
-        $db->free_result($qm);
     }
     else
     {
@@ -84,8 +83,8 @@ while ($r = $db->fetch_row($q))
             event_add($rm['userid'],
                 "Your Gang's Organised Crime Failed. Go <a href='oclog.php?ID=$i'>here</a> to view the details.");
         }
-        $db->free_result($qm);
     }
+    $db->free_result($qm);
 }
 $db->free_result($q);
 if (date('G') == 17)

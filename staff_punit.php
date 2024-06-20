@@ -717,14 +717,12 @@ function mass_jail()
                          SET `fedjail` = 1
                          WHERE `userid` IN($juv)");
         stafflog_add('Mass jailed IDs ' . $juv);
-        echo '&gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
     }
     else
     {
         echo 'No users jailed...<br />';
-        echo '&gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
     }
+    echo '&gt; <a href="staff.php">Go Home</a>';
+    die($h->endpage());
 }
 $h->endpage();
