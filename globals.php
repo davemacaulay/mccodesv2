@@ -65,7 +65,7 @@ $userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 0;
 require "header.php";
 
 include "config.php";
-define("MONO_ON", 1);
+const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";
 $db = new database;
 $db->configure($_CONFIG['hostname'], $_CONFIG['username'],

@@ -24,7 +24,7 @@ if (file_exists('./installer.lock'))
 {
     exit;
 }
-define('MONO_ON', 1);
+const MONO_ON = 1;
 session_name('MCCSID');
 session_start();
 if (!isset($_SESSION['started']))
