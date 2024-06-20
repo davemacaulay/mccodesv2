@@ -96,7 +96,7 @@ else
 	The user will be put in fed jail and will be unable to do anything in the game.
 	<br />
 	<form action='jailuser.php' method='post'>
-		User: " . user_dropdown(NULL, 'user', $_GET['userid'])
+		User: " . user_dropdown('user', $_GET['userid'])
             . "
 		<br />
 		Days: <input type='text' name='days' />

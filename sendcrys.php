@@ -87,8 +87,7 @@ else
                      WHERE `userid` = {$_GET['ID']}");
             echo "You sent {$_POST['crystals']} crystals to {$er['username']} (ID {$_GET['ID']}).";
             event_add($_GET['ID'],
-                    "You received {$_POST['crystals']} crystals from {$ir['username']}.",
-                    $c);
+                "You received {$_POST['crystals']} crystals from {$ir['username']}.");
             $db->query(
                     "INSERT INTO `crystalxferlogs`
                      VALUES (NULL, $userid, {$_GET['ID']},

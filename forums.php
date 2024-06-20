@@ -556,7 +556,7 @@ You have no permission to view this forum.<br />
     {
         echo "
 	<form action='forums.php?act=move&amp;topic={$_GET['viewtopic']}' method='post'>
-    <b>Move topic to:</b> " . forum_dropdown(NULL, 'forum', -1)
+    <b>Move topic to:</b> " . forum_dropdown('forum', -1)
                 . "
 	<input type='submit' value='Move' />
 	</form>

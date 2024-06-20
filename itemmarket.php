@@ -334,10 +334,10 @@ function item_buy()
         if ($curr == "money")
         {
             event_add($r['imADDER'],
-                    "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-                            . " bought your {$r['itmname']} item "
-                            . ' from the market for '
-                            . money_formatter($final_price) . ".", $c);
+                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
+                . " bought your {$r['itmname']} item "
+                . ' from the market for '
+                . money_formatter($final_price) . ".");
             $imb_log =
                     $db->escape(
                             "{$ir['username']} bought {$r['itmname']} x{$r['imQTY']}"
@@ -356,10 +356,10 @@ function item_buy()
         else
         {
             event_add($r['imADDER'],
-                    "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-                            . " bought your {$r['itmname']} item "
-                            . ' from the market for '
-                            . number_format($final_price) . " crystals.", $c);
+                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
+                . " bought your {$r['itmname']} item "
+                . ' from the market for '
+                . number_format($final_price) . " crystals.");
             $imb_log =
                     $db->escape(
                             "{$ir['username']} bought {$r['itmname']} x{$r['imQTY']}"
@@ -439,7 +439,7 @@ function item_gift1()
 	<form action='itemmarket.php?action=gift2' method='post'>
 	<input type='hidden' name='verf' value='{$imgift_csrf}' />
 	<input type='hidden' name='ID' value='{$_GET['ID']}' />
-	User to give gift to: " . user_dropdown(NULL, 'user')
+	User to give gift to: " . user_dropdown('user')
             . "
 	<br />
 	Quantity: <input type='text' name='QTY' value=''>
@@ -566,14 +566,14 @@ function item_gift2()
     if ($curr == "money")
     {
         event_add($r['imADDER'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-                        . " bought your {$r['itmname']} x{$_POST['QTY']} item(s)"
-                        . " from the market for "
-                        . money_formatter($final_price) . ".", $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
+            . " bought your {$r['itmname']} x{$_POST['QTY']} item(s)"
+            . " from the market for "
+            . money_formatter($final_price) . ".");
         event_add($_POST['user'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-                        . " bought you {$r['itmname']} x{$_POST['QTY']}"
-                        . " from the item market as a gift.", $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
+            . " bought you {$r['itmname']} x{$_POST['QTY']}"
+            . " from the item market as a gift.");
 
         $u =
                 $db->query(
@@ -601,14 +601,14 @@ function item_gift2()
     else
     {
         event_add($r['imADDER'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-                        . " bought your {$r['itmname']} x{$_POST['QTY']} item(s)"
-                        . " from the market for "
-                        . number_format($final_price) . " crystals.", $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
+            . " bought your {$r['itmname']} x{$_POST['QTY']} item(s)"
+            . " from the market for "
+            . number_format($final_price) . " crystals.");
         event_add($_POST['user'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-                        . " bought you {$r['itmname']} x{$_POST['QTY']}"
-                        . " from the item market as a gift.", $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
+            . " bought you {$r['itmname']} x{$_POST['QTY']}"
+            . " from the item market as a gift.");
 
         $u =
                 $db->query(

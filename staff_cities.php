@@ -221,7 +221,7 @@ function editcity()
         <hr />
         <form action='staff_cities.php?action=editcity' method='post'>
         	<input type='hidden' name='step' value='1' />
-        	City: " . location_dropdown(NULL, "city")
+        	City: " . location_dropdown("city")
                 . "
         <br />
         	{$csrf}
@@ -285,7 +285,7 @@ function delcity()
         <hr />
         Deleting a city is permanent - be sure. Any users and shops that are currently in the city you delete will be moved to the default city (ID 1).
         <form action='staff_cities.php?action=delcity' method='post'>
-        	City: " . location_dropdown(NULL, "city")
+        	City: " . location_dropdown("city")
                 . "
         <br />
         	{$csrf}

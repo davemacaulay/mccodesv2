@@ -60,8 +60,7 @@ while ($r = $db->fetch_row($q))
         while ($rm = $db->fetch_row($qm))
         {
             event_add($rm['userid'],
-                    "Your Gang's Organised Crime Succeeded. Go <a href='oclog.php?ID=$i'>here</a> to view the details.",
-                    NULL);
+                "Your Gang's Organised Crime Succeeded. Go <a href='oclog.php?ID=$i'>here</a> to view the details.");
         }
         $db->free_result($qm);
     }
@@ -83,8 +82,7 @@ while ($r = $db->fetch_row($q))
         while ($rm = $db->fetch_row($qm))
         {
             event_add($rm['userid'],
-                    "Your Gang's Organised Crime Failed. Go <a href='oclog.php?ID=$i'>here</a> to view the details.",
-                    $c);
+                "Your Gang's Organised Crime Failed. Go <a href='oclog.php?ID=$i'>here</a> to view the details.");
         }
         $db->free_result($qm);
     }

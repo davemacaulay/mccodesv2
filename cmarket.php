@@ -214,8 +214,8 @@ function crystal_buy()
                         . ' WHERE `userid` = ' . $r['cmADDER']);
 
         event_add($r['cmADDER'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> bought of {$_POST['QTY']} your crystals from the market for "
-                        . money_formatter($cprice) . ".", $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> bought of {$_POST['QTY']} your crystals from the market for "
+            . money_formatter($cprice) . ".");
 
         echo '
 	You bought the ' . $_POST['QTY'] . ' crystals from the market for $'

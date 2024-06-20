@@ -268,7 +268,7 @@ function jobedit()
         	<b>Job Owner:</b> <input type='text' name='jOWNER' value='{$jobowner}'>
         	<br />
         	<b>First Job Rank:</b> "
-                . jobrank_dropdown(NULL, 'jFIRST', $r['jFIRST'])
+                . jobrank_dropdown('jFIRST', $r['jFIRST'])
                 . "
         	<br />
         	{$csrf}
@@ -283,7 +283,7 @@ function jobedit()
         <form action='staff_jobs.php?action=jobedit' method='post'>
         Select a job to edit.
         <br />
-        	" . job_dropdown(NULL, 'jID', -1)
+        	" . job_dropdown('jID', -1)
                 . "
         <br />
         	{$csrf}
@@ -365,7 +365,7 @@ function newjobrank()
         	<br />
         	<b>Pays:</b> <input type='text' name='jrPAY' value='10' />
         	<br />
-        	<b>Job:</b> " . job_dropdown(NULL, "jrJOB", -1)
+        	<b>Job:</b> " . job_dropdown("jrJOB", -1)
                 . "
         	<br />
         	<b>Gains:</b>
@@ -490,7 +490,7 @@ function jobrankedit()
         <form action='staff_jobs.php?action=jobrankedit' method='post'>
         	<input type='hidden' name='jrID' value='{$_POST['jrID']}' />
         	<b>Job Rank Name:</b> <input type='text' name='jrNAME' value='{$r['jrNAME']}'><br />
-        	<b>Job:</b> " . job_dropdown(NULL, 'jrJOB', $r['jrJOB'])
+        	<b>Job:</b> " . job_dropdown('jrJOB', $r['jrJOB'])
                 . "
         	<br />
         	<b>Pays:</b> <input type='text' name='jrPAY' value='{$r['jrPAY']}' /><br />
@@ -516,7 +516,7 @@ function jobrankedit()
         <form action='staff_jobs.php?action=jobrankedit' method='post'>
         	Select a job rank to edit.
         	<br />
-        	" . jobrank_dropdown(NULL, 'jrID', -1)
+        	" . jobrank_dropdown('jrID', -1)
                 . "
         	<br />
         	{$csrf}
@@ -591,7 +591,7 @@ function jobrankdele()
         echo "
         <form action='staff_jobs.php?action=jobrankdele' method='post'>
         Select a job rank to delete.<br />
-        	" . jobrank_dropdown(NULL, 'jrID', -1)
+        	" . jobrank_dropdown('jrID', -1)
                 . "
         	<br />
         	{$csrf}
@@ -643,7 +643,7 @@ function jobdele()
         echo "
         <form action='staff_jobs.php?action=jobdele' method='post'>
         Select a job to delete.<br />
-        	" . job_dropdown(NULL, 'jID', -1)
+        	" . job_dropdown('jID', -1)
                 . "
         	<br />
         	{$csrf}

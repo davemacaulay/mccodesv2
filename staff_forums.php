@@ -245,7 +245,7 @@ function editforum()
         <h3>Editing a Forum</h3><hr />
         <form action='staff_forums.php?action=editforum' method='post'>
         	<input type='hidden' name='step' value='1' />
-        	Forum: " . forum2_dropdown(NULL, "id")
+        	Forum: " . forum2_dropdown("id")
                 . "<br />
             {$csrf}
         	<input type='submit' value='Edit Forum' />
@@ -331,11 +331,11 @@ function delforum()
         <hr />
         Deleting a forum is permanent - be sure.
         <form action='staff_forums.php?action=delforum' method='post' name='theform' onsubmit='return checkme();'>
-        	Forum: " . forum2_dropdown(NULL, "forum")
+        	Forum: " . forum2_dropdown("forum")
                 . "
         <br />
         	Move posts &amp; topics in the deleted forum to: "
-                . forum2_dropdown(NULL, "forum2")
+                . forum2_dropdown("forum2")
                 . "
         <br />
         	{$csrf}

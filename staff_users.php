@@ -287,7 +287,7 @@ function edit_user_begin()
     You can edit any aspect of this user.
     <br />
     <form action='staff_users.php?action=edituserform' method='post'>
-    	User: " . user_dropdown(NULL, 'user')
+    	User: " . user_dropdown('user')
             . "
     	<br />
     	{$csrf}
@@ -404,7 +404,7 @@ function edit_user_form()
     	<br />
     	Jail reason: <input type='text' name='jail_reason' value='{$itemi['jail_reason']}' />
     	<br />
-    	House: " . house2_dropdown(NULL, "maxwill", $itemi['maxwill'])
+    	House: " . house2_dropdown("maxwill", $itemi['maxwill'])
             . "
     	<br />
     	<h4>Stats</h4>
@@ -655,7 +655,7 @@ function deluser()
         Here you can delete a user.
         <br />
         <form action="staff_users.php?action=deluser&amp;step=2" method="post">
-        	User: ' . user_dropdown(NULL, 'user')
+        	User: ' . user_dropdown('user')
                 . '
         <br />
         ' . $csrf
@@ -804,7 +804,7 @@ function inv_user_begin()
     You may browse this user's inventory.
     <br />
     <form action='staff_users.php?action=invuser' method='post'>
-    	User: " . user_dropdown(NULL, 'user')
+    	User: " . user_dropdown('user')
             . "
     	<br />
     	{$csrf}
@@ -966,7 +966,7 @@ function credit_user_form()
     You can give a user money/crystals.
     <br />
     <form action='staff_users.php?action=creditsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user')
+    	User: " . user_dropdown('user')
             . "
     	<br />
     	Money: <input type='text' name='money' value='0' />
@@ -1219,7 +1219,7 @@ function forcelogout()
         <hr />
         The user will be automatically logged out next time they make a hit to the site.
         <form action='staff_users.php?action=forcelogout' method='post'>
-        	User: " . user_dropdown(NULL, 'userid')
+        	User: " . user_dropdown('userid')
                 . "
         	<br />
         	{$csrf}

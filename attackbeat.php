@@ -57,8 +57,7 @@ You beat {$r['username']} severely on the ground. When there is lots of blood sh
                         `hospreason` = '{$hospreason}'
                         WHERE `userid` = {$r['userid']}");
         event_add($r['userid'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> beat you up.",
-                $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> beat you up.");
         $atklog = $db->escape($_SESSION['attacklog']);
         $db->query(
                 "INSERT INTO `attacklogs` VALUES(NULL, $userid, {$_GET['ID']},

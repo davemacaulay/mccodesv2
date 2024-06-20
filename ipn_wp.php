@@ -148,8 +148,7 @@ else
             // process payment
 
             event_add($for,
-                    "Your \${$payment_amount} worth of Will Potions ($pack) has been successfully credited.",
-                    $c);
+                "Your \${$payment_amount} worth of Will Potions ($pack) has been successfully credited.");
             $db->query(
                     "INSERT INTO `willps_accepted`
                      VALUES(NULL, {$buyer}, {$for}, '$pack', " . time()

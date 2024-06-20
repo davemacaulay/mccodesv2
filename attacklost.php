@@ -44,8 +44,7 @@ if ($db->num_rows($od) > 0)
     $db->query(
             "UPDATE `users` SET `exp` = {$newexp}, `attacking` = 0 WHERE `userid` = $userid");
     event_add($r['userid'],
-            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> attacked you and lost.",
-            $c);
+        "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> attacked you and lost.");
     $atklog = $db->escape($_SESSION['attacklog']);
     $db->query(
             "INSERT INTO `attacklogs` VALUES(NULL, $userid, {$_GET['ID']},

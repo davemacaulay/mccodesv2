@@ -55,13 +55,12 @@ function money_formatter($muny, $symb = '$')
 
 /**
  * Constructs a drop-down listbox of all the item types in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the item type which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first item type alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function itemtype_dropdown($connection, $ddname = "item_type", $selected = -1)
+function itemtype_dropdown($ddname = "item_type", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -95,13 +94,12 @@ function itemtype_dropdown($connection, $ddname = "item_type", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the items in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the item which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first item alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function item_dropdown($connection, $ddname = "item", $selected = -1)
+function item_dropdown($ddname = "item", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -135,13 +133,12 @@ function item_dropdown($connection, $ddname = "item", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the items in the game to let the user select one, including a "None" option.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the item which should be selected by default.<br />
  * Not specifying this or setting it to a number less than 1 makes "None" selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function item2_dropdown($connection, $ddname = "item", $selected = -1)
+function item2_dropdown($ddname = "item", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -174,13 +171,12 @@ function item2_dropdown($connection, $ddname = "item", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the locations in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the location which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first item alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function location_dropdown($connection, $ddname = "location", $selected = -1)
+function location_dropdown($ddname = "location", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -214,13 +210,12 @@ function location_dropdown($connection, $ddname = "location", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the shops in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the shop which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first shop alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function shop_dropdown($connection, $ddname = "shop", $selected = -1)
+function shop_dropdown($ddname = "shop", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -254,13 +249,12 @@ function shop_dropdown($connection, $ddname = "shop", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the registered users in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the user who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function user_dropdown($connection, $ddname = "user", $selected = -1)
+function user_dropdown($ddname = "user", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -294,13 +288,12 @@ function user_dropdown($connection, $ddname = "user", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the challenge bot NPC users in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the bot who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first bot alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function challengebot_dropdown($connection, $ddname = "bot", $selected = -1)
+function challengebot_dropdown($ddname = "bot", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -336,13 +329,12 @@ function challengebot_dropdown($connection, $ddname = "bot", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the users in federal jail in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the user who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function fed_user_dropdown($connection, $ddname = "user", $selected = -1)
+function fed_user_dropdown($ddname = "user", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -377,13 +369,12 @@ function fed_user_dropdown($connection, $ddname = "user", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the mail banned users in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the user who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function mailb_user_dropdown($connection, $ddname = "user", $selected = -1)
+function mailb_user_dropdown($ddname = "user", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -418,13 +409,12 @@ function mailb_user_dropdown($connection, $ddname = "user", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the forum banned users in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the user who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forumb_user_dropdown($connection, $ddname = "user", $selected = -1)
+function forumb_user_dropdown($ddname = "user", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -459,13 +449,12 @@ function forumb_user_dropdown($connection, $ddname = "user", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the jobs in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the job which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first job alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function job_dropdown($connection, $ddname = "job", $selected = -1)
+function job_dropdown($ddname = "job", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -499,13 +488,12 @@ function job_dropdown($connection, $ddname = "job", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the job ranks in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the job rank which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first job's first job rank alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function jobrank_dropdown($connection, $ddname = "jobrank", $selected = -1)
+function jobrank_dropdown($ddname = "jobrank", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -541,13 +529,12 @@ function jobrank_dropdown($connection, $ddname = "jobrank", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the houses in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the house which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first house alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function house_dropdown($connection, $ddname = "house", $selected = -1)
+function house_dropdown($ddname = "house", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -582,13 +569,12 @@ function house_dropdown($connection, $ddname = "house", $selected = -1)
 /**
  * Constructs a drop-down listbox of all the houses in the game to let the user select one.<br />
  * However, the values in the list box return the house's maximum will value instead of its ID.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the house which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first house alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function house2_dropdown($connection, $ddname = "house", $selected = -1)
+function house2_dropdown($ddname = "house", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -622,13 +608,12 @@ function house2_dropdown($connection, $ddname = "house", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the courses in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the course which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first course alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function course_dropdown($connection, $ddname = "course", $selected = -1)
+function course_dropdown($ddname = "course", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -662,13 +647,12 @@ function course_dropdown($connection, $ddname = "course", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the crimes in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the crime which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first crime alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function crime_dropdown($connection, $ddname = "crime", $selected = -1)
+function crime_dropdown($ddname = "crime", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -702,14 +686,13 @@ function crime_dropdown($connection, $ddname = "crime", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the crime groups in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the crime group which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first crime group alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function crimegroup_dropdown($connection, $ddname = "crimegroup",
-        $selected = -1)
+function crimegroup_dropdown($ddname = "crimegroup",
+                             $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -745,10 +728,9 @@ function crimegroup_dropdown($connection, $ddname = "crimegroup",
  * Sends a user an event, given their ID and the text.
  * @param int $userid The user ID to be sent the event
  * @param string $text The event's text. This should be fully sanitized for HTML, but not pre-escaped for database insertion.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @return int 1
  */
-function event_add($userid, $text, $connection = 0)
+function event_add($userid, $text)
 {
     global $db;
     $text = $db->escape($text);
@@ -906,13 +888,12 @@ function item_remove($user, $itemid, $qty)
 
 /**
  * Constructs a drop-down listbox of all the forums in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the forum which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first forum alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forum_dropdown($connection, $ddname = "forum", $selected = -1)
+function forum_dropdown($ddname = "forum", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -946,13 +927,12 @@ function forum_dropdown($connection, $ddname = "forum", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the forums in the game, except gang forums, to let the user select one.<br />
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the forum which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first forum alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forum2_dropdown($connection, $ddname = "forum", $selected = -1)
+function forum2_dropdown($ddname = "forum", $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -1255,7 +1235,7 @@ function get_filesize_remote($url)
         }
         if (strpos($line, ':') !== false)
         {
-            list($key, $val) = explode(':', $line, 2);
+            [$key, $val] = explode(':', $line, 2);
             $headers[strtolower($key)] = trim($val);
         }
         else

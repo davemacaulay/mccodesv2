@@ -79,8 +79,7 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
                      `mb_reason` = '{$e_reason}'
                      WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were banned from mail for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}",
-            $c);
+        "You were banned from mail for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}");
     echo 'User was mail banned.<br />
     &gt; <a href="index.php">Go Home</a>';
 }
@@ -95,7 +94,7 @@ else
 	The user will not be able to use the mail system for a set period of days.
 	<br />
 	<form action='mailban.php' method='post'>
-		User: " . user_dropdown(NULL, 'user', $_GET['userid'])
+		User: " . user_dropdown('user', $_GET['userid'])
             . "
 		<br />
 		Days: <input type='text' name='days' />

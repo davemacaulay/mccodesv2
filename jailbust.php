@@ -69,8 +69,7 @@ if (rand(1, 100) < $chance)
     		 SET `jail` = 0
     		 WHERE `userid` = {$r['userid']}");
     event_add($r['userid'],
-            "<a href='viewuser.php?u={$ir['userid']}'>{$ir['username']}</a> busted you out of jail.",
-            $c);
+        "<a href='viewuser.php?u={$ir['userid']}'>{$ir['username']}</a> busted you out of jail.");
 }
 else
 {
@@ -84,7 +83,6 @@ else
              `energy` = `energy` - 10
              WHERE `userid` = $userid");
     event_add($r['userid'],
-            "<a href='viewuser.php?u={$ir['userid']}'>{$ir['username']}</a> was caught trying to bust you out of jail.",
-            $c);
+        "<a href='viewuser.php?u={$ir['userid']}'>{$ir['username']}</a> was caught trying to bust you out of jail.");
 }
 $h->endpage();

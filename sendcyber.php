@@ -94,9 +94,8 @@ else
                     . money_formatter($_POST['xfer'])
                     . " to {$er['username']} (ID {$_GET['ID']}).";
             event_add($_GET['ID'],
-                    "You received " . money_formatter($_POST['xfer'])
-                            . " into your cyber bank account from {$ir['username']}.",
-                    $c);
+                "You received " . money_formatter($_POST['xfer'])
+                . " into your cyber bank account from {$ir['username']}.");
 
             $db->query(
                     "INSERT INTO `bankxferlogs`

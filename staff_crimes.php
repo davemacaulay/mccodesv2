@@ -94,10 +94,10 @@ function new_crime_form()
     <br />
     	Success Crystals (1-9 chars only): <input type='text' name='crys' />
     <br />
-    	Success Item: " . item2_dropdown(NULL, 'item')
+    	Success Item: " . item2_dropdown('item')
             . "
     <br />
-    	Group: " . crimegroup_dropdown(NULL, 'group')
+    	Group: " . crimegroup_dropdown('group')
             . "
     <br />
     	Initial Text: <textarea rows='4' cols='40' name='itext'></textarea>
@@ -235,7 +235,7 @@ function edit_crime_begin()
     You can edit any aspect of this crime.
     <br />
     <form action='staff_crimes.php?action=editcrimeform' method='post'>
-    	Crime: " . crime_dropdown(NULL, 'crime')
+    	Crime: " . crime_dropdown('crime')
             . "
     <br />
     	{$csrf}
@@ -285,11 +285,11 @@ function edit_crime_form()
     	Success Crystals: <input type='text' name='crimeSUCCESSCRYS' value='{$itemi['crimeSUCCESSCRYS']}' />
     <br />
     	Success Item: "
-            . item2_dropdown(NULL, 'crimeSUCCESSITEM',
-                    $itemi['crimeSUCCESSITEM']) . "
+            . item2_dropdown('crimeSUCCESSITEM',
+            $itemi['crimeSUCCESSITEM']) . "
     <br />
     	Group: "
-            . crimegroup_dropdown(NULL, 'crimeGROUP', $itemi['crimeGROUP'])
+            . crimegroup_dropdown('crimeGROUP', $itemi['crimeGROUP'])
             . "
     <br />
     	Initial Text: <textarea rows='4' cols='40' name='crimeITEXT'>{$itemi['crimeITEXT']}</textarea>
@@ -447,7 +447,7 @@ function delcrime()
         <h3>Deleting Crime</h3>
         Here you can delete a crime. <br />
         <form action='staff_crimes.php?action=delcrime&amp;step=2' method='post'>
-        	Crime: " . crime_dropdown(NULL, 'crime')
+        	Crime: " . crime_dropdown('crime')
                 . "
         <br />
         	{$csrf}
@@ -610,7 +610,7 @@ function edit_crimegroup_begin()
     echo "
     <h3>Editing A Crime Group</h3>
     <form action='staff_crimes.php?action=editcrimegroupform' method='post'>
-    	Crime Group: " . crimegroup_dropdown(NULL, 'crimeGROUP')
+    	Crime Group: " . crimegroup_dropdown('crimeGROUP')
             . "
     <br />
     	{$csrf}
@@ -725,10 +725,10 @@ function delcrimegroup()
         echo "
         <h3>Deleting Crime Group</h3>
         <form action='staff_crimes.php?action=delcrimegroup&amp;step=2' method='post' name='theform' onsubmit='return checkme();'>
-              Crime Group: " . crimegroup_dropdown(NULL, 'crimeGROUP')
+              Crime Group: " . crimegroup_dropdown('crimeGROUP')
                 . "<br />
         Move crimes in deleted group to: "
-                . crimegroup_dropdown(NULL, 'crimeGROUP2')
+                . crimegroup_dropdown('crimeGROUP2')
                 . "<br />
               {$csrf}
               <input type='submit' value='Delete Crime Group' />

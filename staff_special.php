@@ -99,7 +99,7 @@ function give_dp_form()
     The user will receive the benefits of one 30-day donator pack.
     <br />
     <form action='staff_special.php?action=givedpsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user')
+    	User: " . user_dropdown('user')
             . "
     	<br />
     	<input type='radio' name='type' value='1' /> Pack 1 (Standard)
@@ -183,8 +183,7 @@ function give_dp_submit()
              SET {$don}
              WHERE `u`.`userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were given one {$d}-day donator pack (Pack {$_POST['type']}) from the administration.",
-            $c);
+        "You were given one {$d}-day donator pack (Pack {$_POST['type']}) from the administration.");
     stafflog_add(
             "Gave ID {$_POST['user']} a {$d}-day donator pack (Pack {$_POST['type']})");
     echo 'User given a DP.<br />
@@ -396,7 +395,7 @@ function userlevelform()
     echo "
     <h3>User Level Adjust</h3>
     <form action='staff_special.php?action=userlevel' method='post'>
-    	User: " . user_dropdown(NULL, 'ID')
+    	User: " . user_dropdown('ID')
             . "
     	<br />
     	User Level:

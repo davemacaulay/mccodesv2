@@ -62,7 +62,7 @@ function new_shop_form()
     	<br />
     	Shop Desc: <input type='text' name='sd' value='' />
     	<br />
-    	Shop Location: " . location_dropdown(NULL, "sl")
+    	Shop Location: " . location_dropdown("sl")
             . "
     	<br />
     	{$csrf}
@@ -124,9 +124,9 @@ function new_stock_form()
     echo "
     <h3>Adding an item to a shop</h3>
     <form action='staff_shops.php?action=newstocksub' method='post'>
-    	Shop: " . shop_dropdown(NULL, "shop") . "
+    	Shop: " . shop_dropdown("shop") . "
     	<br />
-    	Item: " . item_dropdown(NULL, "item")
+    	Item: " . item_dropdown("item")
             . "
     	<br />
     	{$csrf}
@@ -227,7 +227,7 @@ function delshop()
         <hr />
         Deleting a shop will remove it from the game permanently. Be sure.
         <form action='staff_shops.php?action=delshop' method='post'>
-        	Shop: " . shop_dropdown(NULL, "shop")
+        	Shop: " . shop_dropdown("shop")
                 . "
         	<br />
         	{$csrf}

@@ -197,8 +197,7 @@ if (!empty($username))
                      SET `crystals` = `crystals` + 2
                      WHERE `userid` = {$_POST['ref']}");
             event_add($_POST['ref'],
-                    "For refering $username to the game, you have earnt 2 valuable crystals!",
-                    $c);
+                "For refering $username to the game, you have earnt 2 valuable crystals!");
             $e_rip = $db->escape($rem_IP);
             $db->query(
                     "INSERT INTO `referals`

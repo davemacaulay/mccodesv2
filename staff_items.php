@@ -80,7 +80,7 @@ function new_item_form()
     <br />
     	Item Desc.: <input type='text' name='itmdesc' value='' />
     <br />
-    	Item Type: " . itemtype_dropdown(NULL, 'itmtype')
+    	Item Type: " . itemtype_dropdown('itmtype')
             . "
     <br />
     	Item Buyable: <input type='checkbox' name='itmbuyable' checked='checked' />
@@ -259,9 +259,9 @@ function give_item_form()
     echo "
     <h3>Giving Item To User</h3>
     <form action='staff_items.php?action=giveitemsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user') . "
+    	User: " . user_dropdown('user') . "
     	<br />
-    	Item: " . item_dropdown(NULL, 'item')
+    	Item: " . item_dropdown('item')
             . "
     	<br />
     	Quantity: <input type='text' name='qty' value='1' />
@@ -342,7 +342,7 @@ function kill_item_form()
     The item will be permanently removed from the game.
     <br />
     <form action='staff_items.php?action=killitemsub' method='post'>
-    	Item: " . item_dropdown(NULL, 'item')
+    	Item: " . item_dropdown('item')
             . "
     	<br />
     	{$csrf}
@@ -415,7 +415,7 @@ function edit_item_begin()
     <h3>Editing Item</h3>
     You can edit any aspect of this item.<br />
     <form action='staff_items.php?action=edititemform' method='post'>
-    	Item: " . item_dropdown(NULL, 'item')
+    	Item: " . item_dropdown('item')
             . "
     	<br />
     	{$csrf}
@@ -468,7 +468,7 @@ function edit_item_form()
     	<br />
     	Item Desc.: <input type='text' name='itmdesc' value='{$itmdesc}' />
     	<br />
-    	Item Type: " . itemtype_dropdown(NULL, 'itmtype', $itemi['itmtype'])
+    	Item Type: " . itemtype_dropdown('itmtype', $itemi['itmtype'])
             . "
     	<br />
     	Item Buyable: <input type='checkbox' name='itmbuyable'

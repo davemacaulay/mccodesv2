@@ -269,7 +269,7 @@ function editcourse()
         <hr />
         <form action='staff_courses.php?action=editcourse' method='post'>
         	<input type='hidden' name='step' value='1' />
-        	Course: " . course_dropdown(NULL, "course")
+        	Course: " . course_dropdown("course")
                 . "
         <br />
         	{$csrf}
@@ -324,7 +324,7 @@ function delcourse()
         <h3>Deleting a Course</h3>
         <hr />
         <form action='staff_courses.php?action=delcourse' method='post'>
-        	Course: " . course_dropdown(NULL, "course")
+        	Course: " . course_dropdown("course")
                 . "<br />
             {$csrf}
         	<input type='submit' value='Delete Course' />

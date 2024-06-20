@@ -62,8 +62,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
                         `hospreason` = '$hospreason'
                         WHERE `userid` = {$r['userid']}");
         event_add($r['userid'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> attacked you and left you lying outside the hospital.",
-                $c, 'combat');
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> attacked you and left you lying outside the hospital.");
         $atklog = $db->escape($_SESSION['attacklog']);
         $db->query(
                 "INSERT INTO `attacklogs` VALUES(NULL, $userid, {$_GET['ID']},

@@ -107,7 +107,7 @@ function addbot()
         <h3>Adding a Battle Tent Challenge Bot</h3>
         <hr />
         <form action='staff_battletent.php?action=addbot' method='post'>
-        	Bot: " . user_dropdown(NULL, 'userid')
+        	Bot: " . user_dropdown('userid')
                 . "
         	<br />
         	Bounty for Beating: <input type='text' name='money' />
@@ -234,7 +234,7 @@ function editbot()
         <h3>Edit Challenge Bot</h3>
         <hr />
         <form action='staff_battletent.php?action=editbot&amp;step=1' method='post'>
-        	Bot: " . challengebot_dropdown(NULL, 'userid')
+        	Bot: " . challengebot_dropdown('userid')
                 . "
         	<br />
         	{$csrf}
@@ -307,7 +307,7 @@ function delbot()
         <hr />
         This will not delete the user from the game, only remove their entry as a Battle Tent Challenge Bot.
         <form action='staff_battletent.php?action=delbot' method='post'>
-        	Bot: " . challengebot_dropdown(NULL, "userid")
+        	Bot: " . challengebot_dropdown("userid")
                 . "
         	<br />
         	Delete challengesbeaten entries for this bot?

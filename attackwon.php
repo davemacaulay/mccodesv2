@@ -62,8 +62,8 @@ if ($db->num_rows($od) > 0)
                         SET `hp` = 1, `money` = `money` - $stole, `hospital` = $hosptime,
                         `hospreason` = '{$hospreason}' WHERE `userid` = {$r['userid']}");
         event_add($r['userid'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> mugged you and stole "
-                        . money_formatter($stole) . ".", $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> mugged you and stole "
+            . money_formatter($stole) . ".");
         $atklog = $db->escape($_SESSION['attacklog']);
         $db->query(
                 "INSERT INTO `attacklogs` VALUES(NULL, $userid, {$_GET['ID']},

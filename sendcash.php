@@ -82,8 +82,8 @@ else
             echo "You sent " . money_formatter($_POST['money'])
                     . " to {$er['username']} (ID {$_GET['ID']}).";
             event_add($_GET['ID'],
-                    "You received " . money_formatter($_POST['money'])
-                            . " from {$ir['username']}.", $c);
+                "You received " . money_formatter($_POST['money'])
+                . " from {$ir['username']}.");
             $db->query(
                     "INSERT INTO `cashxferlogs`
                     VALUES (NULL, $userid, {$_GET['ID']}, {$_POST['money']},

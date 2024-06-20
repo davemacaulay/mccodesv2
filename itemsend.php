@@ -80,8 +80,7 @@ if (!empty($_POST['qty']) && !empty($_POST['user']))
             echo 'You sent ' . $_POST['qty'] . ' ' . $r['itmname'] . '(s) to '
                     . $rm['username'];
             event_add($_POST['user'],
-                    "You received {$_POST['qty']} {$r['itmname']}(s) from <a href='viewuser.php?u=$userid'>{$ir['username']}</a>",
-                    $c);
+                "You received {$_POST['qty']} {$r['itmname']}(s) from <a href='viewuser.php?u=$userid'>{$ir['username']}</a>");
             $db->query(
                     "INSERT INTO `itemxferlogs`
                      VALUES(NULL, $userid, {$_POST['user']}, {$r['itmid']},

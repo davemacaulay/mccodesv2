@@ -197,8 +197,7 @@ else
             }
             // process payment
             event_add($for,
-                    "Your \${$payment_amount} Pack {$pack} Donator Pack has been successfully credited to you.",
-                    $c);
+                "Your \${$payment_amount} Pack {$pack} Donator Pack has been successfully credited to you.");
             $db->query(
                     "INSERT INTO `dps_accepted`
                      VALUES(NULL, {$buyer}, {$for}, '$t', " . time()

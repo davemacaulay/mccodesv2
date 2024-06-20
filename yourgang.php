@@ -374,7 +374,7 @@ function gang_staff_kick()
                         "You were kicked out of {$gangdata['gangNAME']} by "
                                 . "<a href='viewuser.php?u={$userid}'>"
                                 . $d_oname . "</a>";
-                event_add($who, $their_event, $c);
+                event_add($who, $their_event);
                 $gang_event =
                         $db->escape(
                                 "<a href='viewuser.php?u={$who}'>"
@@ -838,8 +838,7 @@ function gang_staff_apps()
                         "DELETE FROM `applications`
                          WHERE `appID` = {$_POST['app']}");
                 event_add($appdata['appUSER'],
-                        "Your application to join the {$gangdata['gangNAME']} gang was declined",
-                        $c);
+                    "Your application to join the {$gangdata['gangNAME']} gang was declined");
                 $gang_event =
                         $db->escape(
                                 "<a href='viewuser.php?u={$userid}'>"
@@ -884,8 +883,7 @@ function gang_staff_apps()
                         "DELETE FROM `applications`
                          WHERE `appID` = {$_POST['app']}");
                 event_add($appdata['appUSER'],
-                        "Your application to join the {$gangdata['gangNAME']} gang was accepted, Congrats!",
-                        $c);
+                    "Your application to join the {$gangdata['gangNAME']} gang was accepted, Congrats!");
                 $gang_event =
                         $db->escape(
                                 "<a href='viewuser.php?u={$userid}'>"
@@ -1037,8 +1035,8 @@ function gang_staff_vault()
                      `gangCRYSTALS` = `gangCRYSTALS` - $crys
                      WHERE `gangID` = {$gangdata['gangID']}");
             event_add($who,
-                    "You were given " . money_formatter($money)
-                            . " and/or $crys crystals from your Gang.", $c);
+                "You were given " . money_formatter($money)
+                . " and/or $crys crystals from your Gang.");
             $gang_event =
                     $db->escape(
                             "<a href='viewuser.php?u=$who'>" . $dname
@@ -1112,8 +1110,7 @@ function gang_staff_vicepres()
                  SET `gangVICEPRES` = {$_POST['vp']}
                  WHERE `gangID` = {$gangdata['gangID']}");
         event_add($memb['userid'],
-                "You were transferred vice-presidency of {$gangdata['gangNAME']}.",
-                $c);
+            "You were transferred vice-presidency of {$gangdata['gangNAME']}.");
         $m_name = htmlentities($memb['username'], ENT_QUOTES, 'ISO-8859-1');
         echo "Vice-Presidency was transferred to {$m_name}";
     }
@@ -1548,8 +1545,7 @@ function gang_staff_pres()
                      SET `gangPRESIDENT` = {$_POST['pres']}
                      WHERE `gangID` = {$gangdata['gangID']}");
             event_add($memb['userid'],
-                    "You were transferred presidency of {$gangdata['gangNAME']}.",
-                    $c);
+                "You were transferred presidency of {$gangdata['gangNAME']}.");
             echo "Presidency was transferred to {$memb['username']}<br />
             &gt; <a href='yourgang.php'>Gang home</a>";
         }
@@ -1688,8 +1684,8 @@ function gang_staff_masspayment()
             if ($gangdata['gangMONEY'] >= $_POST['amt'])
             {
                 event_add($r['userid'],
-                        "You were given " . money_formatter($_POST['amt'])
-                                . " from your gang.", $c);
+                    "You were given " . money_formatter($_POST['amt'])
+                    . " from your gang.");
                 $db->query(
                         "UPDATE `users`
                          SET `money` = `money` + {$_POST['amt']}

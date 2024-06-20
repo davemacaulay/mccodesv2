@@ -68,6 +68,5 @@ $db->query(
 		 SET `jail` = 0
 		 WHERE `userid` = {$r['userid']}");
 event_add($r['userid'],
-        "<a href='viewuser.php?u={$ir['userid']}'>{$ir['username']}</a> bailed you out of jail.",
-        $c);
+    "<a href='viewuser.php?u={$ir['userid']}'>{$ir['username']}</a> bailed you out of jail.");
 $h->endpage();

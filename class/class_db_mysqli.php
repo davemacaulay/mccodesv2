@@ -34,9 +34,8 @@ if (!function_exists('error_critical'))
 if (!extension_loaded('mysqli'))
 {
     // dl doesn't work anymore, crash
-    error_critical('Database connection failed',
-            'MySQLi extension not present but required', 'N/A',
-            debug_backtrace(false));
+    error_critical('MySQLi extension not present but required', 'N/A',
+        debug_backtrace(false));
 }
 
 class database
@@ -75,10 +74,9 @@ class database
                         $this->database);
         if (mysqli_connect_error())
         {
-            error_critical('Database connection failed',
-                    mysqli_connect_errno() . ': ' . mysqli_connect_error(),
-                    'Attempted to connect to database on ' . $this->host,
-                    debug_backtrace(false));
+            error_critical(mysqli_connect_errno() . ': ' . mysqli_connect_error(),
+                'Attempted to connect to database on ' . $this->host,
+                debug_backtrace(false));
         }
         // @overridecharset mysqli
         $this->connection_id = $conn;
@@ -103,11 +101,10 @@ class database
     {
         if (!mysqli_select_db($this->connection_id, $database))
         {
-            error_critical('Database change failed',
-                    mysqli_errno($this->connection_id) . ': '
-                            . mysqli_error($this->connection_id),
-                    'Attempted to select database: ' . $database,
-                    debug_backtrace(false));
+            error_critical(mysqli_errno($this->connection_id) . ': '
+                . mysqli_error($this->connection_id),
+                'Attempted to select database: ' . $database,
+                debug_backtrace(false));
         }
         $this->database = $database;
     }
@@ -121,11 +118,10 @@ class database
                 mysqli_query($this->connection_id, $this->last_query);
         if ($this->result === false)
         {
-            error_critical('Query failed',
-                    mysqli_errno($this->connection_id) . ': '
-                            . mysqli_error($this->connection_id),
-                    'Attempted to execute query: ' . nl2br($this->last_query),
-                    debug_backtrace(false));
+            error_critical(mysqli_errno($this->connection_id) . ': '
+                . mysqli_error($this->connection_id),
+                'Attempted to execute query: ' . nl2br($this->last_query),
+                debug_backtrace(false));
         }
         return $this->result;
     }

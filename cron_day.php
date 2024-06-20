@@ -115,8 +115,7 @@ while ($r = $db->fetch_row($q))
                 SET `u`.`course` = 0{$upd}
                 WHERE `u`.`userid` = {$userid}");
     event_add($userid,
-            "Congratulations, you completed the {$coud['crNAME']} and gained {$ev}!",
-            NULL);
+        "Congratulations, you completed the {$coud['crNAME']} and gained {$ev}!");
 }
 $db->free_result($q);
 $db->query("TRUNCATE TABLE `votes`");

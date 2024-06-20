@@ -82,31 +82,27 @@ function error_php($errno, $errstr, $errfile = '', $errline = 0,
     // If it's a PHP warning or user error/warning, don't go further - indicates bad code, unsafe
     if ($errno == E_WARNING)
     {
-        error_critical('',
-                '<strong>PHP Warning:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
+        error_critical('<strong>PHP Warning:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
     }
     else if ($errno == E_RECOVERABLE_ERROR)
     {
-        error_critical('',
-                '<strong>PHP Recoverable Error:</strong> ' . $errstr . ' ('
-                        . $errno . ')',
-                'Line executed: ' . $errfile . ':' . $errline, $errcontext);
+        error_critical('<strong>PHP Recoverable Error:</strong> ' . $errstr . ' ('
+            . $errno . ')',
+            'Line executed: ' . $errfile . ':' . $errline, $errcontext);
     }
     else if ($errno == E_USER_ERROR)
     {
-        error_critical('',
-                '<strong>Engine Error:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
+        error_critical('<strong>Engine Error:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
     }
     else if ($errno == E_USER_WARNING)
     {
-        error_critical('',
-                '<strong>Engine Warning:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
+        error_critical('<strong>Engine Warning:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
     }
     else
     {

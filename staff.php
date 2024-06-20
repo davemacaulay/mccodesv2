@@ -202,7 +202,7 @@ function basicsettings()
         		<input type='text' name='ct_moneypercrys' value='{$set['ct_moneypercrys']}' />
         	<br />
         	Will Potion Item: "
-                . item_dropdown(NULL, "willp_item", $set['willp_item'])
+                . item_dropdown("willp_item", $set['willp_item'])
                 . "<br />
             {$csrf}
         	<input type='submit' value='Update Settings' />

@@ -100,7 +100,7 @@ function fed_user_form()
     The user will be put in fed jail and will be unable to do anything in the game.
     <br />
     <form action='staff_punit.php?action=fedsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user', $_GET['XID'])
+    	User: " . user_dropdown('user', $_GET['XID'])
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -185,7 +185,7 @@ function fed_edit_form()
     You are editing a player's sentence in fed jail.
     <br />
     <form action='staff_punit.php?action=fedesub' method='post'>
-    	User: " . fed_user_dropdown(NULL, 'user')
+    	User: " . fed_user_dropdown('user')
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -269,7 +269,7 @@ function mail_user_form()
     The user will be banned from the mail system.
     <br />
     <form action='staff_punit.php?action=mailsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user', $_GET['XID'])
+    	User: " . user_dropdown('user', $_GET['XID'])
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -330,8 +330,7 @@ function mail_user_submit()
                      `mb_reason` = '{$_POST['reason']}'
                      WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were banned from mail for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}",
-            $c);
+        "You were banned from mail for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}");
     stafflog_add(
             "Mail banned User ID {$_POST['user']} for {$_POST['days']} days");
     echo 'User mail banned.<br />
@@ -350,7 +349,7 @@ function forum_user_form()
     The user will be banned from the forums.
     <br />
     <form action='staff_punit.php?action=forumsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user', $_GET['XID'])
+    	User: " . user_dropdown('user', $_GET['XID'])
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -411,8 +410,7 @@ function forum_user_submit()
                      `fb_reason` = '{$_POST['reason']}'
                      WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were banned from the forums for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}",
-            $c);
+        "You were banned from the forums for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}");
     stafflog_add(
             'Forum banned User ID ' . $_POST['user'] . ' for '
                     . $_POST['days'] . ' days');
@@ -429,7 +427,7 @@ function unfed_user_form()
     The user will be taken out of fed jail.
     <br />
     <form action='staff_punit.php?action=unfedsub' method='post'>
-    	User: " . fed_user_dropdown(NULL, 'user')
+    	User: " . fed_user_dropdown('user')
             . "
     	<br />
     	{$csrf}
@@ -488,7 +486,7 @@ function unmail_user_form()
     The user will be taken out of mail ban.
     <br />
     <form action='staff_punit.php?action=unmailsub' method='post'>
-    	User: " . mailb_user_dropdown(NULL, 'user')
+    	User: " . mailb_user_dropdown('user')
             . "<br />
         {$csrf}
     	<input type='submit' value='Un-mailban User' />
@@ -528,7 +526,7 @@ function unmail_user_submit()
              SET `mailban` = 0
              WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were unbanned from mail. You can now use it again.", $c);
+        "You were unbanned from mail. You can now use it again.");
     stafflog_add('Un-mailbanned user ID ' . $_POST['user']);
     echo 'User un-mailbanned.<br />
     &gt; <a href="staff.php">Go Home</a>';
@@ -543,7 +541,7 @@ function unforum_user_form()
     The user will be taken out of forum ban.
     <br />
     <form action='staff_punit.php?action=unforumsub' method='post'>
-    	User: " . forumb_user_dropdown(NULL, 'user')
+    	User: " . forumb_user_dropdown('user')
             . "
     	<br />
         {$csrf}
@@ -584,8 +582,7 @@ function unforum_user_submit()
              SET `forumban` = 0
              WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were unbanned from the forums. You can now use them again.",
-            $c);
+        "You were unbanned from the forums. You can now use them again.");
     stafflog_add("Un-forumbanned user ID {$_POST['user']}");
     echo 'User un-forumbanned.<br />
     &gt; <a href="staff.php">Go Home</a>';
