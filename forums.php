@@ -578,6 +578,8 @@ You have no permission to view this forum.<br />
     $no = $st;
     while ($r = $db->fetch_row($q3))
     {
+        $av = '';
+        $rank = '';
         $qlink =
                 "[<a href='forums.php?act=quote&amp;viewtopic={$_GET['viewtopic']}&amp;quotename="
                         . urlencode(

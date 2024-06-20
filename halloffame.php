@@ -21,6 +21,9 @@
  */
 
 require_once('globals.php');
+$non_don = '';
+$is_don = '';
+$all_us = '';
 $filters =
         ['nodon' => 'AND `donatordays` = 0',
                 'don' => 'AND `donatordays` > 0', 'all' => ''];

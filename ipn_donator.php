@@ -32,6 +32,7 @@ foreach ($_POST as $key => $value)
 }
 
 // post back to PayPal system to validate
+$header = '';
 $header .= "POST /cgi-bin/webscr HTTP/1.0\r\n";
 $header .= "Content-Type: application/x-www-form-urlencoded\r\n";
 $header .= 'Content-Length: ' . strlen($req) . "\r\n\r\n";
@@ -113,6 +114,7 @@ if ($fp) {
             // grab IDs
             $buyer = abs((int)$packr[3]);
             $for   = $buyer;
+            $t = '';
             // all seems to be in order, credit it.
             if ($pack == 1) {
                 $db->query(

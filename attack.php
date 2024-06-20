@@ -268,6 +268,7 @@ SQL;
     }
     else
     {
+        $enweps = [];
 
         $eq =
                 $db->query(

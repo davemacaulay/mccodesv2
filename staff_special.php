@@ -135,6 +135,8 @@ function give_dp_submit()
         &gt; <a href="staff_special.php?action=givedpform">Go Back</a>';
         die($h->endpage());
     }
+    $don = 'u.userid = u.userid';
+    $d = 0;
     if ($_POST['type'] == 1)
     {
         $don =

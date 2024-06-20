@@ -200,7 +200,7 @@ else
         {
             $strength += 1;
         }
-
+        $overall = '';
         if ($strength <= 2)
         { // If there total points are equal or less than 5.
             $overall = '<span style="color:#FF0000">Weak</span>'; // Eeek very week!

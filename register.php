@@ -141,6 +141,7 @@ if (!empty($username))
     }
     else
     {
+        $rem_IP = '';
         $_POST['ref'] =
                 (isset($_POST['ref']) && is_numeric($_POST['ref']))
                         ? abs(intval($_POST['ref'])) : '';
