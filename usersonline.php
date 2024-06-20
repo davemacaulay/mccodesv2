@@ -36,7 +36,7 @@ while ($r = $db->fetch_row($q))
 {
     $cn++;
     echo $cn . '. <a href="viewuser.php?u=' . $r['userid'] . '">'
-            . $r['username'] . '</a> (' . DateTime_Parse($r['laston'])
+            . $r['username'] . '</a> (' . datetime_parse($r['laston'])
             . ')
 	<br />
    	';

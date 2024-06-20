@@ -25,7 +25,7 @@
  * @param int $time_stamp The timestamp to find the difference to.
  * @return string The difference formatted in units so that the numerical component is not less than 1 or absurdly large.
  */
-function DateTime_Parse($time_stamp)
+function datetime_parse($time_stamp)
 {
     $time_difference = ($_SERVER['REQUEST_TIME'] - $time_stamp);
     $unit =

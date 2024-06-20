@@ -107,7 +107,7 @@ if ($ir['user_level'] > 1)
     while ($r = $db->fetch_row($q))
     {
         echo '<a href="viewuser.php?u=' . $r['userid'] . '">' . $r['username']
-                . '</a> (' . DateTime_Parse($r['laston']) . ')<br />';
+                . '</a> (' . datetime_parse($r['laston']) . ')<br />';
     }
     $db->free_result($q);
 }

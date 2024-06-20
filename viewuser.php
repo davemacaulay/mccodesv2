@@ -67,10 +67,10 @@ else
         $lon =
                 ($r['laston'] > 0) ? date('F j, Y g:i:s a', $r['laston'])
                         : 'Never';
-        $ula = ($r['laston'] == 0) ? 'Never' : DateTime_Parse($r['laston']);
+        $ula = ($r['laston'] == 0) ? 'Never' : datetime_parse($r['laston']);
         $ull =
                 ($r['last_login'] == 0) ? 'Never'
-                        : DateTime_Parse($r['last_login']);
+                        : datetime_parse($r['last_login']);
         $sup = date('F j, Y g:i:s a', $r['signedup']);
         $u_duties =
                 ($r['user_level'] > 1) ? 'Duties: ' . $r['duties'] . '<br />'
