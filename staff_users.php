@@ -785,7 +785,6 @@ function deluser()
 		&gt; <a href="staff.php">Go Home</a>
    		';
         die($h->endpage());
-        break;
     }
 }
 

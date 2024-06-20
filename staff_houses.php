@@ -184,7 +184,6 @@ function edithouse()
                 . ' was edited successfully.<br />
                 &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
         die($h->endpage());
-        break;
     case '1':
         $_POST['house'] =
                 (isset($_POST['house']) && is_numeric($_POST['house']))

@@ -207,7 +207,6 @@ function editcourse()
                 &gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Edited course {$_POST['name']}");
         die($h->endpage());
-        break;
     case '1':
         $_POST['course'] =
                 (isset($_POST['course']) && is_numeric($_POST['course']))
