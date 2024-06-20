@@ -127,7 +127,7 @@ if (!isset($nohdr) || !$nohdr)
     $h->startheaders();
     $fm = money_formatter($ir['money']);
     $cm = money_formatter($ir['crystals'], '');
-    $lv = date('F j, Y, g:i a', (int)$ir['laston']);
+    $lv = date('F j, Y, g:i a', $ir['laston']);
     global $atkpage;
     if ($atkpage)
     {
