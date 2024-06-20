@@ -21,7 +21,7 @@
  */
 
 require_once('globals.php');
-$tresder = (int) (rand(100, 999));
+$tresder = rand(100, 999);
 $maxbet = $ir['level'] * 150;
 $_GET['tresde'] =
         (isset($_GET['tresde']) && is_numeric($_GET['tresde']))
@@ -68,7 +68,7 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
 		<a href='roulette.php?tresde=$tresder'>&gt; Back</a>");
     }
     $slot = [];
-    $slot[1] = (int) rand(0, 36);
+    $slot[1] = rand(0, 36);
     echo "You place " . money_formatter($_POST['bet'])
             . " into the slot and pull the pole.<br />
 	You see the number: <b>$slot[1]</b><br />
@@ -91,7 +91,7 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
             "UPDATE `users`
     		 SET `money` = `money` + ({$gain})
     		 WHERE `userid` = $userid");
-    $tresder = (int) (rand(100, 999));
+    $tresder = rand(100, 999);
     echo "<br />
 	<form action='roulette.php?tresde={$tresder}' method='post'>
     	<input type='hidden' name='bet' value='{$_POST['bet']}' />
