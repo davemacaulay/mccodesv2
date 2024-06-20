@@ -50,6 +50,48 @@ default:
     echo 'Error: This script requires an action.';
     break;
 }
+function process_course_post_data(): void
+{
+    global $db;
+    $_POST['cost'] =
+        (isset($_POST['cost']) && is_numeric($_POST['cost']))
+            ? abs(intval($_POST['cost'])) : '';
+    $_POST['energy'] =
+        (isset($_POST['energy']) && is_numeric($_POST['energy']))
+            ? abs(intval($_POST['energy'])) : '';
+    $_POST['days'] =
+        (isset($_POST['days']) && is_numeric($_POST['days']))
+            ? abs(intval($_POST['days'])) : '';
+    $_POST['str'] =
+        (isset($_POST['str']) && is_numeric($_POST['str']))
+            ? abs(intval($_POST['str'])) : '';
+    $_POST['agil'] =
+        (isset($_POST['agil']) && is_numeric($_POST['agil']))
+            ? abs(intval($_POST['agil'])) : '';
+    $_POST['gua'] =
+        (isset($_POST['gua']) && is_numeric($_POST['gua']))
+            ? abs(intval($_POST['gua'])) : '';
+    $_POST['lab'] =
+        (isset($_POST['lab']) && is_numeric($_POST['lab']))
+            ? abs(intval($_POST['lab'])) : '';
+    $_POST['iq'] =
+        (isset($_POST['iq']) && is_numeric($_POST['iq']))
+            ? abs(intval($_POST['iq'])) : '';
+    $_POST['name'] =
+        (isset($_POST['name'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['name']))
+            ? $db->escape(strip_tags(stripslashes($_POST['name'])))
+            : '';
+    $_POST['desc'] =
+        (isset($_POST['desc'])
+            && preg_match(
+                "/^[a-z0-9_.]+([\\s]{1}[a-z0-9_.]|[a-z0-9_.])+$/i",
+                $_POST['desc']))
+            ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
+            : '';
+}
 
 /**
  * @return void
@@ -57,56 +99,18 @@ default:
 function addcourse(): void
 {
     global $db, $h;
-    $cost =
-            (isset($_POST['cost']) && is_numeric($_POST['cost']))
-                    ? abs(intval($_POST['cost'])) : '';
-    $energy =
-            (isset($_POST['energy']) && is_numeric($_POST['energy']))
-                    ? abs(intval($_POST['energy'])) : '';
-    $days =
-            (isset($_POST['days']) && is_numeric($_POST['days']))
-                    ? abs(intval($_POST['days'])) : '';
-    $str =
-            (isset($_POST['str']) && is_numeric($_POST['str']))
-                    ? abs(intval($_POST['str'])) : '';
-    $agil =
-            (isset($_POST['agil']) && is_numeric($_POST['agil']))
-                    ? abs(intval($_POST['agil'])) : '';
-    $gua =
-            (isset($_POST['gua']) && is_numeric($_POST['gua']))
-                    ? abs(intval($_POST['gua'])) : '';
-    $lab =
-            (isset($_POST['lab']) && is_numeric($_POST['lab']))
-                    ? abs(intval($_POST['lab'])) : '';
-    $iq =
-            (isset($_POST['iq']) && is_numeric($_POST['iq']))
-                    ? abs(intval($_POST['iq'])) : '';
-    $_POST['name'] =
-            (isset($_POST['name'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['name']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['name'])))
-                    : '';
-    $_POST['desc'] =
-            (isset($_POST['desc'])
-                    && preg_match(
-                            "/^[a-z0-9_.]+([\\s]{1}[a-z0-9_.]|[a-z0-9_.])+$/i",
-                            $_POST['desc']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
-                    : '';
-    if ($_POST['name'] && $_POST['desc'] && $cost && $days && $cost > 0 && $energy
-            && $str && $agil && $gua && $lab && $iq)
+    process_course_post_data();
+    if ($_POST['name'] && $_POST['desc'] && $_POST['cost'] && $_POST['days'] && $_POST['cost'] > 0 && $_POST['energy']
+            && $_POST['str'] && $_POST['agil'] && $_POST['gua'] && $_POST['lab'] && $_POST['iq'])
     {
         staff_csrf_stdverify('staff_addcourse',
                 'staff_courses.php?action=addcourse');
         $db->query(
                 "INSERT INTO `courses`
-                 VALUES(NULL, '{$_POST['name']}', '{$_POST['desc']}', '$cost',
-                 '$energy', '$days', '$str', '$gua',  '$lab', '$agil',
-                 '$iq')");
-        echo 'Course ' . $_POST['name']
-                . ' added.<br />&gt; <a href="staff.php">Goto Main</a>';
+                 VALUES(NULL, '{$_POST['name']}', '{$_POST['desc']}', '{$_POST['cost']}',
+                 '{$_POST['energy']}', '{$_POST['days']}', '{$_POST['str']}', '{$_POST['gua']}',  '{$_POST['lab']}', '{$_POST['agil']}',
+                 '{$_POST['iq']}')");
+        echo 'Course ' . $_POST['name'] . ' added.<br />&gt; <a href="staff.php">Goto Main</a>';
         $h->endpage();
         exit;
     }
@@ -156,48 +160,11 @@ function editcourse(): void
     switch ($_POST['step'])
     {
     case '2':
-        $cost =
-                (isset($_POST['cost']) && is_numeric($_POST['cost']))
-                        ? abs(intval($_POST['cost'])) : '';
-        $energy =
-                (isset($_POST['energy']) && is_numeric($_POST['energy']))
-                        ? abs(intval($_POST['energy'])) : '';
-        $days =
-                (isset($_POST['days']) && is_numeric($_POST['days']))
-                        ? abs(intval($_POST['days'])) : '';
-        $str =
-                (isset($_POST['str']) && is_numeric($_POST['str']))
-                        ? abs(intval($_POST['str'])) : '';
-        $agil =
-                (isset($_POST['agil']) && is_numeric($_POST['agil']))
-                        ? abs(intval($_POST['agil'])) : '';
-        $gua =
-                (isset($_POST['gua']) && is_numeric($_POST['gua']))
-                        ? abs(intval($_POST['gua'])) : '';
-        $lab =
-                (isset($_POST['lab']) && is_numeric($_POST['lab']))
-                        ? abs(intval($_POST['lab'])) : '';
-        $iq =
-                (isset($_POST['iq']) && is_numeric($_POST['iq']))
-                        ? abs(intval($_POST['iq'])) : '';
-        $_POST['name'] =
-                (isset($_POST['name'])
-                        && preg_match(
-                                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                                $_POST['name']))
-                        ? $db->escape(strip_tags(stripslashes($_POST['name'])))
-                        : '';
-        $_POST['desc'] =
-                (isset($_POST['desc'])
-                        && preg_match(
-                                "/^[a-z0-9_.]+([\\s]{1}[a-z0-9_.]|[a-z0-9_.])+$/i",
-                                $_POST['desc']))
-                        ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
-                        : '';
-        if (empty($_POST['name']) || empty($_POST['desc']) || empty($cost)
-                || empty($days) || empty($energy)
-                || empty($str) || empty($agil) || empty($gua) || empty($lab)
-                || empty($iq))
+        process_course_post_data();
+        if (empty($_POST['name']) || empty($_POST['desc']) || empty($_POST['cost'])
+                || empty($_POST['days']) || empty($_POST['energy'])
+                || empty($_POST['str']) || empty($_POST['agil']) || empty($_POST['gua']) || empty($_POST['lab'])
+                || empty($_POST['iq']))
         {
             echo 'Something went wrong.<br />
             &gt; <a href="staff.php">Goto Main</a>';
@@ -209,10 +176,10 @@ function editcourse(): void
         $db->query(
                 "UPDATE `courses`
                  SET `crNAME` = '{$_POST['name']}',
-                 `crDESC` = '{$_POST['desc']}', `crCOST` = $cost,
-                 `crENERGY` = $energy, `crDAYS` = $days, `crSTR` = $str,
-                 `crGUARD` = $gua, `crLABOUR` = $lab, `crAGIL` = $agil,
-                 `crIQ` = $iq
+                 `crDESC` = '{$_POST['desc']}', `crCOST` = {$_POST['cost']},
+                 `crENERGY` = {$_POST['energy']}, `crDAYS` = {$_POST['days']}, `crSTR` = {$_POST['str']},
+                 `crGUARD` = {$_POST['gua']}, `crLABOUR` = {$_POST['lab']}, `crAGIL` = {$_POST['agil']},
+                 `crIQ` = {$_POST['iq']}
                  WHERE `crID` = {$_POST['id']}");
         echo 'Course ' . $_POST['name']
                 . ' was edited successfully.<br />

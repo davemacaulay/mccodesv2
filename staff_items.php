@@ -151,7 +151,70 @@ function new_item_form(): void
 	</form>
   	";
 }
+function generate_item_effects(): array
+{
+    global $db;
+    $effects = [];
+    $stats = ['energy', 'will', 'brave', 'hp', 'strength', 'agility', 'guard', 'labour', 'IQ', 'hospital', 'jail', 'money', 'crystals', 'cdays', 'bankmoney', 'cybermoney', 'crimexp'];
+    for ($i = 1; $i <= 3; $i++)
+    {
+        $efxkey = "effect{$i}";
+        $stat_key = $efxkey.'stat';
+        $dir_key = $efxkey.'dir';
+        $type_key = $efxkey.'type';
+        $amount_key = $efxkey.'amount';
+        $on_key = $efxkey.'on';
+        $_POST[$stat_key] = (isset($_POST[$stat_key]) && in_array($_POST[$stat_key], $stats)) ? $_POST[$stat_key] : 'energy';
+        $_POST[$dir_key] = (isset($_POST[$dir_key]) && in_array($_POST[$dir_key], ['pos', 'neg'])) ? $_POST[$dir_key] : 'pos';
+        $_POST[$type_key] = (isset($_POST[$type_key]) && in_array($_POST[$type_key], ['figure', 'percent'])) ? $_POST[$type_key] : 'figure';
+        $_POST[$amount_key] = (isset($_POST[$amount_key]) && is_numeric($_POST[$amount_key])) ? abs(intval($_POST[$amount_key])) : 0;
+        $_POST[$on_key] = (isset($_POST[$on_key]) && in_array($_POST[$on_key], ['1', '0'])) ? $_POST[$on_key] : 0;
 
+        $data = [
+            'stat' => $_POST[$efxkey . 'stat'],
+            'dir' => $_POST[$efxkey . 'dir'],
+            'inc_type' => $_POST[$efxkey . 'type'],
+            'inc_amount' => abs(intval($_POST[$efxkey. 'amount'])),
+        ];
+        $effects[$i] = $db->escape(serialize($data));
+    }
+    return $effects;
+}
+
+/**
+ * @return void
+ */
+function process_items_post_data(): void
+{
+    global $db;
+    $_POST['itmname'] =
+        (isset($_POST['itmname'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['itmname']))
+            ? $db->escape(strip_tags(stripslashes($_POST['itmname'])))
+            : '';
+    $_POST['itmdesc'] =
+        (isset($_POST['itmdesc']))
+            ? $db->escape(strip_tags(stripslashes($_POST['itmdesc'])))
+            : '';
+    $_POST['weapon'] =
+        (isset($_POST['weapon']) && is_numeric($_POST['weapon']))
+            ? abs(intval($_POST['weapon'])) : 0;
+    $_POST['armor'] =
+        (isset($_POST['armor']) && is_numeric($_POST['armor']))
+            ? abs(intval($_POST['armor'])) : 0;
+    $_POST['itmtype'] =
+        (isset($_POST['itmtype']) && is_numeric($_POST['itmtype']))
+            ? abs(intval($_POST['itmtype'])) : '';
+    $_POST['itmbuyprice'] =
+        (isset($_POST['itmbuyprice']) && is_numeric($_POST['itmbuyprice']))
+            ? abs(intval($_POST['itmbuyprice'])) : '';
+    $_POST['itmsellprice'] =
+        (isset($_POST['itmsellprice'])
+            && is_numeric($_POST['itmsellprice']))
+            ? abs(intval($_POST['itmsellprice'])) : '';
+}
 /**
  * @return void
  */
@@ -166,34 +229,8 @@ function new_item_submit(): void
         exit;
     }
     staff_csrf_stdverify('staff_newitem', 'staff_items.php?action=newitem');
-    $itmname =
-            (isset($_POST['itmname'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['itmname']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['itmname'])))
-                    : '';
-    $itmdesc =
-            (isset($_POST['itmdesc']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['itmdesc'])))
-                    : '';
-    $weapon =
-            (isset($_POST['weapon']) && is_numeric($_POST['weapon']))
-                    ? abs(intval($_POST['weapon'])) : 0;
-    $armor =
-            (isset($_POST['armor']) && is_numeric($_POST['armor']))
-                    ? abs(intval($_POST['armor'])) : 0;
-    $_POST['itmtype'] =
-            (isset($_POST['itmtype']) && is_numeric($_POST['itmtype']))
-                    ? abs(intval($_POST['itmtype'])) : '';
-    $_POST['itmbuyprice'] =
-            (isset($_POST['itmbuyprice']) && is_numeric($_POST['itmbuyprice']))
-                    ? abs(intval($_POST['itmbuyprice'])) : '';
-    $_POST['itmsellprice'] =
-            (isset($_POST['itmsellprice'])
-                    && is_numeric($_POST['itmsellprice']))
-                    ? abs(intval($_POST['itmsellprice'])) : '';
-    if (empty($itmname) || empty($itmdesc) || empty($_POST['itmtype'])
+    process_items_post_data();
+    if (empty($_POST['itmname']) || empty($_POST['itmdesc']) || empty($_POST['itmtype'])
             || empty($_POST['itmbuyprice']) || empty($_POST['itmsellprice']))
     {
         echo 'You missed one or more of the fields. Please go back and try again.<br />
@@ -202,55 +239,15 @@ function new_item_submit(): void
         exit;
     }
     $itmbuy = ($_POST['itmbuyable'] == 'on') ? 1 : 0;
-    $effects = [];
-    for ($i = 1; $i <= 3; $i++)
-    {
-        $efxkey = "effect{$i}";
-        $_POST[$efxkey . 'stat'] =
-                (isset($_POST[$efxkey . 'stat'])
-                        && in_array($_POST[$efxkey . 'stat'],
-                                ['energy', 'will', 'brave', 'hp',
-                                        'strength', 'agility', 'guard',
-                                        'labour', 'IQ', 'hospital', 'jail',
-                                        'money', 'crystals', 'cdays',
-                                        'bankmoney', 'cybermoney', 'crimexp']))
-                        ? $_POST[$efxkey . 'stat'] : 'energy';
-        $_POST[$efxkey . 'dir'] =
-                (isset($_POST[$efxkey . 'dir'])
-                        && in_array($_POST[$efxkey . 'dir'],
-                                ['pos', 'neg'])) ? $_POST[$efxkey . 'dir']
-                        : 'pos';
-        $_POST[$efxkey . 'type'] =
-                (isset($_POST[$efxkey . 'type'])
-                        && in_array($_POST[$efxkey . 'type'],
-                                ['figure', 'percent']))
-                        ? $_POST[$efxkey . 'type'] : 'figure';
-        $_POST[$efxkey . 'amount'] =
-                (isset($_POST[$efxkey . 'amount'])
-                        && is_numeric($_POST[$efxkey . 'amount']))
-                        ? abs(intval($_POST[$efxkey . 'amount'])) : 0;
-        $_POST[$efxkey . 'on'] =
-                (isset($_POST[$efxkey . 'on'])
-                        && in_array($_POST[$efxkey . 'on'], ['1', '0']))
-                        ? $_POST[$efxkey . 'on'] : 0;
-        $effects[$i] =
-                $db->escape(
-                        serialize(
-                                ['stat' => $_POST[$efxkey . 'stat'],
-                                        'dir' => $_POST[$efxkey . 'dir'],
-                                        'inc_type' => $_POST[$efxkey . 'type'],
-                                        'inc_amount' => abs(
-                                                (int) $_POST[$efxkey
-                                                        . 'amount'])]));
-    }
+    $effects = generate_item_effects();
     $db->query(
                     "INSERT INTO `items`
-                     VALUES(NULL, {$_POST['itmtype']}, '$itmname', '$itmdesc',
+                     VALUES(NULL, {$_POST['itmtype']}, '{$_POST['itmname']}', '{$_POST['itmdesc']}',
                      {$_POST['itmbuyprice']}, {$_POST['itmsellprice']},
                      $itmbuy, '{$_POST['effect1on']}', '{$effects[1]}',
                      '{$_POST['effect2on']}', '{$effects[2]}',
-                     '{$_POST['effect3on']}', '{$effects[3]}', $weapon,
-                     $armor)");
+                     '{$_POST['effect3on']}', '{$effects[3]}', {$_POST['weapon']},
+                     {$_POST['armor']})");
     stafflog_add("Created item {$_POST['itmname']}");
     echo 'The ' . $_POST['itmname']
             . ' Item was added to the game.<br />
@@ -616,37 +613,11 @@ function edit_item_sub(): void
         exit;
     }
     staff_csrf_stdverify('staff_edititem2', 'staff_items.php?action=edititem');
-    $itmname =
-            (isset($_POST['itmname'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['itmname']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['itmname'])))
-                    : '';
-    $itmdesc =
-            (isset($_POST['itmdesc']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['itmdesc'])))
-                    : '';
-    $weapon =
-            (isset($_POST['weapon']) && is_numeric($_POST['weapon']))
-                    ? abs(intval($_POST['weapon'])) : 0;
-    $armor =
-            (isset($_POST['armor']) && is_numeric($_POST['armor']))
-                    ? abs(intval($_POST['armor'])) : 0;
-    $_POST['itmtype'] =
-            (isset($_POST['itmtype']) && is_numeric($_POST['itmtype']))
-                    ? abs(intval($_POST['itmtype'])) : '';
-    $_POST['itmbuyprice'] =
-            (isset($_POST['itmbuyprice']) && is_numeric($_POST['itmbuyprice']))
-                    ? abs(intval($_POST['itmbuyprice'])) : '';
-    $_POST['itmsellprice'] =
-            (isset($_POST['itmsellprice'])
-                    && is_numeric($_POST['itmsellprice']))
-                    ? abs(intval($_POST['itmsellprice'])) : '';
+    process_items_post_data();
     $_POST['itmid'] =
             (isset($_POST['itmid']) && is_numeric($_POST['itmid']))
                     ? abs(intval($_POST['itmid'])) : '';
-    if (empty($itmname) || empty($itmdesc) || empty($_POST['itmtype'])
+    if (empty($_POST['itmname']) || empty($_POST['itmdesc']) || empty($_POST['itmtype'])
             || empty($_POST['itmbuyprice']) || empty($_POST['itmsellprice'])
             || empty($_POST['itmid']))
     {
@@ -670,58 +641,18 @@ function edit_item_sub(): void
     }
     $db->free_result($q);
     $itmbuy = ($_POST['itmbuyable'] == 'on') ? 1 : 0;
-    $effects = [];
-    for ($i = 1; $i <= 3; $i++)
-    {
-        $efxkey = "effect{$i}";
-        $_POST[$efxkey . 'stat'] =
-                (isset($_POST[$efxkey . 'stat'])
-                        && in_array($_POST[$efxkey . 'stat'],
-                                ['energy', 'will', 'brave', 'hp',
-                                        'strength', 'agility', 'guard',
-                                        'labour', 'IQ', 'hospital', 'jail',
-                                        'money', 'crystals', 'cdays',
-                                        'bankmoney', 'cybermoney', 'crimexp']))
-                        ? $_POST[$efxkey . 'stat'] : 'energy';
-        $_POST[$efxkey . 'dir'] =
-                (isset($_POST[$efxkey . 'dir'])
-                        && in_array($_POST[$efxkey . 'dir'],
-                                ['pos', 'neg'])) ? $_POST[$efxkey . 'dir']
-                        : 'pos';
-        $_POST[$efxkey . 'type'] =
-                (isset($_POST[$efxkey . 'type'])
-                        && in_array($_POST[$efxkey . 'type'],
-                                ['figure', 'percent']))
-                        ? $_POST[$efxkey . 'type'] : 'figure';
-        $_POST[$efxkey . 'amount'] =
-                (isset($_POST[$efxkey . 'amount'])
-                        && is_numeric($_POST[$efxkey . 'amount']))
-                        ? abs(intval($_POST[$efxkey . 'amount'])) : 0;
-        $_POST[$efxkey . 'on'] =
-                (isset($_POST[$efxkey . 'on'])
-                        && in_array($_POST[$efxkey . 'on'], ['1', '0']))
-                        ? $_POST[$efxkey . 'on'] : 0;
-        $effects[$i] =
-                $db->escape(
-                        serialize(
-                                ['stat' => $_POST[$efxkey . 'stat'],
-                                        'dir' => $_POST[$efxkey . 'dir'],
-                                        'inc_type' => $_POST[$efxkey . 'type'],
-                                        'inc_amount' => abs(
-                                                (int) $_POST[$efxkey
-                                                        . 'amount'])]));
-    }
+    $effects = generate_item_effects();
     $db->query(
             'UPDATE `items` SET `itmtype` = ' . $_POST['itmtype']
-                    . ',`itmname` = "' . $itmname . '",`itmdesc` = "'
-                    . $itmdesc . '",`itmbuyprice` = ' . $_POST['itmbuyprice']
+                    . ',`itmname` = "' . $_POST['itmname'] . '",`itmdesc` = "'
+                    . $_POST['itmdesc'] . '",`itmbuyprice` = ' . $_POST['itmbuyprice']
                     . ',`itmsellprice` = ' . $_POST['itmsellprice']
                     . ',`itmbuyable` = ' . $itmbuy . ',`effect1_on` = "'
                     . $_POST['effect1on'] . '",`effect1` = "' . $effects[1]
                     . '",`effect2_on` = "' . $_POST['effect2on']
                     . '",`effect2` = "' . $effects[2] . '",`effect3_on` = "'
                     . $_POST['effect3on'] . '",`effect3` = "' . $effects[3]
-                    . '",`weapon` = ' . $weapon . ',`armor` = ' . $armor
+                    . '",`weapon` = ' . $_POST['weapon'] . ',`armor` = ' . $_POST['armor']
                     . ' WHERE `itmid` = ' . $_POST['itmid']);
     stafflog_add("Edited item {$_POST['itmname']}");
     echo 'The ' . $_POST['itmname']

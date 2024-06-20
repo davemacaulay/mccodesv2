@@ -59,59 +59,64 @@ default:
     break;
 }
 
+function process_jobs_post_data(): void
+{
+    global $db;
+    $_POST['jNAME'] =
+        (isset($_POST['jNAME'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['jNAME']))
+            ? $db->escape(strip_tags(stripslashes($_POST['jNAME'])))
+            : '';
+    $_POST['jDESC'] =
+        (isset($_POST['jDESC']))
+            ? $db->escape(strip_tags(stripslashes($_POST['jDESC'])))
+            : '';
+    $_POST['jOWNER'] =
+        (isset($_POST['jOWNER'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['jOWNER']))
+            ? $db->escape(strip_tags(stripslashes($_POST['jOWNER'])))
+            : '';
+    $_POST['jrNAME'] =
+        (isset($_POST['jrNAME'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['jrNAME']))
+            ? $db->escape(strip_tags(stripslashes($_POST['jrNAME'])))
+            : '';
+    $_POST['jrPAY'] =
+        (isset($_POST['jrPAY']) && is_numeric($_POST['jrPAY']))
+            ? abs(intval($_POST['jrPAY'])) : '';
+    $_POST['jrSTRG'] =
+        (isset($_POST['jrSTRG']) && is_numeric($_POST['jrSTRG']))
+            ? abs(intval($_POST['jrSTRG'])) : 0;
+    $_POST['jrLABOURG'] =
+        (isset($_POST['jrLABOURG']) && is_numeric($_POST['jrLABOURG']))
+            ? abs(intval($_POST['jrLABOURG'])) : 0;
+    $_POST['jrIQG'] =
+        (isset($_POST['jrIQG']) && is_numeric($_POST['jrIQG']))
+            ? abs(intval($_POST['jrIQG'])) : 0;
+    $_POST['jrSTRN'] =
+        (isset($_POST['jrSTRN']) && is_numeric($_POST['jrSTRN']))
+            ? abs(intval($_POST['jrSTRN'])) : 0;
+    $_POST['jrLABOURN'] =
+        (isset($_POST['jrLABOURN']) && is_numeric($_POST['jrLABOURN']))
+            ? abs(intval($_POST['jrLABOURN'])) : 0;
+    $_POST['jrIQN'] =
+        (isset($_POST['jrIQN']) && is_numeric($_POST['jrIQN']))
+            ? abs(intval($_POST['jrIQN'])) : 0;
+}
+
 /**
  * @return void
  */
 function newjob(): void
 {
     global $db, $h;
-
-    $_POST['jNAME'] =
-            (isset($_POST['jNAME'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jNAME']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jNAME'])))
-                    : '';
-    $_POST['jDESC'] =
-            (isset($_POST['jDESC']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jDESC'])))
-                    : '';
-    $_POST['jOWNER'] =
-            (isset($_POST['jOWNER'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jOWNER']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jOWNER'])))
-                    : '';
-    $_POST['jrNAME'] =
-            (isset($_POST['jrNAME'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jrNAME']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jrNAME'])))
-                    : '';
-    $_POST['jrPAY'] =
-            (isset($_POST['jrPAY']) && is_numeric($_POST['jrPAY']))
-                    ? abs(intval($_POST['jrPAY'])) : '';
-    $_POST['jrSTRG'] =
-            (isset($_POST['jrSTRG']) && is_numeric($_POST['jrSTRG']))
-                    ? abs(intval($_POST['jrSTRG'])) : 0;
-    $_POST['jrLABOURG'] =
-            (isset($_POST['jrLABOURG']) && is_numeric($_POST['jrLABOURG']))
-                    ? abs(intval($_POST['jrLABOURG'])) : 0;
-    $_POST['jrIQG'] =
-            (isset($_POST['jrIQG']) && is_numeric($_POST['jrIQG']))
-                    ? abs(intval($_POST['jrIQG'])) : 0;
-    $_POST['jrSTRN'] =
-            (isset($_POST['jrSTRN']) && is_numeric($_POST['jrSTRN']))
-                    ? abs(intval($_POST['jrSTRN'])) : 0;
-    $_POST['jrLABOURN'] =
-            (isset($_POST['jrLABOURN']) && is_numeric($_POST['jrLABOURN']))
-                    ? abs(intval($_POST['jrLABOURN'])) : 0;
-    $_POST['jrIQN'] =
-            (isset($_POST['jrIQN']) && is_numeric($_POST['jrIQN']))
-                    ? abs(intval($_POST['jrIQN'])) : 0;
+    process_jobs_post_data();
     if (!empty($_POST['jNAME']) && !empty($_POST['jDESC'])
             && !empty($_POST['jOWNER']) && !empty($_POST['jrNAME'])
             && !empty($_POST['jrPAY']) && !empty($_POST['jrSTRN'])
@@ -313,37 +318,7 @@ function jobedit(): void
 function newjobrank(): void
 {
     global $db, $h;
-    $_POST['jrNAME'] =
-            (isset($_POST['jrNAME'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jrNAME']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jrNAME'])))
-                    : '';
-    $_POST['jrJOB'] =
-            (isset($_POST['jrJOB']) && is_numeric($_POST['jrJOB']))
-                    ? abs(intval($_POST['jrJOB'])) : '';
-    $_POST['jrPAY'] =
-            (isset($_POST['jrPAY']) && is_numeric($_POST['jrPAY']))
-                    ? abs(intval($_POST['jrPAY'])) : '';
-    $_POST['jrSTRG'] =
-            (isset($_POST['jrSTRG']) && is_numeric($_POST['jrSTRG']))
-                    ? abs(intval($_POST['jrSTRG'])) : 0;
-    $_POST['jrLABOURG'] =
-            (isset($_POST['jrLABOURG']) && is_numeric($_POST['jrLABOURG']))
-                    ? abs(intval($_POST['jrLABOURG'])) : 0;
-    $_POST['jrIQG'] =
-            (isset($_POST['jrIQG']) && is_numeric($_POST['jrIQG']))
-                    ? abs(intval($_POST['jrIQG'])) : 0;
-    $_POST['jrSTRN'] =
-            (isset($_POST['jrSTRN']) && is_numeric($_POST['jrSTRN']))
-                    ? abs(intval($_POST['jrSTRN'])) : 0;
-    $_POST['jrLABOURN'] =
-            (isset($_POST['jrLABOURN']) && is_numeric($_POST['jrLABOURN']))
-                    ? abs(intval($_POST['jrLABOURN'])) : 0;
-    $_POST['jrIQN'] =
-            (isset($_POST['jrIQN']) && is_numeric($_POST['jrIQN']))
-                    ? abs(intval($_POST['jrIQN'])) : 0;
+    process_jobs_post_data();
     if (!empty($_POST['jrNAME']) && !empty($_POST['jrJOB'])
             && !empty($_POST['jrPAY']) && !empty($_POST['jrSTRN'])
             && !empty($_POST['jrLABOURN']) && !empty($_POST['jrIQN']))
@@ -413,37 +388,7 @@ function jobrankedit(): void
     $_POST['jrID'] =
             (isset($_POST['jrID']) && is_numeric($_POST['jrID']))
                     ? abs(intval($_POST['jrID'])) : '';
-    $_POST['jrNAME'] =
-            (isset($_POST['jrNAME'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jrNAME']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jrNAME'])))
-                    : '';
-    $_POST['jrJOB'] =
-            (isset($_POST['jrJOB']) && is_numeric($_POST['jrJOB']))
-                    ? abs(intval($_POST['jrJOB'])) : '';
-    $_POST['jrPAY'] =
-            (isset($_POST['jrPAY']) && is_numeric($_POST['jrPAY']))
-                    ? abs(intval($_POST['jrPAY'])) : '';
-    $_POST['jrSTRG'] =
-            (isset($_POST['jrSTRG']) && is_numeric($_POST['jrSTRG']))
-                    ? abs(intval($_POST['jrSTRG'])) : 0;
-    $_POST['jrLABOURG'] =
-            (isset($_POST['jrLABOURG']) && is_numeric($_POST['jrLABOURG']))
-                    ? abs(intval($_POST['jrLABOURG'])) : 0;
-    $_POST['jrIQG'] =
-            (isset($_POST['jrIQG']) && is_numeric($_POST['jrIQG']))
-                    ? abs(intval($_POST['jrIQG'])) : 0;
-    $_POST['jrSTRN'] =
-            (isset($_POST['jrSTRN']) && is_numeric($_POST['jrSTRN']))
-                    ? abs(intval($_POST['jrSTRN'])) : 0;
-    $_POST['jrLABOURN'] =
-            (isset($_POST['jrLABOURN']) && is_numeric($_POST['jrLABOURN']))
-                    ? abs(intval($_POST['jrLABOURN'])) : 0;
-    $_POST['jrIQN'] =
-            (isset($_POST['jrIQN']) && is_numeric($_POST['jrIQN']))
-                    ? abs(intval($_POST['jrIQN'])) : 0;
+    process_jobs_post_data();
     if (!empty($_POST['jrID']) && !empty($_POST['jrNAME'])
             && !empty($_POST['jrJOB']) && !empty($_POST['jrPAY'])
             && !empty($_POST['jrSTRN']) && !empty($_POST['jrLABOURN'])

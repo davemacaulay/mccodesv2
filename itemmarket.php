@@ -575,100 +575,36 @@ function item_gift2(): void
         $h->endpage();
         exit;
     }
-    item_add($_POST['user'], $r['imITEM'], $_POST['QTY']);
+    send_gift($r, $curr, $final_price);
+}
+
+/**
+ * @param array $data
+ * @param string $currency
+ * @param int $final_price
+ * @return void
+ */
+function send_gift(array $data, string $currency, int $final_price): void
+{
+    global $db, $ir, $userid;
+    item_add($_POST['user'], $data['imITEM'], $_POST['QTY']);
     $i = ($db->insert_id()) ? $db->insert_id() : 99999;
-    if ($_POST['QTY'] == $r['imQTY'])
-    {
-        $db->query(
-                "DELETE FROM `itemmarket`
-        		 WHERE `imID` = {$_POST['ID']}");
+    if ($_POST['QTY'] == $data['imQTY']) {
+        $db->query("DELETE FROM `itemmarket` WHERE `imID` = {$_POST['ID']}");
+    } elseif ($_POST['QTY'] < $data['imQTY']) {
+        $db->query('UPDATE `itemmarket` SET `imQTY` = `imQTY` - ' . $_POST['QTY'] . ' WHERE `imID` = ' . $_POST['ID']);
     }
-    elseif ($_POST['QTY'] < $r['imQTY'])
-    {
-        $db->query(
-                'UPDATE `itemmarket`
-                 SET `imQTY` = `imQTY` - ' . $_POST['QTY']
-                        . '
-                 WHERE `imID` = ' . $_POST['ID']);
-    }
-
-    $db->query(
-            "UPDATE `users`
-             SET `$curr` = `$curr` - {$final_price}
-             WHERE `userid`= $userid");
-    $db->query(
-            "UPDATE `users`
-             SET `$curr` = `$curr` + {$final_price}
-             WHERE `userid` = {$r['imADDER']}");
-    if ($curr == 'money')
-    {
-        event_add($r['imADDER'],
-            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-            . " bought your {$r['itmname']} x{$_POST['QTY']} item(s)"
-            . ' from the market for '
-            . money_formatter($final_price) . '.');
-        event_add($_POST['user'],
-            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-            . " bought you {$r['itmname']} x{$_POST['QTY']}"
-            . ' from the item market as a gift.');
-
-        $u =
-                $db->query(
-                        "SELECT `username`
-                         FROM `users`
-                         WHERE `userid` = {$_POST['user']}");
-        $uname = $db->fetch_single($u);
-        $db->free_result($u);
-        $img_log =
-                $db->escape(
-                        "{$ir['username']} bought {$r['itmname']} x{$r['imQTY']} from the item market for "
-                                . money_formatter($final_price)
-                                . " from user ID {$r['imADDER']} as a gift for $uname [{$_POST['user']}]");
-        $db->query(
-                "INSERT INTO `imbuylogs`
-                 VALUES (NULL, {$r['imITEM']}, {$r['imADDER']}, $userid,
-                 {$final_price}, {$r['imID']}, $i, " . time()
-                        . ", '{$img_log}')");
-        echo "
-		You bought the {$r['itmname']} from the market for "
-                . money_formatter($final_price)
-                . " and sent the gift to $uname.
-		";
-    }
-    else
-    {
-        event_add($r['imADDER'],
-            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-            . " bought your {$r['itmname']} x{$_POST['QTY']} item(s)"
-            . ' from the market for '
-            . number_format($final_price) . ' crystals.');
-        event_add($_POST['user'],
-            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a>"
-            . " bought you {$r['itmname']} x{$_POST['QTY']}"
-            . ' from the item market as a gift.');
-
-        $u =
-                $db->query(
-                        "SELECT `username`
-                         FROM `users`
-                         WHERE `userid` = {$_POST['user']}");
-        $uname = $db->fetch_single($u);
-        $db->free_result($u);
-        $img_log =
-                $db->escape(
-                        "{$ir['username']} bought {$r['itmname']} x{$r['imQTY']} from the item market for "
-                                . number_format($final_price)
-                                . " crystals from user ID {$r['imADDER']} as a gift for $uname [{$_POST['user']}]");
-        $db->query(
-                "INSERT INTO `imbuylogs`
-                 VALUES (NULL, {$r['imITEM']}, {$r['imADDER']}, $userid,
-                 {$final_price}, {$r['imID']}, $i, " . time()
-                        . ", '{$img_log}')");
-        echo "
-		You bought the {$r['itmname']} from the market for "
-                . number_format($final_price)
-                . " crystals and sent the gift to $uname.
-		";
-    }
+    $db->query("UPDATE `users` SET `$currency` = `$currency` - {$final_price} WHERE `userid`= $userid");
+    $db->query("UPDATE `users` SET `$currency` = `$currency` + {$final_price} WHERE `userid` = {$data['imADDER']}");
+    $my_name = '<a href="viewuser.php?u='.$userid.'">'.$ir['username'].'</a>';
+    $cost = $currency === 'money' ? money_formatter($final_price) : number_format($final_price);
+    event_add($data['imADDER'], $my_name." bought your {$data['itmname']} x{$_POST['QTY']} item(s) from the market for " . $cost . '.');
+    event_add($_POST['user'], $my_name . " bought you {$data['itmname']} x{$_POST['QTY']} from the item market as a gift.");
+    $u = $db->query("SELECT `username` FROM `users` WHERE `userid` = {$_POST['user']}");
+    $uname = $db->fetch_single($u);
+    $db->free_result($u);
+    $img_log = $db->escape("{$ir['username']} bought {$data['itmname']} x{$data['imQTY']} from the item market for " . $cost . " from user ID {$data['imADDER']} as a gift for $uname [{$_POST['user']}]");
+    $db->query("INSERT INTO `imbuylogs` VALUES (NULL, {$data['imITEM']}, {$data['imADDER']}, $userid, {$final_price}, {$data['imID']}, $i, " . time() . ", '{$img_log}')");
+    echo "You bought the {$data['itmname']} from the market for " . $cost . " and sent the gift to $uname.";
 }
 $h->endpage();
