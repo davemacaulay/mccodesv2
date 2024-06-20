@@ -477,12 +477,12 @@ EOF;
              `crystals`, `donatordays`, `user_level`, `energy`, `maxenergy`,
              `will`, `maxwill`, `brave`, `maxbrave`, `hp`, `maxhp`, `location`,
              `gender`, `signedup`, `email`, `bankmoney`, `lastip`,
-             `lastip_signup`, `pass_salt`)
+             `lastip_signup`, `pass_salt`, , `display_pic`, `staffnotes`, `voted`, `user_notepad`)
              VALUES ('{$ins_username}', '{$ins_username}', '{$e_encpsw}', 1,
              100, 0, 0, 2, 12, 12, 100, 100, 5, 5, 100, 100, 1,
              '{$adm_gender}', " . time()
                     . ", '{$ins_email}', -1, '$IP', '$IP',
-             '{$e_salt}')");
+             '{$e_salt}', '', '', '', '')");
     $i = $db->insert_id();
     $db->query(
             "INSERT INTO `userstats`
