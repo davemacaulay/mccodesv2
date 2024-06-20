@@ -114,9 +114,9 @@ class bbcode
 
     /**
      * @param $in
-     * @return mixed|string
+     * @return string
      */
-    public function quote_corrector($in)
+    public function quote_corrector($in): string
     {
         $quotes       = substr_count($in, '[/quote]');
         $quote_starts = substr_count($in, '[quote');

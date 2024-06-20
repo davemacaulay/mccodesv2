@@ -280,9 +280,9 @@ if (!function_exists('get_magic_quotes_gpc'))
 
 /**
  * @param $text
- * @return mixed|string
+ * @return string
  */
-function gpc_cleanup($text)
+function gpc_cleanup($text): string
 {
     if (get_magic_quotes_gpc())
     {

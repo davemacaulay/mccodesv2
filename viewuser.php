@@ -297,9 +297,9 @@ else
 
 /**
  * @param $in
- * @return mixed|string
+ * @return string
  */
-function checkblank($in)
+function checkblank($in): string
 {
     if (!$in)
     {

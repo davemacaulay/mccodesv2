@@ -164,10 +164,10 @@ class database
     }
 
     /**
-     * @param $result
+     * @param int $result
      * @return mixed
      */
-    public function fetch_single($result = 0)
+    public function fetch_single(int $result = 0): mixed
     {
         if (!$result) {
             $result = $this->result;
