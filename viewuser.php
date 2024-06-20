@@ -246,12 +246,21 @@ else
    		';
         if (in_array($ir['user_level'], [2, 3, 5]))
         {
-            $r['lastiph'] = @gethostbyaddr($r['lastip']);
+            $r['lastiph'] = filter_var($r['lastip'], FILTER_VALIDATE_IP) ? @gethostbyaddr($r['lastip']) : null;
             $r['lastiph'] = checkblank($r['lastiph']);
-            $r['lastip_loginh'] = @gethostbyaddr($r['lastip_login']);
-            $r['lastip_loginh'] = checkblank($r['lastip_loginh']);
-            $r['lastip_signuph'] = @gethostbyaddr($r['lastip_signup']);
-            $r['lastip_signuph'] = checkblank($r['lastip_signuph']);
+            // No need to duplicate requests if we've already done it!
+            if ($r['lastip_login'] == $r['lastip']) {
+                $r['lastip_loginh'] = $r['lastiph'];
+            } else {
+                $r['lastip_loginh'] = filter_var($r['lastip_login'], FILTER_VALIDATE_IP) ? @gethostbyaddr($r['lastip_login']) : null;
+                $r['lastip_loginh'] = checkblank($r['lastip_loginh']);
+            }
+            if (in_array($r['lastip_signup'], [$r['lastip'], $r['lastip_login']])) {
+                $r['lastip_signuph'] = $r['lastip_signup'] === $r['lastip'] ? $r['lastiph'] : $r['lastip_loginh'];
+            } else {
+                $r['lastip_signuph'] = filter_var($r['lastip_signup'], FILTER_VALIDATE_IP) ? @gethostbyaddr($r['lastip_signup']) : null;
+                $r['lastip_signuph'] = checkblank($r['lastip_signuph']);
+            }
             echo "
             <h3>Internet Info</h3>
             <table width='100%' border='0' cellspacing='1' class='table'>
