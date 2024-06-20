@@ -29,7 +29,7 @@ const doCheck = (opts) => {
     fetch(opts.location, {
         method: "post",
         body: fd
-    }).then(response => {
+    }).then(r => r.json()).then(response => {
         document.getElementById(opts.responseElem).innerHTML = response;
     }).catch(err => console.error(err));
 }
