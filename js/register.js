@@ -23,55 +23,46 @@
  * Functions for Register Page (mostly just simple AJAX calls)
  */
 
-function CheckPasswords(password)
-{
-    $.ajax({
-        type : "POST",
-        url : "check.php",
-        data : "password=" + escape(password),
-        success : function(resps)
-        {
-            $("#passwordresult").html(resps);
-        }
+const doCheck = (opts) => {
+    const fd = new FormData();
+    fd.set(opts.key, encodeURIComponent(opts.value));
+    fetch(opts.location, {
+        method: "post",
+        body: fd
+    }).then(response => {
+        document.getElementById(opts.responseElem).innerHTML = response;
+    }).catch(err => console.error(err));
+}
+const CheckPasswords = (password) => {
+    doCheck({
+        location: "check.php",
+        key: "password",
+        value: password,
+        responseElem: "passwordresult"
     });
 }
 
-function CheckUsername(name)
-{
-    $.ajax({
-        type : "POST",
-        url : "checkun.php",
-        data : "username=" + escape(name),
-        success : function(resps)
-        {
-            $("#usernameresult").html(resps);
-        }
+const CheckUsername = (name) => {
+    doCheck({
+        location: "checkun.php",
+        key: "username",
+        value: name,
+        responseElem: "usernameresult"
     });
 }
 
-function CheckEmail(email)
-{
-    $.ajax({
-        type : "POST",
-        url : "checkem.php",
-        data : "email=" + escape(email),
-        success : function(resps)
-        {
-            $("#emailresult").html(resps);
-        }
+function CheckEmail(email) {
+    doCheck({
+        location: "checkem.php",
+        key: "email",
+        value: email,
+        responseElem: "emailresult"
     });
 }
 
-function PasswordMatch()
-{
-    pwt1 = $("#pw1").val();
-    pwt2 = $("#pw2").val();
-    if (pwt1 == pwt2)
-    {
-        $("#cpasswordresult").html("<font color='green'>OK</font>");
-    }
-    else
-    {
-        $("#cpasswordresult").html("<font color='red'>Not Matching</font>");
-    }
+const PasswordMatch = () => {
+    const pwt1 = document.getElementById("pw1").value;
+    const pwt2 = document.getElementById("pw2").value;
+    const resultElem = document.getElementById("cpasswordresult");
+    resultElem.innerHTML = (pwt1.length > 0 && pwt1 === pwt2) ? `<span style="color: #008800;">OK</span>` : `<span style="color: #FF0000;">Not Matching</span>`;
 }
