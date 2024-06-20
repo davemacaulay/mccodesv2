@@ -275,17 +275,6 @@ function config(): void
     </form>
        ";
 }
-if (!function_exists('get_magic_quotes_gpc'))
-{
-
-    /**
-     * @return int
-     */
-    function get_magic_quotes_gpc(): int
-    {
-        return 0;
-    }
-}
 
 /**
  * @param $text
@@ -293,10 +282,6 @@ if (!function_exists('get_magic_quotes_gpc'))
  */
 function gpc_cleanup($text): string
 {
-    if (get_magic_quotes_gpc())
-    {
-        return stripslashes($text);
-    }
     return $text;
 }
 
