@@ -218,7 +218,7 @@ elseif (isset($_POST['password']))
             $overall = '<span style="color:#0000ff">Excellent</span>'; // Thats the way Superman.
         } // End If.
 
-        echo 'Password strength: ' . $overall . ''; // Tells them their passwords strength.
+        echo 'Password strength: ' . $overall; // Tells them their passwords strength.
 
     }
     elseif ($PASS == NULL)
