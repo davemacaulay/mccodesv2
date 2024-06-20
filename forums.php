@@ -214,7 +214,7 @@ function idx(): void
     }
     echo "\n</table>";
     $db->free_result($q);
-    if ($ir['user_level'] > 1)
+    if (check_access('use_staff_forums'))
     {
         echo "<hr /><a name='staff'><h3>Staff-Only Forums</h3></a><hr />";
         $q =
@@ -289,7 +289,7 @@ function viewforum(): void
     $db->free_result($q);
     if (($r['ff_auth'] == 'gang' && $ir['gang'] != $r['ff_owner']
             && $ir['user_level'] < 2)
-            || ($r['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($r['ff_auth'] == 'staff' && !check_access('use_staff_forums', false)))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -436,7 +436,7 @@ function viewtopic(): void
     $topic = get_topic($_GET['viewtopic']);
     $forum = get_forum((int)$topic['ft_forum_id']);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner']
-            && $ir['user_level'] < 2)
+            && !check_access('use_staff_forums', false))
             || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
     {
         echo '
@@ -463,7 +463,7 @@ You have no permission to view this forum.<br />
         $st = ($pages - 1) * 20;
     }
     display_pagination($pages, $st, -20, (int)$topic['ft_id']);
-    topic_management_options($ir['user_level']);
+    topic_management_options();
     $q3 =
             $db->query(
                     "SELECT `fp_poster_name`, `fp_editor_time`,
@@ -573,15 +573,13 @@ function get_cached_userdata(int|string $fp_poster_id, array &$precache): array
 }
 
 /**
- * @param $user_level
  * @return void
  */
-function topic_management_options($user_level): void
+function topic_management_options(): void
 {
-    echo '<br />';
-    if ($user_level > 1) {
-        echo "
-	<form action='forums.php?act=move&amp;topic={$_GET['viewtopic']}' method='post'>
+    echo '<br>';
+    if (check_access('manage_forums', false)) {
+        echo "<form action='forums.php?act=move&amp;topic={$_GET['viewtopic']}' method='post'>
     <b>Move topic to:</b> " . forum_dropdown('forum', -1)
             . "
 	<input type='submit' value='Move' />
@@ -595,8 +593,7 @@ function topic_management_options($user_level): void
 	</a>
 	<a href='forums.php?act=deletopic&amp;topic={$_GET['viewtopic']}'>
 		<img src='delete.gif' alt='Delete Topic' title='Delete Topic' />
-	</a><br />
-            ";
+	</a><br />";
     }
     echo "<table cellspacing='1' class='table' width='100%'>\n";
 }
@@ -796,7 +793,7 @@ function newtopicform(): void
     $r = $db->fetch_row($q);
     $db->free_result($q);
     if (($r['ff_auth'] == 'gang' && $ir['gang'] != $r['ff_owner'])
-            || ($r['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($r['ff_auth'] == 'staff' && !check_access('use_staff_forums', false)))
     {
         echo '
         You have no permission to view this forum.<br />
@@ -1025,7 +1022,7 @@ function quote(): void
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner'])
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($forum['ff_auth'] == 'staff' && !check_access('use_staff_forums', false)))
     {
         echo '
 You have no permission to reply to this topic.<br />
@@ -1167,7 +1164,7 @@ You have no permission to view this forum.<br />
     }
     $post = $db->fetch_row($q3);
     $db->free_result($q3);
-    if (!($ir['user_level'] > 1 || $ir['userid'] == $post['fp_poster_id']))
+    if (!(check_access('manage_forums', false) || $ir['userid'] == $post['fp_poster_id']))
     {
         echo '
 You have no permission to edit this post.<br />
@@ -1281,7 +1278,7 @@ You have no permission to view this forum.<br />
     }
     $post = $db->fetch_row($q3);
     $db->free_result($q3);
-    if (!($ir['user_level'] > 1 || $ir['userid'] == $post['fp_poster_id']))
+    if (!(check_access('manage_forums', false) || $ir['userid'] == $post['fp_poster_id']))
     {
         echo '
 You have no permission to edit this post.<br />
@@ -1519,7 +1516,7 @@ function move(): void
 function lock(): void
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], [2, 3, 5]))
+    if (!check_access('manage_forums', false))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1639,7 +1636,7 @@ function pin(): void
 function delepost(): void
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], [2, 3, 5]))
+    if (!check_access('manage_forums', false))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1788,7 +1785,7 @@ function get_links(array $r, int &$no): array
                 'ISO-8859-1')) . "'>Quote Post</a>]";
     $elink = $ir['user_level'] > 1 || $ir['userid'] == $r['fp_poster_id'] ? "[<a href='forums.php?act=edit&amp;post={$r['fp_id']}&amp;topic={$_GET['viewtopic']}'>Edit Post</a>]" : '';
     $no++;
-    $dlink = ($no > 1 && $ir['user_level'] > 1) ? "[<a href='forums.php?act=delepost&amp;post={$r['fp_id']}'>Delete Post</a>]" : '';
+    $dlink = ($no > 1 && check_access('manage_forums', false)) ? "[<a href='forums.php?act=delepost&amp;post={$r['fp_id']}'>Delete Post</a>]" : '';
     return [$qlink, $elink, $dlink];
 }
 

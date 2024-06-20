@@ -23,13 +23,7 @@ declare(strict_types=1);
 
 global $db, $ir, $userid, $h;
 require_once('globals.php');
-if (!in_array($ir['user_level'], [2, 3, 5]))
-{
-    echo 'You cannot access this area.<br />
-    &gt; <a href="index.php">Go Home</a>';
-    $h->endpage();
-    exit;
-}
+check_access('manage_punishments');
 $_POST['user'] =
         (isset($_POST['user']) && is_numeric($_POST['user']))
                 ? abs(intval($_POST['user'])) : '';
@@ -55,21 +49,7 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
         $h->endpage();
         exit;
     }
-    $q =
-            $db->query(
-                    'SELECT `user_level`
-                     FROM `users`
-                     WHERE `userid` = ' . $_POST['user']);
-    if ($db->num_rows($q) == 0)
-    {
-        $db->free_result($q);
-        echo 'Invalid user.<br />&gt; <a href="jailuser.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
-    $f_q = $db->fetch_row($q);
-    $db->free_result($q);
-    if ($f_q['user_level'] == 2)
+    if (check_access('administrator', false, $_POST['user']))
     {
         echo 'You cannot fed admins, please destaff them first.
         <br />&gt; <a href="jailuser.php">Go Back</a>';

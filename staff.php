@@ -174,8 +174,8 @@ function update_basic_settings(): void
  */
 function basicsettings(): void
 {
-    global $ir, $h;
-    if ($ir['user_level'] != 2) {
+    global $h;
+    if (!check_access('administrator', false)) {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
         $h->endpage();
@@ -250,7 +250,7 @@ function announcements(): void
 function index(): void
 {
     global $db, $ir, $set, $_CONFIG;
-    if ($ir['user_level'] == 2) {
+    if (check_access('administrator', false)) {
         $versq = $db->query('SELECT VERSION()');
         $mv    = $db->fetch_single($versq);
         $db->free_result($versq);

@@ -23,12 +23,7 @@ declare(strict_types=1);
 
 global $ir, $h;
 require_once('sglobals.php');
-if (!in_array($ir['user_level'], [2, 3, 5]))
-{
-    echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Home</a>';
-    $h->endpage();
-    exit;
-}
+check_access('manage_punishments');
 //This contains punishment stuffs
 if (!isset($_GET['action']))
 {

@@ -32,33 +32,43 @@ if (!isset($_GET['action']))
 switch ($_GET['action'])
 {
 case 'newitem':
+    check_access('manage_items');
     new_item_form();
     break;
 case 'newitemsub':
+    check_access('manage_items');
     new_item_submit();
     break;
 case 'giveitem':
+    check_access('credit_item');
     give_item_form();
     break;
 case 'giveitemsub':
+    check_access('credit_item');
     give_item_submit();
     break;
 case 'killitem':
+    check_access('manage_items');
     kill_item_form();
     break;
 case 'killitemsub':
+    check_access('manage_items');
     kill_item_submit();
     break;
 case 'edititem':
+    check_access('manage_items');
     edit_item_begin();
     break;
 case 'edititemform':
+    check_access('manage_items');
     edit_item_form();
     break;
 case 'edititemsub':
+    check_access('manage_items');
     edit_item_sub();
     break;
 case 'newitemtype':
+    check_access('manage_items');
     newitemtype();
     break;
 default:
@@ -72,13 +82,6 @@ default:
 function new_item_form(): void
 {
     global $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $csrf = request_csrf_html('staff_newitem');
     echo "
     <h3>Adding an item to the game</h3>
@@ -221,13 +224,6 @@ function process_items_post_data(): void
 function new_item_submit(): void
 {
     global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     staff_csrf_stdverify('staff_newitem', 'staff_items.php?action=newitem');
     process_items_post_data();
     if (empty($_POST['itmname']) || empty($_POST['itmdesc']) || empty($_POST['itmtype'])
@@ -262,13 +258,6 @@ function new_item_submit(): void
 function give_item_form(): void
 {
     global $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $csrf = request_csrf_html('staff_giveitem');
     echo "
     <h3>Giving Item To User</h3>
@@ -292,13 +281,6 @@ function give_item_form(): void
 function give_item_submit(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     staff_csrf_stdverify('staff_giveitem', 'staff_items.php?action=giveitem');
     $_POST['item'] =
             (isset($_POST['item']) && is_numeric($_POST['item']))
@@ -354,13 +336,6 @@ function give_item_submit(): void
 function kill_item_form(): void
 {
     global $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $csrf = request_csrf_html('staff_killitem');
     echo "
     <h3>Deleting Item</h3>
@@ -382,13 +357,6 @@ function kill_item_form(): void
 function kill_item_submit(): void
 {
     global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     staff_csrf_stdverify('staff_killitem', 'staff_items.php?action=killitem');
     $_POST['item'] =
             (isset($_POST['item']) && is_numeric($_POST['item']))
@@ -440,12 +408,6 @@ function kill_item_submit(): void
 function edit_item_begin(): void
 {
     global $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $csrf = request_csrf_html('staff_edititem1');
     echo "
     <h3>Editing Item</h3>
@@ -466,13 +428,6 @@ function edit_item_begin(): void
 function edit_item_form(): void
 {
     global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     staff_csrf_stdverify('staff_edititem1', 'staff_items.php?action=edititem');
     $_POST['item'] =
             (isset($_POST['item']) && is_numeric($_POST['item']))
@@ -606,12 +561,6 @@ function edit_item_form(): void
 function edit_item_sub(): void
 {
     global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     staff_csrf_stdverify('staff_edititem2', 'staff_items.php?action=edititem');
     process_items_post_data();
     $_POST['itmid'] =
@@ -668,13 +617,6 @@ function edit_item_sub(): void
 function newitemtype(): void
 {
     global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $_POST['name'] =
             (isset($_POST['name'])
                     && preg_match(

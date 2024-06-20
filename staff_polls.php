@@ -24,12 +24,7 @@ declare(strict_types=1);
 
 global $ir, $h;
 require_once('sglobals.php');
-if ($ir['user_level'] != 2)
-{
-    echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-    $h->endpage();
-    exit;
-}
+check_access('manage_polls');
 //This contains shop stuffs
 if (!isset($_GET['action']))
 {

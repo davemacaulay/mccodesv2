@@ -90,7 +90,7 @@ if (!$ir['jail'] && $ir['gang'])
 {
     echo "<a href='yourgang.php'>Your Gang</a><br />";
 }
-if ($ir['user_level'] > 1)
+if (!empty($ir['staff_roles']))
 {
     echo "
 	<hr />
@@ -104,8 +104,8 @@ if ($ir['user_level'] > 1)
                     "SELECT `userid`, `username`, `laston`
                      FROM `users`
                      WHERE `laston` > ({$online_cutoff})
-                     AND `user_level` > 1
-                     ORDER BY `userid` ASC");
+                     AND `staff_roles` != ''
+                     ORDER BY `userid`");
     while ($r = $db->fetch_row($q))
     {
         echo '<a href="viewuser.php?u=' . $r['userid'] . '">' . $r['username']
