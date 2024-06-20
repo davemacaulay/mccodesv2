@@ -494,16 +494,16 @@ EOF;
     		 VALUES($i, 10, 10, 10, 10, 10)");
     $db->query(
             "INSERT INTO `settings`
-             VALUES(NULL, 'game_name', '{$ins_game_name}')");
+             VALUES(NULL, 'game_name', '{$ins_game_name}', 'string')");
     $db->query(
             "INSERT INTO `settings`
-             VALUES(NULL, 'game_owner', '{$ins_game_owner}')");
+             VALUES(NULL, 'game_owner', '{$ins_game_owner}', 'string')");
     $db->query(
             "INSERT INTO `settings`
-             VALUES(NULL, 'paypal', '{$ins_paypal}')");
+             VALUES(NULL, 'paypal', '{$ins_paypal}', 'string')");
     $db->query(
             "INSERT INTO `settings`
-             VALUES(NULL, 'game_description', '{$ins_game_desc}')");
+             VALUES(NULL, 'game_description', '{$ins_game_desc}', 'string')");
     echo '... Done.<br />';
     $path = dirname($_SERVER['SCRIPT_FILENAME']);
     echo "

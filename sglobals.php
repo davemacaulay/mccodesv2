@@ -82,13 +82,7 @@ $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
         $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
 $c = $db->connection_id;
-$set = [];
-$settq = $db->query('SELECT *
-					 FROM `settings`');
-while ($r = $db->fetch_row($settq))
-{
-    $set[$r['conf_name']] = $r['conf_value'];
-}
+$set = get_site_settings();
 global $jobquery, $housequery;
 if (isset($jobquery) && $jobquery)
 {

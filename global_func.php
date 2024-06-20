@@ -1261,3 +1261,15 @@ function set_userdata_data_types(array &$ir): void
         }
     }
 }
+
+function get_site_settings(): array
+{
+    global $db;
+    $set = [];
+    $settq = $db->query('SELECT * FROM `settings`');
+    while ($r = $db->fetch_row($settq)) {
+        $set[$r['conf_name']] = $r['conf_value'];
+        settype($set[$r['conf_name']], $r['data_type']);
+    }
+    return $set;
+}

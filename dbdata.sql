@@ -1033,22 +1033,23 @@ CREATE TABLE `settings` (
   `conf_id` int(11) NOT NULL auto_increment,
   `conf_name` varchar(255) NOT NULL default '',
   `conf_value` text NOT NULL,
+  `data_type` varchar(16) NOT NULL default 'string',
   PRIMARY KEY  (`conf_id`)
 ) ENGINE=MyISAM ;
 
-INSERT INTO `settings` VALUES (NULL, 'validate_period', '15');
-INSERT INTO `settings` VALUES (NULL, 'validate_on', '0');
-INSERT INTO `settings` VALUES (NULL, 'regcap_on', '0');
-INSERT INTO `settings` VALUES (NULL, 'hospital_count', '0');
-INSERT INTO `settings` VALUES (NULL, 'jail_count', '0');
-INSERT INTO `settings` VALUES (NULL, 'sendcrys_on', '1');
-INSERT INTO `settings` VALUES (NULL, 'sendbank_on', '1');
-INSERT INTO `settings` VALUES (NULL, 'ct_refillprice', '12');
-INSERT INTO `settings` VALUES (NULL, 'ct_iqpercrys', '5');
-INSERT INTO `settings` VALUES (NULL, 'ct_moneypercrys', '200');
-INSERT INTO `settings` VALUES (NULL, 'staff_pad', 'Here you can store notes for all staff to see.');
-INSERT INTO `settings` VALUES (NULL, 'willp_item', '0');
-INSERT INTO `settings` VALUES (NULL, 'jquery_location', 'js/jquery-1.7.1.min.js');
+INSERT INTO `settings` VALUES (NULL, 'validate_period', '15', 'string');
+INSERT INTO `settings` VALUES (NULL, 'validate_on', '0', 'bool');
+INSERT INTO `settings` VALUES (NULL, 'regcap_on', '0', 'bool');
+INSERT INTO `settings` VALUES (NULL, 'hospital_count', '0', 'int');
+INSERT INTO `settings` VALUES (NULL, 'jail_count', '0', 'int');
+INSERT INTO `settings` VALUES (NULL, 'sendcrys_on', '1', 'bool');
+INSERT INTO `settings` VALUES (NULL, 'sendbank_on', '1', 'bool');
+INSERT INTO `settings` VALUES (NULL, 'ct_refillprice', '12', 'int');
+INSERT INTO `settings` VALUES (NULL, 'ct_iqpercrys', '5', 'int');
+INSERT INTO `settings` VALUES (NULL, 'ct_moneypercrys', '200', 'int');
+INSERT INTO `settings` VALUES (NULL, 'staff_pad', 'Here you can store notes for all staff to see.', 'string');
+INSERT INTO `settings` VALUES (NULL, 'willp_item', '0', 'int');
+INSERT INTO `settings` VALUES (NULL, 'jquery_location', 'js/jquery-1.7.1.min.js', 'string');
 
 
 -- --------------------------------------------------------
