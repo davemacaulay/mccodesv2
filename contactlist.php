@@ -51,6 +51,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function contacts_list(): void
 {
     global $db, $userid;
@@ -99,6 +102,9 @@ These are the people on your contact list.
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function add_contact(): void
 {
     global $db, $userid;
@@ -151,6 +157,9 @@ Adding a contact!
     }
 }
 
+/**
+ * @return void
+ */
 function remove_contact(): void
 {
     global $db, $userid, $h;

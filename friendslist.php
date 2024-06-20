@@ -50,6 +50,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function friends_list(): void
 {
     global $db, $ir, $userid;
@@ -135,6 +138,9 @@ Most hated: [";
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function add_friend(): void
 {
     global $db, $userid;
@@ -206,6 +212,9 @@ Adding an friend!
 
 }
 
+/**
+ * @return void
+ */
 function remove_friend(): void
 {
     global $db, $userid, $h;
@@ -247,6 +256,9 @@ Friends list entry removed!<br />
    ";
 }
 
+/**
+ * @return void
+ */
 function change_comment(): void
 {
     global $db, $userid, $h;

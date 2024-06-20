@@ -50,6 +50,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function startpoll(): void
 {
     $csrf = request_csrf_html('staff_startpoll');
@@ -89,6 +92,9 @@ function startpoll(): void
            ";
 }
 
+/**
+ * @return void
+ */
 function startpollsub(): void
 {
     global $db, $h;
@@ -160,6 +166,9 @@ function startpollsub(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function endpoll(): void
 {
     global $db, $h;

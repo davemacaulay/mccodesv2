@@ -81,6 +81,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function new_crime_form(): void
 {
     $csrf = request_csrf_html('staff_newcrime');
@@ -123,6 +126,9 @@ function new_crime_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function new_crime_submit(): void
 {
     global $db, $h;
@@ -232,6 +238,9 @@ function new_crime_submit(): void
     stafflog_add('Created crime ' . $_POST['name']);
 }
 
+/**
+ * @return void
+ */
 function edit_crime_begin(): void
 {
     $csrf = request_csrf_html('staff_editcrime1');
@@ -249,6 +258,9 @@ function edit_crime_begin(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function edit_crime_form(): void
 {
     global $h, $db;
@@ -318,6 +330,9 @@ function edit_crime_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function edit_crime_sub(): void
 {
     global $h, $db;
@@ -444,6 +459,9 @@ function edit_crime_sub(): void
 
 }
 
+/**
+ * @return void
+ */
 function delcrime(): void
 {
     global $h, $db;
@@ -556,6 +574,9 @@ function delcrime(): void
     }
 }
 
+/**
+ * @return void
+ */
 function new_crimegroup_form(): void
 {
     $csrf = request_csrf_html('staff_newcrimegroup');
@@ -573,6 +594,9 @@ function new_crimegroup_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function new_crimegroup_submit(): void
 {
     global $db, $h;
@@ -619,6 +643,9 @@ function new_crimegroup_submit(): void
     stafflog_add('Created Crime Group ' . $_POST['cgNAME']);
 }
 
+/**
+ * @return void
+ */
 function edit_crimegroup_begin(): void
 {
     $csrf = request_csrf_html('staff_editcrimegroup1');
@@ -634,6 +661,9 @@ function edit_crimegroup_begin(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function edit_crimegroup_form(): void
 {
     global $h, $db;
@@ -679,6 +709,9 @@ function edit_crimegroup_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function edit_crimegroup_sub(): void
 {
     global $h, $db;
@@ -734,6 +767,9 @@ function edit_crimegroup_sub(): void
     }
 }
 
+/**
+ * @return void
+ */
 function delcrimegroup(): void
 {
     global $h, $db;
@@ -872,6 +908,9 @@ function delcrimegroup(): void
     }
 }
 
+/**
+ * @return void
+ */
 function reorder_crimegroups(): void
 {
     global $db, $h;

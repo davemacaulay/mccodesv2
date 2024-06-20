@@ -84,6 +84,9 @@ function menuprint($highlight): void
     echo '<hr />';
 }
 
+/**
+ * @return void
+ */
 function diagnostics(): void
 {
     menuprint('diag');
@@ -163,6 +166,9 @@ function diagnostics(): void
     }
 }
 
+/**
+ * @return void
+ */
 function config(): void
 {
     menuprint('input');
@@ -272,6 +278,9 @@ function config(): void
 if (!function_exists('get_magic_quotes_gpc'))
 {
 
+    /**
+     * @return int
+     */
     function get_magic_quotes_gpc(): int
     {
         return 0;
@@ -291,6 +300,9 @@ function gpc_cleanup($text): string
     return $text;
 }
 
+/**
+ * @return void
+ */
 function install(): void
 {
     menuprint('sql');

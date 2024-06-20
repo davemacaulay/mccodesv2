@@ -308,6 +308,9 @@ else
 }
 register_footer();
 
+/**
+ * @return void
+ */
 function register_footer(): void
 {
     print

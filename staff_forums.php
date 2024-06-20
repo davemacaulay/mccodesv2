@@ -50,6 +50,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function addforum(): void
 {
     global $db, $h;
@@ -117,6 +120,9 @@ function addforum(): void
     }
 }
 
+/**
+ * @return void
+ */
 function editforum(): void
 {
     global $db, $h;
@@ -264,6 +270,9 @@ function editforum(): void
     }
 }
 
+/**
+ * @return void
+ */
 function delforum(): void
 {
     global $db, $h;

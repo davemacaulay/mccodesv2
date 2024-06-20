@@ -63,6 +63,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function view_attack_logs(): void
 {
     global $db;
@@ -176,6 +179,9 @@ function view_attack_logs(): void
     stafflog_add("Looked at the attack logs (Page $mypage)");
 }
 
+/**
+ * @return void
+ */
 function view_itm_logs(): void
 {
     global $db;
@@ -269,6 +275,9 @@ function view_itm_logs(): void
     stafflog_add("Looked at the Item Xfer Logs (Page $mypage)");
 }
 
+/**
+ * @return void
+ */
 function view_cash_logs(): void
 {
     global $db;
@@ -370,6 +379,9 @@ function view_cash_logs(): void
     stafflog_add("Viewed the Cash Xfer Logs (Page $mypage)");
 }
 
+/**
+ * @return void
+ */
 function view_bank_logs(): void
 {
     global $db;
@@ -474,6 +486,9 @@ function view_bank_logs(): void
     stafflog_add("Viewed the Bank Xfer Logs (Page $mypage)");
 }
 
+/**
+ * @return void
+ */
 function view_crys_logs(): void
 {
     global $db;
@@ -575,6 +590,9 @@ function view_crys_logs(): void
     stafflog_add("Viewed the Crystal Xfer Logs (Page $mypage)");
 }
 
+/**
+ * @return void
+ */
 function view_mail_logs(): void
 {
     global $db;
@@ -666,6 +684,9 @@ function view_mail_logs(): void
     stafflog_add("Viewed the Mail Logs (Page $mypage)");
 }
 
+/**
+ * @return void
+ */
 function view_staff_logs(): void
 {
     global $db, $ir, $h;

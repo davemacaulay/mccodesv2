@@ -92,6 +92,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function fed_user_form(): void
 {
     $_GET['XID'] =
@@ -116,6 +119,9 @@ function fed_user_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function fed_user_submit(): void
 {
     global $db, $h, $userid;
@@ -184,6 +190,9 @@ function fed_user_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function fed_edit_form(): void
 {
     $csrf = request_csrf_html('staff_fededit');
@@ -205,6 +214,9 @@ function fed_edit_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function fed_edit_submit(): void
 {
     global $db, $h, $userid;
@@ -269,6 +281,9 @@ function fed_edit_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function mail_user_form(): void
 {
     $_GET['XID'] =
@@ -293,6 +308,9 @@ function mail_user_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function mail_user_submit(): void
 {
     global $db, $h;
@@ -353,6 +371,9 @@ function mail_user_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function forum_user_form(): void
 {
     $_GET['XID'] =
@@ -377,6 +398,9 @@ function forum_user_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function forum_user_submit(): void
 {
     global $db, $h;
@@ -438,6 +462,9 @@ function forum_user_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function unfed_user_form(): void
 {
     $csrf = request_csrf_html('staff_unfeduser');
@@ -455,6 +482,9 @@ function unfed_user_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function unfed_user_submit(): void
 {
     global $db, $h, $userid;
@@ -500,6 +530,9 @@ function unfed_user_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function unmail_user_form(): void
 {
     $csrf = request_csrf_html('staff_unmailbanuser');
@@ -516,6 +549,9 @@ function unmail_user_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function unmail_user_submit(): void
 {
     global $db, $h;
@@ -558,6 +594,9 @@ function unmail_user_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function unforum_user_form(): void
 {
     $csrf = request_csrf_html('staff_unforumbanuser');
@@ -575,6 +614,9 @@ function unforum_user_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function unforum_user_submit(): void
 {
     global $db, $h;
@@ -617,6 +659,9 @@ function unforum_user_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function ip_search_form(): void
 {
     $csrf = request_csrf_html('staff_ipsearch');
@@ -631,6 +676,9 @@ function ip_search_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function ip_search_submit(): void
 {
     global $db, $h, $domain;
@@ -697,6 +745,9 @@ function ip_search_submit(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function mass_jail(): void
 {
     global $db, $h, $userid;

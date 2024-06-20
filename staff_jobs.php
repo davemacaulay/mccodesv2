@@ -59,6 +59,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function newjob(): void
 {
     global $db, $h;
@@ -172,6 +175,9 @@ function newjob(): void
     }
 }
 
+/**
+ * @return void
+ */
 function jobedit(): void
 {
     global $db, $h;
@@ -301,6 +307,9 @@ function jobedit(): void
     }
 }
 
+/**
+ * @return void
+ */
 function newjobrank(): void
 {
     global $db, $h;
@@ -395,6 +404,9 @@ function newjobrank(): void
     }
 }
 
+/**
+ * @return void
+ */
 function jobrankedit(): void
 {
     global $db, $h;
@@ -539,6 +551,9 @@ function jobrankedit(): void
     }
 }
 
+/**
+ * @return void
+ */
 function jobrankdele(): void
 {
     global $db, $h;
@@ -615,6 +630,9 @@ function jobrankdele(): void
     }
 }
 
+/**
+ * @return void
+ */
 function jobdele(): void
 {
     global $db, $h;

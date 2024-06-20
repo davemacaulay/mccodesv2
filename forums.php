@@ -291,6 +291,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function idx(): void
 {
     global $ir, $db;
@@ -372,6 +375,9 @@ function idx(): void
     }
 }
 
+/**
+ * @return void
+ */
 function viewforum(): void
 {
     global $ir, $h, $db;
@@ -479,6 +485,9 @@ You have no permission to view this forum.<br />
     $db->free_result($q);
 }
 
+/**
+ * @return void
+ */
 function viewtopic(): void
 {
     global $ir, $h, $bbc, $db;
@@ -771,6 +780,9 @@ EOF;
     }
 }
 
+/**
+ * @return void
+ */
 function reply(): void
 {
     global $ir, $userid, $h, $db;
@@ -897,6 +909,9 @@ function reply(): void
     }
 }
 
+/**
+ * @return void
+ */
 function newtopicform(): void
 {
     global $ir, $h, $db;
@@ -966,6 +981,9 @@ function newtopicform(): void
 EOF;
 }
 
+/**
+ * @return void
+ */
 function newtopic(): void
 {
     global $ir, $userid, $h, $db;
@@ -1083,6 +1101,9 @@ You have no permission to view this forum.<br />
     viewtopic();
 }
 
+/**
+ * @return void
+ */
 function emptyallforums(): void
 {
     global $db;
@@ -1095,6 +1116,9 @@ function emptyallforums(): void
     $db->query('TRUNCATE `forum_posts`');
 }
 
+/**
+ * @return void
+ */
 function quote(): void
 {
     global $ir, $h, $db;
@@ -1207,6 +1231,9 @@ EOF;
     }
 }
 
+/**
+ * @return void
+ */
 function edit(): void
 {
     global $ir, $h, $db;
@@ -1325,6 +1352,9 @@ You have no permission to edit this post.<br />
 EOF;
 }
 
+/**
+ * @return void
+ */
 function editsub(): void
 {
     global $ir, $userid, $h, $db;
@@ -1557,6 +1587,9 @@ function recache_topic($topic): void
     echo ' ... Done<br />';
 }
 
+/**
+ * @return void
+ */
 function move(): void
 {
     global $ir, $h, $db;
@@ -1625,6 +1658,9 @@ function move(): void
     echo '&gt; <a href="forums.php" alt="Go Back" title="Go Back">Go Back</a><br />';
 }
 
+/**
+ * @return void
+ */
 function lock(): void
 {
     global $ir, $h, $db;
@@ -1682,6 +1718,9 @@ function lock(): void
     }
 }
 
+/**
+ * @return void
+ */
 function pin(): void
 {
     global $ir, $h, $db;
@@ -1739,6 +1778,9 @@ function pin(): void
     }
 }
 
+/**
+ * @return void
+ */
 function delepost(): void
 {
     global $ir, $h, $db;
@@ -1800,6 +1842,9 @@ function delepost(): void
 
 }
 
+/**
+ * @return void
+ */
 function deletopic(): void
 {
     global $h, $db;

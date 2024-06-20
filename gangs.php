@@ -65,6 +65,9 @@ else
     }
 }
 
+/**
+ * @return void
+ */
 function gang_view(): void
 {
     global $db, $gangdata;
@@ -134,6 +137,9 @@ function gang_view(): void
     $db->free_result($cnt);
 }
 
+/**
+ * @return void
+ */
 function gang_userlist(): void
 {
     global $db, $gangdata;
@@ -167,6 +173,9 @@ function gang_userlist(): void
 	</a>";
 }
 
+/**
+ * @return void
+ */
 function gang_applyform(): void
 {
     global $ir;
@@ -185,6 +194,9 @@ Type the reason you should be in this faction.<br />
     }
 }
 
+/**
+ * @return void
+ */
 function gang_applysubmit(): void
 {
     global $db, $ir, $h, $gangdata, $userid;

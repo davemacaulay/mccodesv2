@@ -67,6 +67,9 @@ class database
         return 1; //Success.
     }
 
+    /**
+     * @return false|mysqli
+     */
     public function connect(): false|mysqli
     {
         if (!$this->host) {
@@ -88,6 +91,9 @@ class database
         return $this->connection_id;
     }
 
+    /**
+     * @return int
+     */
     public function disconnect(): int
     {
         if ($this->connection_id) {
@@ -158,6 +164,9 @@ class database
         return mysqli_num_rows($result);
     }
 
+    /**
+     * @return int|string
+     */
     public function insert_id(): int|string
     {
         return mysqli_insert_id($this->connection_id);
@@ -216,6 +225,9 @@ class database
         return mysqli_real_escape_string($this->connection_id, $text);
     }
 
+    /**
+     * @return int|string
+     */
     public function affected_rows(): int|string
     {
         return mysqli_affected_rows($this->connection_id);

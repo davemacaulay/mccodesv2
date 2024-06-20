@@ -55,6 +55,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function new_shop_form(): void
 {
     $csrf = request_csrf_html('staff_newshop');
@@ -74,6 +77,9 @@ function new_shop_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function new_shop_submit(): void
 {
     global $db, $h;
@@ -123,6 +129,9 @@ function new_shop_submit(): void
     }
 }
 
+/**
+ * @return void
+ */
 function new_stock_form(): void
 {
     $csrf = request_csrf_html('staff_newstock');
@@ -140,6 +149,9 @@ function new_stock_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function new_stock_submit(): void
 {
     global $db, $h;
@@ -192,6 +204,9 @@ function new_stock_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function delshop(): void
 {
     global $db, $h;

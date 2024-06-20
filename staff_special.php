@@ -65,6 +65,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function newspaper_form(): void
 {
     global $db;
@@ -83,6 +86,9 @@ function newspaper_form(): void
    ";
 }
 
+/**
+ * @return void
+ */
 function newspaper_submit(): void
 {
     global $db;
@@ -94,6 +100,9 @@ function newspaper_submit(): void
     stafflog_add('Updated game newspaper');
 }
 
+/**
+ * @return void
+ */
 function give_dp_form(): void
 {
     $csrf = request_csrf_html('staff_givedp');
@@ -121,6 +130,9 @@ function give_dp_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function give_dp_submit(): void
 {
     global $db, $h;
@@ -209,6 +221,9 @@ function staff_userlevel_innerform($userid, $level, $desc, $csrf): string
 ";
 }
 
+/**
+ * @return void
+ */
 function staff_list(): void
 {
     global $db;
@@ -352,6 +367,9 @@ function staff_list(): void
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function userlevel(): void
 {
     global $db, $h;
@@ -396,6 +414,9 @@ function userlevel(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function userlevelform(): void
 {
     $csrf = request_csrf_html('staff_userlevel');
@@ -423,6 +444,9 @@ function userlevelform(): void
     ";
 }
 
+/**
+ * @return void
+ */
 function massmailer(): void
 {
     global $db, $h;

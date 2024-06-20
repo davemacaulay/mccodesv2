@@ -51,6 +51,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function addhouse(): void
 {
     global $db, $h;
@@ -112,6 +115,9 @@ function addhouse(): void
     }
 }
 
+/**
+ * @return void
+ */
 function edithouse(): void
 {
     global $db, $h;
@@ -251,6 +257,9 @@ function edithouse(): void
     }
 }
 
+/**
+ * @return void
+ */
 function delhouse(): void
 {
     global $db, $h;

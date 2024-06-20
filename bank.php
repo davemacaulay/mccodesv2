@@ -66,6 +66,9 @@ if ($ir['bankmoney'] > -1)
 <a href='bank.php?buy'>&gt; Yes, sign me up!</a>";
 }
 
+/**
+ * @return void
+ */
 function index(): void
 {
     global $ir, $bank_maxfee, $bank_feepercent;
@@ -84,6 +87,9 @@ Amount: <input type='text' name='withdraw' value='{$ir['bankmoney']}' /><br />
 <input type='submit' value='Withdraw' /></form></td> </tr> </table>";
 }
 
+/**
+ * @return void
+ */
 function deposit(): void
 {
     global $db, $ir, $userid, $bank_maxfee, $bank_feepercent;
@@ -115,6 +121,9 @@ after the fee is taken (' . money_formatter($fee) . ', '
     }
 }
 
+/**
+ * @return void
+ */
 function withdraw(): void
 {
     global $db, $ir, $userid;

@@ -65,6 +65,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function new_item_form(): void
 {
     global $ir, $h;
@@ -148,6 +151,9 @@ function new_item_form(): void
   	";
 }
 
+/**
+ * @return void
+ */
 function new_item_submit(): void
 {
     global $db, $ir, $h;
@@ -252,6 +258,9 @@ function new_item_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function give_item_form(): void
 {
     global $ir, $h;
@@ -279,6 +288,9 @@ function give_item_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function give_item_submit(): void
 {
     global $db, $ir, $h;
@@ -338,6 +350,9 @@ function give_item_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function kill_item_form(): void
 {
     global $ir, $h;
@@ -363,6 +378,9 @@ function kill_item_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function kill_item_submit(): void
 {
     global $db, $ir, $h;
@@ -418,6 +436,9 @@ function kill_item_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function edit_item_begin(): void
 {
     global $ir, $h;
@@ -441,6 +462,9 @@ function edit_item_begin(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function edit_item_form(): void
 {
     global $db, $ir, $h;
@@ -578,6 +602,9 @@ function edit_item_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function edit_item_sub(): void
 {
     global $db, $ir, $h;
@@ -703,6 +730,9 @@ function edit_item_sub(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function newitemtype(): void
 {
     global $db, $ir, $h;

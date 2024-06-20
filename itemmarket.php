@@ -62,6 +62,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function imarket_index(): void
 {
     global $db, $userid;
@@ -153,6 +156,9 @@ function imarket_index(): void
    ';
 }
 
+/**
+ * @return void
+ */
 function itemm_remove(): void
 {
     global $db, $ir, $userid, $h;
@@ -203,6 +209,9 @@ function itemm_remove(): void
    ';
 }
 
+/**
+ * @return void
+ */
 function item_buy(): void
 {
     global $db, $ir, $userid, $h;
@@ -392,6 +401,9 @@ function item_buy(): void
 
 }
 
+/**
+ * @return void
+ */
 function item_gift1(): void
 {
     global $db, $ir, $h;
@@ -465,6 +477,9 @@ function item_gift1(): void
 	";
 }
 
+/**
+ * @return void
+ */
 function item_gift2(): void
 {
     global $db, $ir, $userid, $h;

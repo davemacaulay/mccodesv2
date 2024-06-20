@@ -50,6 +50,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function addcity(): void
 {
     global $db, $h;
@@ -115,6 +118,9 @@ function addcity(): void
     }
 }
 
+/**
+ * @return void
+ */
 function editcity(): void
 {
     global $db, $h;
@@ -240,6 +246,9 @@ function editcity(): void
     }
 }
 
+/**
+ * @return void
+ */
 function delcity(): void
 {
     global $db, $h;

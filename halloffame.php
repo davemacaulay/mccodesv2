@@ -157,6 +157,9 @@ case 'iq':
     break;
 }
 
+/**
+ * @return void
+ */
 function hof_level(): void
 {
     global $db, $userid, $q;
@@ -190,6 +193,9 @@ Showing the 20 users with the highest levels
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_money(): void
 {
     global $db, $userid, $q;
@@ -223,6 +229,9 @@ Showing the 20 users with the highest amount of money
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_crystals(): void
 {
     global $db, $userid, $q;
@@ -256,6 +265,9 @@ Showing the 20 users with the highest amount of crystals
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_respect(): void
 {
     global $db, $ir;
@@ -294,6 +306,9 @@ Showing the 20 gangs with the highest amount of respect
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_total(): void
 {
     global $db, $userid, $q;
@@ -325,6 +340,9 @@ Showing the 20 users with the highest total stats
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_strength(): void
 {
     global $db, $userid, $q;
@@ -356,6 +374,9 @@ Showing the 20 users with the highest strength
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_agility(): void
 {
     global $db, $userid, $q;
@@ -387,6 +408,9 @@ Showing the 20 users with the highest agility
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_guard(): void
 {
     global $db, $userid, $q;
@@ -418,6 +442,9 @@ Showing the 20 users with the highest guard
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_labour(): void
 {
     global $db, $userid, $q;
@@ -449,6 +476,9 @@ Showing the 20 users with the highest labour
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function hof_iq(): void
 {
     global $db, $userid, $q;

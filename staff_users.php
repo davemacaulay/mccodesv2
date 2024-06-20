@@ -83,6 +83,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function new_user_form(): void
 {
     global $ir, $h;
@@ -143,6 +146,9 @@ function new_user_form(): void
         ";
 }
 
+/**
+ * @return void
+ */
 function new_user_submit(): void
 {
     global $db, $ir, $h;
@@ -278,6 +284,9 @@ function new_user_submit(): void
 
 }
 
+/**
+ * @return void
+ */
 function edit_user_begin(): void
 {
     global $ir, $h;
@@ -310,6 +319,9 @@ function edit_user_begin(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function edit_user_form(): void
 {
     global $db, $ir, $h;
@@ -434,6 +446,9 @@ function edit_user_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function edit_user_sub(): void
 {
     global $db, $ir, $h;
@@ -650,6 +665,9 @@ function edit_user_sub(): void
 
 }
 
+/**
+ * @return void
+ */
 function deluser(): void
 {
     global $ir, $h, $db;
@@ -811,6 +829,9 @@ function deluser(): void
     }
 }
 
+/**
+ * @return void
+ */
 function inv_user_begin(): void
 {
     global $ir, $h;
@@ -836,6 +857,9 @@ function inv_user_begin(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function inv_user_view(): void
 {
     global $db, $ir, $h;
@@ -929,6 +953,9 @@ function inv_user_view(): void
     stafflog_add('.Viewed user ' . $un . ' [' . $_POST['user'] . '] inventory');
 }
 
+/**
+ * @return void
+ */
 function inv_delete(): void
 {
     global $db, $ir, $h;
@@ -981,6 +1008,9 @@ function inv_delete(): void
   	 ';
 }
 
+/**
+ * @return void
+ */
 function credit_user_form(): void
 {
     global $ir, $h;
@@ -1009,6 +1039,9 @@ function credit_user_form(): void
    ";
 }
 
+/**
+ * @return void
+ */
 function credit_user_submit(): void
 {
     global $db, $ir, $h;
@@ -1075,6 +1108,9 @@ function credit_user_submit(): void
    	';
 }
 
+/**
+ * @return void
+ */
 function mcredit_user_form(): void
 {
     global $ir, $h;
@@ -1100,6 +1136,9 @@ function mcredit_user_form(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function mcredit_user_submit(): void
 {
     global $db, $ir, $h;
@@ -1145,6 +1184,9 @@ function mcredit_user_submit(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function reports_view(): void
 {
     global $db, $ir, $h;
@@ -1205,6 +1247,9 @@ function reports_view(): void
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function forcelogout(): void
 {
     global $db, $ir, $h;
@@ -1269,6 +1314,9 @@ function forcelogout(): void
     }
 }
 
+/**
+ * @return void
+ */
 function report_clear(): void
 {
     global $db, $ir, $h;

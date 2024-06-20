@@ -76,6 +76,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function mail_inbox(): void
 {
     global $db, $ir, $userid;
@@ -144,6 +147,9 @@ EOF;
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function mail_outbox(): void
 {
     global $db, $userid;
@@ -180,6 +186,9 @@ function mail_outbox(): void
     $db->free_result($q);
 }
 
+/**
+ * @return void
+ */
 function mail_compose(): void
 {
     global $db, $ir, $userid;
@@ -294,6 +303,9 @@ function mail_compose(): void
     }
 }
 
+/**
+ * @return void
+ */
 function mail_send(): void
 {
     global $db, $userid, $h;
@@ -383,6 +395,9 @@ function mail_send(): void
 	<a href='mailbox.php'>&gt; Back</a>";
 }
 
+/**
+ * @return void
+ */
 function mail_delete(): void
 {
     global $db, $userid, $h;
@@ -418,6 +433,9 @@ function mail_delete(): void
 	<a href='mailbox.php'>&gt; Back</a>";
 }
 
+/**
+ * @return void
+ */
 function mail_delall(): void
 {
     $delall_verf = request_csrf_code('mailbox_delall');
@@ -432,6 +450,9 @@ function mail_delall(): void
    	";
 }
 
+/**
+ * @return void
+ */
 function mail_delall2(): void
 {
     global $db, $userid, $h;
@@ -470,6 +491,9 @@ function mail_delall2(): void
     $db->free_result($m_c);
 }
 
+/**
+ * @return void
+ */
 function mail_archive(): void
 {
     echo "This tool will download an archive of all your messages.<br />

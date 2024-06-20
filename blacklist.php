@@ -50,6 +50,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function black_list(): void
 {
     global $db, $ir, $userid;
@@ -129,6 +132,9 @@ Most hated: [";
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function add_enemy(): void
 {
     global $db, $userid;
@@ -193,6 +199,9 @@ Adding an enemy!
 
 }
 
+/**
+ * @return void
+ */
 function remove_enemy(): void
 {
     global $db, $userid, $h;
@@ -230,6 +239,9 @@ Black list entry removed!<br />
    ";
 }
 
+/**
+ * @return void
+ */
 function change_comment(): void
 {
     global $db, $userid, $h;

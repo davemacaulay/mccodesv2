@@ -36,6 +36,9 @@ ob_start();
 if (!function_exists('get_magic_quotes_gpc'))
 {
 
+    /**
+     * @return int
+     */
     function get_magic_quotes_gpc(): int
     {
         return 0;

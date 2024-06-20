@@ -40,6 +40,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function basicsettings(): void
 {
     global $db, $ir, $h, $set;
@@ -253,6 +256,9 @@ function basicsettings(): void
     }
 }
 
+/**
+ * @return void
+ */
 function announcements(): void
 {
     global $db, $ir, $h;
@@ -301,6 +307,9 @@ function announcements(): void
     }
 }
 
+/**
+ * @return void
+ */
 function index(): void
 {
     global $db, $ir, $set, $_CONFIG;

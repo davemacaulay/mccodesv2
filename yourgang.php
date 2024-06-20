@@ -143,6 +143,9 @@ else
     }
 }
 
+/**
+ * @return void
+ */
 function gang_index(): void
 {
     global $db, $ir, $userid, $gangdata;
@@ -218,6 +221,9 @@ function gang_index(): void
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function gang_summary(): void
 {
     global $db, $gangdata;
@@ -283,6 +289,9 @@ function gang_summary(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function gang_memberlist(): void
 {
     global $db, $userid, $gangdata;
@@ -338,6 +347,9 @@ function gang_memberlist(): void
    	";
 }
 
+/**
+ * @return void
+ */
 function gang_staff_kick(): void
 {
     global $db, $ir, $userid, $gangdata;
@@ -402,6 +414,9 @@ function gang_staff_kick(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_forums(): void
 {
     global $db, $ir, $gangdata, $domain;
@@ -440,6 +455,9 @@ function gang_forums(): void
     exit;
 }
 
+/**
+ * @return void
+ */
 function gang_donate(): void
 {
     global $ir;
@@ -473,6 +491,9 @@ function gang_donate(): void
        ";
 }
 
+/**
+ * @return void
+ */
 function gang_donate2(): void
 {
     global $db, $ir, $userid, $gangdata, $h;
@@ -529,6 +550,9 @@ function gang_donate2(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_leave(): void
 {
     global $db, $ir, $userid, $gangdata, $h;
@@ -574,6 +598,9 @@ function gang_leave(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_warview(): void
 {
     global $db, $ir, $gangdata;
@@ -622,6 +649,9 @@ function gang_warview(): void
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function gang_atklogs(): void
 {
     global $db, $ir;
@@ -671,6 +701,9 @@ function gang_atklogs(): void
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function gang_crimes(): void
 {
     global $gangdata;
@@ -686,6 +719,9 @@ function gang_crimes(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff(): void
 {
     global $userid, $gangdata, $h;
@@ -757,6 +793,9 @@ function gang_staff(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_idx(): void
 {
     global $userid, $gangdata;
@@ -801,6 +840,9 @@ function gang_staff_idx(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_apps(): void
 {
     global $db, $ir, $userid, $gangdata, $h;
@@ -965,6 +1007,9 @@ function gang_staff_apps(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_vault(): void
 {
     global $db, $gangdata, $h;
@@ -1064,6 +1109,9 @@ function gang_staff_vault(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_vicepres(): void
 {
     global $db, $gangdata, $h;
@@ -1113,6 +1161,9 @@ function gang_staff_vicepres(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_wardeclare(): void
 {
     global $db, $gangdata, $h;
@@ -1188,6 +1239,9 @@ function gang_staff_wardeclare(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_surrender(): void
 {
     global $db, $gangdata, $h;
@@ -1301,6 +1355,9 @@ function gang_staff_surrender(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_viewsurrenders(): void
 {
     global $db, $gangdata, $h;
@@ -1415,6 +1472,9 @@ function gang_staff_viewsurrenders(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_orgcrimes(): void
 {
     global $db, $gangdata, $h;
@@ -1493,6 +1553,9 @@ function gang_staff_orgcrimes(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_pres(): void
 {
     global $db, $userid, $gangdata, $h;
@@ -1549,6 +1612,9 @@ function gang_staff_pres(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_upgrades(): void
 {
     global $db, $gangdata;
@@ -1590,6 +1656,9 @@ function gang_staff_upgrades(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_massmailer(): void
 {
     global $db, $ir, $gangdata;
@@ -1640,6 +1709,9 @@ function gang_staff_massmailer(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_masspayment(): void
 {
     global $db, $gangdata;
@@ -1701,6 +1773,9 @@ function gang_staff_masspayment(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_desc(): void
 {
     global $db, $userid, $gangdata;
@@ -1744,6 +1819,9 @@ function gang_staff_desc(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_ament(): void
 {
     global $db, $userid, $gangdata;
@@ -1787,6 +1865,9 @@ function gang_staff_ament(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_name(): void
 {
     global $db, $userid, $gangdata;
@@ -1826,6 +1907,9 @@ function gang_staff_name(): void
     }
 }
 
+/**
+ * @return void
+ */
 function gang_staff_tag(): void
 {
     global $db, $userid, $gangdata;

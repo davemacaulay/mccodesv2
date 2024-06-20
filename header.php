@@ -25,6 +25,9 @@ declare(strict_types=1);
 class headers
 {
 
+    /**
+     * @return void
+     */
     public function startheaders(): void
     {
         global $set;
@@ -151,6 +154,9 @@ OUT;
         }
     }
 
+    /**
+     * @return void
+     */
     public function menuarea(): void
     {
         define('JDSF45TJI', true);
@@ -170,6 +176,9 @@ OUT;
         echo "<a href='donator.php'><b>Donate to {$set['game_name']} now for game benefits!</b></a><br />";
     }
 
+    /**
+     * @return void
+     */
     public function smenuarea(): void
     {
         define('JDSF45TJI', true);
@@ -181,6 +190,9 @@ OUT;
             . $bgcolor . '" valign="top"><center>';
     }
 
+    /**
+     * @return void
+     */
     public function endpage(): void
     {
         global $db, $ir;

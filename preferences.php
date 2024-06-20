@@ -79,6 +79,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function prefs_home(): void
 {
     echo "
@@ -91,6 +94,9 @@ function prefs_home(): void
    ";
 }
 
+/**
+ * @return void
+ */
 function conf_sex_change(): void
 {
     global $ir;
@@ -110,6 +116,9 @@ function conf_sex_change(): void
    	";
 }
 
+/**
+ * @return void
+ */
 function do_sex_change(): void
 {
     global $db, $ir, $userid;
@@ -130,6 +139,9 @@ function do_sex_change(): void
    	";
 }
 
+/**
+ * @return void
+ */
 function pass_change(): void
 {
     $code = request_csrf_code('prefs_passchange');
@@ -145,6 +157,9 @@ function pass_change(): void
    	";
 }
 
+/**
+ * @return void
+ */
 function do_pass_change(): void
 {
     global $db, $ir;
@@ -182,6 +197,9 @@ function do_pass_change(): void
     }
 }
 
+/**
+ * @return void
+ */
 function name_change(): void
 {
     $code = request_csrf_code('prefs_namechange');
@@ -197,6 +215,9 @@ function name_change(): void
    	";
 }
 
+/**
+ * @return void
+ */
 function do_name_change(): void
 {
     global $db, $userid, $h;
@@ -263,6 +284,9 @@ function do_name_change(): void
     echo 'Username changed!';
 }
 
+/**
+ * @return void
+ */
 function pic_change(): void
 {
     global $ir;
@@ -282,6 +306,9 @@ function pic_change(): void
    	";
 }
 
+/**
+ * @return void
+ */
 function do_pic_change(): void
 {
     global $db, $userid, $h;
@@ -330,6 +357,9 @@ function do_pic_change(): void
         &gt; <a href="index.php">Go Home</a>';
 }
 
+/**
+ * @return void
+ */
 function forum_change(): void
 {
     global $ir;
@@ -352,6 +382,9 @@ function forum_change(): void
    ";
 }
 
+/**
+ * @return void
+ */
 function do_forum_change(): void
 {
     global $db, $userid, $h;

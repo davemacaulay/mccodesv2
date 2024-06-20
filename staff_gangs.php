@@ -70,6 +70,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function admin_gang_record(): void
 {
     global $db, $ir, $h;
@@ -170,6 +173,9 @@ function admin_gang_record(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_credit(): void
 {
     global $db, $ir, $h;
@@ -295,6 +301,9 @@ function admin_gang_credit(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_wars(): void
 {
     global $db, $ir, $h;
@@ -352,6 +361,9 @@ function admin_gang_wars(): void
     echo '</table>';
 }
 
+/**
+ * @return void
+ */
 function admin_gang_wardelete(): void
 {
     global $db, $ir, $h;
@@ -402,6 +414,9 @@ function admin_gang_wardelete(): void
               	[{$r['frespect']} respect])");
 }
 
+/**
+ * @return void
+ */
 function admin_gang_edit_begin(): void
 {
     global $db, $ir, $h;
@@ -487,6 +502,9 @@ function admin_gang_edit_begin(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_edit_name(): void
 {
     global $db, $ir, $h;
@@ -574,6 +592,9 @@ function admin_gang_edit_name(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_edit_prefix(): void
 {
     global $db, $ir, $h;
@@ -646,6 +667,9 @@ function admin_gang_edit_prefix(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_edit_finances(): void
 {
     global $db, $ir, $h;
@@ -750,6 +774,9 @@ function admin_gang_edit_finances(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_edit_staff(): void
 {
     global $db, $ir, $h;
@@ -844,6 +871,9 @@ function admin_gang_edit_staff(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_edit_capacity(): void
 {
     global $db, $ir, $h;
@@ -928,6 +958,9 @@ function admin_gang_edit_capacity(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_edit_crime(): void
 {
     global $db, $ir, $h;
@@ -1022,6 +1055,9 @@ function admin_gang_edit_crime(): void
     }
 }
 
+/**
+ * @return void
+ */
 function admin_gang_edit_ament(): void
 {
     global $db, $ir, $h;

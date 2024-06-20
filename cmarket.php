@@ -45,6 +45,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function cmarket_index(): void
 {
     global $db, $userid;
@@ -105,6 +108,9 @@ function cmarket_index(): void
 	';
 }
 
+/**
+ * @return void
+ */
 function crystal_remove(): void
 {
     global $db, $userid, $h;
@@ -142,6 +148,9 @@ function crystal_remove(): void
 	";
 }
 
+/**
+ * @return void
+ */
 function crystal_buy(): void
 {
     global $db, $ir, $userid, $h;
@@ -248,6 +257,9 @@ There is <b>{$r['cmQTY']}</b> available to buy.
 
 }
 
+/**
+ * @return void
+ */
 function crystal_add(): void
 {
     global $db, $ir, $userid, $h;

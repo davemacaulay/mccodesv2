@@ -242,11 +242,17 @@ class bbcode_engine
         return $text;
     }
 
+    /**
+     * @return array
+     */
     public function export_parsings(): array
     {
         return $this->parsings;
     }
 
+    /**
+     * @return array
+     */
     public function export_htmls(): array
     {
         return $this->htmls;

@@ -50,6 +50,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function addbot(): void
 {
     global $db, $h;
@@ -125,6 +128,9 @@ function addbot(): void
     }
 }
 
+/**
+ * @return void
+ */
 function editbot(): void
 {
     global $db, $h;
@@ -257,6 +263,9 @@ function editbot(): void
     }
 }
 
+/**
+ * @return void
+ */
 function delbot(): void
 {
     global $db, $h;

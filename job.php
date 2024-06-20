@@ -137,6 +137,9 @@ else
     }
 }
 
+/**
+ * @return void
+ */
 function job_index(): void
 {
     global $db, $ir;
@@ -198,6 +201,9 @@ function job_index(): void
    	";
 }
 
+/**
+ * @return void
+ */
 function job_promote(): void
 {
     global $db, $ir, $userid;
@@ -235,6 +241,9 @@ function job_promote(): void
     $db->free_result($q);
 }
 
+/**
+ * @return void
+ */
 function quit_job(): void
 {
     global $db, $userid;

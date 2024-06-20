@@ -50,6 +50,9 @@ default:
     break;
 }
 
+/**
+ * @return void
+ */
 function addcourse(): void
 {
     global $db, $h;
@@ -139,6 +142,9 @@ function addcourse(): void
     }
 }
 
+/**
+ * @return void
+ */
 function editcourse(): void
 {
     global $db, $h;
@@ -286,6 +292,9 @@ function editcourse(): void
     }
 }
 
+/**
+ * @return void
+ */
 function delcourse(): void
 {
     global $db, $h;
