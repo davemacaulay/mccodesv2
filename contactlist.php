@@ -117,11 +117,11 @@ function add_contact()
         {
             echo 'You cannot add the same person twice.';
         }
-        else if ($userid == $_POST['ID'])
+        elseif ($userid == $_POST['ID'])
         {
             echo 'There is no point in adding yourself to your own list.';
         }
-        else if ($db->num_rows($q) == 0)
+        elseif ($db->num_rows($q) == 0)
         {
             $db->free_result($q);
             echo "Oh no, you're trying to add a ghost.";

@@ -64,11 +64,11 @@ if (!empty($_POST['qty']) && !empty($_POST['user']))
     		&gt; <a href="itemsend.php?ID=' . $_GET['ID'] . '">Try Again</a>';
             die($h->endpage());
         }
-        else if ($_POST['qty'] > $r['inv_qty'])
+        elseif ($_POST['qty'] > $r['inv_qty'])
         {
             echo 'You are trying to send more than you have!';
         }
-        else if ($db->num_rows($m) == 0)
+        elseif ($db->num_rows($m) == 0)
         {
             echo 'You are trying to send to an invalid user!';
         }
@@ -91,7 +91,7 @@ if (!empty($_POST['qty']) && !empty($_POST['user']))
     }
     $db->free_result($id);
 }
-else if (!empty($_GET['ID']))
+elseif (!empty($_GET['ID']))
 {
     $id =
             $db->query(

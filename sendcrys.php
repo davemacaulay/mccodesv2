@@ -39,7 +39,7 @@ if (!((int) $_GET['ID']))
 {
     echo 'Invalid User ID';
 }
-else if ($_GET['ID'] == $userid)
+elseif ($_GET['ID'] == $userid)
 {
     echo 'Haha, what does sending crystals to yourself do anyway?';
 }
@@ -71,7 +71,7 @@ else
     		&gt; <a href="sendcrys.php?ID=' . $_GET['ID'] . '">Try Again</a>';
             die($h->endpage());
         }
-        else if ($_POST['crystals'] > $ir['crystals'])
+        elseif ($_POST['crystals'] > $ir['crystals'])
         {
             echo 'Not enough crystals to send.';
         }

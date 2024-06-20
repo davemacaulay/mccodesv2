@@ -1185,7 +1185,7 @@ function get_filesize_remote($url)
     {
         $port = 80;
     }
-    else if (str_starts_with($url, 'https://') && extension_loaded('openssl'))
+    elseif (str_starts_with($url, 'https://') && extension_loaded('openssl'))
     {
         $port = 443;
         $is_ssl = true;

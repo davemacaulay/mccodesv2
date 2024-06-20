@@ -54,13 +54,13 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
                 "You are trying to bet more than you have.<br />
 		<a href='roulette.php?tresde=$tresder'>&gt; Back</a>");
     }
-    else if ($_POST['bet'] > $maxbet)
+    elseif ($_POST['bet'] > $maxbet)
     {
         die(
                 "You have gone over the max bet.<br />
 		<a href='roulette.php?tresde=$tresder'>&gt; Back</a>");
     }
-    else if ($_POST['number'] > 36 or $_POST['number'] < 0
+    elseif ($_POST['number'] > 36 or $_POST['number'] < 0
             or $_POST['bet'] < 0)
     {
         die(

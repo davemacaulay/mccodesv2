@@ -89,22 +89,15 @@ else
             {
                 item_add($userid, $r['crimeSUCCESSITEM'], 1);
             }
-        }
-        else
-        {
-            if (rand(1, 2) == 1)
-            {
-                print $r['crimeFTEXT'];
-            }
-            else
-            {
-                print $r['crimeJTEXT'];
-                $db->query(
-                        "UPDATE `users`
+        } elseif (rand(1, 2) == 1) {
+            print $r['crimeFTEXT'];
+        } else {
+            print $r['crimeJTEXT'];
+            $db->query(
+                "UPDATE `users`
                         SET `jail` = '{$r['crimeJAILTIME']}',
                         `jail_reason` = '{$r['crimeJREASON']}'
                         WHERE `userid` = $userid");
-            }
         }
 
         echo "<br /><a href='docrime.php?c={$_GET['c']}'>Try Again</a><br />

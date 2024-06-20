@@ -124,17 +124,17 @@ if (!empty($username))
         echo "Username already in use. Choose another.<br />
 		&gt; <a href='register.php'>Back</a>";
     }
-    else if ($e_check > 0)
+    elseif ($e_check > 0)
     {
         echo "E-Mail already in use. Choose another.<br />
 		&gt; <a href='register.php'>Back</a>";
     }
-    else if (empty($base_pw) || empty($check_pw))
+    elseif (empty($base_pw) || empty($check_pw))
     {
         echo "You must specify your password and confirm it.<br />
 		&gt; <a href='register.php'>Back</a>";
     }
-    else if ($base_pw != $check_pw)
+    elseif ($base_pw != $check_pw)
     {
         echo "The passwords did not match, go back and try again.<br />
 		&gt; <a href='register.php'>Back</a>";

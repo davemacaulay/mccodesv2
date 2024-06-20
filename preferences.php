@@ -158,7 +158,7 @@ function do_pass_change()
 		<a href='preferences.php?action=passchange'>&gt; Back</a>
    		";
     }
-    else if ($newpw !== $newpw2)
+    elseif ($newpw !== $newpw2)
     {
         echo "The new passwords you entered did not match!<br />
 		<a href='preferences.php?action=passchange'>&gt; Back</a>";

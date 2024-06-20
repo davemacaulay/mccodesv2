@@ -143,38 +143,30 @@ function give_dp_submit()
                  `us`.`IQ` = `us`.`IQ` + 50,
                  `u`.`donatordays` = `u`.`donatordays` + 30';
         $d = 30;
-    }
-    else if ($_POST['type'] == 2)
-    {
+    } elseif ($_POST['type'] == 2) {
         $don =
             '`u`.`crystals` = `u`.`crystals` + 100,
                  `u`.`donatordays` = `u`.`donatordays` + 30';
-        $d = 30;
-    }
-    else if ($_POST['type'] == 3)
-    {
+        $d   = 30;
+    } elseif ($_POST['type'] == 3) {
         $don =
             '`us`.`IQ` = `us`.`IQ` + 120,
                  `u`.`donatordays` = `u`.`donatordays` + 30';
-        $d = 30;
-    }
-    else if ($_POST['type'] == 4)
-    {
+        $d   = 30;
+    } elseif ($_POST['type'] == 4) {
         $don =
             '`u`.`money` = `u`.`money` + 15000,
                  `u`.`crystals` = `u`.`crystals` + 75,
                  `us`.`IQ` = `us`.`IQ` + 80,
                  `u`.`donatordays` = `u`.`donatordays` + 55';
-        $d = 55;
-    }
-    else if ($_POST['type'] == 5)
-    {
+        $d   = 55;
+    } elseif ($_POST['type'] == 5) {
         $don =
             '`u`.`money` = `u`.`money` + 35000,
                  `u`.`crystals` = `u`.`crystals` + 160,
                  `us`.`IQ` = `us`.`IQ` + 180,
                  `u`.`donatordays` = `u`.`donatordays` + 115';
-        $d = 115;
+        $d   = 115;
     }
     $db->query(
             "UPDATE `users` AS `u`
@@ -447,28 +439,22 @@ function massmailer()
                         'SELECT `userid`
                              FROM `users`
                              WHERE `user_level` != 0');
-        }
-        else if ($_POST['cat'] == 2)
-        {
+        } elseif ($_POST['cat'] == 2) {
             $q =
-                    $db->query(
-                        'SELECT `userid`
+                $db->query(
+                    'SELECT `userid`
                              FROM `users`
                              WHERE `user_level` > 1');
-        }
-        else if ($_POST['cat'] == 3)
-        {
+        } elseif ($_POST['cat'] == 3) {
             $q =
-                    $db->query(
-                        'SELECT `userid`
+                $db->query(
+                    'SELECT `userid`
                              FROM users
                              WHERE `user_level` = 2');
-        }
-        else
-        {
+        } else {
             $q =
-                    $db->query(
-                            "SELECT `userid`
+                $db->query(
+                    "SELECT `userid`
                              FROM `users`
                              WHERE `user_level` = {$_POST['level']}");
         }

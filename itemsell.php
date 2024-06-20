@@ -81,7 +81,7 @@ if (!empty($_POST['qty']) && !empty($_GET['ID']))
     }
     $db->free_result($id);
 }
-else if (!empty($_GET['ID']) && empty($_POST['qty']))
+elseif (!empty($_GET['ID']) && empty($_POST['qty']))
 {
     $id =
             $db->query(

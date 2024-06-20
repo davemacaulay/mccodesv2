@@ -35,7 +35,7 @@ function parse_bgcolor()
         $p2 = $_GET['bgcolor'][2] . $_GET['bgcolor'][3];
         $p3 = $_GET['bgcolor'][4] . $_GET['bgcolor'][5];
     }
-    else if (strlen($_GET['bgcolor']) == 3)
+    elseif (strlen($_GET['bgcolor']) == 3)
     {
         $p1 = $_GET['bgcolor'][0] . $_GET['bgcolor'][0];
         $p2 = $_GET['bgcolor'][1] . $_GET['bgcolor'][1];

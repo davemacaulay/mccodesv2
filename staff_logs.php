@@ -134,7 +134,7 @@ function view_attack_logs()
             {
                 echo "{$r['un_attacker']} hospitalized {$r['un_attacked']}";
             }
-            else if ($r['stole'] == -2)
+            elseif ($r['stole'] == -2)
             {
                 echo "{$r['un_attacker']} attacked {$r['un_attacked']} and left them";
             }

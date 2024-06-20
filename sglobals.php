@@ -114,7 +114,7 @@ if (isset($jobquery) && $jobquery)
                      WHERE `u`.`userid` = '{$userid}'
                      LIMIT 1");
 }
-else if (isset($housequery) && $housequery)
+elseif (isset($housequery) && $housequery)
 {
     $is =
             $db->query(

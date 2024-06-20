@@ -32,17 +32,17 @@ if (!$_GET['ID'])
     echo 'Invalid ID<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($_GET['ID'] == $userid)
+elseif ($_GET['ID'] == $userid)
 {
     echo 'you can\'t attack yourself.<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($ir['hp'] <= 1)
+elseif ($ir['hp'] <= 1)
 {
     echo 'You\'re unconcious therefore you can\'t attack.<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if (isset($_SESSION['attacklost']) && $_SESSION['attacklost'] == 1)
+elseif (isset($_SESSION['attacklost']) && $_SESSION['attacklost'] == 1)
 {
     $_SESSION['attacklost'] = 0;
     echo 'Only the losers of all their EXP attack when they\'ve already lost.<br />&gt; <a href="index.php">Go Home</a>';
@@ -89,7 +89,7 @@ if ($odata['hp'] == 1)
     echo 'This player is unconscious.<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($odata['hospital'])
+elseif ($odata['hospital'])
 {
     $_SESSION['attacking'] = 0;
     $ir['attacking'] = 0;
@@ -97,7 +97,7 @@ else if ($odata['hospital'])
     echo 'This player is in hospital.<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($ir['hospital'])
+elseif ($ir['hospital'])
 {
     $_SESSION['attacking'] = 0;
     $ir['attacking'] = 0;
@@ -105,7 +105,7 @@ else if ($ir['hospital'])
     echo 'While in hospital you can\'t attack.<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($odata['jail'])
+elseif ($odata['jail'])
 {
     $_SESSION['attacking'] = 0;
     $ir['attacking'] = 0;
@@ -113,7 +113,7 @@ else if ($odata['jail'])
     echo 'This player is in jail.<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($ir['jail'])
+elseif ($ir['jail'])
 {
     $_SESSION['attacking'] = 0;
     $ir['attacking'] = 0;
@@ -219,7 +219,7 @@ SQL;
         {
             $mydamage = abs($mydamage);
         }
-        else if ($mydamage < 1)
+        elseif ($mydamage < 1)
         {
             $mydamage = 1;
         }
@@ -228,7 +228,7 @@ SQL;
         {
             $mydamage *= rand(20, 40) / 10;
         }
-        else if ($crit == 25 OR $crit == 8)
+        elseif ($crit == 25 OR $crit == 8)
         {
             $mydamage /= (rand(20, 40) / 10);
         }
@@ -314,7 +314,7 @@ SQL;
             {
                 $dam = abs($dam);
             }
-            else if ($dam < 1)
+            elseif ($dam < 1)
             {
                 $dam = 1;
             }
@@ -323,7 +323,7 @@ SQL;
             {
                 $dam *= rand(20, 40) / 10;
             }
-            else if ($crit == 25 OR $crit == 8)
+            elseif ($crit == 25 OR $crit == 8)
             {
                 $dam /= (rand(20, 40) / 10);
             }
@@ -357,23 +357,23 @@ SQL;
         }
     }
 }
-else if ($odata['hp'] < 5)
+elseif ($odata['hp'] < 5)
 {
     echo 'You can only attack those who have health.<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($ir['gang'] == $odata['gang'] && $ir['gang'] > 0)
+elseif ($ir['gang'] == $odata['gang'] && $ir['gang'] > 0)
 {
     echo 'You are in the same gang as ' . $odata['username']
             . '! What are you smoking today dude!<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($youdata['energy'] < $youdata['maxenergy'] / 2)
+elseif ($youdata['energy'] < $youdata['maxenergy'] / 2)
 {
     echo 'You can only attack someone when you have 50% energy.<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());
 }
-else if ($youdata['location'] != $odata['location'])
+elseif ($youdata['location'] != $odata['location'])
 {
     echo 'You can only attack someone in the same location!<br />&gt; <a href="index.php">Go Home</a>';
     die($h->endpage());

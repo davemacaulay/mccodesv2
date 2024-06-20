@@ -162,11 +162,11 @@ function add_friend()
         {
             echo 'You cannot add the same person twice.';
         }
-        else if ($userid == $_POST['ID'])
+        elseif ($userid == $_POST['ID'])
         {
             echo 'You cannot be so lonely that you have to try and add yourself.';
         }
-        else if ($db->num_rows($q) == 0)
+        elseif ($db->num_rows($q) == 0)
         {
             echo "Oh no, you're trying to add a ghost.";
         }

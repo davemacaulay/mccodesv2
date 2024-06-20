@@ -39,7 +39,7 @@ if (!((int) $_GET['ID']))
 {
     echo 'Invalid User ID';
 }
-else if ($_GET['ID'] == $userid)
+elseif ($_GET['ID'] == $userid)
 {
     echo 'Haha, what does sending money to yourself do anyway?';
 }
@@ -76,7 +76,7 @@ else
     		&gt; <a href="sendbank.php?ID=' . $_GET['ID'] . '">Try Again</a>';
             die($h->endpage());
         }
-        else if ($_POST['xfer'] > $ir['bankmoney'])
+        elseif ($_POST['xfer'] > $ir['bankmoney'])
         {
             echo 'Not enough money to send.';
         }

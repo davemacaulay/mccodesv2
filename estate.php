@@ -50,7 +50,7 @@ if (isset($_GET['property']) && is_numeric($_GET['property']))
     {
         echo 'You cannot go backwards in houses!';
     }
-    else if ($np['hPRICE'] > $ir['money'])
+    elseif ($np['hPRICE'] > $ir['money'])
     {
         echo "You do not have enough money to buy the {$np['hNAME']}.";
     }
@@ -65,7 +65,7 @@ if (isset($_GET['property']) && is_numeric($_GET['property']))
                 . money_formatter($np['hPRICE']) . '!';
     }
 }
-else if (isset($_GET['sellhouse']))
+elseif (isset($_GET['sellhouse']))
 {
     if ($ir['maxwill'] == 100)
     {

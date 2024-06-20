@@ -31,7 +31,7 @@ if ($_GET['action'] == 'cancel')
 {
     echo 'You have cancelled your donation. Please donate later...';
 }
-else if ($_GET['action'] == 'done')
+elseif ($_GET['action'] == 'done')
 {
     if (!$_GET['tx'])
     {

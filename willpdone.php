@@ -30,16 +30,13 @@ if (!isset($_GET['action']))
 if ($_GET['action'] == 'cancel')
 {
     echo 'You have cancelled your donation. Please donate later...';
-}
-else if ($_GET['action'] == 'done')
-{
-    if (!$_GET['tx'])
-    {
+} elseif ($_GET['action'] == 'done') {
+    if (!$_GET['tx']) {
         echo 'Get a life.';
         die($h->endpage());
     }
     echo 'Thank you for your payment to ' . $set['game_name']
-            . '. Your transaction has been completed, and a receipt for
+        . '. Your transaction has been completed, and a receipt for
             your purchase has been emailed to you. You may log into your
             account at <a href="https://www.paypal.com">www.paypal.com</a>
             to view details of this transaction.

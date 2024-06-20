@@ -106,7 +106,7 @@ function admin_gang_record()
             $_POST['gang'] = 0;
             admin_gang_record();
         }
-        else if (!$_POST['reason'])
+        elseif (!$_POST['reason'])
         {
             $_POST['gang'] = 0;
             admin_gang_record();
@@ -221,7 +221,7 @@ function admin_gang_credit()
                  with {$money} money and/or {$crystals} crystals
                  with the reason {$reason}");
     }
-    else if ($gang && ($money != 0 || $crystals != 0))
+    elseif ($gang && ($money != 0 || $crystals != 0))
     {
         staff_csrf_stdverify('staff_gangs_credit1',
                 'staff_gangs.php?action=gcredit');

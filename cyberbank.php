@@ -48,35 +48,25 @@ if ($ir['cybermoney'] > -1)
         break;
     }
 
-}
-else
-{
-    if (isset($_GET['buy']))
-    {
-        if ($ir['money'] >= $bank_cost)
-        {
-            echo 'Congratulations, you bought a bank account for '
-                    . money_formatter($bank_cost)
-                    . "!<br />
+} elseif (isset($_GET['buy'])) {
+    if ($ir['money'] >= $bank_cost) {
+        echo 'Congratulations, you bought a bank account for '
+            . money_formatter($bank_cost)
+            . "!<br />
 <a href='cyberbank.php'>Start using my account</a>";
-            $db->query(
-                    "UPDATE `users`
+        $db->query(
+            "UPDATE `users`
                              SET `money` = `money` - {$bank_cost},
                              `cybermoney` = 0
                              WHERE `userid` = $userid");
-        }
-        else
-        {
-            echo "You do not have enough money to open an account.
+    } else {
+        echo "You do not have enough money to open an account.
 <a href='explore.php'>Back to town...</a>";
-        }
     }
-    else
-    {
-        echo 'Open a bank account today, just ' . money_formatter($bank_cost)
-                . "!<br />
+} else {
+    echo 'Open a bank account today, just ' . money_formatter($bank_cost)
+        . "!<br />
 <a href='cyberbank.php?buy'>&gt; Yes, sign me up!</a>";
-    }
 }
 
 function index()
@@ -109,7 +99,7 @@ function deposit()
     {
         echo 'You do not have enough money to deposit this amount.';
     }
-    else if ($_POST['deposit'] == 0)
+    elseif ($_POST['deposit'] == 0)
     {
         echo "There's no point depositing nothing.";
     }
@@ -148,7 +138,7 @@ function withdraw()
     {
         echo 'You do not have enough banked money to withdraw this amount.';
     }
-    else if ($_POST['withdraw'] == 0)
+    elseif ($_POST['withdraw'] == 0)
     {
         echo "There's no point withdrawing nothing.";
     }

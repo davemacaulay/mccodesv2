@@ -59,7 +59,7 @@ if ($ir['jail'] and !$ir['hospital'])
 	<a href='hospital.php'>Hospital ($hc)</a><br />
    	";
 }
-else if (!$ir['hospital'])
+elseif (!$ir['hospital'])
 {
     echo "
 	<a href='explore.php'>Explore</a><br />

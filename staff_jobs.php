@@ -237,7 +237,7 @@ function jobedit()
         &gt; <a href="staff.php">Go Home</a>';
         die($h->endpage());
     }
-    else if (!empty($_POST['jID']))
+    elseif (!empty($_POST['jID']))
     {
         staff_csrf_stdverify('staff_editjob1', 'staff_jobs.php?action=jobedit');
         $q =
@@ -468,7 +468,7 @@ function jobrankedit()
         echo 'Job rank updated!<br />
         &gt; <a href="staff.php">Go Home</a>';
     }
-    else if (!empty($_POST['jrID']))
+    elseif (!empty($_POST['jrID']))
     {
         staff_csrf_stdverify('staff_editjobrank1',
                 'staff_jobs.php?action=jobrankedit');

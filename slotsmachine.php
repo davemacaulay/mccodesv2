@@ -48,7 +48,7 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
                 "You are trying to bet more than you have.<br />
 		<a href='slotsmachine.php?tresde=$tresder'>&gt; Back</a>");
     }
-    else if ($_POST['bet'] > $maxbet)
+    elseif ($_POST['bet'] > $maxbet)
     {
         die(
                 "You have gone over the max bet.<br />
@@ -70,7 +70,7 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
                 . ' by lining up 3 numbers pocketing you '
                 . money_formatter($gain) . ' extra.';
     }
-    else if ($slot[1] == $slot[2] || $slot[2] == $slot[3]
+    elseif ($slot[1] == $slot[2] || $slot[2] == $slot[3]
             || $slot[1] == $slot[3])
     {
         $won = $_POST['bet'] * 3;

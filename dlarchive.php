@@ -69,7 +69,7 @@ if ($_GET['a'] == 'inbox')
     $db->free_result($q);
     echo '</table>';
 }
-else if ($_GET['a'] == 'outbox')
+elseif ($_GET['a'] == 'outbox')
 {
     header('Content-type: text/html');
     header(

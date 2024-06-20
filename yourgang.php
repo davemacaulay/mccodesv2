@@ -340,52 +340,45 @@ function gang_staff_kick()
         if ($who == $gangdata['gangPRESIDENT'])
         {
             echo 'The gang president cannot be kicked.';
-        }
-        else if ($who == $userid)
-        {
+        } elseif ($who == $userid) {
             echo 'You cannot kick yourself. If you wish to leave,
             transfer your powers to someone else and then leave like normal.';
-        }
-        else
-        {
+        } else {
             $q =
-                    $db->query(
-                            "SELECT `username`
+                $db->query(
+                    "SELECT `username`
                              FROM `users`
                              WHERE `userid` = $who
                              AND `gang` = {$gangdata['gangID']}");
-            if ($db->num_rows($q) > 0)
-            {
+            if ($db->num_rows($q) > 0) {
                 $kdata = $db->fetch_row($q);
                 $db->query(
-                        "UPDATE `users`
+                    "UPDATE `users`
                          SET `gang` = 0, `daysingang` = 0
                          WHERE `userid` = $who");
                 $d_username =
-                        htmlentities($kdata['username'], ENT_QUOTES,
-                                'ISO-8859-1');
-                $d_oname =
-                        htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
+                    htmlentities($kdata['username'], ENT_QUOTES,
+                        'ISO-8859-1');
+                $d_oname    =
+                    htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
                 echo "<b>{$d_username}</b> was kicked from the Gang.";
                 $their_event =
-                        "You were kicked out of {$gangdata['gangNAME']} by "
-                                . "<a href='viewuser.php?u={$userid}'>"
-                                . $d_oname . '</a>';
+                    "You were kicked out of {$gangdata['gangNAME']} by "
+                    . "<a href='viewuser.php?u={$userid}'>"
+                    . $d_oname . '</a>';
                 event_add($who, $their_event);
                 $gang_event =
-                        $db->escape(
-                                "<a href='viewuser.php?u={$who}'>"
-                                        . $d_username
-                                        . '</a> was kicked out of the gang by '
-                                        . "<a href='viewuser.php?u={$userid}'>"
-                                        . $d_oname . '</a>');
+                    $db->escape(
+                        "<a href='viewuser.php?u={$who}'>"
+                        . $d_username
+                        . '</a> was kicked out of the gang by '
+                        . "<a href='viewuser.php?u={$userid}'>"
+                        . $d_oname . '</a>');
                 $db->query(
-                        "INSERT INTO `gangevents`
+                    "INSERT INTO `gangevents`
                          VALUES(NULL, {$gangdata['gangID']}, " . time()
-                                . ", '{$gang_event}');");
-            }
-            else
-            {
+                    . ", '{$gang_event}');");
+            } else {
                 echo 'Trying to kick non-existant user';
             }
             $db->free_result($q);
@@ -489,40 +482,36 @@ function gang_donate2()
         echo 'You can\'t donate more money than you have,
         	please go back and try again.<br />
         &gt; <a href="yourgang.php?action=donate">Back</a>';
-    }
-    else if ($_POST['crystals'] > $ir['crystals'])
-    {
+    } elseif ($_POST['crystals'] > $ir['crystals']) {
         echo 'You can\'t donate more crystals than you have,
         	please go back and try again.<br />
         &gt; <a href="yourgang.php?action=donate">Back</a>';
-    }
-    else
-    {
+    } else {
         $db->query(
-                "UPDATE `users`
+            "UPDATE `users`
                  SET `money` = `money` - {$_POST['money']},
                  `crystals` = `crystals` - {$_POST['crystals']}
                  WHERE `userid` = $userid");
         $db->query(
-                "UPDATE `gangs`
+            "UPDATE `gangs`
                  SET `gangMONEY` = `gangMONEY` + {$_POST['money']},
                  `gangCRYSTALS` = `gangCRYSTALS` + {$_POST['crystals']}
                  WHERE `gangID` = {$gangdata['gangID']}");
-        $my_name = htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
+        $my_name    = htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
         $gang_event =
-                $db->escape(
-                        "<a href='viewuser.php?u={$userid}'>" . $my_name
-                                . '</a>' . ' donated '
-                                . money_formatter($_POST['money'])
-                                . ' and/or '
-                                . number_format($_POST['crystals'])
-                                . ' crystals to the Gang.');
+            $db->escape(
+                "<a href='viewuser.php?u={$userid}'>" . $my_name
+                . '</a>' . ' donated '
+                . money_formatter($_POST['money'])
+                . ' and/or '
+                . number_format($_POST['crystals'])
+                . ' crystals to the Gang.');
         $db->query(
-                "INSERT INTO `gangevents`
+            "INSERT INTO `gangevents`
                  VALUES(NULL, {$gangdata['gangID']}, " . time()
-                        . ", '{$gang_event}')");
+            . ", '{$gang_event}')");
         echo 'You donated ' . money_formatter($_POST['money'])
-                . " and/or {$_POST['crystals']} crystals to the Gang.<br />
+            . " and/or {$_POST['crystals']} crystals to the Gang.<br />
               &gt; <a href='index.php'>Go Home</a>";
     }
 }
@@ -555,14 +544,10 @@ function gang_leave()
                 "INSERT INTO `gangevents`
                                 VALUES(NULL, {$ir['gang']}, " . time()
                         . ", '{$gang_event}')");
-    }
-    else if (isset($_POST['submit']) && $_POST['submit'] == 'No, stay!')
-    {
+    } elseif (isset($_POST['submit']) && $_POST['submit'] == 'No, stay!') {
         echo "You stayed in your gang.<br />
         &gt; <a href='yourgang.php'>Go back</a>";
-    }
-    else
-    {
+    } else {
         $csrf = request_csrf_html('yourgang_leave');
         echo "Are you sure you wish to leave your gang?
         <form action='yourgang.php?action=leave' method='post'>
@@ -864,9 +849,7 @@ function gang_staff_apps()
                     echo 'Your gang is full, you must upgrade it to hold more before you can accept another user!';
                     $h->endpage();
                     exit;
-                }
-                else if ($appdata['gang'] != 0)
-                {
+                } elseif ($appdata['gang'] != 0) {
                     $db->free_result($cnt);
                     echo 'That person is already in a gang.';
                     $h->endpage();
@@ -986,26 +969,19 @@ function gang_staff_vault()
         if ($_POST['crystals'] > $gangdata['gangCRYSTALS'])
         {
             echo 'The vault does not have that many crystals!';
-        }
-        else if ($_POST['money'] > $gangdata['gangMONEY'])
-        {
+        } elseif ($_POST['money'] > $gangdata['gangMONEY']) {
             echo 'The vault does not have that much money!';
-        }
-        else if ($_POST['money'] == 0 && $_POST['crystals'] == 0)
-        {
+        } elseif ($_POST['money'] == 0 && $_POST['crystals'] == 0) {
             echo 'You cannot give nothing away.';
-        }
-        else
-        {
+        } else {
             $who = $_POST['who'];
-            $md =
-                    $db->query(
-                            "SELECT `username`
+            $md  =
+                $db->query(
+                    "SELECT `username`
              				 FROM `users`
              				 WHERE `userid` = $who
              				 AND `gang` = {$gangdata['gangID']}");
-            if ($db->num_rows($md) == 0)
-            {
+            if ($db->num_rows($md) == 0) {
                 $db->free_result($md);
                 echo "That user doesn't exist or isn't in this gang.<br />
                 &gt; <a href='yourgang.php?action=staff&amp;act2=vault'>Back</a>";
@@ -1013,18 +989,18 @@ function gang_staff_vault()
                 exit;
             }
             $dname =
-                    htmlentities($db->fetch_single($md), ENT_QUOTES,
-                            'ISO-8859-1');
+                htmlentities($db->fetch_single($md), ENT_QUOTES,
+                    'ISO-8859-1');
             $db->free_result($md);
             $money = $_POST['money'];
-            $crys = $_POST['crystals'];
+            $crys  = $_POST['crystals'];
             $db->query(
-                    "UPDATE `users`
+                "UPDATE `users`
                      SET `money` = `money` + $money,
                      `crystals` = `crystals` + $crys
                      WHERE `userid` = $who");
             $db->query(
-                    "UPDATE `gangs`
+                "UPDATE `gangs`
                      SET `gangMONEY` = `gangMONEY` - $money,
                      `gangCRYSTALS` = `gangCRYSTALS` - $crys
                      WHERE `gangID` = {$gangdata['gangID']}");
@@ -1032,19 +1008,19 @@ function gang_staff_vault()
                 'You were given ' . money_formatter($money)
                 . " and/or $crys crystals from your Gang.");
             $gang_event =
-                    $db->escape(
-                            "<a href='viewuser.php?u=$who'>" . $dname
-                                    . '</a> was given '
-                                    . money_formatter($money) . ' and/or '
-                                    . number_format($crys)
-                                    . ' crystals from the Gang.');
-            $db->query(
-                    "INSERT INTO `gangevents`
-                     VALUES(NULL, {$gangdata['gangID']}, " . time()
-                            . ",'{$gang_event}')");
-            echo "<a href='viewuser.php?u=$who'>{$dname}</a> was given "
+                $db->escape(
+                    "<a href='viewuser.php?u=$who'>" . $dname
+                    . '</a> was given '
                     . money_formatter($money) . ' and/or '
-                    . number_format($crys) . ' crystals from the Gang.';
+                    . number_format($crys)
+                    . ' crystals from the Gang.');
+            $db->query(
+                "INSERT INTO `gangevents`
+                     VALUES(NULL, {$gangdata['gangID']}, " . time()
+                . ",'{$gang_event}')");
+            echo "<a href='viewuser.php?u=$who'>{$dname}</a> was given "
+                . money_formatter($money) . ' and/or '
+                . number_format($crys) . ' crystals from the Gang.';
         }
     }
     else
@@ -1276,13 +1252,9 @@ function gang_staff_surrender()
         if ($gangdata['gangID'] == $r['warDECLARER'])
         {
             $f = 'warDECLARED';
-        }
-        else if ($gangdata['gangID'] == $r['warDECLARED'])
-        {
+        } elseif ($gangdata['gangID'] == $r['warDECLARED']) {
             $f = 'warDECLARER';
-        }
-        else
-        {
+        } else {
             echo "Invalid war.<br />
             &gt; <a href='yourgang.php?action=staff&amp;act2=surrender'>Back</a>";
             $h->endpage();
@@ -1575,21 +1547,17 @@ function gang_staff_upgrades()
         if ($_POST['membs'] == 0)
         {
             echo "There's no point upgrading 0 capacity.";
-        }
-        else if ($_POST['membs'] * 100000 > $gangdata['gangMONEY'])
-        {
+        } elseif ($_POST['membs'] * 100000 > $gangdata['gangMONEY']) {
             echo 'Your gang does not have enough money to upgrade that much capacity.';
-        }
-        else
-        {
+        } else {
             $cost = $_POST['membs'] * 100000;
             $db->query(
-                    "UPDATE `gangs`
+                "UPDATE `gangs`
                      SET `gangCAPACITY` = `gangCAPACITY` + {$_POST['membs']},
                      `gangMONEY` = `gangMONEY` - $cost
             		 WHERE `gangID` = {$gangdata['gangID']}");
             echo 'You paid ' . money_formatter($cost)
-                    . " to add {$_POST['membs']} capacity to your gang.";
+                . " to add {$_POST['membs']} capacity to your gang.";
         }
     }
     else
