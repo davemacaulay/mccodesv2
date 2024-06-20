@@ -179,7 +179,6 @@ if ($fp) {
                 "INSERT INTO `dps_accepted`
                      VALUES(NULL, {$buyer}, {$for}, '$t', " . time()
                 . ", '$txn_db')");
-        } elseif (strcmp($res, 'INVALID') == 0) {
         }
     }
 

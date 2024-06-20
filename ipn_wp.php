@@ -135,7 +135,6 @@ if ($fp) {
                 "INSERT INTO `willps_accepted`
                      VALUES(NULL, {$buyer}, {$for}, '$pack', " . time()
                 . ", '$txn_db')");
-        } elseif (strcmp($res, 'INVALID') == 0) {
         }
     }
     fclose($fp);
