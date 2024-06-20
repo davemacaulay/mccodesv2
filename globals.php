@@ -67,7 +67,7 @@ require 'header.php';
 include 'config.php';
 const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";
-$db = new database;
+$db = new database();
 $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
         $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
@@ -138,7 +138,7 @@ if ($macropage && !$ir['verified'] && $set['validate_on'] == 1)
     exit;
 }
 check_level();
-$h = new headers;
+$h = new headers();
 if (!isset($nohdr) || !$nohdr)
 {
     $h->startheaders();

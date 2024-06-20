@@ -400,7 +400,7 @@ function install()
     // Try to establish DB connection first...
     echo 'Attempting DB connection...<br />';
     require_once("class/class_db_{$db_driver}.php");
-    $db = new database;
+    $db = new database();
     $db->configure($db_hostname, $db_username, $db_password, $db_database);
     $db->connect();
     $c = $db->connection_id;

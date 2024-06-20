@@ -87,7 +87,7 @@ include 'config.php';
 global $_CONFIG;
 const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";
-$db = new database;
+$db = new database();
 $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
         $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
@@ -156,7 +156,7 @@ if (!in_array($ir['user_level'], [2, 3, 5]))
     die;
 }
 check_level();
-$h = new headers;
+$h = new headers();
 $h->startheaders();
 $fm = money_formatter($ir['money']);
 $cm = money_formatter($ir['crystals'], '');

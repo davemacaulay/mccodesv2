@@ -30,7 +30,7 @@ class bbcode
     function bbcode()
     {
         require 'bbcode_engine.php';
-        $this->engine = new bbcode_engine;
+        $this->engine = new bbcode_engine();
         $this->engine->cust_tag('/</', '&lt;');
         $this->engine->cust_tag('/>/', '&gt;');
         $this->engine->cust_tag("/\r\n/", "\n");
@@ -190,7 +190,7 @@ function forums_rank($tp)
     return $new_rank;
 }
 
-$bbc = new bbcode;
+$bbc = new bbcode();
 echo '<h3>Forums</h3><hr />';
 if ($ir['forumban'] > 0)
 {

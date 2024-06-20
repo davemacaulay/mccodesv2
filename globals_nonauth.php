@@ -57,7 +57,7 @@ include 'config.php';
 const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";
 require_once('global_func.php');
-$db = new database;
+$db = new database();
 $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
         $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
