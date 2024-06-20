@@ -1,5 +1,9 @@
 <?php
 declare(strict_types=1);
+
+/**
+ * BBCode wrapper class used in the forum
+ */
 class bbcode
 {
     private static ?self $inst = null;
