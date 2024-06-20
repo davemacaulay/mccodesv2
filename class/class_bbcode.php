@@ -60,12 +60,12 @@ class bbcode
             "<div class='codetop'>CODE</div><div class='codemain'><code>\\1</code></div>");
         $this->engine->cust_tag('/\[codebox\](.+?)\[\/codebox\]/i',
             "<div class='codetop'>CODE</div><div class='codemain' style='height:200px;white-space:pre;overflow:auto'>\\1</div>");
-        $this->engine->cust_tag('/\[img=(.+?)\]/ie', "check_image('\\1')");
-        $this->engine->cust_tag('/\[img](.+?)\[\/img\]/ie',
-            "check_image('\\1')");
+        $this->engine->cust_tag_with_callback('/\[img=(.+?)\]/i', 'check_image');
+        $this->engine->cust_tag_with_callback('/\[img](.+?)\[\/img\]/i',
+            'check_image');
         $this->engine->cust_tag('/&nbrlb;/', '<br />');
-        $this->engine->cust_tag('/\[userbox\]([0-9]+)\[\/userbox\]/ie',
-            "userBox(\\1)");
+        $this->engine->cust_tag_with_callback('/\[userbox\]([0-9]+)\[\/userbox\]/i',
+            'userBox');
         $this->engine->cust_tag('/\[hr\]/is', '<hr />');
         $this->engine->cust_tag('/\[\*\]/', '<li>');
     }
