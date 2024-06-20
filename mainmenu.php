@@ -90,7 +90,7 @@ if (!$ir['jail'] && $ir['gang'])
 {
     echo "<a href='yourgang.php'>Your Gang</a><br />";
 }
-if (!empty($ir['staff_roles']))
+if (is_staff())
 {
     echo "
 	<hr />
@@ -98,20 +98,12 @@ if (!empty($ir['staff_roles']))
 	<hr />
 	<b>Staff Online:</b><br />
    	";
-    $online_cutoff = time() - 900;
-    $q =
-            $db->query(
-                    "SELECT `userid`, `username`, `laston`
-                     FROM `users`
-                     WHERE `laston` > ({$online_cutoff})
-                     AND `staff_roles` != ''
-                     ORDER BY `userid`");
-    while ($r = $db->fetch_row($q))
+    $online_staff = get_online_staff();
+    foreach ($online_staff as $r)
     {
         echo '<a href="viewuser.php?u=' . $r['userid'] . '">' . $r['username']
                 . '</a> (' . datetime_parse($r['laston']) . ')<br />';
     }
-    $db->free_result($q);
 }
 if ($ir['donatordays'])
 {

@@ -135,7 +135,7 @@ if ($ir['force_logout'] > 0)
     header("Location: {$login_url}");
     exit;
 }
-if (empty($ir['staff_roles']))
+if (!is_staff())
 {
     echo 'This page cannot be accessed.<br />&gt; <a href="index.php">Go Home</a>';
     die;

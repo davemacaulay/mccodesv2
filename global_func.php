@@ -1352,3 +1352,35 @@ function check_access(string|array $permissions, bool $exit = true, ?int $target
     // No need to exit. Access granted!
     return true;
 }
+
+/**
+ * @return bool
+ */
+function is_staff(): bool
+{
+    global $db, $userid;
+    $preliminary = $db->query(
+        'SELECT COUNT(*) FROM users_roles WHERE staff_role > 0 AND userid = '.$userid,
+    );
+    return $db->fetch_single($preliminary) > 0;
+}
+
+function get_online_staff(?int $online_cutoff = null): array
+{
+    global $db;
+    $online_cutoff ??= time() - 900;
+    $q = $db->query(
+        'SELECT u.userid, u.username, u.laston
+        FROM users AS u
+        INNER JOIN users_roles AS ur ON ur.userid = u.userid
+        WHERE ur.staff_role > 0 AND u.laston > ' .$online_cutoff. '
+        GROUP BY u.userid
+        ORDER BY userid'
+    );
+    $rows = [];
+    while ($r = $db->fetch_row($q)) {
+        $rows[] = $r;
+    }
+    $db->free_result($q);
+    return $rows;
+}
