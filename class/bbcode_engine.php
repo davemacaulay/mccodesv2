@@ -28,6 +28,8 @@ class bbcode_engine
     private static ?self $instance = null;
     public array $parsings = [];
     public array $htmls = [];
+    public array $parsings_with_callbacks = [];
+    public array $htmls_with_callbacks = [];
     public static function getInstance(): ?self
     {
         if (self::$instance === null) {
@@ -42,7 +44,6 @@ class bbcode_engine
      */
     public function simple_bbcode_tag(string $tag = ''): void
     {
-
         if (!$tag) {
             return;
         }
@@ -57,11 +58,9 @@ class bbcode_engine
      */
     public function adv_bbcode_tag(string $tag = '', string $reptag = ''): void
     {
-
         if (!$tag) {
             return;
         }
-
         $this->parsings[] = '/\[' . $tag . '\](.+?)\[\/' . $tag . '\]/';
         $this->htmls[]    = '<' . $reptag . ">\\1</" . $reptag . '>';
     }
@@ -73,7 +72,6 @@ class bbcode_engine
      */
     public function simple_option_tag(string $tag = '', string $optionval = ''): void
     {
-
         if ($tag == '' || $optionval == '') {
             return;
         }
@@ -235,6 +233,21 @@ class bbcode_engine
     }
 
     /**
+     * @param string $bbcode
+     * @param string $function_name
+     * @return void
+     */
+    public function cust_tag_with_callback(string $bbcode = '', string $function_name = ''): void
+    {
+
+        if ($bbcode == '' || $function_name == '') {
+            return;
+        }
+        $this->parsings_with_callbacks[] = $bbcode;
+        $this->htmls_with_callbacks[]    = $function_name;
+    }
+
+    /**
      * @param $text
      * @return array|string|null
      */
@@ -247,6 +260,11 @@ class bbcode_engine
             $text =
                 preg_replace($this->parsings[$i], $this->htmls[$i], $text);
             $i++;
+        }
+        $j = 0;
+        while (isset($this->parsings_with_callbacks[$j])) {
+            $text = preg_replace_callback($this->parsings_with_callbacks[$j], $this->htmls_with_callbacks[$j], $text);
+            ++$j;
         }
         return $text;
     }
