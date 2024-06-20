@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
