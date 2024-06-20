@@ -1245,7 +1245,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `equip_armor` int(11) NOT NULL default '0',
   `force_logout` tinyint(4) NOT NULL default '0',
   `pass_salt` varchar(8) NOT NULL default '',
-  staff_roles varchar(255) NOT NULL default '',
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM ;
 --
@@ -1355,3 +1354,24 @@ CREATE TABLE `staff_roles`
 INSERT INTO `staff_roles` (`name`, `administrator`) VALUES ('Administrator', true);
 INSERT INTO `staff_roles` (`name`, `view_user_inventory`, `credit_user`, `manage_player_reports`, `credit_item`, `view_logs`, `manage_gangs`, `manage_punishments`, `use_staff_forums`) VALUES ('Secretary', true, true, true, true, true, true, true, true);
 INSERT INTO `staff_roles` (`name`, `view_logs`, `manage_punishments`, `use_staff_forums`) VALUES ('Assistant', true, true, true);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_roles`
+--
+
+CREATE TABLE users_roles
+(
+    id         INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    userid     INT NOT NULL REFERENCES users (userid),
+    staff_role INT NOT NULL REFERENCES staff_roles (id)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Dumping data for table `users_roles`
+--
+
+INSERT INTO users_roles (userid, staff_role) VALUES (1, 1);
