@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $h;
 require_once('sglobals.php');
 //This contains item stuffs
 if (!isset($_GET['action']))

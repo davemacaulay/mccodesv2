@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
@@ -884,12 +885,12 @@ function reorder_crimegroups()
                          WHERE `cgORDER` IN(' . $ro . ')');
         if ($db->fetch_single($c_g) < $ro_cnt)
         {
-            $db->free_result($c_q);
+            $db->free_result($c_g);
             echo 'Group order doesn\'t exist.<br />
             &gt; <a href="staff_crimes.php?action=reorder">Go Back</a>';
             die($h->endpage());
         }
-        $db->free_result($c_q);
+        $db->free_result($c_g);
         foreach ($_POST as $k => $v)
         {
             $cg = str_replace('order', '', $k);

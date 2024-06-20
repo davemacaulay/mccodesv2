@@ -145,7 +145,7 @@ OUT;
     {
         define('jdsf45tji', true);
         include 'mainmenu.php';
-        global $ir;
+        global $ir, $set;
         $bgcolor = 'FFFFFF';
         print
             '</td><td width="2" class="linegrad" bgcolor="#' . $bgcolor

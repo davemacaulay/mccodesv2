@@ -19,7 +19,7 @@
  * Signature: e26eace4420c392719bf14416ddb6230
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $h;
 require_once('globals.php');
 echo '
 	<h3>Crystal Market</h3>

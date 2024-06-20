@@ -21,6 +21,7 @@
  */
 
 $macropage = 'criminal.php';
+global $db, $ir, $h;
 require_once('globals.php');
 if ($ir['jail'] || $ir['hospital'])
 {

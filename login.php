@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $set;
 require_once('globals_nonauth.php');
 $login_csrf = request_csrf_code('login');
 print

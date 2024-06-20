@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
 $_POST['location'] =
         (isset($_POST['location']) && is_numeric($_POST['location']))

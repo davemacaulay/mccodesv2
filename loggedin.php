@@ -21,6 +21,7 @@
  */
 
 $housequery = 1;
+global $db, $ir, $userid, $h, $set, $lv, $cm, $fm;
 require_once('globals.php');
 if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/installer.php')
         && $ir['user_level'] == 2)

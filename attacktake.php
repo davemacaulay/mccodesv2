@@ -21,6 +21,7 @@
  */
 
 $atkpage = 1;
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))

@@ -29,6 +29,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']))
         exit;
     }
 }
+global $db;
 require_once('global_func.php');
 if (!is_ajax())
 {

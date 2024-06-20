@@ -19,7 +19,7 @@
  * Signature: 360700a3db81f331ff1db557fd9b3e49
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $userid, $h, $set, $domain;
 require_once('globals.php');
 print
     <<<EOF

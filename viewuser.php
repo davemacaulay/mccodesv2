@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $h, $set;
 require_once('globals.php');
 $_GET['u'] =
         (isset($_GET['u']) && is_numeric($_GET['u'])) ? abs(intval($_GET['u']))

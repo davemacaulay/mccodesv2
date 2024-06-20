@@ -53,6 +53,7 @@ if (get_magic_quotes_gpc() == 0)
 }
 require 'lib/basic_error_handler.php';
 set_error_handler('error_php');
+global $_CONFIG;
 include 'config.php';
 const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";

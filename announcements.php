@@ -19,7 +19,7 @@
  * Signature: 3fef08ec3e124e63c1c6655b8aa50d18
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $ac = $ir['new_announcements'];
 $q =

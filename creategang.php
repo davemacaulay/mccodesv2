@@ -19,7 +19,7 @@
  * Signature: 4c05acde022af67e7df7d3aa23e43ca9
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $cg_price = 500000;
 if ($ir['money'] < $cg_price)

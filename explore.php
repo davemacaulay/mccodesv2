@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $userid, $h, $set, $domain;
 require_once('globals.php');
 $tresder = rand(100, 999);
 if ($ir['jail'] > 0 || $ir['hospital'] > 0)

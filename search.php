@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $h;
 require_once('globals.php');
 echo "<h3>Search</h3>
 <b>Search by Name</b>

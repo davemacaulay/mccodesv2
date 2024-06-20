@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 echo '<h3>Cyber Bank</h3>';
 $bank_cost = 10000000;

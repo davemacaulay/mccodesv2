@@ -27,6 +27,7 @@ if (!isset($_SESSION['started']))
     session_regenerate_id();
     $_SESSION['started'] = true;
 }
+global $db;
 require_once('global_func.php');
 if (isset($_SESSION['userid']))
 {

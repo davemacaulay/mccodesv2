@@ -21,6 +21,7 @@
  */
 
 $nohdr = true;
+global $db, $userid;
 require_once('globals.php');
 if (!isset($_GET['a']))
 {

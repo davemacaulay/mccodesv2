@@ -26,6 +26,8 @@ if (!isset($_GET['c']))
 }
 $_GET['c'] = abs((int) $_GET['c']);
 $macropage = "docrime.php?c={$_GET['c']}";
+global $db, $ir, $userid, $h;
+$sucrate = 0;
 require_once('globals.php');
 if ($ir['jail'] > 0 || $ir['hospital'] > 0)
 {
@@ -58,7 +60,7 @@ else
     else
     {
         $ec =
-                "\$sucrate="
+                '$sucrate='
                         . str_replace(
                                 ['LEVEL', 'CRIMEXP', 'EXP', 'WILL', 'IQ'],
                                 [$ir['level'], $ir['crimexp'],

@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $userid, $h, $domain, $set;
 require_once('globals.php');
 $fiveK = money_formatter(5000);
 $fiftK = money_formatter(15000);

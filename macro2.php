@@ -21,6 +21,7 @@
  */
 
 $nohdr = 1;
+global $db, $ir, $userid, $set, $domain;
 require_once('globals.php');
 if (!$set['validate_on'] || $ir['verified'])
 {

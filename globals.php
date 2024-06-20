@@ -64,6 +64,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == 0)
 $userid = $_SESSION['userid'] ?? 0;
 require 'header.php';
 
+global $_CONFIG;
 include 'config.php';
 const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";

@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $h;
 require_once('globals.php');
 
 function csrf_error($goBackTo)
@@ -953,7 +954,7 @@ function gang_staff_apps()
 
 function gang_staff_vault()
 {
-    global $db, $gangdata;
+    global $db, $gangdata, $h;
     $_POST['who'] =
             (isset($_POST['who']) && is_numeric($_POST['who']))
                     ? abs(intval($_POST['who'])) : '';
@@ -1052,7 +1053,7 @@ function gang_staff_vault()
 
 function gang_staff_vicepres()
 {
-    global $db, $gangdata;
+    global $db, $gangdata, $h;
     if (isset($_POST['subm']))
     {
         csrf_stdverify('gang_staff_vicepres', 'staff&amp;act2=vicepres');
@@ -1101,7 +1102,7 @@ function gang_staff_vicepres()
 
 function gang_staff_wardeclare()
 {
-    global $db, $gangdata;
+    global $db, $gangdata, $h;
     if (isset($_POST['subm']))
     {
         csrf_stdverify('yourgang_staff_declare', 'staff&amp;act2=declare');
@@ -1176,7 +1177,7 @@ function gang_staff_wardeclare()
 
 function gang_staff_surrender()
 {
-    global $db, $gangdata;
+    global $db, $gangdata, $h;
     if (!isset($_POST['subm']))
     {
         $wq =
@@ -1289,7 +1290,7 @@ function gang_staff_surrender()
 
 function gang_staff_viewsurrenders()
 {
-    global $db, $gangdata;
+    global $db, $gangdata, $h;
     if (!isset($_POST['subm']))
     {
         $wq =
@@ -1403,7 +1404,7 @@ function gang_staff_viewsurrenders()
 
 function gang_staff_orgcrimes()
 {
-    global $db, $gangdata;
+    global $db, $gangdata, $h;
     $_POST['crime'] =
             (isset($_POST['crime']) && is_numeric($_POST['crime']))
                     ? abs(intval($_POST['crime'])) : 0;
@@ -1481,7 +1482,7 @@ function gang_staff_orgcrimes()
 
 function gang_staff_pres()
 {
-    global $db, $userid, $gangdata;
+    global $db, $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']))

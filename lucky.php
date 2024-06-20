@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 echo '<h3>Lucky Boxes</h3><hr />';
 $box_cost = 1000;

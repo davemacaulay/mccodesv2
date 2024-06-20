@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $set;
 require_once('globals_nonauth.php');
 // Check CSRF input
 if (!isset($_POST['verf'])

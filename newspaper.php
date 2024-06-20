@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
 echo '<h3>The MonoPaper</h3>';
 $paperQ = $db->query('SELECT `content`

@@ -19,7 +19,7 @@
  * Signature: 8f1a8627ff14f289ab59fa6ea451f3f1
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $h, $set;
 require_once('globals.php');
 print
         <<<EOF

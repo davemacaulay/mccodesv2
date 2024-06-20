@@ -21,6 +21,7 @@
  */
 
 $forums = 1;
+global $ir, $h;
 require_once('globals.php');
 
 class bbcode

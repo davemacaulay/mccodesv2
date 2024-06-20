@@ -19,7 +19,7 @@
  * Signature: 5f549f6de133f8528387fee2c6d13ec1
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $ir, $h, $set;
 require_once('globals.php');
 if (!$set['validate_on'] || $ir['verified'])
 {

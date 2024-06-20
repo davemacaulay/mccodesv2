@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 # Basic config setting
 $cost_of_travel = 1000;

@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
@@ -410,7 +411,7 @@ function userlevelform()
 
 function massmailer()
 {
-    global $db;
+    global $db, $h;
     $_POST['text'] =
             (isset($_POST['text']))
                     ? $db->escape(strip_tags(stripslashes($_POST['text'])))

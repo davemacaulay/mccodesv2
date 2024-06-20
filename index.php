@@ -21,6 +21,7 @@
  */
 
 $housequery = 1;
+global $db, $ir, $userid, $h, $cm, $fm;
 require_once('globals.php');
 echo '<h3>General Info:</h2>';
 $exp = (int) ($ir['exp'] / $ir['exp_needed'] * 100);

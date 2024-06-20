@@ -22,6 +22,7 @@
 
 $menuhide = 1;
 $atkpage = 1;
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 
 $_GET['ID'] =

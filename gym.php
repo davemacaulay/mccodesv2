@@ -21,6 +21,7 @@
  */
 
 $macropage = 'gym.php';
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 if ($ir['hospital'])
 {

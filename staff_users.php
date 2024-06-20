@@ -20,6 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $h;
 require_once('sglobals.php');
 //This contains user stuffs
 if (!isset($_GET['action']))
@@ -83,7 +84,7 @@ default:
 
 function new_user_form()
 {
-    global $ir;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';

@@ -19,7 +19,7 @@
  * Signature: 4b8febe7fa0e1b37799c15544092f62f
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $db, $set, $_CONFIG;
 require_once('globals_nonauth.php');
 if($argc == 2) {
     if($argv[1] != $_CONFIG['code']) {
