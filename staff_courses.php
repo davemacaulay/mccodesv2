@@ -100,8 +100,8 @@ function addcourse(): void
 {
     global $db, $h;
     process_course_post_data();
-    if ($_POST['name'] && $_POST['desc'] && $_POST['cost'] && $_POST['days'] && $_POST['cost'] > 0 && $_POST['energy']
-            && $_POST['str'] && $_POST['agil'] && $_POST['gua'] && $_POST['lab'] && $_POST['iq'])
+    if ($_POST['name'] && $_POST['desc'] && $_POST['cost'] && $_POST['days'] && $_POST['cost'] > 0 && $_POST['energy'] > 0
+            && $_POST['str'] > -1 && $_POST['agil'] > -1 && $_POST['gua'] > -1 && $_POST['lab'] > -1 && $_POST['iq'] > -1)
     {
         staff_csrf_stdverify('staff_addcourse',
                 'staff_courses.php?action=addcourse');
@@ -162,9 +162,9 @@ function editcourse(): void
     case '2':
         process_course_post_data();
         if (empty($_POST['name']) || empty($_POST['desc']) || empty($_POST['cost'])
-                || empty($_POST['days']) || empty($_POST['energy'])
-                || empty($_POST['str']) || empty($_POST['agil']) || empty($_POST['gua']) || empty($_POST['lab'])
-                || empty($_POST['iq']))
+                || empty($_POST['days']) || $_POST['energy'] < 0
+                || $_POST['str'] < 0 || $_POST['agil'] < 0 || $_POST['gua'] < 0 || $_POST['lab'] < 0
+                || $_POST['iq'] < 0)
         {
             echo 'Something went wrong.<br />
             &gt; <a href="staff.php">Goto Main</a>';
