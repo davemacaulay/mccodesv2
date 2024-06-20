@@ -30,8 +30,7 @@
 // Change to true to show the user more information (for development)
 const DEBUG = false;
 
-function error_critical($human_error, $debug_error, $action,
-        $context = [])
+function error_critical($human_error, $debug_error, $action)
 {
     // Clear anything that was going to be shown
     ob_get_clean();
