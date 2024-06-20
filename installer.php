@@ -102,7 +102,7 @@ function diagnostics()
         $wv = '<span style="color: red">Failed</span>';
         $wvf = 0;
     }
-    if (function_exists('mysql_connect') || function_exists('mysqli_connect'))
+    if (function_exists('mysqli_connect'))
     {
         $dv = '<span style="color: green">OK</span>';
         $dvf = 1;
@@ -171,18 +171,7 @@ function config()
     		<tr>
     			<td align='center'>MySQL Driver</td>
     			<td>
-    				<select name='driver' type='dropdown'>
-       ";
-    if (function_exists('mysql_connect'))
-    {
-        echo '<option value="mysql">MySQL Standard</option>';
-    }
-    if (function_exists('mysqli_connect'))
-    {
-        echo '<option value="mysqli">MySQLi Enhanced</option>';
-    }
-    echo "
-    				</select>
+    				<input type='text' name='driver' value='mysqli' readonly>
     			</td>
     		</tr>
     		<tr>
@@ -338,8 +327,8 @@ function install()
             isset($_POST['database']) ? gpc_cleanup($_POST['database']) : '';
     $db_driver =
             (isset($_POST['driver'])
-                    && in_array($_POST['driver'], array('mysql', 'mysqli'),
-                            true)) ? $_POST['driver'] : 'mysql';
+                    && in_array($_POST['driver'], array('mysqli'),
+                            true)) ? $_POST['driver'] : 'mysqli';
     $errors = array();
     if (empty($db_hostname))
     {
