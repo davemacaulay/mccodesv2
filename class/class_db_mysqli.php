@@ -45,15 +45,13 @@ class database
     var $user;
     var $pass;
     var $database;
-    var $persistent = 0;
     var $last_query;
     var $result;
     var $connection_id;
     var $num_queries = 0;
-    var $start_time;
     var $queries = array();
 
-    function configure($host, $user, $pass, $database, $persistent = 0)
+    function configure($host, $user, $pass, $database)
     {
         $this->host = $host;
         $this->user = $user;
