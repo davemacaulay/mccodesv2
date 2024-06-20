@@ -1245,6 +1245,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `equip_armor` int(11) NOT NULL default '0',
   `force_logout` tinyint(4) NOT NULL default '0',
   `pass_salt` varchar(8) NOT NULL default '',
+  staff_roles varchar(255) NOT NULL default '',
   PRIMARY KEY  (`userid`)
 ) ENGINE=MyISAM ;
 --
@@ -1308,3 +1309,49 @@ CREATE TABLE `willps_accepted` (
 --
 -- Dumping data for table `willps_accepted`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff_roles`
+--
+
+CREATE TABLE `staff_roles`
+(
+    `id`                    INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `name`                  VARCHAR(255) NOT NULL DEFAULT '',
+    `administrator`         BOOL         NOT NULL DEFAULT FALSE,
+    `credit_all_users`      BOOL         NOT NULL DEFAULT FALSE,
+    `credit_item`           BOOL         NOT NULL DEFAULT FALSE,
+    `credit_user`           BOOL         NOT NULL DEFAULT FALSE,
+    `edit_newspaper`        BOOL         NOT NULL DEFAULT FALSE,
+    `manage_challenge_bots` BOOL         NOT NULL DEFAULT FALSE,
+    `manage_cities`         BOOL         NOT NULL DEFAULT FALSE,
+    `manage_courses`        BOOL         NOT NULL DEFAULT FALSE,
+    `manage_crimes`         BOOL         NOT NULL DEFAULT FALSE,
+    `manage_donator_packs`  BOOL         NOT NULL DEFAULT FALSE,
+    `manage_forums`         BOOL         NOT NULL DEFAULT FALSE,
+    `manage_gangs`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_houses`         BOOL         NOT NULL DEFAULT FALSE,
+    `manage_items`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_jobs`           BOOL         NOT NULL DEFAULT FALSE,
+    `manage_player_reports` BOOL         NOT NULL DEFAULT FALSE,
+    `manage_polls`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_punishments`    BOOL         NOT NULL DEFAULT FALSE,
+    `manage_roles`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_shops`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_staff`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_users`          BOOL         NOT NULL DEFAULT FALSE,
+    `mass_mail`             BOOL         NOT NULL DEFAULT FALSE,
+    `use_staff_forums`      BOOL         NOT NULL DEFAULT FALSE,
+    `view_logs`             BOOL         NOT NULL DEFAULT FALSE,
+    `view_user_inventory`   BOOL         NOT NULL DEFAULT FALSE
+);
+
+--
+-- Dumping data for table `willps_accepted`
+--
+
+INSERT INTO `staff_roles` (`name`, `administrator`) VALUES ('Administrator', true);
+INSERT INTO `staff_roles` (`name`, `view_user_inventory`, `credit_user`, `manage_player_reports`, `credit_item`, `view_logs`, `manage_gangs`, `manage_punishments`, `use_staff_forums`) VALUES ('Secretary', true, true, true, true, true, true, true, true);
+INSERT INTO `staff_roles` (`name`, `view_logs`, `manage_punishments`, `use_staff_forums`) VALUES ('Assistant', true, true, true);
