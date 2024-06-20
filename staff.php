@@ -48,7 +48,7 @@ function render_menu_options(string $name, array $options, mixed $selected = nul
 {
     $ret = '<select name="' . $name . '">';
     foreach ($options as $key => $value) {
-        $ret .= '<option value="' . $key . '"' . ($key === $selected ? ' selected' : '') . '>' . $value . '</option>';
+        $ret .= '<option value="' . $key . '"' . ($key == $selected ? ' selected' : '') . '>' . $value . '</option>';
     }
     $ret .= '</select>';
     return $ret;
