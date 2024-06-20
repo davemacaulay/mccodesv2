@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: oclog.php
  * Signature: 76ded8b56b6ddfb5c2de0e01f6f42a24
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $h;

@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: staff_items.php
  * Signature: a40400b7147fbbca65f46da8f7d6b2b5
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $h;

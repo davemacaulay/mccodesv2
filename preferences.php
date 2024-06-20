@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: preferences.php
  * Signature: 5ef365cacecc5a3f8601e964d414a315
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $h;

@@ -156,6 +156,7 @@ OUT;
 
     /**
      * @return void
+     * @noinspection SpellCheckingInspection
      */
     public function menuarea(): void
     {
@@ -178,6 +179,7 @@ OUT;
 
     /**
      * @return void
+     * @noinspection SpellCheckingInspection
      */
     public function smenuarea(): void
     {

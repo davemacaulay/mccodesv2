@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: viewuser.php
  * Signature: 359abfc90736815bd4dd5e155cd1edf8
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $ir, $h, $set;

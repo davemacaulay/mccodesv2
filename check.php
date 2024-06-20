@@ -38,7 +38,7 @@ if (!is_ajax())
 }
 if (!isset($_POST['password']))
 { // If they are trying to view this without ?password=password.
-    die('Whats this document for?'); // Lawl what is this doccument for anyways?
+    die('Whats this document for?'); // Lawl what is this document for anyway?
 }
 else
 { // ElseIf we cant to check the password's strength.
@@ -65,7 +65,7 @@ else
                         0 => '0' // 0.
                 ]; // Closes the Array.
 
-        $undercase =
+        $lowercase =
                 [ // Creates our array to store a - z in.
                         1 => 'a', // a.
                         2 => 'b', // b.
@@ -150,7 +150,7 @@ else
             $strength += 1;
         }
         $nc = 0;
-        foreach ($undercase as $v)
+        foreach ($lowercase as $v)
         {
             if (strstr($PASS, $v))
             {
@@ -215,8 +215,8 @@ else
             $overall = '<span style="color:#008800">Good</span>'; // Meh Moderate.
         }
         elseif ($strength >= 12)
-        { // If there total points are greator than 12.
-            $overall = '<span style="color:#0000ff">Excellent</span>'; // Thats the way Superman.
+        { // If there total points are greater than 12.
+            $overall = '<span style="color:#0000ff">Excellent</span>'; // That's the way Superman.
         } // End If.
 
         echo 'Password strength: ' . $overall; // Tells them their passwords strength.

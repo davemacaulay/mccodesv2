@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: mailbox.php
  * Signature: 34fecc51f2446b223c101ea47ac85528
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $ir, $h;

@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: logout.php
  * Signature: 9416661a1a2a397cc7695f6bb952fcaf
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 session_name('MCCSID');

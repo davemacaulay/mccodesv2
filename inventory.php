@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: inventory.php
  * Signature: 923658342519b486f3b2ebde8fa3d86f
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $ir, $userid, $h;

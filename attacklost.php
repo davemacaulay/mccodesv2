@@ -73,6 +73,6 @@ if ($db->num_rows($od) > 0)
 else
 {
     $db->free_result($od);
-    echo 'You lost to Mr. Non-existant! =O';
+    echo 'You lost to Mr. Non-existent! =O';
 }
 $h->endpage();

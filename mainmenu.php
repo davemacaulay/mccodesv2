@@ -21,6 +21,7 @@ declare(strict_types=1);
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+/** @noinspection SpellCheckingInspection */
 if (!defined('JDSF45TJI'))
 {
     echo 'This file cannot be accessed directly.';

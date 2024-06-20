@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: events.php
  * Signature: 9ad026a7332f4207ef5b852bfdac7554
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $ir, $userid, $h;

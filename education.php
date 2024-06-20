@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: education.php
  * Signature: bbbde004094c6060a617b28b2671c3c2
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $ir, $userid, $h;
@@ -44,7 +45,7 @@ if ($ir['course'] > 0)
                          FROM `courses`
                          WHERE `crID` = {$_GET['cstart']}");
     if ($db->num_rows($cd) == 0) {
-        echo 'You are trying to start a non-existant course!';
+        echo 'You are trying to start a non-existent course!';
     } else {
         $coud = $db->fetch_row($cd);
         $db->free_result($cd);

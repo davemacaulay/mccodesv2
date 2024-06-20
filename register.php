@@ -204,7 +204,7 @@ if (!empty($username))
                      SET `crystals` = `crystals` + 2
                      WHERE `userid` = {$_POST['ref']}");
             event_add($_POST['ref'],
-                "For refering $username to the game, you have earnt 2 valuable crystals!");
+                "For referring $username to the game, you have earned 2 valuable crystals!");
             $e_rip = $db->escape($rem_IP);
             $db->query(
                     "INSERT INTO `referals`
@@ -219,9 +219,10 @@ else
 {
     if ($set['regcap_on'])
     {
-        $chars =
+        /** @noinspection SpellCheckingInspection */
+        $chars               =
                 "123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?\\/%^";
-        $len = strlen($chars);
+        $len                 = strlen($chars);
         $_SESSION['captcha'] = '';
         for ($i = 0; $i < 6; $i++)
             $_SESSION['captcha'] .= $chars[rand(0, $len - 1)];

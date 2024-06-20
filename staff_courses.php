@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: staff_courses.php
  * Signature: cd12f79bc59259fafe30ee2517389b04
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $ir, $h;

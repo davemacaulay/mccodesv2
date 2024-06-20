@@ -403,7 +403,7 @@ function gang_staff_kick(): void
                          VALUES(NULL, {$gangdata['gangID']}, " . time()
                     . ", '{$gang_event}');");
             } else {
-                echo 'Trying to kick non-existant user';
+                echo 'Trying to kick non-existent user';
             }
             $db->free_result($q);
         }

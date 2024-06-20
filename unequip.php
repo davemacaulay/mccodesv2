@@ -48,5 +48,5 @@ $names =
                 'equip_secondary' => 'Secondary Weapon',
                 'equip_armor' => 'Armor'];
 echo 'The item in your ' . $names[$_GET['type']]
-        . ' slot was successfully unequiped.';
+        . ' slot was successfully unequipped.';
 $h->endpage();

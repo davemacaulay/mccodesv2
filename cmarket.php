@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: cmarket.php
  * Signature: e26eace4420c392719bf14416ddb6230
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 global $h;
 require_once('globals.php');

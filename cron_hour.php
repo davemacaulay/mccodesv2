@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: cron_hour.php
  * Signature: 4b8febe7fa0e1b37799c15544092f62f
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 global $db, $set, $_CONFIG;
 require_once('globals_nonauth.php');

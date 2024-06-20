@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: userlist.php
  * Signature: 59391462203b4bded53a86b1304f407e
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $h;

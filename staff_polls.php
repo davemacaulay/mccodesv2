@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: staff_polls.php
  * Signature: e7064aaaec3bbd2ec4d879dc8f3ac30b
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $ir, $h;

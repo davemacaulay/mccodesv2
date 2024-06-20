@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: sendcash.php
  * Signature: cccc8b8867de7f953db0c851b7f10861
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $ir, $userid, $h;

@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: staff_battletent.php
  * Signature: d49083b8c7d275156aa787fc76eecdf3
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $ir, $h;

@@ -20,6 +20,7 @@ declare(strict_types=1);
  * File: bbcode_engine.php
  * Signature: d34c12616ac9beca032b0eb80ba92a98
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 class bbcode_engine

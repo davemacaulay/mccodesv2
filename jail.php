@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: jail.php
  * Signature: ddbffa4501129daad8ce588244301312
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $h;

@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: checkun.php
  * Signature: ff59616a71ebcae082693e1df81e2789
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 if (isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']))

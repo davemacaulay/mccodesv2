@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: gym.php
  * Signature: 81393c1fe77bc75661da2d2b184abbb7
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 $macropage = 'gym.php';

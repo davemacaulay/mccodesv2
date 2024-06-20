@@ -142,6 +142,6 @@ if ($db->num_rows($od) > 0)
 else
 {
     $db->free_result($od);
-    echo 'You beat Mr. non-existant! Haha, pwned!';
+    echo 'You beat Mr. non-existent! Haha, pwned!';
 }
 $h->endpage();

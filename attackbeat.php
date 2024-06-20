@@ -134,7 +134,7 @@ You beat {$r['username']} severely on the ground. When there is lots of blood sh
 else
 {
     $db->free_result($od);
-    echo 'You beat Mr. non-existant!';
+    echo 'You beat Mr. non-existent!';
 }
 
 $h->endpage();

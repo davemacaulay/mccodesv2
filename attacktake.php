@@ -141,7 +141,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
 else
 {
     $db->free_result($od);
-    echo 'You beat Mr. non-existant!';
+    echo 'You beat Mr. non-existent!';
 }
 
 $h->endpage();

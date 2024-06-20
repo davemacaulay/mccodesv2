@@ -19,6 +19,7 @@ declare(strict_types=1);
  * File: itemuse.php
  * Signature: 9633f89704acd2ba6a05feab908b636d
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 global $db, $ir, $userid, $h;

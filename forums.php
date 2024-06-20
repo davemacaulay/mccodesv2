@@ -192,7 +192,7 @@ function forums_rank($tp): string
                     25 => '#5 Rookie', 50 => '#6 Average', 100 => '#7 Good',
                     200 => '#8 Very Good', 350 => '#9 Greater Than Average',
                     500 => '#10 Experienced', 750 => '#11 Highly Experienced',
-                    1200 => '#12 Honoured', 1800 => '#13 Highly Hounoured',
+                    1200 => '#12 Honoured', 1800 => '#13 Highly Honoured',
                     2500 => '#14 Respect King', 5000 => '#15 True Champion'];
     foreach ($f_ranks AS $fr_key => $fr_value)
     {
