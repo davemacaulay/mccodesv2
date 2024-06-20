@@ -205,7 +205,7 @@ class database
 
     function free_result($result)
     {
-        return mysqli_free_result($result);
+        mysqli_free_result($result);
     }
 
 }
