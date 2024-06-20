@@ -292,9 +292,7 @@ function do_pic_change(): void
                     ? stripslashes($_POST['newpic']) : '';
     if (!empty($npic))
     {
-        if (strlen($npic) < 8
-                || !(str_starts_with($npic, 'https://')
-                        || substr($npic, 0, 8 == 'https://')))
+        if (strlen($npic) < 8 || !str_starts_with($npic, 'https://'))
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=picchange">Go Back</a>';
@@ -365,9 +363,7 @@ function do_forum_change(): void
                     ? stripslashes($_POST['forums_avatar']) : '';
     if (!empty($av))
     {
-        if (strlen($av) < 8
-                || !(str_starts_with($av, 'https://')
-                        || substr($av, 0, 8 == 'https://')))
+        if (strlen($av) < 8 || !str_starts_with($av, 'https://'))
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=forumchange">Go Back</a>';
