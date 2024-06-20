@@ -131,7 +131,7 @@ function diagnostics()
     			<td>MCCodes up to date</td>
     			<td>
         			<iframe
-        				src='http://www.mccodes.com/update_check.php?version=20503'
+        				src='https://www.mccodes.com/update_check.php?version=20503'
         				width='250' height='30'></iframe>
         		</td>
         	</tr>

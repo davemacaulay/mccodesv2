@@ -430,7 +430,7 @@ function gang_forums()
     }
     $db->free_result($q);
     ob_get_clean();
-    $forum_url = "http://{$domain}/forums.php?viewforum={$r['ff_id']}";
+    $forum_url = "https://{$domain}/forums.php?viewforum={$r['ff_id']}";
     header("Location: {$forum_url}");
     exit;
 }

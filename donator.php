@@ -25,7 +25,7 @@ $fiveK = money_formatter(5000);
 $fiftK = money_formatter(15000);
 $thirtfvK = money_formatter(35000);
 print
-        <<<EOF
+    <<<EOF
 <h3>Donations</h3>
 <b>[<a href='willpotion.php'>Buy Will Potions</a>]</b><br />
 If you become a donator to {$set['game_name']}, you will receive
@@ -44,11 +44,11 @@ If you become a donator to {$set['game_name']}, you will receive
 <input type="hidden" name="amount" value="3.00" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="return"
-	value="http://{$domain}/donatordone.php?action=done" />
+	value="https://{$domain}/donatordone.php?action=done" />
 <input type="hidden" name="cancel_return"
-	value="http://{$domain}/donatordone.php?action=cancel" />
+	value="https://{$domain}/donatordone.php?action=cancel" />
 <input type="hidden" name="notify_url"
-	value="http://{$domain}/ipn_donator.php" />
+	value="https://{$domain}/ipn_donator.php" />
 <input type="hidden" name="cn" value="Your Player ID" />
 <input type="hidden" name="currency_code" value="USD" />
 <input type="hidden" name="tax" value="0" />
@@ -68,11 +68,11 @@ If you become a donator to {$set['game_name']}, you will receive
 <input type="hidden" name="amount" value="3.00" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="return"
-	value="http://{$domain}/donatordone.php?action=done" />
+	value="https://{$domain}/donatordone.php?action=done" />
 <input type="hidden" name="cancel_return"
-	value="http://{$domain}/donatordone.php?action=cancel" />
+	value="https://{$domain}/donatordone.php?action=cancel" />
 <input type="hidden" name="notify_url"
-	value="http://{$domain}/ipn_donator.php" />
+	value="https://{$domain}/ipn_donator.php" />
 <input type="hidden" name="cn" value="Your Player ID" />
 <input type="hidden" name="currency_code" value="USD" />
 <input type="hidden" name="tax" value="0" />
@@ -92,11 +92,11 @@ If you become a donator to {$set['game_name']}, you will receive
 <input type="hidden" name="amount" value="3.00" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="return"
-	value="http://{$domain}/donatordone.php?action=done" />
+	value="https://{$domain}/donatordone.php?action=done" />
 <input type="hidden" name="cancel_return"
-	value="http://{$domain}/donatordone.php?action=cancel" />
+	value="https://{$domain}/donatordone.php?action=cancel" />
 <input type="hidden" name="notify_url"
-	value="http://{$domain}/ipn_donator.php" />
+	value="https://{$domain}/ipn_donator.php" />
 <input type="hidden" name="cn" value="Your Player ID" />
 <input type="hidden" name="currency_code" value="USD" />
 <input type="hidden" name="tax" value="0" />
@@ -118,11 +118,11 @@ If you become a donator to {$set['game_name']}, you will receive
 <input type="hidden" name="amount" value="5.00" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="return"
-	value="http://{$domain}/donatordone.php?action=done" />
+	value="https://{$domain}/donatordone.php?action=done" />
 <input type="hidden" name="cancel_return"
-	value="http://{$domain}/donatordone.php?action=cancel" />
+	value="https://{$domain}/donatordone.php?action=cancel" />
 <input type="hidden" name="notify_url"
-	value="http://{$domain}/ipn_donator.php" />
+	value="https://{$domain}/ipn_donator.php" />
 <input type="hidden" name="cn" value="Your Player ID" />
 <input type="hidden" name="currency_code" value="USD" />
 <input type="hidden" name="tax" value="0" />
@@ -144,11 +144,11 @@ If you become a donator to {$set['game_name']}, you will receive
 <input type="hidden" name="amount" value="10.00" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="return"
-	value="http://{$domain}/donatordone.php?action=done" />
+	value="https://{$domain}/donatordone.php?action=done" />
 <input type="hidden" name="cancel_return"
-	value="http://{$domain}/donatordone.php?action=cancel" />
+	value="https://{$domain}/donatordone.php?action=cancel" />
 <input type="hidden" name="notify_url"
-	value="http://{$domain}/ipn_donator.php" />
+	value="https://{$domain}/ipn_donator.php" />
 <input type="hidden" name="cn" value="Your Player ID" />
 <input type="hidden" name="currency_code" value="USD" />
 <input type="hidden" name="tax" value="0" />

@@ -154,9 +154,9 @@ function check_image($src)
         return 'invalid image';
     }
 
-    if (!str_starts_with($src, "http://"))
+    if (!str_starts_with($src, "https://"))
     {
-        $src = 'http://' . $src;
+        $src = 'https://' . $src;
     }
     $image = (@getimagesize($src));
     if (!is_array($image))

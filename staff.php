@@ -332,7 +332,7 @@ function index()
         			<th>Update Status:</th>
         			<td>
         				<iframe
-        					src='http://www.mccodes.com/update_check.php?version={$versionno}'
+        					src='https://www.mccodes.com/update_check.php?version={$versionno}'
         					width='250' height='30'></iframe>
         			</td>
         		</tr>

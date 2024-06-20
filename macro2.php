@@ -34,7 +34,7 @@ if (!isset($_POST['refer']) || !is_string($_POST['refer'])
     exit;
 }
 $macro1_url =
-        "http://{$domain}/macro1.php?code=invalid&amp;refer="
+        "https://{$domain}/macro1.php?code=invalid&amp;refer="
                 . urlencode(stripslashes($_POST['refer']));
 if (!isset($_SESSION['captcha']))
 {
@@ -54,7 +54,7 @@ if (!isset($_POST['verf'])
 }
 $ref = $_POST['refer'];
 unset($_SESSION['captcha']);
-$dest_url = "http://{$domain}/{$ref}";
+$dest_url = "https://{$domain}/{$ref}";
 $db->query(
         "UPDATE `users`
 		 SET `verified` = 1

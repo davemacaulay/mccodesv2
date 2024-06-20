@@ -260,7 +260,7 @@ function pic_change()
     echo "
 	<h3>Pic Change</h3>
 	Please note that this must be externally hosted,
-		<a href='http://www.photobucket.com'>Photobucket</a> is our recommendation.
+		<a href='https://www.photobucket.com'>Photobucket</a> is our recommendation.
 	<br />
 	Any images that are not 150x150 will be automatically resized
 	<form action='preferences.php?action=picchange2' method='post'>
@@ -287,7 +287,7 @@ function do_pic_change()
     if (!empty($npic))
     {
         if (strlen($npic) < 8
-                || !(str_starts_with($npic, 'http://')
+                || !(str_starts_with($npic, 'https://')
                         || substr($npic, 0, 8 == 'https://')))
         {
             echo 'Invalid Image.<br />
@@ -327,7 +327,7 @@ function forum_change()
     echo "
 	<h3>Forum Info Change</h3>
 	Please note that the avatar must be externally hosted,
-		<a href='http://www.photobucket.com'>Photobucket</a> is our recommendation.
+		<a href='https://www.photobucket.com'>Photobucket</a> is our recommendation.
 		<br />
 	Any avatars that are not 150x150 will be automatically resized
 	<form action='preferences.php?action=forumchange2' method='post'>
@@ -358,7 +358,7 @@ function do_forum_change()
     if (!empty($av))
     {
         if (strlen($av) < 8
-                || !(str_starts_with($av, 'http://')
+                || !(str_starts_with($av, 'https://')
                         || substr($av, 0, 8 == 'https://')))
         {
             echo 'Invalid Image.<br />

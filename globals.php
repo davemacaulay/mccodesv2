@@ -57,7 +57,7 @@ require 'global_func.php';
 $domain = determine_game_urlbase();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == 0)
 {
-    $login_url = "http://{$domain}/login.php";
+    $login_url = "https://{$domain}/login.php";
     header("Location: {$login_url}");
     exit;
 }
@@ -126,14 +126,14 @@ if ($ir['force_logout'] != '0')
     			WHERE `userid` = {$userid}");
     session_unset();
     session_destroy();
-    $login_url = "http://{$domain}/login.php";
+    $login_url = "https://{$domain}/login.php";
     header("Location: {$login_url}");
     exit;
 }
 global $macropage;
 if ($macropage && !$ir['verified'] && $set['validate_on'] == 1)
 {
-    $macro_url = "http://{$domain}/macro1.php?refer=$macropage";
+    $macro_url = "https://{$domain}/macro1.php?refer=$macropage";
     header("Location: {$macro_url}");
     exit;
 }

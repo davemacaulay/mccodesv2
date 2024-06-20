@@ -44,8 +44,8 @@ ob_start();
                     <h2>Installer</h2> <span
                     style='color: red; font-weight: bold;'> If
                         you bought this from anywhere else but <a
-                        href='http://www.mccodes.com' title='MCCodes'>
+                                href='https://www.mccodes.com' title='MCCodes'>
                             MCCodes.com </a> please click <a
-                        href='http://www.mccodes.com/contact.php'
+                        href='https://www.mccodes.com/contact.php'
                         title='Contact us'> here </a>.</span> <br /> Thank you
                     for choosing MCCodes.
