@@ -40,15 +40,15 @@ if (!extension_loaded('mysqli'))
 
 class database
 {
-    var $host;
-    var $user;
-    var $pass;
-    var $database;
-    var $last_query;
-    var $result;
-    var $connection_id;
-    var $num_queries = 0;
-    var $queries = [];
+    public $host;
+    public $user;
+    public $pass;
+    public $database;
+    public $last_query;
+    public $result;
+    public $connection_id;
+    public $num_queries = 0;
+    public $queries = [];
 
     function configure($host, $user, $pass, $database)
     {

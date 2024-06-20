@@ -22,8 +22,8 @@
 
 class bbcode_engine
 {
-    var $parsings = [];
-    var $htmls = [];
+    public $parsings = [];
+    public $htmls = [];
 
     function simple_bbcode_tag($tag = '')
     {
