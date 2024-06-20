@@ -5,21 +5,6 @@ class bbcode
     private static ?self $inst = null;
     public ?bbcode_engine $engine = null;
 
-    public static function getInstance(): ?self
-    {
-        if (self::$inst === null) {
-            self::$inst = new self();
-        }
-        return self::$inst;
-    }
-    private function getEngine(): ?bbcode_engine
-    {
-        if ($this->engine === null) {
-            $this->engine = bbcode_engine::getInstance();
-        }
-        return $this->engine;
-    }
-
     public function __construct()
     {
         require 'bbcode_engine.php';
@@ -79,6 +64,22 @@ class bbcode
             "userBox(\\1)");
         $this->engine->cust_tag('/\[hr\]/is', '<hr />');
         $this->engine->cust_tag('/\[\*\]/', '<li>');
+    }
+
+    private function getEngine(): ?bbcode_engine
+    {
+        if ($this->engine === null) {
+            $this->engine = bbcode_engine::getInstance();
+        }
+        return $this->engine;
+    }
+
+    public static function getInstance(): ?self
+    {
+        if (self::$inst === null) {
+            self::$inst = new self();
+        }
+        return self::$inst;
     }
 
     /**
