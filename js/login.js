@@ -20,20 +20,20 @@
  */
 function getCookieVal(offset)
 {
-    var endstr = document.cookie.indexOf(";", offset);
+    let endstr = document.cookie.indexOf(";", offset);
     if (endstr == -1)
         endstr = document.cookie.length;
     return unescape(document.cookie.substring(offset, endstr));
 }
 function GetCookie(name)
 {
-    var arg = name + "=";
-    var alen = arg.length;
-    var clen = document.cookie.length;
-    var i = 0;
+    const arg = name + "=";
+    const alen = arg.length;
+    const clen = document.cookie.length;
+    let i = 0;
     while (i < clen)
     {
-        var j = i + alen;
+        const j = i + alen;
         if (document.cookie.substring(i, j) == arg)
             return getCookieVal(j);
         i = document.cookie.indexOf(" ", i) + 1;
@@ -60,9 +60,11 @@ function DeleteCookie(name, path, domain)
                 + "; expires=Thu, 01-Jan-70 00:00:01 GMT";
     }
 }
-var usr;
-var pw;
-var sv;
+
+let usr;
+let pw;
+let sv;
+
 function getme()
 {
     usr = document.login.username;
