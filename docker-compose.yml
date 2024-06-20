@@ -1,0 +1,28 @@
+services:
+  web:
+    image: php:8.3-apache
+    ports:
+      - "4567:80"
+      - "4568:443"
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html/.
+    restart: "no"
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass1
+      MYSQL_DATABASE: mccv2
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "4569:8080"
+    depends_on:
+      - db
+    links:
+      - web
+    environment:
+      PMA_HOST: db
