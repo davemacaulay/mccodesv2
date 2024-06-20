@@ -50,30 +50,27 @@ class database
     public $num_queries = 0;
     public $queries = [];
 
-    function configure($host, $user, $pass, $database)
+    public function configure($host, $user, $pass, $database)
     {
-        $this->host = $host;
-        $this->user = $user;
-        $this->pass = $pass;
+        $this->host     = $host;
+        $this->user     = $user;
+        $this->pass     = $pass;
         $this->database = $database;
         return 1; //Success.
     }
 
-    function connect()
+    public function connect()
     {
-        if (!$this->host)
-        {
+        if (!$this->host) {
             $this->host = 'localhost';
         }
-        if (!$this->user)
-        {
+        if (!$this->user) {
             $this->user = 'root';
         }
         $conn =
-                mysqli_connect($this->host, $this->user, $this->pass,
-                        $this->database);
-        if (mysqli_connect_error())
-        {
+            mysqli_connect($this->host, $this->user, $this->pass,
+                $this->database);
+        if (mysqli_connect_error()) {
             error_critical(mysqli_connect_errno() . ': ' . mysqli_connect_error(),
                 'Attempted to connect to database on ' . $this->host,
                 debug_backtrace(false));
@@ -83,24 +80,20 @@ class database
         return $this->connection_id;
     }
 
-    function disconnect()
+    public function disconnect()
     {
-        if ($this->connection_id)
-        {
+        if ($this->connection_id) {
             mysqli_close($this->connection_id);
             $this->connection_id = 0;
             return 1;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
 
-    function change_db($database)
+    public function change_db($database)
     {
-        if (!mysqli_select_db($this->connection_id, $database))
-        {
+        if (!mysqli_select_db($this->connection_id, $database)) {
             error_critical(mysqli_errno($this->connection_id) . ': '
                 . mysqli_error($this->connection_id),
                 'Attempted to select database: ' . $database,
@@ -109,15 +102,14 @@ class database
         $this->database = $database;
     }
 
-    function query($query)
+    public function query($query)
     {
         $this->last_query = $query;
-        $this->queries[] = $query;
+        $this->queries[]  = $query;
         $this->num_queries++;
         $this->result =
-                mysqli_query($this->connection_id, $this->last_query);
-        if ($this->result === false)
-        {
+            mysqli_query($this->connection_id, $this->last_query);
+        if ($this->result === false) {
             error_critical(mysqli_errno($this->connection_id) . ': '
                 . mysqli_error($this->connection_id),
                 'Attempted to execute query: ' . nl2br($this->last_query),
@@ -126,33 +118,30 @@ class database
         return $this->result;
     }
 
-    function fetch_row($result = 0)
+    public function fetch_row($result = 0)
     {
-        if (!$result)
-        {
+        if (!$result) {
             $result = $this->result;
         }
         return mysqli_fetch_assoc($result);
     }
 
-    function num_rows($result = 0)
+    public function num_rows($result = 0)
     {
-        if (!$result)
-        {
+        if (!$result) {
             $result = $this->result;
         }
         return mysqli_num_rows($result);
     }
 
-    function insert_id()
+    public function insert_id()
     {
         return mysqli_insert_id($this->connection_id);
     }
 
-    function fetch_single($result = 0)
+    public function fetch_single($result = 0)
     {
-        if (!$result)
-        {
+        if (!$result) {
             $result = $this->result;
         }
         //Ugly hack here
@@ -161,26 +150,22 @@ class database
         return $temp[0];
     }
 
-    function easy_insert($table, $data)
+    public function easy_insert($table, $data)
     {
         $query = "INSERT INTO `$table` (";
-        $i = 0;
-        foreach ($data as $k => $v)
-        {
+        $i     = 0;
+        foreach ($data as $k => $v) {
             $i++;
-            if ($i > 1)
-            {
+            if ($i > 1) {
                 $query .= ', ';
             }
             $query .= $k;
         }
         $query .= ') VALUES(';
-        $i = 0;
-        foreach ($data as $k => $v)
-        {
+        $i     = 0;
+        foreach ($data as $k => $v) {
             $i++;
-            if ($i > 1)
-            {
+            if ($i > 1) {
                 $query .= ', ';
             }
             $query .= "'" . $this->escape($v) . "'";
@@ -189,17 +174,17 @@ class database
         return $this->query($query);
     }
 
-    function escape($text)
+    public function escape($text)
     {
         return mysqli_real_escape_string($this->connection_id, $text);
     }
 
-    function affected_rows()
+    public function affected_rows()
     {
         return mysqli_affected_rows($this->connection_id);
     }
 
-    function free_result($result)
+    public function free_result($result)
     {
         mysqli_free_result($result);
     }

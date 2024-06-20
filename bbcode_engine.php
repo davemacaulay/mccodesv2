@@ -25,171 +25,158 @@ class bbcode_engine
     public $parsings = [];
     public $htmls = [];
 
-    function simple_bbcode_tag($tag = '')
+    public function simple_bbcode_tag($tag = '')
     {
 
-        if (!$tag)
-        {
+        if (!$tag) {
             return;
         }
         $this->parsings[] = '/\[' . $tag . '\](.+?)\[\/' . $tag . '\]/';
-        $this->htmls[] = '<' . $tag . ">\\1</" . $tag . '>';
+        $this->htmls[]    = '<' . $tag . ">\\1</" . $tag . '>';
     }
 
-    function adv_bbcode_tag($tag = '', $reptag = '')
+    public function adv_bbcode_tag($tag = '', $reptag = '')
     {
 
-        if (!$tag)
-        {
+        if (!$tag) {
             return;
         }
 
         $this->parsings[] = '/\[' . $tag . '\](.+?)\[\/' . $tag . '\]/';
-        $this->htmls[] = '<' . $reptag . ">\\1</" . $reptag . '>';
+        $this->htmls[]    = '<' . $reptag . ">\\1</" . $reptag . '>';
     }
 
-    function simple_option_tag($tag = '', $optionval = '')
+    public function simple_option_tag($tag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '')
-        {
+        if ($tag == '' || $optionval == '') {
             return;
         }
         $this->parsings[] =
-                '/\[' . $tag . '=(.+?)\](.+?)\[\/' . $tag . '\]/';
-        $this->htmls[] =
-                '<' . $tag . ' ' . $optionval . "='\\1'>\\2</" . $tag . '>';
+            '/\[' . $tag . '=(.+?)\](.+?)\[\/' . $tag . '\]/';
+        $this->htmls[]    =
+            '<' . $tag . ' ' . $optionval . "='\\1'>\\2</" . $tag . '>';
     }
 
-    function adv_option_tag($tag = '', $reptag = '', $optionval = '')
+    public function adv_option_tag($tag = '', $reptag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '' || $reptag == '')
-        {
+        if ($tag == '' || $optionval == '' || $reptag == '') {
             return;
         }
         $this->parsings[] =
-                '/\[' . $tag . '=(.+?)\](.+?)\[\/' . $tag . '\]/';
-        $this->htmls[] =
-                '<' . $reptag . ' ' . $optionval . "='\\1'>\\2</" . $reptag
-                        . '>';
+            '/\[' . $tag . '=(.+?)\](.+?)\[\/' . $tag . '\]/';
+        $this->htmls[]    =
+            '<' . $reptag . ' ' . $optionval . "='\\1'>\\2</" . $reptag
+            . '>';
     }
 
-    function adv_option_tag_em($tag = '', $reptag = '', $optionval = '')
+    public function adv_option_tag_em($tag = '', $reptag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '' || $reptag == '')
-        {
+        if ($tag == '' || $optionval == '' || $reptag == '') {
             return;
         }
         $this->parsings[] =
-                '/\[' . $tag . '=(.+?)\](.+?)\[\/' . $tag . '\]/';
-        $this->htmls[] =
-                '<' . $reptag . ' ' . $optionval . "='mailto:\\1'>\\2</"
-                        . $reptag . '>';
+            '/\[' . $tag . '=(.+?)\](.+?)\[\/' . $tag . '\]/';
+        $this->htmls[]    =
+            '<' . $reptag . ' ' . $optionval . "='mailto:\\1'>\\2</"
+            . $reptag . '>';
     }
 
-    function simp_option_notext($tag = '', $optionval = '')
+    public function simp_option_notext($tag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '')
-        {
+        if ($tag == '' || $optionval == '') {
             return;
         }
         $this->parsings[] = '/\[' . $tag . '=(.+?)\]/';
-        $this->htmls[] = '<' . $tag . ' ' . $optionval . "='\\1' />";
+        $this->htmls[]    = '<' . $tag . ' ' . $optionval . "='\\1' />";
     }
 
-    function adv_option_notext($tag = '', $reptag = '', $optionval = '')
+    public function adv_option_notext($tag = '', $reptag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '' || $reptag == '')
-        {
+        if ($tag == '' || $optionval == '' || $reptag == '') {
             return;
         }
         $this->parsings[] = '/\[' . $tag . '=(.+?)\]/';
-        $this->htmls[] = '<' . $reptag . ' ' . $optionval . "='\\1' />";
+        $this->htmls[]    = '<' . $reptag . ' ' . $optionval . "='\\1' />";
     }
 
-    function adv_option_notext_em($tag = '', $reptag = '', $optionval = '')
+    public function adv_option_notext_em($tag = '', $reptag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '' || $reptag == '')
-        {
+        if ($tag == '' || $optionval == '' || $reptag == '') {
             return;
         }
         $this->parsings[] = '/\[' . $tag . '=(.+?)\]/';
-        $this->htmls[] =
-                '<' . $reptag . ' ' . $optionval . "='mailto:\\1' >\\1</"
-                        . $reptag . '>';
+        $this->htmls[]    =
+            '<' . $reptag . ' ' . $optionval . "='mailto:\\1' >\\1</"
+            . $reptag . '>';
     }
 
-    function simp_bbcode_att($tag = '', $optionval = '')
+    public function simp_bbcode_att($tag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '')
-        {
+        if ($tag == '' || $optionval == '') {
             return;
         }
         $this->parsings[] = '/\[' . $tag . '\](.+?)\[\/' . $tag . '\]/';
-        $this->htmls[] = '<' . $tag . ' ' . $optionval . "='\\1' />";
+        $this->htmls[]    = '<' . $tag . ' ' . $optionval . "='\\1' />";
     }
 
-    function adv_bbcode_att($tag = '', $reptag = '', $optionval = '')
+    public function adv_bbcode_att($tag = '', $reptag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '' || $reptag == '')
-        {
+        if ($tag == '' || $optionval == '' || $reptag == '') {
             return;
         }
         $this->parsings[] = '/\[' . $tag . '\](.+?)\[\/' . $tag . '\]/';
-        $this->htmls[] = '<' . $reptag . ' ' . $optionval . "='\\1' />";
+        $this->htmls[]    = '<' . $reptag . ' ' . $optionval . "='\\1' />";
     }
 
-    function adv_bbcode_att_em($tag = '', $reptag = '', $optionval = '')
+    public function adv_bbcode_att_em($tag = '', $reptag = '', $optionval = '')
     {
 
-        if ($tag == '' || $optionval == '' || $reptag == '')
-        {
+        if ($tag == '' || $optionval == '' || $reptag == '') {
             return;
         }
         $this->parsings[] = '/\[' . $tag . '\](.+?)\[\/' . $tag . '\]/';
-        $this->htmls[] =
-                '<' . $reptag . ' ' . $optionval . "='mailto:\\1'>\\1</"
-                        . $reptag . '>';
+        $this->htmls[]    =
+            '<' . $reptag . ' ' . $optionval . "='mailto:\\1'>\\1</"
+            . $reptag . '>';
     }
 
-    function cust_tag($bbcode = '', $html = '')
+    public function cust_tag($bbcode = '', $html = '')
     {
 
-        if ($bbcode == '' || $html == '')
-        {
+        if ($bbcode == '' || $html == '') {
             return;
         }
         $this->parsings[] = $bbcode;
-        $this->htmls[] = $html;
+        $this->htmls[]    = $html;
     }
 
-    function parse_bbcode($text)
+    public function parse_bbcode($text)
     {
 
         $i = 0;
-        while (isset($this->parsings[$i]))
-        {
+        while (isset($this->parsings[$i])) {
 
             $text =
-                    preg_replace($this->parsings[$i], $this->htmls[$i], $text);
+                preg_replace($this->parsings[$i], $this->htmls[$i], $text);
             $i++;
         }
         return $text;
     }
 
-    function export_parsings()
+    public function export_parsings()
     {
         return $this->parsings;
     }
 
-    function export_htmls()
+    public function export_htmls()
     {
         return $this->htmls;
     }
