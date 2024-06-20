@@ -143,7 +143,7 @@ OUT;
 
     public function menuarea()
     {
-        define('jdsf45tji', true);
+        define('JDSF45TJI', true);
         include 'mainmenu.php';
         global $ir, $set;
         $bgcolor = 'FFFFFF';
@@ -162,7 +162,7 @@ OUT;
 
     public function smenuarea()
     {
-        define('jdsf45tji', true);
+        define('JDSF45TJI', true);
         include 'smenu.php';
         $bgcolor = 'FFFFFF';
         print
