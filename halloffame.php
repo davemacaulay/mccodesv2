@@ -210,7 +210,7 @@ Showing the 20 users with the highest amount of money
 	<td>' . $p . '</td>
 	<td>' . $r['gangPREF'] . ' ' . $r['username'] . ' [' . $r['userid']
                 . ']</td>
-	<td>' . money_formatter($r['money'], '$') . '</td>
+	<td>' . money_formatter($r['money']) . '</td>
 		</tr>
    ';
     }

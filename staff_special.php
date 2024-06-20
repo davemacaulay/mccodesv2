@@ -99,7 +99,7 @@ function give_dp_form()
     The user will receive the benefits of one 30-day donator pack.
     <br />
     <form action='staff_special.php?action=givedpsub' method='post'>
-    	User: " . user_dropdown('user')
+    	User: " . user_dropdown()
             . "
     	<br />
     	<input type='radio' name='type' value='1' /> Pack 1 (Standard)

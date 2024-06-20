@@ -230,7 +230,7 @@ function edithouse()
         <hr />
         <form action='staff_houses.php?action=edithouse' method='post'>
         	<input type='hidden' name='step' value='1' />
-        	House: " . house_dropdown("house")
+        	House: " . house_dropdown()
                 . "
         	<br />
         	{$csrf}
@@ -295,7 +295,7 @@ function delhouse()
         will be returned to the first house,
         and their money will be refunded.
         <form action='staff_houses.php?action=delhouse' method='post'>
-        	House: " . house_dropdown("house")
+        	House: " . house_dropdown()
                 . "
         	<br />
         	{$csrf}

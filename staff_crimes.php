@@ -94,7 +94,7 @@ function new_crime_form()
     <br />
     	Success Crystals (1-9 chars only): <input type='text' name='crys' />
     <br />
-    	Success Item: " . item2_dropdown('item')
+    	Success Item: " . item2_dropdown()
             . "
     <br />
     	Group: " . crimegroup_dropdown('group')
@@ -235,7 +235,7 @@ function edit_crime_begin()
     You can edit any aspect of this crime.
     <br />
     <form action='staff_crimes.php?action=editcrimeform' method='post'>
-    	Crime: " . crime_dropdown('crime')
+    	Crime: " . crime_dropdown()
             . "
     <br />
     	{$csrf}
@@ -447,7 +447,7 @@ function delcrime()
         <h3>Deleting Crime</h3>
         Here you can delete a crime. <br />
         <form action='staff_crimes.php?action=delcrime&amp;step=2' method='post'>
-        	Crime: " . crime_dropdown('crime')
+        	Crime: " . crime_dropdown()
                 . "
         <br />
         	{$csrf}

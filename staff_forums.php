@@ -331,7 +331,7 @@ function delforum()
         <hr />
         Deleting a forum is permanent - be sure.
         <form action='staff_forums.php?action=delforum' method='post' name='theform' onsubmit='return checkme();'>
-        	Forum: " . forum2_dropdown("forum")
+        	Forum: " . forum2_dropdown()
                 . "
         <br />
         	Move posts &amp; topics in the deleted forum to: "

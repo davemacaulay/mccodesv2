@@ -185,7 +185,7 @@ function fed_edit_form()
     You are editing a player's sentence in fed jail.
     <br />
     <form action='staff_punit.php?action=fedesub' method='post'>
-    	User: " . fed_user_dropdown('user')
+    	User: " . fed_user_dropdown()
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -427,7 +427,7 @@ function unfed_user_form()
     The user will be taken out of fed jail.
     <br />
     <form action='staff_punit.php?action=unfedsub' method='post'>
-    	User: " . fed_user_dropdown('user')
+    	User: " . fed_user_dropdown()
             . "
     	<br />
     	{$csrf}
@@ -486,7 +486,7 @@ function unmail_user_form()
     The user will be taken out of mail ban.
     <br />
     <form action='staff_punit.php?action=unmailsub' method='post'>
-    	User: " . mailb_user_dropdown('user')
+    	User: " . mailb_user_dropdown()
             . "<br />
         {$csrf}
     	<input type='submit' value='Un-mailban User' />
@@ -541,7 +541,7 @@ function unforum_user_form()
     The user will be taken out of forum ban.
     <br />
     <form action='staff_punit.php?action=unforumsub' method='post'>
-    	User: " . forumb_user_dropdown('user')
+    	User: " . forumb_user_dropdown()
             . "
     	<br />
         {$csrf}

@@ -439,7 +439,7 @@ function item_gift1()
 	<form action='itemmarket.php?action=gift2' method='post'>
 	<input type='hidden' name='verf' value='{$imgift_csrf}' />
 	<input type='hidden' name='ID' value='{$_GET['ID']}' />
-	User to give gift to: " . user_dropdown('user')
+	User to give gift to: " . user_dropdown()
             . "
 	<br />
 	Quantity: <input type='text' name='QTY' value=''>

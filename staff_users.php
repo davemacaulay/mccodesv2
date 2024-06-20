@@ -287,7 +287,7 @@ function edit_user_begin()
     You can edit any aspect of this user.
     <br />
     <form action='staff_users.php?action=edituserform' method='post'>
-    	User: " . user_dropdown('user')
+    	User: " . user_dropdown()
             . "
     	<br />
     	{$csrf}
@@ -655,7 +655,7 @@ function deluser()
         Here you can delete a user.
         <br />
         <form action="staff_users.php?action=deluser&amp;step=2" method="post">
-        	User: ' . user_dropdown('user')
+        	User: ' . user_dropdown()
                 . '
         <br />
         ' . $csrf
@@ -804,7 +804,7 @@ function inv_user_begin()
     You may browse this user's inventory.
     <br />
     <form action='staff_users.php?action=invuser' method='post'>
-    	User: " . user_dropdown('user')
+    	User: " . user_dropdown()
             . "
     	<br />
     	{$csrf}
@@ -966,7 +966,7 @@ function credit_user_form()
     You can give a user money/crystals.
     <br />
     <form action='staff_users.php?action=creditsub' method='post'>
-    	User: " . user_dropdown('user')
+    	User: " . user_dropdown()
             . "
     	<br />
     	Money: <input type='text' name='money' value='0' />
