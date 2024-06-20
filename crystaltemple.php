@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,9 +21,14 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h, $set;
 require_once('globals.php');
 
-function csrf_error($goBackTo)
+/**
+ * @param $goBackTo
+ * @return void
+ */
+function csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />
@@ -47,35 +53,24 @@ IQ - {$set['ct_iqpercrys']} IQ per crystal
 </a><br />
 <a href='crystaltemple.php?spend=money'>
 Money - " . money_formatter($set['ct_moneypercrys'])
-            . " per crystal</a><br />";
-}
-else
-{
-    if ($_GET['spend'] == 'refill')
-    {
-        if ($ir['crystals'] < $set['ct_refillprice'])
-        {
-            echo "You don't have enough crystals!";
-        }
-        else if ($ir['energy'] == $ir['maxenergy'])
-        {
-            echo "You already have full energy.";
-        }
-        else
-        {
-            $db->query(
-                    "UPDATE `users`
+            . ' per crystal</a><br />';
+} elseif ($_GET['spend'] == 'refill') {
+    if ($ir['crystals'] < $set['ct_refillprice']) {
+        echo "You don't have enough crystals!";
+    } elseif ($ir['energy'] == $ir['maxenergy']) {
+        echo 'You already have full energy.';
+    } else {
+        $db->query(
+            "UPDATE `users`
                     SET `energy` = `maxenergy`,
                     `crystals` = `crystals` - {$set['ct_refillprice']}
                     WHERE `userid` = $userid");
-            echo "You have paid {$set['ct_refillprice']} crystals to
+        echo "You have paid {$set['ct_refillprice']} crystals to
                   refill your energy bar.";
-        }
     }
-    else if ($_GET['spend'] == 'IQ')
-    {
-        $iq_csrf = request_csrf_code('ctemple_iq');
-        echo "Type in the amount of crystals you want to swap for IQ.<br />
+} elseif ($_GET['spend'] == 'IQ') {
+    $iq_csrf = request_csrf_code('ctemple_iq');
+    echo "Type in the amount of crystals you want to swap for IQ.<br />
 			  You have <b>{$ir['crystals']}</b> crystals.<br />
 		      One crystal = {$set['ct_iqpercrys']} IQ.
 		      <form action='crystaltemple.php?spend=IQ2' method='post'>
@@ -83,77 +78,62 @@ else
 		      <input type='hidden' name='verf' value='{$iq_csrf}' />
 		      <input type='submit' value='Swap' />
 		      </form>";
+} elseif ($_GET['spend'] == 'IQ2') {
+    if (!isset($_POST['verf'])
+        || !verify_csrf_code('ctemple_iq',
+            stripslashes($_POST['verf']))) {
+        csrf_error('IQ');
     }
-    else if ($_GET['spend'] == 'IQ2')
-    {
-        if (!isset($_POST['verf'])
-                || !verify_csrf_code('ctemple_iq',
-                        stripslashes($_POST['verf'])))
-        {
-            csrf_error('IQ');
-        }
-        $_POST['crystals'] =
-                isset($_POST['crystals']) ? (int) $_POST['crystals'] : 0;
-        if ($_POST['crystals'] <= 0 || $_POST['crystals'] > $ir['crystals'])
-        {
-            echo "Error, you either do not have enough crystals
+    $_POST['crystals'] =
+        isset($_POST['crystals']) ? (int)$_POST['crystals'] : 0;
+    if ($_POST['crystals'] <= 0 || $_POST['crystals'] > $ir['crystals']) {
+        echo "Error, you either do not have enough crystals
                   or did not fill out the form.<br />
 			      <a href='crystaltemple.php?spend=IQ'>Back</a>";
-        }
-        else
-        {
-            $iqgain = $_POST['crystals'] * $set['ct_iqpercrys'];
-            $db->query(
-                    "UPDATE `users`
+    } else {
+        $iqgain = (int)($_POST['crystals'] * $set['ct_iqpercrys']);
+        $db->query(
+            "UPDATE `users`
                      SET `crystals` = `crystals` - {$_POST['crystals']}
                      WHERE `userid` = $userid");
-            $db->query(
-                    "UPDATE `userstats`
+        $db->query(
+            "UPDATE `userstats`
                     SET `IQ` = `IQ` + $iqgain
             		WHERE `userid` = $userid");
-            echo "You traded {$_POST['crystals']} crystals for $iqgain IQ.";
-        }
+        echo "You traded {$_POST['crystals']} crystals for $iqgain IQ.";
     }
-    else if ($_GET['spend'] == 'money')
-    {
-        $m_csrf = request_csrf_code('ctemple_money');
-        echo "Type in the amount of crystals you want to swap for money.<br />
+} elseif ($_GET['spend'] == 'money') {
+    $m_csrf = request_csrf_code('ctemple_money');
+    echo "Type in the amount of crystals you want to swap for money.<br />
 			  You have <b>{$ir['crystals']}</b> crystals.<br />
 			  One crystal = " . money_formatter($set['ct_moneypercrys'])
-                . ".
+        . ".
               <form action='crystaltemple.php?spend=money2' method='post'>
               <input type='text' name='crystals' /><br />
               <input type='hidden' name='verf' value='{$m_csrf}' />
               <input type='submit' value='Swap' />
               </form>";
+} elseif ($_GET['spend'] == 'money2') {
+    if (!isset($_POST['verf'])
+        || !verify_csrf_code('ctemple_money',
+            stripslashes($_POST['verf']))) {
+        csrf_error('money');
     }
-    else if ($_GET['spend'] == 'money2')
-    {
-        if (!isset($_POST['verf'])
-                || !verify_csrf_code('ctemple_money',
-                        stripslashes($_POST['verf'])))
-        {
-            csrf_error('money');
-        }
-        $_POST['crystals'] =
-                isset($_POST['crystals']) ? (int) $_POST['crystals'] : 0;
-        if ($_POST['crystals'] <= 0 || $_POST['crystals'] > $ir['crystals'])
-        {
-            echo "Error, you either do not have enough crystals or did not
+    $_POST['crystals'] =
+        isset($_POST['crystals']) ? (int)$_POST['crystals'] : 0;
+    if ($_POST['crystals'] <= 0 || $_POST['crystals'] > $ir['crystals']) {
+        echo "Error, you either do not have enough crystals or did not
                   fill out the form.<br />
 				  <a href='crystaltemple.php?spend=money'>Back</a>";
-        }
-        else
-        {
-            $iqgain = $_POST['crystals'] * $set['ct_moneypercrys'];
-            $db->query(
-                    "UPDATE `users`
+    } else {
+        $iqgain = $_POST['crystals'] * $set['ct_moneypercrys'];
+        $db->query(
+            "UPDATE `users`
                      SET `crystals` = `crystals` - {$_POST['crystals']},
                      `money` = `money` + $iqgain
             		 WHERE `userid` = $userid");
-            echo "You traded {$_POST['crystals']} crystals for "
-                    . money_formatter($iqgain) . ".";
-        }
+        echo "You traded {$_POST['crystals']} crystals for "
+            . money_formatter($iqgain) . '.';
     }
 }
 

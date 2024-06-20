@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
 echo "<h3>Gang Wars</h3>
 <table width='75%' cellspacing='1' class='table'>";
@@ -54,11 +56,11 @@ if ($db->num_rows($q) > 0)
                 </td>
               </tr>";
     }
-    echo "</table>";
+    echo '</table>';
 }
 else
 {
-    echo "</table>There are currently no gang wars in progress.";
+    echo '</table>There are currently no gang wars in progress.';
 }
 $db->free_result($q);
 $h->endpage();

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: sendcash.php
  * Signature: cccc8b8867de7f953db0c851b7f10861
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 if (!isset($_GET['ID']))
 {
@@ -33,11 +36,11 @@ $_GET['ID'] = abs((int) $_GET['ID']);
 $_POST['money'] = abs((int) $_POST['money']);
 if (!((int) $_GET['ID']))
 {
-    echo "Invalid User ID";
+    echo 'Invalid User ID';
 }
-else if ($_GET['ID'] == $userid)
+elseif ($_GET['ID'] == $userid)
 {
-    echo "Haha, what does sending money to yourself do anyway?";
+    echo 'Haha, what does sending money to yourself do anyway?';
 }
 else
 {
@@ -63,11 +66,12 @@ else
     		This transaction has been blocked for your security.<br />
     		Please send money quickly after you open the form - do not leave it open in tabs.<br />
     		&gt; <a href="sendcash.php?ID=' . $_GET['ID'] . '">Try Again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
-        else if ($_POST['money'] > $ir['money'])
+        elseif ($_POST['money'] > $ir['money'])
         {
-            echo "Not enough money to send.";
+            echo 'Not enough money to send.';
         }
         else
         {
@@ -79,11 +83,11 @@ else
                     "UPDATE `users`
                      SET `money` = `money` + {$_POST['money']}
                      WHERE `userid` = {$_GET['ID']}");
-            echo "You sent " . money_formatter($_POST['money'])
+            echo 'You sent ' . money_formatter($_POST['money'])
                     . " to {$er['username']} (ID {$_GET['ID']}).";
             event_add($_GET['ID'],
-                    "You received " . money_formatter($_POST['money'])
-                            . " from {$ir['username']}.", $c);
+                'You received ' . money_formatter($_POST['money'])
+                . " from {$ir['username']}.");
             $db->query(
                     "INSERT INTO `cashxferlogs`
                     VALUES (NULL, $userid, {$_GET['ID']}, {$_POST['money']},
@@ -122,17 +126,17 @@ else
                          LIMIT 5");
         while ($r = $db->fetch_row($q))
         {
-            echo "<tr>
-            		<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+            echo '<tr>
+            		<td>' . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                     . "</td>
                     <td>{$ir['username']} [{$ir['userid']}] </td>
                     <td>{$r['recipient']} [{$r['cxTO']}] </td>
-                    <td> " . money_formatter($r['cxAMOUNT'])
-                    . "</td>
-                  </tr>";
+                    <td> " . money_formatter((int)$r['cxAMOUNT'])
+                    . '</td>
+                  </tr>';
         }
         $db->free_result($q);
-        echo "</table>";
+        echo '</table>';
     }
 }
 $h->endpage();

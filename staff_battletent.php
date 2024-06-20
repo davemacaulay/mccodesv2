@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,14 +19,17 @@
  * File: staff_battletent.php
  * Signature: d49083b8c7d275156aa787fc76eecdf3
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -33,23 +37,26 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addbot":
+case 'addbot':
     addbot();
     break;
-case "editbot":
+case 'editbot':
     editbot();
     break;
-case "delbot":
+case 'delbot':
     delbot();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
-function addbot()
+/**
+ * @return void
+ */
+function addbot(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['userid'] =
             (isset($_POST['userid']) && is_numeric($_POST['userid']))
                     ? abs(intval($_POST['userid'])) : '';
@@ -70,7 +77,8 @@ function addbot()
             $db->free_result($q);
             echo 'Non-existant user.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -78,7 +86,8 @@ function addbot()
         {
             echo 'Challenge bots must be NPCs.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q2 =
                 $db->query(
@@ -89,7 +98,8 @@ function addbot()
         {
             $db->free_result($q2);
             echo 'This user is already a Challenge Bot. If you wish to change the payout, edit the Challenge Bot.<br />&gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q2);
         $db->query(
@@ -107,7 +117,7 @@ function addbot()
         <h3>Adding a Battle Tent Challenge Bot</h3>
         <hr />
         <form action='staff_battletent.php?action=addbot' method='post'>
-        	Bot: " . user_dropdown(NULL, 'userid')
+        	Bot: " . user_dropdown('userid')
                 . "
         	<br />
         	Bounty for Beating: <input type='text' name='money' />
@@ -119,15 +129,18 @@ function addbot()
     }
 }
 
-function editbot()
+/**
+ * @return void
+ */
+function editbot(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_GET['step'] =
-            (isset($_GET['step']) && in_array($_GET['step'], array(1, 2, 3)))
+            (isset($_GET['step']) && in_array($_GET['step'], [1, 2, 3]))
                     ? abs(intval($_GET['step'])) : '';
     switch ($_GET['step'])
     {
-    case "2":
+    case '2':
         $_POST['userid'] =
                 (isset($_POST['userid']) && is_numeric($_POST['userid']))
                         ? abs(intval($_POST['userid'])) : '';
@@ -137,7 +150,8 @@ function editbot()
         if (empty($_POST['userid']) || empty($_POST['money']))
         {
             echo 'Something went wrong.<br />&gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editbot_2',
                 'staff_battletent.php?action=editbot');
@@ -151,7 +165,8 @@ function editbot()
             $db->free_result($q);
             echo 'Non-existing user.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -164,7 +179,8 @@ function editbot()
         {
             $db->free_result($q2);
             echo 'This user is not a Challenge Bot.<br />&gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q2);
         $db->query(
@@ -175,7 +191,7 @@ function editbot()
                 . ' was updated.<br />&gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Edited Challenge Bot {$r['username']}.");
         break;
-    case "1":
+    case '1':
         $_POST['userid'] =
                 (isset($_POST['userid']) && is_numeric($_POST['userid']))
                         ? abs(intval($_POST['userid'])) : '';
@@ -183,7 +199,8 @@ function editbot()
         {
             echo 'Something went wrong.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editbot_1',
                 'staff_battletent.php?action=editbot');
@@ -196,7 +213,8 @@ function editbot()
         {
             echo 'Non-existant user.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -210,7 +228,8 @@ function editbot()
             $db->free_result($q2);
             echo 'This user is not a Challenge Bot.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $mn = $db->fetch_single($q2);
         $db->free_result($q2);
@@ -234,7 +253,7 @@ function editbot()
         <h3>Edit Challenge Bot</h3>
         <hr />
         <form action='staff_battletent.php?action=editbot&amp;step=1' method='post'>
-        	Bot: " . challengebot_dropdown(NULL, 'userid')
+        	Bot: " . challengebot_dropdown('userid')
                 . "
         	<br />
         	{$csrf}
@@ -245,9 +264,12 @@ function editbot()
     }
 }
 
-function delbot()
+/**
+ * @return void
+ */
+function delbot(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['userid'] =
             (isset($_POST['userid']) && is_numeric($_POST['userid']))
                     ? abs(intval($_POST['userid'])) : '';
@@ -268,7 +290,8 @@ function delbot()
             $db->free_result($q);
             echo 'Non-existant user.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -282,7 +305,8 @@ function delbot()
             $db->free_result($q2);
             echo 'This user is not a Challenge Bot.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q2);
         $db->query(
@@ -307,7 +331,7 @@ function delbot()
         <hr />
         This will not delete the user from the game, only remove their entry as a Battle Tent Challenge Bot.
         <form action='staff_battletent.php?action=delbot' method='post'>
-        	Bot: " . challengebot_dropdown(NULL, "userid")
+        	Bot: " . challengebot_dropdown('userid')
                 . "
         	<br />
         	Delete challengesbeaten entries for this bot?

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $h;
 require_once('sglobals.php');
 //This contains user stuffs
 if (!isset($_GET['action']))
@@ -77,17 +79,21 @@ case 'forcelogout':
     forcelogout();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
-function new_user_form()
+/**
+ * @return void
+ */
+function new_user_form(): void
 {
-    global $db, $ir, $c;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_newuser');
     echo "
@@ -140,14 +146,18 @@ function new_user_form()
         ";
 }
 
-function new_user_submit()
+/**
+ * @return void
+ */
+function new_user_submit(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_newuser', 'staff_users.php?action=newuser');
     $_POST['email'] =
@@ -156,7 +166,7 @@ function new_user_submit()
                     ? $db->escape(stripslashes($_POST['email'])) : '';
     $ulevel =
             (isset($_POST['user_level'])
-                    && in_array($_POST['user_level'], array('1', '0'), true))
+                    && in_array($_POST['user_level'], ['1', '0'], true))
                     ? $_POST['user_level'] : FALSE;
     $level =
             (isset($_POST['level']) && is_numeric($_POST['level']))
@@ -172,7 +182,7 @@ function new_user_submit()
                     ? abs(intval($_POST['donatordays'])) : 0;
     $_POST['gender'] =
             (isset($_POST['gender'])
-                    && in_array($_POST['gender'], array('Male', 'Female'),
+                    && in_array($_POST['gender'], ['Male', 'Female'],
                             true)) ? $_POST['gender'] : 'Male';
     $strength =
             (isset($_POST['strength']) && is_numeric($_POST['strength']))
@@ -221,7 +231,8 @@ function new_user_submit()
         <br />
         &gt; <a href="staff_users.php?action=newuser">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $ucnt =
             $db->query(
@@ -238,7 +249,8 @@ function new_user_submit()
         <br />
         &gt; <a href="staff_users.php?action=newuser">GoBack</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($ucnt);
     $energy = 10 + $level * 2;
@@ -272,14 +284,18 @@ function new_user_submit()
 
 }
 
-function edit_user_begin()
+/**
+ * @return void
+ */
+function edit_user_begin(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_edituser1');
     echo "
@@ -287,7 +303,7 @@ function edit_user_begin()
     You can edit any aspect of this user.
     <br />
     <form action='staff_users.php?action=edituserform' method='post'>
-    	User: " . user_dropdown(NULL, 'user')
+    	User: " . user_dropdown()
             . "
     	<br />
     	{$csrf}
@@ -303,14 +319,18 @@ function edit_user_begin()
        ";
 }
 
-function edit_user_form()
+/**
+ * @return void
+ */
+function edit_user_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_edituser1', 'staff_users.php?action=edituser');
     $_POST['user'] =
@@ -323,7 +343,8 @@ function edit_user_form()
         <br />
         &gt; <a href="staff_users.php?action=edituser">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -345,7 +366,8 @@ function edit_user_form()
         <br />
         &gt; <a href="staff_users.php?action=edituser">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $itemi = $db->fetch_row($d);
     $db->free_result($d);
@@ -404,7 +426,7 @@ function edit_user_form()
     	<br />
     	Jail reason: <input type='text' name='jail_reason' value='{$itemi['jail_reason']}' />
     	<br />
-    	House: " . house2_dropdown(NULL, "maxwill", $itemi['maxwill'])
+    	House: " . house2_dropdown('maxwill', $itemi['maxwill'])
             . "
     	<br />
     	<h4>Stats</h4>
@@ -424,14 +446,18 @@ function edit_user_form()
        ";
 }
 
-function edit_user_sub()
+/**
+ * @return void
+ */
+function edit_user_sub(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_edituser2', 'staff_users.php?action=edituser');
     $_POST['userid'] =
@@ -542,7 +568,8 @@ function edit_user_sub()
         <br />
         &gt; <a href="staff_users.php?action=edituser">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $u_exists =
             $db->query(
@@ -557,7 +584,8 @@ function edit_user_sub()
         <br />
         &gt; <a href="staff_users.php?action=edituser">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $h_exists =
             $db->query(
@@ -572,7 +600,8 @@ function edit_user_sub()
         <br />
         &gt; <a href="staff_users.php?action=edituser">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($h_exists);
     $u =
@@ -589,7 +618,8 @@ function edit_user_sub()
         <br />
         &gt; <a href="staff_users.php?action=edituser">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($u);
     $oldwill = $db->fetch_single($u_exists);
@@ -630,17 +660,22 @@ function edit_user_sub()
     <br />
     &gt; <a href="staff.php">Go Home</a>
        ';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 
 }
 
-function deluser()
+/**
+ * @return void
+ */
+function deluser(): void
 {
-    global $ir, $c, $h, $userid, $db;
+    global $ir, $h, $db;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!isset($_GET['step']))
     {
@@ -655,7 +690,7 @@ function deluser()
         Here you can delete a user.
         <br />
         <form action="staff_users.php?action=deluser&amp;step=2" method="post">
-        	User: ' . user_dropdown(NULL, 'user')
+        	User: ' . user_dropdown()
                 . '
         <br />
         ' . $csrf
@@ -686,7 +721,8 @@ function deluser()
             <br />
             &gt; <a href="staff_users.php?action=deluser">Go Back</a>
                ';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
 
         $d =
@@ -702,7 +738,8 @@ function deluser()
             <br />
             &gt; <a href="staff_users.php?action=deluser">Go Back</a>
                ';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $username =
                 htmlentities($db->fetch_single($d), ENT_QUOTES, 'ISO-8859-1');
@@ -728,7 +765,7 @@ function deluser()
                         ? abs(intval($_POST['userid'])) : 0;
         $_POST['yesorno'] =
                 (isset($_POST['yesorno'])
-                        && in_array($_POST['yesorno'], array('Yes', 'No')))
+                        && in_array($_POST['yesorno'], ['Yes', 'No']))
                         ? $_POST['yesorno'] : '';
         if ((empty($_POST['userid']) || empty($_POST['yesorno']))
                 || $_POST['userid'] == 1 || $_POST['userid'] == $ir['userid'])
@@ -738,7 +775,8 @@ function deluser()
             <br />
             &gt; <a href="staff_users.php?action=deluser">Go Back</a>
                ';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         if ($_POST['yesorno'] == 'No')
         {
@@ -747,7 +785,8 @@ function deluser()
             <br />
             &gt; <a href="staff_users.php?action=deluser">Go Back</a>
                ';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $d =
                 $db->query(
@@ -761,7 +800,8 @@ function deluser()
             <br />
             &gt; <a href="staff_users.php?action=deluser">Go Back</a>
                ';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $username =
                 htmlentities($db->fetch_single($d), ENT_QUOTES, 'ISO-8859-1');
@@ -784,19 +824,23 @@ function deluser()
 		<br />
 		&gt; <a href="staff.php">Go Home</a>
    		';
-        die($h->endpage());
-        break;
+        $h->endpage();
+        exit;
     }
 }
 
-function inv_user_begin()
+/**
+ * @return void
+ */
+function inv_user_begin(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    global $ir, $h;
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_viewinv');
     echo "
@@ -804,7 +848,7 @@ function inv_user_begin()
     You may browse this user's inventory.
     <br />
     <form action='staff_users.php?action=invuser' method='post'>
-    	User: " . user_dropdown(NULL, 'user')
+    	User: " . user_dropdown()
             . "
     	<br />
     	{$csrf}
@@ -813,14 +857,18 @@ function inv_user_begin()
        ";
 }
 
-function inv_user_view()
+/**
+ * @return void
+ */
+function inv_user_view(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    global $db, $ir, $h;
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_viewinv', 'staff_users.php?action=invbeg');
     $_POST['user'] =
@@ -833,7 +881,8 @@ function inv_user_view()
         <br />
         &gt; <a href="staff_users.php?action=invbeg">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -847,7 +896,8 @@ function inv_user_view()
         <br />
         &gt; <a href="staff_users.php?action=invbeg">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $inv =
             $db->query(
@@ -880,9 +930,9 @@ function inv_user_view()
             	<td>' . $i['itmname'] . ' '
                     . (($i['inv_qty'] > 1) ? '&nbsp;x' . $i['inv_qty'] : '')
                     . '</td>
-            	<td>' . money_formatter($i['itmsellprice'])
+            	<td>' . money_formatter((int)$i['itmsellprice'])
                     . '</td>
-            	<td>' . money_formatter($i['itmsellprice'] * $i['inv_qty'])
+            	<td>' . money_formatter((int)($i['itmsellprice'] * $i['inv_qty']))
                     . '</td>
             	<td>
             		<form action="staff_users.php?action=deleinv" method="post">
@@ -903,14 +953,18 @@ function inv_user_view()
     stafflog_add('.Viewed user ' . $un . ' [' . $_POST['user'] . '] inventory');
 }
 
-function inv_delete()
+/**
+ * @return void
+ */
+function inv_delete(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    global $db, $ir, $h;
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_deleinv', 'staff_users.php?action=invbeg');
     $_POST['ID'] =
@@ -923,7 +977,8 @@ function inv_delete()
         <br />
         &gt; <a href="staff_users.php?action=invbeg">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -938,7 +993,8 @@ function inv_delete()
 		<br />
 		&gt; <a href="staff_users.php?action=invbeg">Go Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($d);
     $db->query(
@@ -952,13 +1008,17 @@ function inv_delete()
   	 ';
 }
 
-function credit_user_form()
+/**
+ * @return void
+ */
+function credit_user_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    global $ir, $h;
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_credituser');
     echo "
@@ -966,7 +1026,7 @@ function credit_user_form()
     You can give a user money/crystals.
     <br />
     <form action='staff_users.php?action=creditsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user')
+    	User: " . user_dropdown()
             . "
     	<br />
     	Money: <input type='text' name='money' value='0' />
@@ -979,14 +1039,18 @@ function credit_user_form()
    ";
 }
 
-function credit_user_submit()
+/**
+ * @return void
+ */
+function credit_user_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    global $db, $ir, $h;
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_credituser',
             'staff_users.php?action=creditform');
@@ -1007,7 +1071,8 @@ function credit_user_submit()
         <br />
         &gt; <a href="staff_users.php?action=creditform">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -1021,7 +1086,8 @@ function credit_user_submit()
         <br />
         &gt; <a href="staff_users.php?action=creditform">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "UPDATE `users`
@@ -1042,13 +1108,17 @@ function credit_user_submit()
    	';
 }
 
-function mcredit_user_form()
+/**
+ * @return void
+ */
+function mcredit_user_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $csrf = request_csrf_html('staff_masscredit');
     echo "
@@ -1066,13 +1136,17 @@ function mcredit_user_form()
        ";
 }
 
-function mcredit_user_submit()
+/**
+ * @return void
+ */
+function mcredit_user_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_masscredit',
             'staff_users.php?action=masscredit');
@@ -1089,7 +1163,8 @@ function mcredit_user_submit()
         <br />
         &gt; <a href="staff_users.php?action=masscredit">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "UPDATE `users`
@@ -1105,17 +1180,22 @@ function mcredit_user_submit()
 	<a href='staff_special.php?action=massmailer'>here to send a mass mail</a>
 	explaining why.
    	";
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function reports_view()
+/**
+ * @return void
+ */
+function reports_view(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    global $db, $ir, $h;
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     echo "
     <h3>Player Reports</h3>
@@ -1130,7 +1210,7 @@ function reports_view()
     $csrf = request_csrf_html('staff_clear_preport');
     $q =
             $db->query(
-                    "SELECT `prID`, `prTEXT`, `prREPORTED`, `prREPORTER`,
+                'SELECT `prID`, `prTEXT`, `prREPORTED`, `prREPORTER`,
                     `u1`.`username` AS `reporter`,
                     `u2`.`username` AS `offender`
                      FROM `preports` AS `pr`
@@ -1138,7 +1218,7 @@ function reports_view()
                      ON `u1`.`userid` = `pr`.`prREPORTER`
                      INNER JOIN `users` AS `u2`
                      ON `u2`.`userid` = `pr`.`prREPORTED`
-                     ORDER BY `pr`.`prID` DESC");
+                     ORDER BY `pr`.`prID` DESC');
     while ($r = $db->fetch_row($q))
     {
         echo "
@@ -1167,14 +1247,18 @@ function reports_view()
     echo '</table>';
 }
 
-function forcelogout()
+/**
+ * @return void
+ */
+function forcelogout(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['userid'] =
             (isset($_POST['userid']) && is_numeric($_POST['userid']))
@@ -1196,7 +1280,8 @@ function forcelogout()
             <br />
             &gt; <a href="staff_users.php?action=forcelogout">Go Back</a>
                ';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($d);
         $db->query(
@@ -1219,7 +1304,7 @@ function forcelogout()
         <hr />
         The user will be automatically logged out next time they make a hit to the site.
         <form action='staff_users.php?action=forcelogout' method='post'>
-        	User: " . user_dropdown(NULL, 'userid')
+        	User: " . user_dropdown('userid')
                 . "
         	<br />
         	{$csrf}
@@ -1229,14 +1314,18 @@ function forcelogout()
     }
 }
 
-function report_clear()
+/**
+ * @return void
+ */
+function report_clear(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    global $db, $ir, $h;
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     staff_csrf_stdverify('staff_clear_preport',
             'staff_users.php?action=reportsview');
@@ -1250,7 +1339,8 @@ function report_clear()
         <br />
         &gt; <a href="staff_users.php?action=reportsview">Go Back</a>
            ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -1265,7 +1355,8 @@ function report_clear()
 		<br />
 		&gt; <a href="staff_users.php?action=reportsview">Go Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($d);
     $db->query(
@@ -1277,6 +1368,7 @@ function report_clear()
 	<br />
 	&gt; <a href="staff_users.php?action=reportsview">Go Back</a>
    	';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $h->endpage();

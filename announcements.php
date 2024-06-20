@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -19,13 +20,13 @@
  * Signature: 3fef08ec3e124e63c1c6655b8aa50d18
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $ac = $ir['new_announcements'];
 $q =
         $db->query(
-                "SELECT `a_text`, `a_time` FROM `announcements` "
-                        . "ORDER BY `a_time` DESC");
+                'SELECT `a_text`, `a_time` FROM `announcements` '
+                        . 'ORDER BY `a_time` DESC');
 echo '
 <table width="80%" cellspacing="1" cellpadding="1" class="table">
 		<tr>
@@ -47,7 +48,7 @@ while ($r = $db->fetch_row($q))
     $r['a_text'] = nl2br($r['a_text']);
     echo '
 		<tr>
-	<td valign=top>' . date('F j Y, g:i:s a', $r['a_time']) . $new
+	<td valign=top>' . date('F j Y, g:i:s a', (int)$r['a_time']) . $new
             . '</td>
 	<td valign=top>' . $r['a_text'] . '</td>
 		</tr>
@@ -58,7 +59,7 @@ echo '</table>';
 if ($ir['new_announcements'] > 0)
 {
     $db->query(
-            "UPDATE `users` " . "SET `new_announcements` = 0 "
+            'UPDATE `users` ' . 'SET `new_announcements` = 0 '
                     . "WHERE `userid` = '{$userid}'");
 }
 $h->endpage();

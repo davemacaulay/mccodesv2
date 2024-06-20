@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $userid, $h;
 require_once('globals.php');
 echo '<h3>Player Report</h3>';
 $_POST['report'] =
@@ -35,7 +37,8 @@ if ($_POST['report'] && $_POST['player'])
         echo 'You may only enter 500 characters or less here.
         <br />&gt;<a href="preport.php?ID=' . $_GET['player']
                 . '">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!isset($_POST['verf'])
             || !verify_csrf_code('preport_send', stripslashes($_POST['verf'])))
@@ -44,7 +47,8 @@ if ($_POST['report'] && $_POST['player'])
    			This action has been blocked for your security.<br />
     		Please try again.<br />
     		&gt; <a href="preport.php">Try Again</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -56,7 +60,8 @@ if ($_POST['report'] && $_POST['player'])
         $db->free_result($q);
         echo 'User doesn\'t exist.<br />
         &gt;<a href="preport.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(

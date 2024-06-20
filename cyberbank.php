@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,8 +21,9 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
-echo "<h3>Cyber Bank</h3>";
+echo '<h3>Cyber Bank</h3>';
 $bank_cost = 10000000;
 $bank_maxfee_dp = 1500000;
 $bank_feepercent_dp = 15;
@@ -35,11 +37,11 @@ if ($ir['cybermoney'] > -1)
     }
     switch ($_GET['action'])
     {
-    case "deposit":
+    case 'deposit':
         deposit();
         break;
 
-    case "withdraw":
+    case 'withdraw':
         withdraw();
         break;
 
@@ -48,40 +50,33 @@ if ($ir['cybermoney'] > -1)
         break;
     }
 
-}
-else
-{
-    if (isset($_GET['buy']))
-    {
-        if ($ir['money'] >= $bank_cost)
-        {
-            echo "Congratulations, you bought a bank account for "
-                    . money_formatter($bank_cost)
-                    . "!<br />
+} elseif (isset($_GET['buy'])) {
+    if ($ir['money'] >= $bank_cost) {
+        echo 'Congratulations, you bought a bank account for '
+            . money_formatter($bank_cost)
+            . "!<br />
 <a href='cyberbank.php'>Start using my account</a>";
-            $db->query(
-                    "UPDATE `users`
+        $db->query(
+            "UPDATE `users`
                              SET `money` = `money` - {$bank_cost},
                              `cybermoney` = 0
                              WHERE `userid` = $userid");
-        }
-        else
-        {
-            echo "You do not have enough money to open an account.
+    } else {
+        echo "You do not have enough money to open an account.
 <a href='explore.php'>Back to town...</a>";
-        }
     }
-    else
-    {
-        echo "Open a bank account today, just " . money_formatter($bank_cost)
-                . "!<br />
+} else {
+    echo 'Open a bank account today, just ' . money_formatter($bank_cost)
+        . "!<br />
 <a href='cyberbank.php?buy'>&gt; Yes, sign me up!</a>";
-    }
 }
 
-function index()
+/**
+ * @return void
+ */
+function index(): void
 {
-    global $db, $ir, $c, $userid, $h, $bank_maxfee_dp, $bank_feepercent_dp, $bank_maxfee_wd, $bank_feepercent_wd;
+    global $ir, $bank_maxfee_dp, $bank_feepercent_dp, $bank_maxfee_wd, $bank_feepercent_wd;
     echo "\n<b>You currently have " . money_formatter($ir['cybermoney'])
             . " in the bank.</b><br />
 At the end of each day, your bank balance will go up by 7%.<br />
@@ -99,17 +94,20 @@ Amount: <input type='text' name='withdraw' value='{$ir['cybermoney']}' /><br />
 <input type='submit' value='Withdraw' /></form></td> </tr> </table>";
 }
 
-function deposit()
+/**
+ * @return void
+ */
+function deposit(): void
 {
-    global $db, $ir, $c, $userid, $h, $bank_maxfee_dp, $bank_feepercent_dp;
+    global $db, $ir, $userid, $bank_maxfee_dp, $bank_feepercent_dp;
     $_POST['deposit'] =
             (isset($_POST['deposit']) && is_numeric($_POST['deposit']))
                     ? abs((int) $_POST['deposit']) : 0;
     if ($_POST['deposit'] > $ir['money'])
     {
-        echo "You do not have enough money to deposit this amount.";
+        echo 'You do not have enough money to deposit this amount.';
     }
-    else if ($_POST['deposit'] == 0)
+    elseif ($_POST['deposit'] == 0)
     {
         echo "There's no point depositing nothing.";
     }
@@ -127,28 +125,31 @@ function deposit()
                 SET `cybermoney` = `cybermoney` + $gain,
                 `money` = `money` - {$_POST['deposit']}
                 WHERE `userid` = $userid");
-        echo "You hand over " . money_formatter($_POST['deposit'])
-                . " to be deposited, <br />
-after the fee is taken (" . money_formatter($fee) . "), "
+        echo 'You hand over ' . money_formatter($_POST['deposit'])
+                . ' to be deposited, <br />
+after the fee is taken (' . money_formatter($fee) . '), '
                 . money_formatter($gain)
-                . " is added to your account. <br />
-<b>You now have " . money_formatter($ir['cybermoney'])
+                . ' is added to your account. <br />
+<b>You now have ' . money_formatter($ir['cybermoney'])
                 . " in the Cyber Bank.</b><br />
 <a href='cyberbank.php'>&gt; Back</a>";
     }
 }
 
-function withdraw()
+/**
+ * @return void
+ */
+function withdraw(): void
 {
-    global $db, $ir, $c, $userid, $h, $bank_maxfee_wd, $bank_feepercent_wd;
+    global $db, $ir, $userid, $bank_maxfee_wd, $bank_feepercent_wd;
     $_POST['withdraw'] =
             (isset($_POST['withdraw']) && is_numeric($_POST['withdraw']))
                     ? abs((int) $_POST['withdraw']) : 0;
     if ($_POST['withdraw'] > $ir['cybermoney'])
     {
-        echo "You do not have enough banked money to withdraw this amount.";
+        echo 'You do not have enough banked money to withdraw this amount.';
     }
-    else if ($_POST['withdraw'] == 0)
+    elseif ($_POST['withdraw'] == 0)
     {
         echo "There's no point withdrawing nothing.";
     }
@@ -166,10 +167,10 @@ function withdraw()
                 SET `cybermoney` = `cybermoney` - $gain,
                 `money` = `money` + $gain
         		WHERE `userid` = $userid");
-        echo "You ask to withdraw " . money_formatter($gain)
-                . ", <br />
+        echo 'You ask to withdraw ' . money_formatter($gain)
+                . ', <br />
 the teller hands it over after she takes the bank fees. <br />
-<b>You now have " . money_formatter($ir['cybermoney'])
+<b>You now have ' . money_formatter($ir['cybermoney'])
                 . " in the Cyber Bank.</b><br />
 <a href='cyberbank.php'>&gt; Back</a>";
     }

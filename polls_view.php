@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
 $q =
         $db->query(
@@ -29,7 +31,7 @@ $q =
 				 ORDER BY `id` DESC");
 if (!$db->num_rows($q))
 {
-    echo "<b>There are no finished polls right now</b>";
+    echo '<b>There are no finished polls right now</b>';
 }
 else
 {
@@ -74,9 +76,9 @@ else
         	  </tr>
 			  <tr>
 			  	<th colspan='4'>Winner: " . $r['choice' . $r['winner']]
-                . "</th>
+                . '</th>
               </tr>
-		</table><br />";
+		</table><br />';
     }
 }
 $db->free_result($q);

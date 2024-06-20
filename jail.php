@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: jail.php
  * Signature: ddbffa4501129daad8ce588244301312
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $h;
 require_once('globals.php');
 echo "
 <h3>Jail</h3>
@@ -34,13 +37,13 @@ echo "
    ";
 $q =
         $db->query(
-                "SELECT `jail_reason`, `jail`, `level`, `username`, `userid`,
+            'SELECT `jail_reason`, `jail`, `level`, `username`, `userid`,
                 `gangPREF`
                 FROM `users` AS `u`
                 LEFT JOIN `gangs` AS `g`
                 ON `u`.`gang` = `g`.`gangID`
                 WHERE `u`.`jail` > 0
-                ORDER BY `u`.`jail` DESC");
+                ORDER BY `u`.`jail` DESC');
 while ($r = $db->fetch_row($q))
 {
     echo "

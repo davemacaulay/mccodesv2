@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: itemuse.php
  * Signature: 9633f89704acd2ba6a05feab908b636d
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))
@@ -52,17 +55,18 @@ else
         if (!$r['effect1_on'] && !$r['effect2_on'] && !$r['effect3_on'])
         {
             echo 'Sorry, this item cannot be used as it has no effect.';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         for ($enum = 1; $enum <= 3; $enum++)
         {
             if ($r["effect{$enum}_on"])
             {
                 $einfo = unserialize($r["effect{$enum}"]);
-                if ($einfo['inc_type'] == "percent")
+                if ($einfo['inc_type'] == 'percent')
                 {
                     if (in_array($einfo['stat'],
-                            array('energy', 'will', 'brave', 'hp')))
+                            ['energy', 'will', 'brave', 'hp']))
                     {
                         $inc =
                                 round(
@@ -81,10 +85,10 @@ else
                 {
                     $inc = $einfo['inc_amount'];
                 }
-                if ($einfo['dir'] == "pos")
+                if ($einfo['dir'] == 'pos')
                 {
                     if (in_array($einfo['stat'],
-                            array('energy', 'will', 'brave', 'hp')))
+                            ['energy', 'will', 'brave', 'hp']))
                     {
                         $ir[$einfo['stat']] =
                                 min($ir[$einfo['stat']] + $inc,
@@ -101,7 +105,7 @@ else
                 }
                 $upd = $ir[$einfo['stat']];
                 if (in_array($einfo['stat'],
-                        array('strength', 'agility', 'guard', 'labour', 'IQ')))
+                        ['strength', 'agility', 'guard', 'labour', 'IQ']))
                 {
                     $db->query(
                             "UPDATE `userstats`

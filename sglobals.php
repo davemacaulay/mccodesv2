@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,7 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-function staff_csrf_error($goBackTo)
+function staff_csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />
@@ -35,18 +36,19 @@ function staff_csrf_error($goBackTo)
  * If verification fails, end execution immediately.
  * If not, continue.
  * @param string $formid A unique string used to identify this form to match up its submission with the right token.
- * @param string $code The code the user's form input returned.
- * @return boolean Whether the user provided a valid code or not
+ * @param $goBackTo
+ * @return bool Whether the user provided a valid code or not
  */
-function staff_csrf_stdverify($formid, $goBackTo)
+function staff_csrf_stdverify(string $formid, $goBackTo): bool
 {
     if (!isset($_POST['verf'])
             || !verify_csrf_code($formid, stripslashes($_POST['verf'])))
     {
         staff_csrf_error($goBackTo);
     }
+    return true;
 }
-if (strpos($_SERVER['PHP_SELF'], "sglobals.php") !== false)
+if (str_contains($_SERVER['PHP_SELF'], 'sglobals.php'))
 {
     exit;
 }
@@ -58,46 +60,29 @@ if (!isset($_SESSION['started']))
     $_SESSION['started'] = true;
 }
 ob_start();
-if (get_magic_quotes_gpc() == 0)
-{
-    foreach ($_POST as $k => $v)
-    {
-        $_POST[$k] = addslashes($v);
-    }
-    foreach ($_GET as $k => $v)
-    {
-        $_GET[$k] = addslashes($v);
-    }
-}
-require "lib/basic_error_handler.php";
+require 'lib/basic_error_handler.php';
 set_error_handler('error_php');
-require "global_func.php";
+require 'global_func.php';
 $domain = determine_game_urlbase();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == 0)
 {
-    $login_url = "http://{$domain}/login.php";
+    $login_url = "https://{$domain}/login.php";
     header("Location: {$login_url}");
     exit;
 }
-$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 0;
-require "header.php";
+$userid = $_SESSION['userid'] ?? 0;
+require 'header.php';
 
-include "config.php";
+include 'config.php';
 global $_CONFIG;
-define("MONO_ON", 1);
+const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";
-$db = new database;
+$db = new database();
 $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
-        $_CONFIG['password'], $_CONFIG['database'], $_CONFIG['persistent']);
+        $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
 $c = $db->connection_id;
-$set = array();
-$settq = $db->query("SELECT *
-					 FROM `settings`");
-while ($r = $db->fetch_row($settq))
-{
-    $set[$r['conf_name']] = $r['conf_value'];
-}
+$set = get_site_settings();
 global $jobquery, $housequery;
 if (isset($jobquery) && $jobquery)
 {
@@ -113,7 +98,7 @@ if (isset($jobquery) && $jobquery)
                      WHERE `u`.`userid` = '{$userid}'
                      LIMIT 1");
 }
-else if (isset($housequery) && $housequery)
+elseif (isset($housequery) && $housequery)
 {
     $is =
             $db->query(
@@ -137,7 +122,8 @@ else
                      LIMIT 1");
 }
 $ir = $db->fetch_row($is);
-if ($ir['force_logout'] != '0')
+set_userdata_data_types($ir);
+if ($ir['force_logout'] > 0)
 {
     $db->query(
             "UPDATE `users`
@@ -145,17 +131,17 @@ if ($ir['force_logout'] != '0')
     		 WHERE `userid` = {$userid}");
     session_unset();
     session_destroy();
-    $login_url = "http://{$domain}/login.php";
+    $login_url = "https://{$domain}/login.php";
     header("Location: {$login_url}");
     exit;
 }
-if (!in_array($ir['user_level'], array(2, 3, 5)))
+if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'This page cannot be accessed.<br />&gt; <a href="index.php">Go Home</a>';
     die;
 }
 check_level();
-$h = new headers;
+$h = new headers();
 $h->startheaders();
 $fm = money_formatter($ir['money']);
 $cm = money_formatter($ir['crystals'], '');

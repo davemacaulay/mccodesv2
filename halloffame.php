@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,13 +21,17 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
+$non_don = '';
+$is_don = '';
+$all_us = '';
 $filters =
-        array('nodon' => 'AND `donatordays` = 0',
-                'don' => 'AND `donatordays` > 0', 'all' => '');
+        ['nodon' => 'AND `donatordays` = 0',
+                'don' => 'AND `donatordays` > 0', 'all' => ''];
 $hofheads =
-        array('level', 'money', 'crystals', 'respect', 'total', 'strength',
-                'agility', 'guard', 'labour', 'iq');
+        ['level', 'money', 'crystals', 'respect', 'total', 'strength',
+                'agility', 'guard', 'labour', 'iq'];
 $_GET['action'] =
         (isset($_GET['action']) && in_array($_GET['action'], $hofheads))
                 ? $_GET['action'] : 'level';
@@ -34,7 +39,7 @@ $filter =
         (isset($_GET['filter']) && isset($filters[$_GET['filter']]))
                 ? $_GET['filter'] : 'all';
 $myf = $filters[$filter];
-$hofqone = array('level', 'money', 'crystals');
+$hofqone = ['level', 'money', 'crystals'];
 if (in_array($_GET['action'], $hofqone))
 {
     $q =
@@ -49,7 +54,7 @@ if (in_array($_GET['action'], $hofqone))
                      ORDER BY `{$_GET['action']}` DESC, `userid` ASC
                      LIMIT 20");
 }
-$hofqtwo = array('total', 'strength', 'agility', 'guard', 'labour', 'iq');
+$hofqtwo = ['total', 'strength', 'agility', 'guard', 'labour', 'iq'];
 if (in_array($_GET['action'], $hofqtwo))
 {
     if ($_GET['action'] == 'total')
@@ -93,9 +98,9 @@ if ($_GET['action'] != 'respect')
                     . '&filter=all">All Users</a>'
                     . (($filter == 'all') ? '</b>' : '');
 }
-echo "
+echo '
 <h3>Hall Of Fame</h3>
-"
+'
         . (($_GET['action'] != 'respect')
                 ? '<hr />Filter: [' . $non_don . ' | ' . $is_don . ' | '
                         . $all_us . ']<hr />' : '')
@@ -120,41 +125,44 @@ echo "
    ";
 switch ($_GET['action'])
 {
-case "level":
+case 'level':
     hof_level();
     break;
-case "money":
+case 'money':
     hof_money();
     break;
-case "crystals":
+case 'crystals':
     hof_crystals();
     break;
-case "respect":
+case 'respect':
     hof_respect();
     break;
-case "total":
+case 'total':
     hof_total();
     break;
-case "strength":
+case 'strength':
     hof_strength();
     break;
-case "agility":
+case 'agility':
     hof_agility();
     break;
-case "guard":
+case 'guard':
     hof_guard();
     break;
-case "labour":
+case 'labour':
     hof_labour();
     break;
-case "iq":
+case 'iq':
     hof_iq();
     break;
 }
 
-function hof_level()
+/**
+ * @return void
+ */
+function hof_level(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest levels
 <br />
@@ -185,9 +193,12 @@ Showing the 20 users with the highest levels
     echo '</table>';
 }
 
-function hof_money()
+/**
+ * @return void
+ */
+function hof_money(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest amount of money
 <br />
@@ -210,7 +221,7 @@ Showing the 20 users with the highest amount of money
 	<td>' . $p . '</td>
 	<td>' . $r['gangPREF'] . ' ' . $r['username'] . ' [' . $r['userid']
                 . ']</td>
-	<td>' . money_formatter($r['money'], '$') . '</td>
+	<td>' . money_formatter((int)$r['money']) . '</td>
 		</tr>
    ';
     }
@@ -218,9 +229,12 @@ Showing the 20 users with the highest amount of money
     echo '</table>';
 }
 
-function hof_crystals()
+/**
+ * @return void
+ */
+function hof_crystals(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest amount of crystals
 <br />
@@ -243,7 +257,7 @@ Showing the 20 users with the highest amount of crystals
 	<td>' . $p . '</td>
 	<td>' . $r['gangPREF'] . ' ' . $r['username'] . ' [' . $r['userid']
                 . ']</td>
-	<td>' . money_formatter($r['crystals'], '') . '</td>
+	<td>' . money_formatter((int)$r['crystals'], '') . '</td>
 		</tr>
    ';
     }
@@ -251,9 +265,12 @@ Showing the 20 users with the highest amount of crystals
     echo '</table>';
 }
 
-function hof_respect()
+/**
+ * @return void
+ */
+function hof_respect(): void
 {
-    global $db, $ir, $c, $userid;
+    global $db, $ir;
     echo "
 Showing the 20 gangs with the highest amount of respect
 <br />
@@ -266,10 +283,10 @@ Showing the 20 gangs with the highest amount of respect
    ";
     $q =
             $db->query(
-                    "SELECT `gangID`, `gangNAME`, `gangRESPECT`
+                'SELECT `gangID`, `gangNAME`, `gangRESPECT`
                      FROM `gangs`
                      ORDER BY `gangRESPECT` DESC, `gangID` ASC
-                     LIMIT 20");
+                     LIMIT 20');
     $p = 0;
     while ($r = $db->fetch_row($q))
     {
@@ -281,7 +298,7 @@ Showing the 20 gangs with the highest amount of respect
 		<tr ' . $bold_hof . '>
 	<td>' . $p . '</td>
 	<td>' . $r['gangNAME'] . ' [' . $r['gangID'] . ']</td>
-	<td>' . money_formatter($r['gangRESPECT'], '') . '</td>
+	<td>' . money_formatter((int)$r['gangRESPECT'], '') . '</td>
 		</tr>
    ';
     }
@@ -289,9 +306,12 @@ Showing the 20 gangs with the highest amount of respect
     echo '</table>';
 }
 
-function hof_total()
+/**
+ * @return void
+ */
+function hof_total(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest total stats
 <br />
@@ -320,9 +340,12 @@ Showing the 20 users with the highest total stats
     echo '</table>';
 }
 
-function hof_strength()
+/**
+ * @return void
+ */
+function hof_strength(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest strength
 <br />
@@ -351,9 +374,12 @@ Showing the 20 users with the highest strength
     echo '</table>';
 }
 
-function hof_agility()
+/**
+ * @return void
+ */
+function hof_agility(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest agility
 <br />
@@ -382,9 +408,12 @@ Showing the 20 users with the highest agility
     echo '</table>';
 }
 
-function hof_guard()
+/**
+ * @return void
+ */
+function hof_guard(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest guard
 <br />
@@ -413,9 +442,12 @@ Showing the 20 users with the highest guard
     echo '</table>';
 }
 
-function hof_labour()
+/**
+ * @return void
+ */
+function hof_labour(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest labour
 <br />
@@ -444,9 +476,12 @@ Showing the 20 users with the highest labour
     echo '</table>';
 }
 
-function hof_iq()
+/**
+ * @return void
+ */
+function hof_iq(): void
 {
-    global $db, $ir, $c, $userid, $myf, $q;
+    global $db, $userid, $q;
     echo "
 Showing the 20 users with the highest IQ
 <br />

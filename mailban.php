@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,14 +19,17 @@
  * File: mailban.php
  * Signature: 858dfef7b695c68b698509c2f09b0f5e
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $ir, $h;
 require_once('globals.php');
-if (!in_array($ir['user_level'], array(2, 3, 5)))
+if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.
     <br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $_POST['user'] =
         (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -49,7 +53,8 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
     		Please try again.<br />
     		&gt; <a href="mailban.php?userid=' . $_POST['user']
                 . '">Try Again</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -61,7 +66,8 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="mailban.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_q = $db->fetch_row($q);
     $db->free_result($q);
@@ -69,7 +75,8 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
     {
         echo 'You cannot mailban admins, please destaff them first.
         <br />&gt; <a href="mailban.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $e_reason = $db->escape($_POST['reason']);
     $re =
@@ -79,8 +86,7 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
                      `mb_reason` = '{$e_reason}'
                      WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were banned from mail for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}",
-            $c);
+        "You were banned from mail for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}");
     echo 'User was mail banned.<br />
     &gt; <a href="index.php">Go Home</a>';
 }
@@ -95,7 +101,7 @@ else
 	The user will not be able to use the mail system for a set period of days.
 	<br />
 	<form action='mailban.php' method='post'>
-		User: " . user_dropdown(NULL, 'user', $_GET['userid'])
+		User: " . user_dropdown('user', $_GET['userid'])
             . "
 		<br />
 		Days: <input type='text' name='days' />

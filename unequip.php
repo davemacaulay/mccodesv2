@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,19 +21,22 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 if (!isset($_GET['type'])
         || !in_array($_GET['type'],
-                array("equip_primary", "equip_secondary", "equip_armor"),
+                ['equip_primary', 'equip_secondary', 'equip_armor'],
                 true))
 {
     echo 'This slot ID is not valid.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if ($ir[$_GET['type']] == 0)
 {
     echo 'You do not have anything equipped in this slot.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 item_add($userid, $ir[$_GET['type']], 1);
 $db->query(
@@ -40,9 +44,9 @@ $db->query(
         SET `{$_GET['type']}` = 0
         WHERE `userid` = {$ir['userid']}");
 $names =
-        array('equip_primary' => 'Primary Weapon',
+        ['equip_primary' => 'Primary Weapon',
                 'equip_secondary' => 'Secondary Weapon',
-                'equip_armor' => 'Armor');
+                'equip_armor' => 'Armor'];
 echo 'The item in your ' . $names[$_GET['type']]
-        . ' slot was successfully unequiped.';
+        . ' slot was successfully unequipped.';
 $h->endpage();

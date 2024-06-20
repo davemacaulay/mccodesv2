@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $h;
 require_once('globals.php');
 if (!isset($_GET['shop']))
 {
@@ -28,7 +30,7 @@ if (!isset($_GET['shop']))
 $_GET['shop'] = abs((int) $_GET['shop']);
 if (!$_GET['shop'])
 {
-    echo "You begin looking through town and you see a few shops.<br />";
+    echo 'You begin looking through town and you see a few shops.<br />';
     $q =
             $db->query(
                     "SELECT `shopID`, `shopNAME`, `shopDESCRIPTION`
@@ -48,7 +50,7 @@ if (!$_GET['shop'])
         		<td>{$r['shopDESCRIPTION']}</td>
         	  </tr>";
     }
-    echo "</table>";
+    echo '</table>';
     $db->free_result($q);
 }
 else
@@ -84,7 +86,7 @@ else
                              WHERE `si`.`sitemSHOP` = {$_GET['shop']}
                              ORDER BY `itmtype` ASC, `itmbuyprice` ASC,
                              `itmname` ASC");
-            $lt = "";
+            $lt = '';
             while ($r = $db->fetch_row($qtwo))
             {
                 if ($lt != $r['itmtypename'])
@@ -98,8 +100,8 @@ else
                 			<td>{$r['itmname']}</td>
                 			<td>{$r['itmdesc']}</td>
                 			<td>" . money_formatter($r['itmbuyprice'])
-                        . "</td>
-                            <td>" . money_formatter($r['itmsellprice'])
+                        . '</td>
+                            <td>' . money_formatter($r['itmsellprice'])
                         . "</td>
                             <td>
                             	<form action='itembuy.php?ID={$r['sitemID']}' method='post'>
@@ -110,16 +112,16 @@ else
                         </tr>";
             }
             $db->free_result($qtwo);
-            echo "</table>";
+            echo '</table>';
         }
         else
         {
-            echo "You are trying to access a shop in another city!";
+            echo 'You are trying to access a shop in another city!';
         }
     }
     else
     {
-        echo "You are trying to access an invalid shop!";
+        echo 'You are trying to access an invalid shop!';
     }
     $db->free_result($sd);
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 
 $_GET['ID'] =
@@ -56,22 +58,25 @@ else
             echo 'You don\'t have enough money to buy ' . $_POST['qty'] . ' '
                     . $itemd['itmname']
                     . '!<br />&gt; <a href="index.php">Go Home</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         if ($itemd['itmbuyable'] == 0)
         {
             echo 'This item can\'t be bought!
             <br />&gt; <a href="index.php">Go Home</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         if ($itemd['shopLOCATION'] != $ir['location'])
         {
             echo 'You can\'t buy items from other cities.
             <br />&gt; <a href="index.php">Go Home</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
 
-        $price = ($itemd['itmbuyprice'] * $_POST['qty']);
+        $price = (int)($itemd['itmbuyprice'] * $_POST['qty']);
         item_add($userid, $itemd['itmid'], $_POST['qty']);
         $db->query(
                 "UPDATE `users`

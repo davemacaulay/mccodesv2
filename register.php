@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,10 +21,15 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $set;
 require_once('globals_nonauth.php');
 //thx to http://www.phpit.net/code/valid-email/ for valid_email
 
-function valid_email($email)
+/**
+ * @param $email
+ * @return bool
+ */
+function valid_email($email): bool
 {
     return (filter_var($email, FILTER_VALIDATE_EMAIL) === $email);
 }
@@ -46,7 +52,7 @@ print
 <td class="center"><img src="title.jpg" alt="Mccodes Version 2" /><br />
 <!-- Begin Main Content -->
 EOF;
-$IP = str_replace(array('/', '\\', '\0'), '', $_SERVER['REMOTE_ADDR']);
+$IP = str_replace(['/', '\\', '\0'], '', $_SERVER['REMOTE_ADDR']);
 if (file_exists('ipbans/' . $IP))
 {
     die(
@@ -92,7 +98,7 @@ if (!empty($username))
     }
     $e_gender = $db->escape(stripslashes($_POST['gender']));
     $sm = 100;
-    if (isset($_POST['promo']) && $_POST['promo'] == "Your Promo Code Here")
+    if (isset($_POST['promo']) && $_POST['promo'] == 'Your Promo Code Here')
     {
         $sm += 100;
     }
@@ -124,23 +130,24 @@ if (!empty($username))
         echo "Username already in use. Choose another.<br />
 		&gt; <a href='register.php'>Back</a>";
     }
-    else if ($e_check > 0)
+    elseif ($e_check > 0)
     {
         echo "E-Mail already in use. Choose another.<br />
 		&gt; <a href='register.php'>Back</a>";
     }
-    else if (empty($base_pw) || empty($check_pw))
+    elseif (empty($base_pw) || empty($check_pw))
     {
         echo "You must specify your password and confirm it.<br />
 		&gt; <a href='register.php'>Back</a>";
     }
-    else if ($base_pw != $check_pw)
+    elseif ($base_pw != $check_pw)
     {
         echo "The passwords did not match, go back and try again.<br />
 		&gt; <a href='register.php'>Back</a>";
     }
     else
     {
+        $rem_IP = '';
         $_POST['ref'] =
                 (isset($_POST['ref']) && is_numeric($_POST['ref']))
                         ? abs(intval($_POST['ref'])) : '';
@@ -197,8 +204,7 @@ if (!empty($username))
                      SET `crystals` = `crystals` + 2
                      WHERE `userid` = {$_POST['ref']}");
             event_add($_POST['ref'],
-                    "For refering $username to the game, you have earnt 2 valuable crystals!",
-                    $c);
+                "For referring $username to the game, you have earned 2 valuable crystals!");
             $e_rip = $db->escape($rem_IP);
             $db->query(
                     "INSERT INTO `referals`
@@ -213,10 +219,11 @@ else
 {
     if ($set['regcap_on'])
     {
-        $chars =
+        /** @noinspection SpellCheckingInspection */
+        $chars               =
                 "123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?\\/%^";
-        $len = strlen($chars);
-        $_SESSION['captcha'] = "";
+        $len                 = strlen($chars);
+        $_SESSION['captcha'] = '';
         for ($i = 0; $i < 6; $i++)
             $_SESSION['captcha'] .= $chars[rand(0, $len - 1)];
     }
@@ -302,7 +309,10 @@ else
 }
 register_footer();
 
-function register_footer()
+/**
+ * @return void
+ */
+function register_footer(): void
 {
     print
             <<<OUT

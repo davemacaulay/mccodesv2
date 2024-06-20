@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: usersonline.php
  * Signature: 8b411fbec53e644bcab7f34abfe66df3
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $h;
 require_once('globals.php');
 echo '<h3>Users Online</h3>';
 $cn = 0;
@@ -35,7 +38,7 @@ while ($r = $db->fetch_row($q))
 {
     $cn++;
     echo $cn . '. <a href="viewuser.php?u=' . $r['userid'] . '">'
-            . $r['username'] . '</a> (' . DateTime_Parse($r['laston'])
+            . $r['username'] . '</a> (' . datetime_parse($r['laston'])
             . ')
 	<br />
    	';

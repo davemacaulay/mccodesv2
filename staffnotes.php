@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,8 +21,9 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
-if (in_array($ir['user_level'], array(2, 3, 5)))
+if (in_array($ir['user_level'], [2, 3, 5]))
 {
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
@@ -35,7 +37,8 @@ if (in_array($ir['user_level'], array(2, 3, 5)))
     {
         echo 'You must enter data for this to work.
         <br />&gt; <a href="index.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -47,7 +50,8 @@ if (in_array($ir['user_level'], array(2, 3, 5)))
         $db->free_result($q);
         echo 'That user does not exist.
         <br />&gt; <a href="index.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $old = $db->escape($db->fetch_single($q));
     $db->free_result($q);

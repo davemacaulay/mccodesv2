@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))
@@ -53,7 +55,8 @@ if (!empty($_POST['qty']) && !empty($_GET['ID']))
     		This transaction has been blocked for your security.<br />
     		Please sell items quickly after you open the form - do not leave it open in tabs.<br />
     		&gt; <a href="itemsell.php?ID=' . $_GET['ID'] . '">Try Again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         if ($_POST['qty'] > $r['inv_qty'])
         {
@@ -61,7 +64,7 @@ if (!empty($_POST['qty']) && !empty($_GET['ID']))
         }
         else
         {
-            $price = $r['itmsellprice'] * $_POST['qty'];
+            $price = (int)($r['itmsellprice'] * $_POST['qty']);
             item_remove($userid, $r['itmid'], $_POST['qty']);
             $db->query(
                     "UPDATE `users`
@@ -81,7 +84,7 @@ if (!empty($_POST['qty']) && !empty($_GET['ID']))
     }
     $db->free_result($id);
 }
-else if (!empty($_GET['ID']) && empty($_POST['qty']))
+elseif (!empty($_GET['ID']) && empty($_POST['qty']))
 {
     $id =
             $db->query(

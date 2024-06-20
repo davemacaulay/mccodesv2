@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,12 +21,14 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -52,66 +55,68 @@ case 'jobrankdele':
     jobrankdele();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
-function newjob()
+function process_jobs_post_data(): void
 {
-    global $db, $ir, $userid, $h;
-    $price =
-            (isset($_POST['price']) && is_numeric($_POST['price']))
-                    ? abs(intval($_POST['price'])) : '';
-    $will =
-            (isset($_POST['will']) && is_numeric($_POST['will']))
-                    ? abs(intval($_POST['will'])) : '';
-
+    global $db;
     $_POST['jNAME'] =
-            (isset($_POST['jNAME'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jNAME']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jNAME'])))
-                    : '';
+        (isset($_POST['jNAME'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['jNAME']))
+            ? $db->escape(strip_tags(stripslashes($_POST['jNAME'])))
+            : '';
     $_POST['jDESC'] =
-            (isset($_POST['jDESC']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jDESC'])))
-                    : '';
+        (isset($_POST['jDESC']))
+            ? $db->escape(strip_tags(stripslashes($_POST['jDESC'])))
+            : '';
     $_POST['jOWNER'] =
-            (isset($_POST['jOWNER'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jOWNER']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jOWNER'])))
-                    : '';
+        (isset($_POST['jOWNER'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['jOWNER']))
+            ? $db->escape(strip_tags(stripslashes($_POST['jOWNER'])))
+            : '';
     $_POST['jrNAME'] =
-            (isset($_POST['jrNAME'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jrNAME']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jrNAME'])))
-                    : '';
+        (isset($_POST['jrNAME'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['jrNAME']))
+            ? $db->escape(strip_tags(stripslashes($_POST['jrNAME'])))
+            : '';
     $_POST['jrPAY'] =
-            (isset($_POST['jrPAY']) && is_numeric($_POST['jrPAY']))
-                    ? abs(intval($_POST['jrPAY'])) : '';
+        (isset($_POST['jrPAY']) && is_numeric($_POST['jrPAY']))
+            ? abs(intval($_POST['jrPAY'])) : '';
     $_POST['jrSTRG'] =
-            (isset($_POST['jrSTRG']) && is_numeric($_POST['jrSTRG']))
-                    ? abs(intval($_POST['jrSTRG'])) : 0;
+        (isset($_POST['jrSTRG']) && is_numeric($_POST['jrSTRG']))
+            ? abs(intval($_POST['jrSTRG'])) : 0;
     $_POST['jrLABOURG'] =
-            (isset($_POST['jrLABOURG']) && is_numeric($_POST['jrLABOURG']))
-                    ? abs(intval($_POST['jrLABOURG'])) : 0;
+        (isset($_POST['jrLABOURG']) && is_numeric($_POST['jrLABOURG']))
+            ? abs(intval($_POST['jrLABOURG'])) : 0;
     $_POST['jrIQG'] =
-            (isset($_POST['jrIQG']) && is_numeric($_POST['jrIQG']))
-                    ? abs(intval($_POST['jrIQG'])) : 0;
+        (isset($_POST['jrIQG']) && is_numeric($_POST['jrIQG']))
+            ? abs(intval($_POST['jrIQG'])) : 0;
     $_POST['jrSTRN'] =
-            (isset($_POST['jrSTRN']) && is_numeric($_POST['jrSTRN']))
-                    ? abs(intval($_POST['jrSTRN'])) : 0;
+        (isset($_POST['jrSTRN']) && is_numeric($_POST['jrSTRN']))
+            ? abs(intval($_POST['jrSTRN'])) : 0;
     $_POST['jrLABOURN'] =
-            (isset($_POST['jrLABOURN']) && is_numeric($_POST['jrLABOURN']))
-                    ? abs(intval($_POST['jrLABOURN'])) : 0;
+        (isset($_POST['jrLABOURN']) && is_numeric($_POST['jrLABOURN']))
+            ? abs(intval($_POST['jrLABOURN'])) : 0;
     $_POST['jrIQN'] =
-            (isset($_POST['jrIQN']) && is_numeric($_POST['jrIQN']))
-                    ? abs(intval($_POST['jrIQN'])) : 0;
+        (isset($_POST['jrIQN']) && is_numeric($_POST['jrIQN']))
+            ? abs(intval($_POST['jrIQN'])) : 0;
+}
+
+/**
+ * @return void
+ */
+function newjob(): void
+{
+    global $db, $h;
+    process_jobs_post_data();
     if (!empty($_POST['jNAME']) && !empty($_POST['jDESC'])
             && !empty($_POST['jOWNER']) && !empty($_POST['jrNAME'])
             && !empty($_POST['jrPAY']) && !empty($_POST['jrSTRN'])
@@ -137,7 +142,8 @@ function newjob()
          		 WHERE `jID` = $i");
         echo 'Job created!<br />
         &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -174,9 +180,12 @@ function newjob()
     }
 }
 
-function jobedit()
+/**
+ * @return void
+ */
+function jobedit(): void
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jNAME'] =
             (isset($_POST['jNAME'])
                     && preg_match(
@@ -216,7 +225,8 @@ function jobedit()
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=jobedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $q =
@@ -229,7 +239,8 @@ function jobedit()
             $db->free_result($q);
             echo 'Invalid rank.<br />
             &gt; <a href="staff_jobs.php?action=jobedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -241,9 +252,10 @@ function jobedit()
                  WHERE `jID` = {$_POST['jID']}");
         echo 'Job updated!<br />
         &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
-    else if (!empty($_POST['jID']))
+    elseif (!empty($_POST['jID']))
     {
         staff_csrf_stdverify('staff_editjob1', 'staff_jobs.php?action=jobedit');
         $q =
@@ -256,7 +268,8 @@ function jobedit()
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=jobedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $db->free_result($q);
@@ -274,7 +287,7 @@ function jobedit()
         	<b>Job Owner:</b> <input type='text' name='jOWNER' value='{$jobowner}'>
         	<br />
         	<b>First Job Rank:</b> "
-                . jobrank_dropdown(NULL, 'jFIRST', $r['jFIRST'])
+                . jobrank_dropdown('jFIRST', $r['jFIRST'])
                 . "
         	<br />
         	{$csrf}
@@ -289,7 +302,7 @@ function jobedit()
         <form action='staff_jobs.php?action=jobedit' method='post'>
         Select a job to edit.
         <br />
-        	" . job_dropdown(NULL, 'jID', -1)
+        	" . job_dropdown('jID', -1)
                 . "
         <br />
         	{$csrf}
@@ -299,40 +312,13 @@ function jobedit()
     }
 }
 
-function newjobrank()
+/**
+ * @return void
+ */
+function newjobrank(): void
 {
-    global $db, $ir, $userid, $h;
-    $_POST['jrNAME'] =
-            (isset($_POST['jrNAME'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jrNAME']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jrNAME'])))
-                    : '';
-    $_POST['jrJOB'] =
-            (isset($_POST['jrJOB']) && is_numeric($_POST['jrJOB']))
-                    ? abs(intval($_POST['jrJOB'])) : '';
-    $_POST['jrPAY'] =
-            (isset($_POST['jrPAY']) && is_numeric($_POST['jrPAY']))
-                    ? abs(intval($_POST['jrPAY'])) : '';
-    $_POST['jrSTRG'] =
-            (isset($_POST['jrSTRG']) && is_numeric($_POST['jrSTRG']))
-                    ? abs(intval($_POST['jrSTRG'])) : 0;
-    $_POST['jrLABOURG'] =
-            (isset($_POST['jrLABOURG']) && is_numeric($_POST['jrLABOURG']))
-                    ? abs(intval($_POST['jrLABOURG'])) : 0;
-    $_POST['jrIQG'] =
-            (isset($_POST['jrIQG']) && is_numeric($_POST['jrIQG']))
-                    ? abs(intval($_POST['jrIQG'])) : 0;
-    $_POST['jrSTRN'] =
-            (isset($_POST['jrSTRN']) && is_numeric($_POST['jrSTRN']))
-                    ? abs(intval($_POST['jrSTRN'])) : 0;
-    $_POST['jrLABOURN'] =
-            (isset($_POST['jrLABOURN']) && is_numeric($_POST['jrLABOURN']))
-                    ? abs(intval($_POST['jrLABOURN'])) : 0;
-    $_POST['jrIQN'] =
-            (isset($_POST['jrIQN']) && is_numeric($_POST['jrIQN']))
-                    ? abs(intval($_POST['jrIQN'])) : 0;
+    global $db, $h;
+    process_jobs_post_data();
     if (!empty($_POST['jrNAME']) && !empty($_POST['jrJOB'])
             && !empty($_POST['jrPAY']) && !empty($_POST['jrSTRN'])
             && !empty($_POST['jrLABOURN']) && !empty($_POST['jrIQN']))
@@ -349,7 +335,8 @@ function newjobrank()
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=newjobrank">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -360,7 +347,8 @@ function newjobrank()
                  {$_POST['jrSTRN']})");
         echo 'Job rank created!<br />
         &gt; <a href="staff_jobs.php?action=newjobrank">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -371,7 +359,7 @@ function newjobrank()
         	<br />
         	<b>Pays:</b> <input type='text' name='jrPAY' value='10' />
         	<br />
-        	<b>Job:</b> " . job_dropdown(NULL, "jrJOB", -1)
+        	<b>Job:</b> " . job_dropdown('jrJOB', -1)
                 . "
         	<br />
         	<b>Gains:</b>
@@ -391,43 +379,16 @@ function newjobrank()
     }
 }
 
-function jobrankedit()
+/**
+ * @return void
+ */
+function jobrankedit(): void
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jrID'] =
             (isset($_POST['jrID']) && is_numeric($_POST['jrID']))
                     ? abs(intval($_POST['jrID'])) : '';
-    $_POST['jrNAME'] =
-            (isset($_POST['jrNAME'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['jrNAME']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['jrNAME'])))
-                    : '';
-    $_POST['jrJOB'] =
-            (isset($_POST['jrJOB']) && is_numeric($_POST['jrJOB']))
-                    ? abs(intval($_POST['jrJOB'])) : '';
-    $_POST['jrPAY'] =
-            (isset($_POST['jrPAY']) && is_numeric($_POST['jrPAY']))
-                    ? abs(intval($_POST['jrPAY'])) : '';
-    $_POST['jrSTRG'] =
-            (isset($_POST['jrSTRG']) && is_numeric($_POST['jrSTRG']))
-                    ? abs(intval($_POST['jrSTRG'])) : 0;
-    $_POST['jrLABOURG'] =
-            (isset($_POST['jrLABOURG']) && is_numeric($_POST['jrLABOURG']))
-                    ? abs(intval($_POST['jrLABOURG'])) : 0;
-    $_POST['jrIQG'] =
-            (isset($_POST['jrIQG']) && is_numeric($_POST['jrIQG']))
-                    ? abs(intval($_POST['jrIQG'])) : 0;
-    $_POST['jrSTRN'] =
-            (isset($_POST['jrSTRN']) && is_numeric($_POST['jrSTRN']))
-                    ? abs(intval($_POST['jrSTRN'])) : 0;
-    $_POST['jrLABOURN'] =
-            (isset($_POST['jrLABOURN']) && is_numeric($_POST['jrLABOURN']))
-                    ? abs(intval($_POST['jrLABOURN'])) : 0;
-    $_POST['jrIQN'] =
-            (isset($_POST['jrIQN']) && is_numeric($_POST['jrIQN']))
-                    ? abs(intval($_POST['jrIQN'])) : 0;
+    process_jobs_post_data();
     if (!empty($_POST['jrID']) && !empty($_POST['jrNAME'])
             && !empty($_POST['jrJOB']) && !empty($_POST['jrPAY'])
             && !empty($_POST['jrSTRN']) && !empty($_POST['jrLABOURN'])
@@ -445,7 +406,8 @@ function jobrankedit()
             $db->free_result($q);
             echo 'Invalid rank.<br />
             &gt; <a href="staff_jobs.php?action=jobrankedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $q =
@@ -458,7 +420,8 @@ function jobrankedit()
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=jobrankedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -474,7 +437,7 @@ function jobrankedit()
         echo 'Job rank updated!<br />
         &gt; <a href="staff.php">Go Home</a>';
     }
-    else if (!empty($_POST['jrID']))
+    elseif (!empty($_POST['jrID']))
     {
         staff_csrf_stdverify('staff_editjobrank1',
                 'staff_jobs.php?action=jobrankedit');
@@ -488,7 +451,8 @@ function jobrankedit()
         {
             echo 'Invalid rank.<br />
             &gt; <a href="staff_jobs.php?action=jobrankedit">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $r = $db->fetch_row($q);
         $csrf = request_csrf_html('staff_editjobrank2');
@@ -496,7 +460,7 @@ function jobrankedit()
         <form action='staff_jobs.php?action=jobrankedit' method='post'>
         	<input type='hidden' name='jrID' value='{$_POST['jrID']}' />
         	<b>Job Rank Name:</b> <input type='text' name='jrNAME' value='{$r['jrNAME']}'><br />
-        	<b>Job:</b> " . job_dropdown(NULL, 'jrJOB', $r['jrJOB'])
+        	<b>Job:</b> " . job_dropdown('jrJOB', $r['jrJOB'])
                 . "
         	<br />
         	<b>Pays:</b> <input type='text' name='jrPAY' value='{$r['jrPAY']}' /><br />
@@ -522,7 +486,7 @@ function jobrankedit()
         <form action='staff_jobs.php?action=jobrankedit' method='post'>
         	Select a job rank to edit.
         	<br />
-        	" . jobrank_dropdown(NULL, 'jrID', -1)
+        	" . jobrank_dropdown('jrID', -1)
                 . "
         	<br />
         	{$csrf}
@@ -532,9 +496,12 @@ function jobrankedit()
     }
 }
 
-function jobrankdele()
+/**
+ * @return void
+ */
+function jobrankdele(): void
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jrID'] =
             (isset($_POST['jrID']) && is_numeric($_POST['jrID']))
                     ? abs(intval($_POST['jrID'])) : '';
@@ -552,14 +519,15 @@ function jobrankdele()
             $db->free_result($q);
             echo 'Invalid rank.<br />
             &gt; <a href="staff_jobs.php?action=jobrankdele">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $aff_job = $db->fetch_single($q);
         $db->free_result($q);
         $db->query(
                 "DELETE FROM `jobranks`
          		 WHERE `jrID` = {$_POST['jrID']}");
-        echo "Job rank successfully deleted!";
+        echo 'Job rank successfully deleted!';
         $q =
                 $db->query(
                         "SELECT `jNAME`
@@ -585,7 +553,7 @@ function jobrankdele()
                      INNER JOIN `jobs` AS `j`
                      ON `u`.`job` = `j`.`jID`
                      SET `u`.`jobrank` = `j`.`jFIRST`
-                     WHERE `u`.`job` = {$jr['jrJOB']}
+                     WHERE `u`.`job` = {$aff_job}
                      AND `u`.`jobrank` = {$_POST['jrID']}");
         }
         $db->free_result($q);
@@ -597,7 +565,7 @@ function jobrankdele()
         echo "
         <form action='staff_jobs.php?action=jobrankdele' method='post'>
         Select a job rank to delete.<br />
-        	" . jobrank_dropdown(NULL, 'jrID', -1)
+        	" . jobrank_dropdown('jrID', -1)
                 . "
         	<br />
         	{$csrf}
@@ -607,9 +575,12 @@ function jobrankdele()
     }
 }
 
-function jobdele()
+/**
+ * @return void
+ */
+function jobdele(): void
 {
-    global $db, $ir, $userid, $h;
+    global $db, $h;
     $_POST['jID'] =
             (isset($_POST['jID']) && is_numeric($_POST['jID']))
                     ? abs(intval($_POST['jID'])) : '';
@@ -626,7 +597,8 @@ function jobdele()
             $db->free_result($q);
             echo 'Invalid job.<br />
             &gt; <a href="staff_jobs.php?action=jobdele">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -649,7 +621,7 @@ function jobdele()
         echo "
         <form action='staff_jobs.php?action=jobdele' method='post'>
         Select a job to delete.<br />
-        	" . job_dropdown(NULL, 'jID', -1)
+        	" . job_dropdown('jID', -1)
                 . "
         	<br />
         	{$csrf}

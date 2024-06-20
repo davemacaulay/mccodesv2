@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -19,7 +20,7 @@
  * Signature: cd1183b02c609885bf54f5cef57b1430
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $h, $set;
 require_once('globals.php');
 print
         <<<EOF

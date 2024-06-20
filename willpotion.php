@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -19,10 +20,10 @@
  * Signature: 360700a3db81f331ff1db557fd9b3e49
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $userid, $h, $set, $domain;
 require_once('globals.php');
 print
-        <<<EOF
+    <<<EOF
 <h3>Will Potions</h3>
 
 Buy will potions today! They restore 100% will.<br />
@@ -34,11 +35,11 @@ Buy will potions today! They restore 100% will.<br />
 <input type="hidden" name="amount" value="1.00" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="return"
-	value="http://{$domain}/willpdone.php?action=done" />
+	value="https://{$domain}/willpdone.php?action=done" />
 <input type="hidden" name="cancel_return"
-	value="http://{$domain}/willpdone.php?action=cancel" />
+	value="https://{$domain}/willpdone.php?action=cancel" />
 <input type="hidden" name="notify_url"
-	value="http://{$domain}/ipn_wp.php" />
+	value="https://{$domain}/ipn_wp.php" />
 <input type="hidden" name="cn" value="Your Player ID" />
 <input type="hidden" name="currency_code" value="USD" />
 <input type="hidden" name="tax" value="0" />
@@ -54,11 +55,11 @@ Buy will potions today! They restore 100% will.<br />
 <input type="hidden" name="amount" value="4.50" />
 <input type="hidden" name="no_shipping" value="1" />
 <input type="hidden" name="return"
-	value="http://{$domain}/willpdone.php?action=done" />
+	value="https://{$domain}/willpdone.php?action=done" />
 <input type="hidden" name="cancel_return"
-	value="http://{$domain}/willpdone.php?action=cancel" />
+	value="https://{$domain}/willpdone.php?action=cancel" />
 <input type="hidden" name="notify_url"
-	value="http://{$domain}/ipn_wp.php" />
+	value="https://{$domain}/ipn_wp.php" />
 <input type="hidden" name="cn" value="Your Player ID" />
 <input type="hidden" name="currency_code" value="USD" />
 <input type="hidden" name="tax" value="0" />

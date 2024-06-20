@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,7 +21,8 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-if (!defined('jdsf45tji'))
+/** @noinspection SpellCheckingInspection */
+if (!defined('JDSF45TJI'))
 {
     echo 'This file cannot be accessed directly.';
     die;
@@ -37,8 +39,8 @@ if ($ir['user_level'] == 2)
 }
 if ($ir['user_level'] <= 3)
 {
-    echo " <hr />
-	<b>Users</b><br />";
+    echo ' <hr />
+	<b>Users</b><br />';
     if ($ir['user_level'] == 2)
     {
         echo "&gt; <a href='staff_users.php?action=newuser'>Create New User</a><br />
@@ -54,8 +56,8 @@ if ($ir['user_level'] <= 3)
     }
     echo "
 	&gt; <a href='staff_users.php?action=reportsview'>Player Reports</a><br />";
-    echo " <hr />
-	<b>Items</b><br />";
+    echo ' <hr />
+	<b>Items</b><br />';
     if ($ir['user_level'] == 2)
     {
         echo "&gt;<a href='staff_items.php?action=newitem'>Create New Item</a><br />";
@@ -153,8 +155,8 @@ if ($ir['user_level'] == 2)
     &gt; <a href='staff_special.php?action=userlevelform'>Adjust User Level</a><br />
     &gt; <a href='staff_special.php?action=givedpform'>Give User Donator Pack</a><br />";
 }
-echo "<hr />";
-echo "<b>Staff Online:</b><br />";
+echo '<hr />';
+echo '<b>Staff Online:</b><br />';
 $online_cutoff = time() - 900;
 $q =
         $db->query(
@@ -166,12 +168,11 @@ $q =
 while ($r = $db->fetch_row($q))
 {
     echo '<a href="viewuser.php?u=' . $r['userid'] . '">' . $r['username']
-            . '</a> (' . DateTime_Parse($r['laston']) . ')<br />';
+            . '</a> (' . datetime_parse($r['laston']) . ')<br />';
 }
 $db->free_result($q);
 echo "<hr />
 &gt; <a href='logout.php'>Logout</a><br /><br />
 Time is now<br />
 ";
-echo date('F j, Y') . "<br />" . date('g:i:s a');
-
+echo date('F j, Y') . '<br />' . date('g:i:s a');

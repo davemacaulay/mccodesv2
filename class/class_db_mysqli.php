@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,145 +21,164 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-if (!defined('MONO_ON'))
-{
+if (!defined('MONO_ON')) {
     exit;
 }
 
-if (!function_exists('error_critical'))
-{
+if (!function_exists('error_critical')) {
     // Umm...
     die('<h1>Error</h1>' . 'Error handler not present');
 }
 
-if (!extension_loaded('mysqli'))
-{
+if (!extension_loaded('mysqli')) {
     // dl doesn't work anymore, crash
-    error_critical('Database connection failed',
-            'MySQLi extension not present but required', 'N/A',
-            debug_backtrace(false));
+    error_critical('MySQLi extension not present but required', 'N/A',
+        debug_backtrace());
 }
 
+/**
+ *
+ */
 class database
 {
-    var $host;
-    var $user;
-    var $pass;
-    var $database;
-    var $persistent = 0;
-    var $last_query;
-    var $result;
-    var $connection_id;
-    var $num_queries = 0;
-    var $start_time;
-    var $queries = array();
+    public string $host;
+    public string $user;
+    public string $pass;
+    public string $database;
+    public string $last_query;
+    public mysqli_result|bool $result;
+    public mysqli|int $connection_id;
+    public int $num_queries = 0;
+    public array $queries = [];
 
-    function configure($host, $user, $pass, $database, $persistent = 0)
+    /**
+     * @param $host
+     * @param $user
+     * @param $pass
+     * @param $database
+     * @return int
+     */
+    public function configure($host, $user, $pass, $database): int
     {
-        $this->host = $host;
-        $this->user = $user;
-        $this->pass = $pass;
+        $this->host     = $host;
+        $this->user     = $user;
+        $this->pass     = $pass;
         $this->database = $database;
         return 1; //Success.
     }
 
-    function connect()
+    /**
+     * @return false|mysqli
+     */
+    public function connect(): false|mysqli
     {
-        if (!$this->host)
-        {
-            $this->host = "localhost";
+        if (!$this->host) {
+            $this->host = 'localhost';
         }
-        if (!$this->user)
-        {
-            $this->user = "root";
+        if (!$this->user) {
+            $this->user = 'root';
         }
         $conn =
-                mysqli_connect($this->host, $this->user, $this->pass,
-                        $this->database);
-        if (mysqli_connect_error())
-        {
-            error_critical('Database connection failed',
-                    mysqli_connect_errno() . ': ' . mysqli_connect_error(),
-                    'Attempted to connect to database on ' . $this->host,
-                    debug_backtrace(false));
+            mysqli_connect($this->host, $this->user, $this->pass,
+                $this->database);
+        if (mysqli_connect_error()) {
+            error_critical(mysqli_connect_errno() . ': ' . mysqli_connect_error(),
+                'Attempted to connect to database on ' . $this->host,
+                debug_backtrace());
         }
         // @overridecharset mysqli
         $this->connection_id = $conn;
         return $this->connection_id;
     }
 
-    function disconnect()
+    /**
+     * @return int
+     */
+    public function disconnect(): int
     {
-        if ($this->connection_id)
-        {
+        if ($this->connection_id) {
             mysqli_close($this->connection_id);
             $this->connection_id = 0;
             return 1;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
 
-    function change_db($database)
+    /**
+     * @param $database
+     * @return void
+     */
+    public function change_db($database): void
     {
-        if (!mysqli_select_db($this->connection_id, $database))
-        {
-            error_critical('Database change failed',
-                    mysqli_errno($this->connection_id) . ': '
-                            . mysqli_error($this->connection_id),
-                    'Attempted to select database: ' . $database,
-                    debug_backtrace(false));
+        if (!mysqli_select_db($this->connection_id, $database)) {
+            error_critical(mysqli_errno($this->connection_id) . ': '
+                . mysqli_error($this->connection_id),
+                'Attempted to select database: ' . $database,
+                debug_backtrace());
         }
         $this->database = $database;
     }
 
-    function query($query)
+    /**
+     * @param $query
+     * @return mysqli_result|bool
+     */
+    public function query($query): mysqli_result|bool
     {
         $this->last_query = $query;
-        $this->queries[] = $query;
+        $this->queries[]  = $query;
         $this->num_queries++;
         $this->result =
-                mysqli_query($this->connection_id, $this->last_query);
-        if ($this->result === false)
-        {
-            error_critical('Query failed',
-                    mysqli_errno($this->connection_id) . ': '
-                            . mysqli_error($this->connection_id),
-                    'Attempted to execute query: ' . nl2br($this->last_query),
-                    debug_backtrace(false));
+            mysqli_query($this->connection_id, $this->last_query);
+        if ($this->result === false) {
+            error_critical(mysqli_errno($this->connection_id) . ': '
+                . mysqli_error($this->connection_id),
+                'Attempted to execute query: ' . nl2br($this->last_query),
+                debug_backtrace());
         }
         return $this->result;
     }
 
-    function fetch_row($result = 0)
+    /**
+     * @param mysqli_result|int $result
+     * @return false|array|null
+     */
+    public function fetch_row(mysqli_result|int $result = 0): false|array|null
     {
-        if (!$result)
-        {
+        if (!$result) {
             $result = $this->result;
         }
         return mysqli_fetch_assoc($result);
     }
 
-    function num_rows($result = 0)
+    /**
+     * @param mysqli_result|int $result
+     * @return int|string
+     */
+    public function num_rows(mysqli_result|int $result = 0): int|string
     {
-        if (!$result)
-        {
+        if (!$result) {
             $result = $this->result;
         }
         return mysqli_num_rows($result);
     }
 
-    function insert_id()
+    /**
+     * @return int|string
+     */
+    public function insert_id(): int|string
     {
         return mysqli_insert_id($this->connection_id);
     }
 
-    function fetch_single($result = 0)
+    /**
+     * @param mysqli_result|int $result
+     * @return mixed
+     */
+    public function fetch_single(mysqli_result|int $result = 0): mixed
     {
-        if (!$result)
-        {
+        if (!$result) {
             $result = $this->result;
         }
         //Ugly hack here
@@ -167,47 +187,59 @@ class database
         return $temp[0];
     }
 
-    function easy_insert($table, $data)
+    /**
+     * @param $table
+     * @param $data
+     * @return mysqli_result|bool
+     */
+    public function easy_insert($table, $data): mysqli_result|bool
     {
         $query = "INSERT INTO `$table` (";
-        $i = 0;
-        foreach ($data as $k => $v)
-        {
+        $i     = 0;
+        foreach ($data as $k => $v) {
             $i++;
-            if ($i > 1)
-            {
-                $query .= ", ";
+            if ($i > 1) {
+                $query .= ', ';
             }
             $query .= $k;
         }
-        $query .= ") VALUES(";
-        $i = 0;
-        foreach ($data as $k => $v)
-        {
+        $query .= ') VALUES(';
+        $i     = 0;
+        foreach ($data as $k => $v) {
             $i++;
-            if ($i > 1)
-            {
-                $query .= ", ";
+            if ($i > 1) {
+                $query .= ', ';
             }
             $query .= "'" . $this->escape($v) . "'";
         }
-        $query .= ")";
+        $query .= ')';
         return $this->query($query);
     }
 
-    function escape($text)
+    /**
+     * @param $text
+     * @return string
+     */
+    public function escape($text): string
     {
         return mysqli_real_escape_string($this->connection_id, $text);
     }
 
-    function affected_rows()
+    /**
+     * @return int|string
+     */
+    public function affected_rows(): int|string
     {
         return mysqli_affected_rows($this->connection_id);
     }
 
-    function free_result($result)
+    /**
+     * @param mysqli_result|int $result
+     * @return void
+     */
+    public function free_result(mysqli_result|int $result): void
     {
-        return mysqli_free_result($result);
+        mysqli_free_result($result);
     }
 
 }

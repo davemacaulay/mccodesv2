@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -19,16 +20,16 @@
  * Signature: 79887e7ca14a99487ded5a18e0b27e89
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-
+global $db, $set, $_CONFIG;
 require_once('globals_nonauth.php');
-if ($argc == 2)
+if (isset($argc) && $argc == 2)
 {
     if ($argv[1] != $_CONFIG['code'])
     {
         exit;
     }
 }
-else if (!isset($_GET['code']) || $_GET['code'] !== $_CONFIG['code'])
+elseif (!isset($_GET['code']) || $_GET['code'] !== $_CONFIG['code'])
 {
     exit;
 }
@@ -39,18 +40,18 @@ if ($set['validate_period'] == 5 && $set['validate_on'])
     $ver_reset = true;
 }
 if ($set['validate_period'] == 15 && $set['validate_on']
-        && in_array(date('i'), array("00", "15", "30", "45")))
+        && in_array(date('i'), ['00', '15', '30', '45']))
 {
     $ver_reset = true;
 }
 // update for all users
 $allusers_query =
-        "UPDATE `users`
+        'UPDATE `users`
         SET `brave` = LEAST(`brave` + ((`maxbrave` / 10) + 0.5), `maxbrave`),
         `hp` = LEAST(`hp` + (`maxhp` / 3), `maxhp`),
         `will` = LEAST(`will` + 10, `maxwill`),
         `energy` = IF(`donatordays` > 0,
                    LEAST(`energy` + (`maxenergy` / 6), `maxenergy`),
-                   LEAST(`energy` + (`maxenergy` / 12.5), `maxenergy`))"
+                   LEAST(`energy` + (`maxenergy` / 12.5), `maxenergy`))'
                 . ($ver_reset ? ', `verified` = 0' : '');
 $db->query($allusers_query);

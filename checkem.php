@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -29,6 +30,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']))
         exit;
     }
 }
+global $db;
 require_once('global_func.php');
 if (!is_ajax())
 {
@@ -36,7 +38,11 @@ if (!is_ajax())
     exit;
 }
 
-function valid_email($email)
+/**
+ * @param $email
+ * @return bool
+ */
+function valid_email($email): bool
 {
     return (filter_var($email, FILTER_VALIDATE_EMAIL) === $email);
 }

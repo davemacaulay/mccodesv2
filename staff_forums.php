@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,12 +21,14 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -33,13 +36,13 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addforum":
+case 'addforum':
     addforum();
     break;
-case "editforum":
+case 'editforum':
     editforum();
     break;
-case "delforum":
+case 'delforum':
     delforum();
     break;
 default:
@@ -47,9 +50,12 @@ default:
     break;
 }
 
-function addforum()
+/**
+ * @return void
+ */
+function addforum(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $name =
             (isset($_POST['name'])
                     && preg_match(
@@ -63,7 +69,7 @@ function addforum()
                     : '';
     $auth =
             (isset($_POST['auth'])
-                    && in_array($_POST['auth'], array('staff', 'public'), true))
+                    && in_array($_POST['auth'], ['staff', 'public'], true))
                     ? $_POST['auth'] : 'public';
     if ($auth && $desc && $name)
     {
@@ -79,7 +85,8 @@ function addforum()
             $db->free_result($q);
             echo 'Forum name already exists, please try another.<br />
             &gt; <a href="staff_forums.php?action=addforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -113,151 +120,187 @@ function addforum()
     }
 }
 
-function editforum()
+/**
+ * @return void
+ */
+function edit_forum_select(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    $csrf = request_csrf_html('staff_editforum1');
+    echo "
+        <h3>Editing a Forum</h3><hr />
+        <form action='staff_forums.php?action=editforum' method='post'>
+        	<input type='hidden' name='step' value='1' />
+        	Forum: " . forum2_dropdown('id')
+        . "<br />
+            {$csrf}
+        	<input type='submit' value='Edit Forum' />
+        </form>
+           ";
+}
+
+/**
+ * @return void
+ */
+function edit_forum_configure(): void
+{
+    global $db, $h;
+    $_POST['id'] =
+        (isset($_POST['id']) && is_numeric($_POST['id']))
+            ? abs(intval($_POST['id'])) : '';
+    if (empty($_POST['id']))
+    {
+        echo 'Invalid input.<br />
+            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
+        $h->endpage();
+        exit;
+    }
+    staff_csrf_stdverify('staff_editforum1',
+        'staff_forums.php?action=editforum');
+    $q =
+        $db->query(
+            "SELECT `ff_auth`, `ff_name`, `ff_desc`
+                         FROM `forum_forums`
+                         WHERE `ff_id` = {$_POST['id']}");
+    if ($db->num_rows($q) == 0)
+    {
+        $db->free_result($q);
+        echo 'Forum id doesn\'t exist.<br />
+            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
+        $h->endpage();
+        exit;
+    }
+    $old = $db->fetch_row($q);
+    $db->free_result($q);
+    $check_p = ($old['ff_auth'] == 'public') ? 'checked' : '';
+    $check_s = ($old['ff_auth'] == 'staff') ? 'checked' : '';
+    $csrf = request_csrf_html('staff_editforum2');
+    echo '
+        <h3>Editing a Forum</h3><hr />
+        <form action="staff_forums.php?action=editforum" method="post">
+        	<input type="hidden" name="step" value="2" />
+        	<input type="hidden" name="id" value="' . $_POST['id']
+        . '" />
+        	Name: <input type="text" name="name" value="' . $old['ff_name']
+        . '" />
+        <br />
+        	Description: <input type="text" name="desc" value="'
+        . $old['ff_desc']
+        . '" />
+        <br />
+        Authorization: <input type="radio" name="auth" value="public" '
+        . $check_p
+        . ' /> Public <input type="radio" name="auth" value="staff" '
+        . $check_s . ' /> Staff
+        <br />
+        	' . $csrf
+        . '
+        	<input type="submit" value="Edit Forum" />
+        </form>
+           ';
+}
+
+/**
+ * @return void
+ */
+function edit_forum_do(): void
+{
+    global $db, $h;
+    $name =
+        (isset($_POST['name'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['name']))
+            ? $db->escape(strip_tags(stripslashes($_POST['name'])))
+            : '';
+    $desc =
+        (isset($_POST['desc']))
+            ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
+            : '';
+    $auth =
+        (isset($_POST['auth'])
+            && in_array($_POST['auth'], ['staff', 'public']))
+            ? $_POST['auth'] : 'public';
+    $_POST['id'] =
+        (isset($_POST['id']) && is_numeric($_POST['id']))
+            ? abs(intval($_POST['id'])) : '';
+    if (empty($_POST['id']) || empty($name) || empty($desc))
+    {
+        echo 'Invalid input.<br />
+            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
+        $h->endpage();
+        exit;
+    }
+    staff_csrf_stdverify('staff_editforum2',
+        'staff_forums.php?action=editforum');
+    $q =
+        $db->query(
+            "SELECT COUNT(`ff_id`)
+                         FROM `forum_forums`
+                         WHERE `ff_name` = '{$name}'
+                         AND `ff_id` != {$_POST['id']}");
+    if ($db->fetch_single($q) > 0)
+    {
+        $db->free_result($q);
+        echo 'Forum name already exists.<br />
+            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
+        $h->endpage();
+        exit;
+    }
+    $db->free_result($q);
+    $q =
+        $db->query(
+            "SELECT COUNT(`ff_id`)
+                         FROM `forum_forums`
+                         WHERE `ff_id` = {$_POST['id']}");
+    if ($db->fetch_single($q) == 0)
+    {
+        $db->free_result($q);
+        echo 'Forum id doesn\'t exist.<br />
+            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
+        $h->endpage();
+        exit;
+    }
+    $db->free_result($q);
+    $db->query(
+        "UPDATE `forum_forums`
+                 SET `ff_desc` = '$desc', `ff_name` = '$name',
+                 `ff_auth` = '$auth'
+                 WHERE `ff_id` = {$_POST['id']}");
+    echo 'Forum ' . $name
+        . ' was edited successfully.<br />
+                &gt; <a href="staff.php">Goto Main</a>';
+    stafflog_add("Edited forum $name");
+}
+/**
+ * @return void
+ */
+function editforum(): void
+{
+    global $db, $h;
     if (!isset($_POST['step']))
     {
         $_POST['step'] = '0';
     }
     switch ($_POST['step'])
     {
-    case "2":
-        $name =
-                (isset($_POST['name'])
-                        && preg_match(
-                                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                                $_POST['name']))
-                        ? $db->escape(strip_tags(stripslashes($_POST['name'])))
-                        : '';
-        $desc =
-                (isset($_POST['desc']))
-                        ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
-                        : '';
-        $auth =
-                (isset($_POST['auth'])
-                        && in_array($_POST['auth'], array('staff', 'public')))
-                        ? $_POST['auth'] : 'public';
-        $_POST['id'] =
-                (isset($_POST['id']) && is_numeric($_POST['id']))
-                        ? abs(intval($_POST['id'])) : '';
-        if (empty($_POST['id']) || empty($name) || empty($desc))
-        {
-            echo 'Invalid input.<br />
-            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
-        }
-        staff_csrf_stdverify('staff_editforum2',
-                'staff_forums.php?action=editforum');
-        $q =
-                $db->query(
-                        "SELECT COUNT(`ff_id`)
-                         FROM `forum_forums`
-                         WHERE `ff_name` = '{$name}'
-                         AND `ff_id` != {$_POST['id']}");
-        if ($db->fetch_single($q) > 0)
-        {
-            $db->free_result($q);
-            echo 'Forum name already exists.<br />
-            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
-        }
-        $db->free_result($q);
-        $q =
-                $db->query(
-                        "SELECT COUNT(`ff_id`)
-                         FROM `forum_forums`
-                         WHERE `ff_id` = {$_POST['id']}");
-        if ($db->fetch_single($q) == 0)
-        {
-            $db->free_result($q);
-            echo 'Forum id doesn\'t exist.<br />
-            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
-        }
-        $db->free_result($q);
-        $db->query(
-                "UPDATE `forum_forums`
-                 SET `ff_desc` = '$desc', `ff_name` = '$name',
-                 `ff_auth` = '$auth'
-                 WHERE `ff_id` = {$_POST['id']}");
-        echo 'Forum ' . $name
-                . ' was edited successfully.<br />
-                &gt; <a href="staff.php">Goto Main</a>';
-        stafflog_add("Edited forum $name");
+    case '2':
+        edit_forum_do();
         break;
-    case "1":
-        $_POST['id'] =
-                (isset($_POST['id']) && is_numeric($_POST['id']))
-                        ? abs(intval($_POST['id'])) : '';
-        if (empty($_POST['id']))
-        {
-            echo 'Invalid input.<br />
-            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
-        }
-        staff_csrf_stdverify('staff_editforum1',
-                'staff_forums.php?action=editforum');
-        $q =
-                $db->query(
-                        "SELECT `ff_auth`, `ff_name`, `ff_desc`
-                         FROM `forum_forums`
-                         WHERE `ff_id` = {$_POST['id']}");
-        if ($db->num_rows($q) == 0)
-        {
-            $db->free_result($q);
-            echo 'Forum id doesn\'t exist.<br />
-            &gt; <a href="staff_forums.php?action=editforum">Go back</a>';
-            die($h->endpage());
-        }
-        $old = $db->fetch_row($q);
-        $db->free_result($q);
-        $check_p = ($old['ff_auth'] == 'public') ? 'checked' : '';
-        $check_s = ($old['ff_auth'] == 'staff') ? 'checked' : '';
-        $csrf = request_csrf_html('staff_editforum2');
-        echo '
-        <h3>Editing a Forum</h3><hr />
-        <form action="staff_forums.php?action=editforum" method="post">
-        	<input type="hidden" name="step" value="2" />
-        	<input type="hidden" name="id" value="' . $_POST['id']
-                . '" />
-        	Name: <input type="text" name="name" value="' . $old['ff_name']
-                . '" />
-        <br />
-        	Description: <input type="text" name="desc" value="'
-                . $old['ff_desc']
-                . '" />
-        <br />
-        Authorization: <input type="radio" name="auth" value="public" '
-                . $check_p
-                . ' /> Public <input type="radio" name="auth" value="staff" '
-                . $check_s . ' /> Staff
-        <br />
-        	' . $csrf
-                . '
-        	<input type="submit" value="Edit Forum" />
-        </form>
-           ';
+    case '1':
+        edit_forum_configure();
         break;
     default:
-        $csrf = request_csrf_html('staff_editforum1');
-        echo "
-        <h3>Editing a Forum</h3><hr />
-        <form action='staff_forums.php?action=editforum' method='post'>
-        	<input type='hidden' name='step' value='1' />
-        	Forum: " . forum2_dropdown(NULL, "id")
-                . "<br />
-            {$csrf}
-        	<input type='submit' value='Edit Forum' />
-        </form>
-           ";
+        edit_forum_select();
         break;
     }
 }
 
-function delforum()
+/**
+ * @return void
+ */
+function delforum(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['forum'] =
             (isset($_POST['forum']) && is_numeric($_POST['forum']))
                     ? abs(intval($_POST['forum'])) : '';
@@ -272,7 +315,8 @@ function delforum()
         {
             echo 'Fields are the same.<br />
             &gt; <a href="staff_forums.php?action=delforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(
@@ -285,7 +329,8 @@ function delforum()
             $db->free_result($q);
             echo 'One of the two forums selected doesn\'t exist.<br />
             &gt; <a href="staff_forums.php?action=delforum">Go back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -331,11 +376,11 @@ function delforum()
         <hr />
         Deleting a forum is permanent - be sure.
         <form action='staff_forums.php?action=delforum' method='post' name='theform' onsubmit='return checkme();'>
-        	Forum: " . forum2_dropdown(NULL, "forum")
-                . "
+        	Forum: " . forum2_dropdown()
+                . '
         <br />
-        	Move posts &amp; topics in the deleted forum to: "
-                . forum2_dropdown(NULL, "forum2")
+        	Move posts &amp; topics in the deleted forum to: '
+                . forum2_dropdown('forum2')
                 . "
         <br />
         	{$csrf}
@@ -344,9 +389,13 @@ function delforum()
     }
 }
 
-function recache_forum($forum)
+/**
+ * @param $forum
+ * @return void
+ */
+function recache_forum($forum): void
 {
-    global $ir, $c, $userid, $h, $bbc, $db;
+    global $db;
     $forum = abs((int) $forum);
     if ($forum <= 0)
     {
@@ -372,7 +421,6 @@ function recache_forum($forum)
                  `ff_lp_poster_name` = 'N/A', `ff_lp_t_id` = 0,
                  `ff_lp_t_name` = 'N/A', `ff_posts` = 0, `ff_topics` = 0
                   WHERE `ff_id` = {$forum}");
-        echo " ... Done<br />";
     }
     else
     {
@@ -402,7 +450,7 @@ function recache_forum($forum)
                  `ff_lp_t_name` = '$tn', `ff_posts` = $posts,
                  `ff_topics` = $topics
                  WHERE `ff_id` = {$forum}");
-        echo " ... Done<br />";
     }
+    echo ' ... Done<br />';
 }
 $h->endpage();

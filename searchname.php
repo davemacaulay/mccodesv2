@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,13 +21,14 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
 $_POST['name'] =
         (isset($_POST['name']) && is_string($_POST['name']))
                 ? stripslashes($_POST['name']) : '';
 if (!$_POST['name'])
 {
-    echo "Invalid use of file";
+    echo 'Invalid use of file';
 }
 elseif (!preg_match("/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
         $_POST['name']))
@@ -62,8 +64,8 @@ else
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a></td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . number_format($r['crystals']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
+			<td>' . number_format((int)$r['crystals']) . '</td>
 		</tr>
    		';
     }

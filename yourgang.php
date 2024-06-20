@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,9 +21,14 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $h;
 require_once('globals.php');
 
-function csrf_error($goBackTo)
+/**
+ * @param $goBackTo
+ * @return void
+ */
+function csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />
@@ -34,7 +40,12 @@ function csrf_error($goBackTo)
     exit;
 }
 
-function csrf_stdverify($formid, $goBackTo)
+/**
+ * @param $formid
+ * @param $goBackTo
+ * @return void
+ */
+function csrf_stdverify($formid, $goBackTo): void
 {
     if (!isset($_POST['verf'])
             || !verify_csrf_code($formid, stripslashes($_POST['verf'])))
@@ -60,7 +71,8 @@ else
     {
         echo "Error: Your gang has been deleted.<br />
         &gt; <a href='index.php'>Home</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $gangdata = $db->fetch_row($gq);
     $db->free_result($gq);
@@ -80,10 +92,10 @@ else
 			<a href='yourgang.php?action=warview'>
 			<span style='color: red;'>Your gang is currently in "
                 . $db->fetch_single($wq)
-                . " war(s).</span>
+                . ' war(s).</span>
             </a>
         </h3>
-   		";
+   		';
     }
     $db->free_result($wq);
     if (!isset($_GET['action']))
@@ -92,40 +104,37 @@ else
     }
     switch ($_GET['action'])
     {
-    case "idx":
-        gang_index();
-        break;
-    case "summary":
+    case 'summary':
         gang_summary();
         break;
-    case "members":
+    case 'members':
         gang_memberlist();
         break;
-    case "kick":
+    case 'kick':
         gang_staff_kick();
         break;
-    case "forums":
+    case 'forums':
         gang_forums();
         break;
-    case "donate":
+    case 'donate':
         gang_donate();
         break;
-    case "donate2":
+    case 'donate2':
         gang_donate2();
         break;
-    case "warview":
+    case 'warview':
         gang_warview();
         break;
-    case "staff":
+    case 'staff':
         gang_staff();
         break;
-    case "leave":
+    case 'leave':
         gang_leave();
         break;
-    case "atklogs":
+    case 'atklogs':
         gang_atklogs();
         break;
-    case "crimes":
+    case 'crimes':
         gang_crimes();
         break;
     default:
@@ -134,9 +143,12 @@ else
     }
 }
 
-function gang_index()
+/**
+ * @return void
+ */
+function gang_index(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir, $userid, $gangdata;
     echo "
     <table cellspacing=1 class='table'>
     		<tr>
@@ -162,7 +174,7 @@ function gang_index()
     }
     else
     {
-        echo "&nbsp;";
+        echo '&nbsp;';
     }
     echo "
 				</td>
@@ -197,25 +209,28 @@ function gang_index()
    	";
     while ($r = $db->fetch_row($q))
     {
-        echo "
+        echo '
 		<tr>
-			<td>" . date('F j Y, g:i:s a', $r['gevTIME'])
+			<td>' . date('F j Y, g:i:s a', (int)$r['gevTIME'])
                 . "</td>
 			<td>{$r['gevTEXT']}</td>
 		</tr>
    		";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
 
-function gang_summary()
+/**
+ * @return void
+ */
+function gang_summary(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
-    echo "
+    global $db, $gangdata;
+    echo '
     <b>General</b>
     <br />
-       ";
+       ';
     $pq =
             $db->query(
                     "SELECT `username`
@@ -231,7 +246,7 @@ function gang_summary()
     }
     else
     {
-        echo "President: None<br />";
+        echo 'President: None<br />';
     }
     $db->free_result($pq);
     $vpq =
@@ -249,7 +264,7 @@ function gang_summary()
     }
     else
     {
-        echo "Vice-President: None<br />";
+        echo 'Vice-President: None<br />';
     }
     $db->free_result($vpq);
     $cnt =
@@ -257,8 +272,8 @@ function gang_summary()
                     "SELECT COUNT(`userid`)
                      FROM `users`
                      WHERE `gang` = {$gangdata['gangID']}");
-    echo "
-    Members: " . $db->fetch_single($cnt)
+    echo '
+    Members: ' . $db->fetch_single($cnt)
             . "
     <br />
     Capacity: {$gangdata['gangCAPACITY']}
@@ -267,16 +282,19 @@ function gang_summary()
     <hr />
     <b>Financial:</b>
     <br />
-    Money in vault: " . money_formatter($gangdata['gangMONEY'])
+    Money in vault: " . money_formatter((int)$gangdata['gangMONEY'])
             . "
     <br />
     Crystals in vault: {$gangdata['gangCRYSTALS']}
        ";
 }
 
-function gang_memberlist()
+/**
+ * @return void
+ */
+function gang_memberlist(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $userid, $gangdata;
     echo "
     <table cellspacing='1' class='table'>
     		<tr>
@@ -314,12 +332,12 @@ function gang_memberlist()
         }
         else
         {
-            echo "&nbsp;";
+            echo '&nbsp;';
         }
-        echo "
+        echo '
 			</td>
 		</tr>
-   		";
+   		';
     }
     $db->free_result($q);
     echo "
@@ -329,9 +347,12 @@ function gang_memberlist()
    	";
 }
 
-function gang_staff_kick()
+/**
+ * @return void
+ */
+function gang_staff_kick(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid
             || $gangdata['gangVICEPRES'] == $userid)
     {
@@ -342,67 +363,63 @@ function gang_staff_kick()
         $who = $_POST['ID'];
         if ($who == $gangdata['gangPRESIDENT'])
         {
-            echo "The gang president cannot be kicked.";
-        }
-        else if ($who == $userid)
-        {
-            echo "You cannot kick yourself. If you wish to leave,
-            transfer your powers to someone else and then leave like normal.";
-        }
-        else
-        {
+            echo 'The gang president cannot be kicked.';
+        } elseif ($who == $userid) {
+            echo 'You cannot kick yourself. If you wish to leave,
+            transfer your powers to someone else and then leave like normal.';
+        } else {
             $q =
-                    $db->query(
-                            "SELECT `username`
+                $db->query(
+                    "SELECT `username`
                              FROM `users`
                              WHERE `userid` = $who
                              AND `gang` = {$gangdata['gangID']}");
-            if ($db->num_rows($q) > 0)
-            {
+            if ($db->num_rows($q) > 0) {
                 $kdata = $db->fetch_row($q);
                 $db->query(
-                        "UPDATE `users`
+                    "UPDATE `users`
                          SET `gang` = 0, `daysingang` = 0
                          WHERE `userid` = $who");
                 $d_username =
-                        htmlentities($kdata['username'], ENT_QUOTES,
-                                'ISO-8859-1');
-                $d_oname =
-                        htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
+                    htmlentities($kdata['username'], ENT_QUOTES,
+                        'ISO-8859-1');
+                $d_oname    =
+                    htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
                 echo "<b>{$d_username}</b> was kicked from the Gang.";
                 $their_event =
-                        "You were kicked out of {$gangdata['gangNAME']} by "
-                                . "<a href='viewuser.php?u={$userid}'>"
-                                . $d_oname . "</a>";
-                event_add($who, $their_event, $c);
+                    "You were kicked out of {$gangdata['gangNAME']} by "
+                    . "<a href='viewuser.php?u={$userid}'>"
+                    . $d_oname . '</a>';
+                event_add($who, $their_event);
                 $gang_event =
-                        $db->escape(
-                                "<a href='viewuser.php?u={$who}'>"
-                                        . $d_username
-                                        . "</a> was kicked out of the gang by "
-                                        . "<a href='viewuser.php?u={$userid}'>"
-                                        . $d_oname . "</a>");
+                    $db->escape(
+                        "<a href='viewuser.php?u={$who}'>"
+                        . $d_username
+                        . '</a> was kicked out of the gang by '
+                        . "<a href='viewuser.php?u={$userid}'>"
+                        . $d_oname . '</a>');
                 $db->query(
-                        "INSERT INTO `gangevents`
+                    "INSERT INTO `gangevents`
                          VALUES(NULL, {$gangdata['gangID']}, " . time()
-                                . ", '{$gang_event}');");
-            }
-            else
-            {
-                echo "Trying to kick non-existant user";
+                    . ", '{$gang_event}');");
+            } else {
+                echo 'Trying to kick non-existent user';
             }
             $db->free_result($q);
         }
     }
     else
     {
-        echo "You do not have permission to perform this action.";
+        echo 'You do not have permission to perform this action.';
     }
 }
 
-function gang_forums()
+/**
+ * @return void
+ */
+function gang_forums(): void
 {
-    global $db, $ir, $c, $userid, $gangdata, $domain;
+    global $db, $ir, $gangdata, $domain;
     $q =
             $db->query(
                     "SELECT `ff_id`, `ff_name`
@@ -416,7 +433,7 @@ function gang_forums()
                 "INSERT INTO `forum_forums`
                  VALUES(NULL, '{$gangdata['gangNAME']}', '', 0, 0, 0, 0, 'N/A',
                  0, 'N/A', 'gang', {$ir['gang']})");
-        $r = array();
+        $r = [];
         $r['ff_id'] = $db->insert_id();
     }
     else
@@ -433,19 +450,22 @@ function gang_forums()
     }
     $db->free_result($q);
     ob_get_clean();
-    $forum_url = "http://{$domain}/forums.php?viewforum={$r['ff_id']}";
+    $forum_url = "https://{$domain}/forums.php?viewforum={$r['ff_id']}";
     header("Location: {$forum_url}");
     exit;
 }
 
-function gang_donate()
+/**
+ * @return void
+ */
+function gang_donate(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $ir;
     $csrf = request_csrf_html('yourgang_donate');
-    echo "
+    echo '
     <b>Enter the amounts you wish to donate.</b>
     <br />
-    You have " . money_formatter($ir['money'])
+    You have ' . money_formatter($ir['money'])
             . " money and {$ir['crystals']} crystals.
     <br />
     <form action='yourgang.php?action=donate2' method='post'>
@@ -471,9 +491,12 @@ function gang_donate()
        ";
 }
 
-function gang_donate2()
+/**
+ * @return void
+ */
+function gang_donate2(): void
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $ir, $userid, $gangdata, $h;
     csrf_stdverify('yourgang_donate', 'donate');
     $_POST['money'] =
             (isset($_POST['money']) && is_numeric($_POST['money']))
@@ -485,54 +508,54 @@ function gang_donate2()
     {
         echo 'Invalid amount, please go back and try again.<br />
         &gt; <a href="yourgang.php?action=donate">Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if ($_POST['money'] > $ir['money'])
     {
         echo 'You can\'t donate more money than you have,
         	please go back and try again.<br />
         &gt; <a href="yourgang.php?action=donate">Back</a>';
-    }
-    else if ($_POST['crystals'] > $ir['crystals'])
-    {
+    } elseif ($_POST['crystals'] > $ir['crystals']) {
         echo 'You can\'t donate more crystals than you have,
         	please go back and try again.<br />
         &gt; <a href="yourgang.php?action=donate">Back</a>';
-    }
-    else
-    {
+    } else {
         $db->query(
-                "UPDATE `users`
+            "UPDATE `users`
                  SET `money` = `money` - {$_POST['money']},
                  `crystals` = `crystals` - {$_POST['crystals']}
                  WHERE `userid` = $userid");
         $db->query(
-                "UPDATE `gangs`
+            "UPDATE `gangs`
                  SET `gangMONEY` = `gangMONEY` + {$_POST['money']},
                  `gangCRYSTALS` = `gangCRYSTALS` + {$_POST['crystals']}
                  WHERE `gangID` = {$gangdata['gangID']}");
-        $my_name = htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
+        $my_name    = htmlentities($ir['username'], ENT_QUOTES, 'ISO-8859-1');
         $gang_event =
-                $db->escape(
-                        "<a href='viewuser.php?u={$userid}'>" . $my_name
-                                . '</a>' . ' donated '
-                                . money_formatter($_POST['money'])
-                                . ' and/or '
-                                . number_format($_POST['crystals'])
-                                . ' crystals to the Gang.');
+            $db->escape(
+                "<a href='viewuser.php?u={$userid}'>" . $my_name
+                . '</a>' . ' donated '
+                . money_formatter($_POST['money'])
+                . ' and/or '
+                . number_format($_POST['crystals'])
+                . ' crystals to the Gang.');
         $db->query(
-                "INSERT INTO `gangevents`
+            "INSERT INTO `gangevents`
                  VALUES(NULL, {$gangdata['gangID']}, " . time()
-                        . ", '{$gang_event}')");
-        echo "You donated " . money_formatter($_POST['money'])
-                . " and/or {$_POST['crystals']} crystals to the Gang.<br />
+            . ", '{$gang_event}')");
+        echo 'You donated ' . money_formatter($_POST['money'])
+            . " and/or {$_POST['crystals']} crystals to the Gang.<br />
               &gt; <a href='index.php'>Go Home</a>";
     }
 }
 
-function gang_leave()
+/**
+ * @return void
+ */
+function gang_leave(): void
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $ir, $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid
             || $gangdata['gangVICEPRES'] == $userid)
     {
@@ -558,14 +581,10 @@ function gang_leave()
                 "INSERT INTO `gangevents`
                                 VALUES(NULL, {$ir['gang']}, " . time()
                         . ", '{$gang_event}')");
-    }
-    else if (isset($_POST['submit']) && $_POST['submit'] == 'No, stay!')
-    {
+    } elseif (isset($_POST['submit']) && $_POST['submit'] == 'No, stay!') {
         echo "You stayed in your gang.<br />
         &gt; <a href='yourgang.php'>Go back</a>";
-    }
-    else
-    {
+    } else {
         $csrf = request_csrf_html('yourgang_leave');
         echo "Are you sure you wish to leave your gang?
         <form action='yourgang.php?action=leave' method='post'>
@@ -579,9 +598,12 @@ function gang_leave()
     }
 }
 
-function gang_warview()
+/**
+ * @return void
+ */
+function gang_warview(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir, $gangdata;
     $wq =
             $db->query(
                     "SELECT *
@@ -607,12 +629,12 @@ function gang_warview()
             $w = 'Them';
             $f = 'warDECLARER';
         }
-        $d = date('F j, Y, g:i:s a', $r['warTIME']);
+        $d = date('F j, Y, g:i:s a', (int)$r['warTIME']);
         $ggq =
                 $db->query(
-                        "SELECT `gangID`, gangNAME`
+                        'SELECT `gangID`, gangNAME`
          				 FROM `gangs`
-         				 WHERE `gangID` = " . $r[$f]);
+         				 WHERE `gangID` = ' . $r[$f]);
         $them = $db->fetch_row($ggq);
         echo "<tr>
         		<td>$d</td>
@@ -624,12 +646,15 @@ function gang_warview()
                 <td>$w</td>
               </tr>";
     }
-    echo "</table>";
+    echo '</table>';
 }
 
-function gang_atklogs()
+/**
+ * @return void
+ */
+function gang_atklogs(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir;
     $atks =
             $db->query(
                     "SELECT `a`.*, `u1`.`username` AS `attackern`,
@@ -656,13 +681,13 @@ function gang_atklogs()
     {
         if ($r['attacker_gang'] == $ir['gang'])
         {
-            $color = "green";
+            $color = 'green';
         }
         else
         {
-            $color = "red";
+            $color = 'red';
         }
-        $d = date('F j, Y, g:i:s a', $r['time']);
+        $d = date('F j, Y, g:i:s a', (int)$r['time']);
         echo "<tr>
         		<td>$d</td>
         		<td>
@@ -673,10 +698,13 @@ function gang_atklogs()
         	  </tr>";
     }
     $db->free_result($atks);
-    echo "</table>";
+    echo '</table>';
 }
 
-function gang_crimes()
+/**
+ * @return void
+ */
+function gang_crimes(): void
 {
     global $gangdata;
     if ($gangdata['gangCRIME'] > 0)
@@ -687,13 +715,16 @@ function gang_crimes()
     }
     else
     {
-        echo "Your gang is not currently planning a crime.";
+        echo 'Your gang is not currently planning a crime.';
     }
 }
 
-function gang_staff()
+/**
+ * @return void
+ */
+function gang_staff(): void
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid
             || $gangdata['gangVICEPRES'] == $userid)
     {
@@ -703,52 +734,49 @@ function gang_staff()
         }
         switch ($_GET['act2'])
         {
-        case "idx":
-            gang_staff_idx();
-            break;
-        case "apps":
+        case 'apps':
             gang_staff_apps();
             break;
-        case "vault":
+        case 'vault':
             gang_staff_vault();
             break;
-        case "vicepres":
+        case 'vicepres':
             gang_staff_vicepres();
             break;
-        case "pres":
+        case 'pres':
             gang_staff_pres();
             break;
-        case "upgrade":
+        case 'upgrade':
             gang_staff_upgrades();
             break;
-        case "declare":
+        case 'declare':
             gang_staff_wardeclare();
             break;
-        case "surrender":
+        case 'surrender':
             gang_staff_surrender();
             break;
-        case "viewsurrenders":
+        case 'viewsurrenders':
             gang_staff_viewsurrenders();
             break;
-        case "crimes":
+        case 'crimes':
             gang_staff_orgcrimes();
             break;
-        case "massmailer":
+        case 'massmailer':
             gang_staff_massmailer();
             break;
-        case "desc":
+        case 'desc':
             gang_staff_desc();
             break;
-        case "ament":
+        case 'ament':
             gang_staff_ament();
             break;
-        case "name":
+        case 'name':
             gang_staff_name();
             break;
-        case "tag":
+        case 'tag':
             gang_staff_tag();
             break;
-        case "masspayment":
+        case 'masspayment':
             gang_staff_masspayment();
             break;
         default:
@@ -760,13 +788,17 @@ function gang_staff()
     {
         echo 'Are you lost?<br />
         &gt; <a href="yourgang.php">Go back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 }
 
-function gang_staff_idx()
+/**
+ * @return void
+ */
+function gang_staff_idx(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $userid, $gangdata;
     echo "
     <b>General</b>
     <br />
@@ -808,15 +840,18 @@ function gang_staff_idx()
     }
 }
 
-function gang_staff_apps()
+/**
+ * @return void
+ */
+function gang_staff_apps(): void
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $ir, $userid, $gangdata, $h;
     $_POST['app'] =
             (isset($_POST['app']) && is_numeric($_POST['app']))
                     ? abs(intval($_POST['app'])) : '';
     $what =
             (isset($_POST['what'])
-                    && in_array($_POST['what'], array('accept', 'decline'),
+                    && in_array($_POST['what'], ['accept', 'decline'],
                             true)) ? $_POST['what'] : '';
     if (!empty($_POST['app']) && !empty($what))
     {
@@ -838,8 +873,7 @@ function gang_staff_apps()
                         "DELETE FROM `applications`
                          WHERE `appID` = {$_POST['app']}");
                 event_add($appdata['appUSER'],
-                        "Your application to join the {$gangdata['gangNAME']} gang was declined",
-                        $c);
+                    "Your application to join the {$gangdata['gangNAME']} gang was declined");
                 $gang_event =
                         $db->escape(
                                 "<a href='viewuser.php?u={$userid}'>"
@@ -868,14 +902,12 @@ function gang_staff_apps()
                 if ($gangdata['gangCAPACITY'] <= $db->fetch_single($cnt))
                 {
                     $db->free_result($cnt);
-                    echo "Your gang is full, you must upgrade it to hold more before you can accept another user!";
+                    echo 'Your gang is full, you must upgrade it to hold more before you can accept another user!';
                     $h->endpage();
                     exit;
-                }
-                else if ($appdata['gang'] != 0)
-                {
+                } elseif ($appdata['gang'] != 0) {
                     $db->free_result($cnt);
-                    echo "That person is already in a gang.";
+                    echo 'That person is already in a gang.';
                     $h->endpage();
                     exit;
                 }
@@ -884,8 +916,7 @@ function gang_staff_apps()
                         "DELETE FROM `applications`
                          WHERE `appID` = {$_POST['app']}");
                 event_add($appdata['appUSER'],
-                        "Your application to join the {$gangdata['gangNAME']} gang was accepted, Congrats!",
-                        $c);
+                    "Your application to join the {$gangdata['gangNAME']} gang was accepted, Congrats!");
                 $gang_event =
                         $db->escape(
                                 "<a href='viewuser.php?u={$userid}'>"
@@ -952,7 +983,7 @@ function gang_staff_apps()
             		[{$r['userid']}]
             	</td>
             	<td>{$r['level']}</td>
-            	<td>" . money_formatter($r['money'])
+            	<td>" . money_formatter((int)$r['money'])
                     . "</td>
             	<td>{$r['appTEXT']}</td>
             	<td>
@@ -972,13 +1003,16 @@ function gang_staff_apps()
             </tr>
                ";
         }
-        echo "</table>";
+        echo '</table>';
     }
 }
 
-function gang_staff_vault()
+/**
+ * @return void
+ */
+function gang_staff_vault(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata, $h;
     $_POST['who'] =
             (isset($_POST['who']) && is_numeric($_POST['who']))
                     ? abs(intval($_POST['who'])) : '';
@@ -993,27 +1027,20 @@ function gang_staff_vault()
                         ? abs(intval($_POST['money'])) : 0;
         if ($_POST['crystals'] > $gangdata['gangCRYSTALS'])
         {
-            echo "The vault does not have that many crystals!";
-        }
-        else if ($_POST['money'] > $gangdata['gangMONEY'])
-        {
-            echo "The vault does not have that much money!";
-        }
-        else if ($_POST['money'] == 0 && $_POST['crystals'] == 0)
-        {
-            echo "You cannot give nothing away.";
-        }
-        else
-        {
+            echo 'The vault does not have that many crystals!';
+        } elseif ($_POST['money'] > $gangdata['gangMONEY']) {
+            echo 'The vault does not have that much money!';
+        } elseif ($_POST['money'] == 0 && $_POST['crystals'] == 0) {
+            echo 'You cannot give nothing away.';
+        } else {
             $who = $_POST['who'];
-            $md =
-                    $db->query(
-                            "SELECT `username`
+            $md  =
+                $db->query(
+                    "SELECT `username`
              				 FROM `users`
              				 WHERE `userid` = $who
              				 AND `gang` = {$gangdata['gangID']}");
-            if ($db->num_rows($md) == 0)
-            {
+            if ($db->num_rows($md) == 0) {
                 $db->free_result($md);
                 echo "That user doesn't exist or isn't in this gang.<br />
                 &gt; <a href='yourgang.php?action=staff&amp;act2=vault'>Back</a>";
@@ -1021,44 +1048,44 @@ function gang_staff_vault()
                 exit;
             }
             $dname =
-                    htmlentities($db->fetch_single($md), ENT_QUOTES,
-                            'ISO-8859-1');
+                htmlentities($db->fetch_single($md), ENT_QUOTES,
+                    'ISO-8859-1');
             $db->free_result($md);
             $money = $_POST['money'];
-            $crys = $_POST['crystals'];
+            $crys  = $_POST['crystals'];
             $db->query(
-                    "UPDATE `users`
+                "UPDATE `users`
                      SET `money` = `money` + $money,
                      `crystals` = `crystals` + $crys
                      WHERE `userid` = $who");
             $db->query(
-                    "UPDATE `gangs`
+                "UPDATE `gangs`
                      SET `gangMONEY` = `gangMONEY` - $money,
                      `gangCRYSTALS` = `gangCRYSTALS` - $crys
                      WHERE `gangID` = {$gangdata['gangID']}");
             event_add($who,
-                    "You were given " . money_formatter($money)
-                            . " and/or $crys crystals from your Gang.", $c);
+                'You were given ' . money_formatter($money)
+                . " and/or $crys crystals from your Gang.");
             $gang_event =
-                    $db->escape(
-                            "<a href='viewuser.php?u=$who'>" . $dname
-                                    . '</a> was given '
-                                    . money_formatter($money) . ' and/or '
-                                    . number_format($crys)
-                                    . ' crystals from the Gang.');
-            $db->query(
-                    "INSERT INTO `gangevents`
-                     VALUES(NULL, {$gangdata['gangID']}, " . time()
-                            . ",'{$gang_event}')");
-            echo "<a href='viewuser.php?u=$who'>{$dname}</a> was given "
+                $db->escape(
+                    "<a href='viewuser.php?u=$who'>" . $dname
+                    . '</a> was given '
                     . money_formatter($money) . ' and/or '
-                    . number_format($crys) . ' crystals from the Gang.';
+                    . number_format($crys)
+                    . ' crystals from the Gang.');
+            $db->query(
+                "INSERT INTO `gangevents`
+                     VALUES(NULL, {$gangdata['gangID']}, " . time()
+                . ",'{$gang_event}')");
+            echo "<a href='viewuser.php?u=$who'>{$dname}</a> was given "
+                . money_formatter($money) . ' and/or '
+                . number_format($crys) . ' crystals from the Gang.';
         }
     }
     else
     {
         $csrf = request_csrf_html('yourgang_staff_vault');
-        echo "The vault has " . money_formatter($gangdata['gangMONEY'])
+        echo 'The vault has ' . money_formatter((int)$gangdata['gangMONEY'])
                 . " and {$gangdata['gangCRYSTALS']} crystals.<br />
         <form action='yourgang.php?action=staff&amp;act2=vault' method='post'>
         Give
@@ -1082,9 +1109,12 @@ function gang_staff_vault()
     }
 }
 
-function gang_staff_vicepres()
+/**
+ * @return void
+ */
+function gang_staff_vicepres(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata, $h;
     if (isset($_POST['subm']))
     {
         csrf_stdverify('gang_staff_vicepres', 'staff&amp;act2=vicepres');
@@ -1112,8 +1142,7 @@ function gang_staff_vicepres()
                  SET `gangVICEPRES` = {$_POST['vp']}
                  WHERE `gangID` = {$gangdata['gangID']}");
         event_add($memb['userid'],
-                "You were transferred vice-presidency of {$gangdata['gangNAME']}.",
-                $c);
+            "You were transferred vice-presidency of {$gangdata['gangNAME']}.");
         $m_name = htmlentities($memb['username'], ENT_QUOTES, 'ISO-8859-1');
         echo "Vice-Presidency was transferred to {$m_name}";
     }
@@ -1132,9 +1161,12 @@ function gang_staff_vicepres()
     }
 }
 
-function gang_staff_wardeclare()
+/**
+ * @return void
+ */
+function gang_staff_wardeclare(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata, $h;
     if (isset($_POST['subm']))
     {
         csrf_stdverify('yourgang_staff_declare', 'staff&amp;act2=declare');
@@ -1167,7 +1199,7 @@ function gang_staff_wardeclare()
         $db->query(
                 "INSERT INTO `gangwars`
                  VALUES(NULL, {$gangdata['gangID']}, {$_POST['gang']}, "
-                        . time() . ")");
+                        . time() . ')');
         $event =
                 $db->escape(
                         "<a href='gangs.php?action=view&amp;ID={$gangdata['gangID']}'>"
@@ -1180,7 +1212,7 @@ function gang_staff_wardeclare()
                 "INSERT INTO `gangevents`
                 VALUES(NULL, {$gangdata['gangID']}, {$ev_time}, '$event'),
                 (NULL, {$_POST['gang']}, {$ev_time}, '$event')");
-        echo "You have declared war!";
+        echo 'You have declared war!';
     }
     else
     {
@@ -1207,9 +1239,12 @@ function gang_staff_wardeclare()
     }
 }
 
-function gang_staff_surrender()
+/**
+ * @return void
+ */
+function gang_staff_surrender(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata, $h;
     if (!isset($_POST['subm']))
     {
         $wq =
@@ -1230,13 +1265,12 @@ function gang_staff_surrender()
             {
                 if ($gangdata['gangID'] == $r['warDECLARER'])
                 {
-                    $f = "warDECLARED";
+                    $f = 'warDECLARED';
                 }
                 else
                 {
-                    $f = "warDECLARER";
+                    $f = 'warDECLARER';
                 }
-                $d = date('F j, Y, g:i:s a', $r['warTIME']);
                 $ggq =
                         $db->query(
                                 "SELECT `gangNAME`
@@ -1285,16 +1319,10 @@ function gang_staff_surrender()
         $db->free_result($wq);
         if ($gangdata['gangID'] == $r['warDECLARER'])
         {
-            $w = "You";
-            $f = "warDECLARED";
-        }
-        else if ($gangdata['gangID'] == $r['warDECLARED'])
-        {
-            $w = "Them";
-            $f = "warDECLARER";
-        }
-        else
-        {
+            $f = 'warDECLARED';
+        } elseif ($gangdata['gangID'] == $r['warDECLARED']) {
+            $f = 'warDECLARER';
+        } else {
             echo "Invalid war.<br />
             &gt; <a href='yourgang.php?action=staff&amp;act2=surrender'>Back</a>";
             $h->endpage();
@@ -1323,13 +1351,16 @@ function gang_staff_surrender()
                 "INSERT INTO `gangevents`
                  VALUES(NULL, {$gangdata['gangID']}, {$e_time}, '$event'),
                  (NULL, {$r[$f]}, {$e_time}, '$event')");
-        echo "You have asked to surrender.";
+        echo 'You have asked to surrender.';
     }
 }
 
-function gang_staff_viewsurrenders()
+/**
+ * @return void
+ */
+function gang_staff_viewsurrenders(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata, $h;
     if (!isset($_POST['subm']))
     {
         $wq =
@@ -1351,11 +1382,11 @@ function gang_staff_viewsurrenders()
             {
                 if ($gangdata['gangID'] == $r['warDECLARER'])
                 {
-                    $f = "warDECLARED";
+                    $f = 'warDECLARED';
                 }
                 else
                 {
-                    $f = "warDECLARER";
+                    $f = 'warDECLARER';
                 }
                 $ggq =
                         $db->query(
@@ -1373,7 +1404,7 @@ function gang_staff_viewsurrenders()
         }
         else
         {
-            echo "There are no active surrenders for you to deal with.";
+            echo 'There are no active surrenders for you to deal with.';
         }
         $db->free_result($wq);
     }
@@ -1403,13 +1434,13 @@ function gang_staff_viewsurrenders()
         $surr = $db->fetch_row($q);
         $db->free_result($q);
         $warID = $surr['warID'];
-        if ($gangdata['gangID'] == $r['warDECLARER'])
+        if ($gangdata['gangID'] == $surr['warDECLARER'])
         {
-            $f = "warDECLARED";
+            $f = 'warDECLARED';
         }
         else
         {
-            $f = "warDECLARER";
+            $f = 'warDECLARER';
         }
         // Fix: delete all surrenders for the same war at same time
         $db->query(
@@ -1422,7 +1453,7 @@ function gang_staff_viewsurrenders()
                 $db->query(
                         "SELECT `gangNAME`
          				 FROM `gangs`
-         				 WHERE `gangID` = {$r[$f]}");
+         				 WHERE `gangID` = {$surr[$f]}");
         $them = $db->fetch_single($ggq);
         $db->free_result($ggq);
         $event =
@@ -1430,20 +1461,23 @@ function gang_staff_viewsurrenders()
                         "<a href='gangs.php?action=view&amp;ID={$gangdata['gangID']}'>"
                                 . $gangdata['gangNAME']
                                 . '</a> have accepted the surrender from '
-                                . "<a href='gangs.php?action=view&amp;ID={$r[$f]}'>"
+                                . "<a href='gangs.php?action=view&amp;ID={$surr[$f]}'>"
                                 . $them . '</a>, the war is over!');
         $ev_time = time();
         $db->query(
                 "INSERT INTO `gangevents`
                  VALUES(NULL, {$gangdata['gangID']}, {$ev_time}, '$event'),
-                 (NULL, {$r[$f]}, {$ev_time}, '$event')");
+                 (NULL, {$surr[$f]}, {$ev_time}, '$event')");
         echo "You have accepted the surrender from {$them}, the war is over.";
     }
 }
 
-function gang_staff_orgcrimes()
+/**
+ * @return void
+ */
+function gang_staff_orgcrimes(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata, $h;
     $_POST['crime'] =
             (isset($_POST['crime']) && is_numeric($_POST['crime']))
                     ? abs(intval($_POST['crime'])) : 0;
@@ -1452,7 +1486,7 @@ function gang_staff_orgcrimes()
         csrf_stdverify('yourgang_staff_orgcrimes', 'staff&amp;act2=crimes');
         if ($gangdata['gangCRIME'] != 0)
         {
-            echo "Your gang is already doing a crime!";
+            echo 'Your gang is already doing a crime!';
         }
         else
         {
@@ -1475,7 +1509,7 @@ function gang_staff_orgcrimes()
                     "UPDATE `gangs`
                      SET `gangCRIME` = {$_POST['crime']}, `gangCHOURS` = 24
                      WHERE `gangID` = {$gangdata['gangID']}");
-            echo "You have started to plan this crime. It will take 24 hours.";
+            echo 'You have started to plan this crime. It will take 24 hours.';
         }
     }
     else
@@ -1512,16 +1546,19 @@ function gang_staff_orgcrimes()
         }
         else
         {
-            echo "<h3>Organised Crimes</h3>
-            There are no crimes that your gang can do.";
+            echo '<h3>Organised Crimes</h3>
+            There are no crimes that your gang can do.';
         }
         $db->free_result($q);
     }
 }
 
-function gang_staff_pres()
+/**
+ * @return void
+ */
+function gang_staff_pres(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']))
@@ -1551,8 +1588,7 @@ function gang_staff_pres()
                      SET `gangPRESIDENT` = {$_POST['pres']}
                      WHERE `gangID` = {$gangdata['gangID']}");
             event_add($memb['userid'],
-                    "You were transferred presidency of {$gangdata['gangNAME']}.",
-                    $c);
+                "You were transferred presidency of {$gangdata['gangNAME']}.");
             echo "Presidency was transferred to {$memb['username']}<br />
             &gt; <a href='yourgang.php'>Gang home</a>";
         }
@@ -1572,37 +1608,36 @@ function gang_staff_pres()
     }
     else
     {
-        echo "This action is only available to the president of the gang.";
+        echo 'This action is only available to the president of the gang.';
     }
 }
 
-function gang_staff_upgrades()
+/**
+ * @return void
+ */
+function gang_staff_upgrades(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata;
     if (isset($_POST['membs']))
     {
         csrf_stdverify('yourgang_staff_capacity', 'staff&amp;act2=upgrade');
         $_POST['membs'] =
-                (isset($_POST['membs']) && is_numeric($_POST['membs']))
+                (is_numeric($_POST['membs']))
                         ? abs(intval($_POST['membs'])) : 0;
         if ($_POST['membs'] == 0)
         {
             echo "There's no point upgrading 0 capacity.";
-        }
-        else if ($_POST['membs'] * 100000 > $gangdata['gangMONEY'])
-        {
-            echo "Your gang does not have enough money to upgrade that much capacity.";
-        }
-        else
-        {
+        } elseif ($_POST['membs'] * 100000 > $gangdata['gangMONEY']) {
+            echo 'Your gang does not have enough money to upgrade that much capacity.';
+        } else {
             $cost = $_POST['membs'] * 100000;
             $db->query(
-                    "UPDATE `gangs`
+                "UPDATE `gangs`
                      SET `gangCAPACITY` = `gangCAPACITY` + {$_POST['membs']},
                      `gangMONEY` = `gangMONEY` - $cost
             		 WHERE `gangID` = {$gangdata['gangID']}");
-            echo "You paid " . money_formatter($cost)
-                    . " to add {$_POST['membs']} capacity to your gang.";
+            echo 'You paid ' . money_formatter($cost)
+                . " to add {$_POST['membs']} capacity to your gang.";
         }
     }
     else
@@ -1621,9 +1656,12 @@ function gang_staff_upgrades()
     }
 }
 
-function gang_staff_massmailer()
+/**
+ * @return void
+ */
+function gang_staff_massmailer(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir, $gangdata;
     $_POST['text'] =
             (isset($_POST['text']) && strlen($_POST['text']) < 500)
                     ? $db->escape(
@@ -1671,9 +1709,12 @@ function gang_staff_massmailer()
     }
 }
 
-function gang_staff_masspayment()
+/**
+ * @return void
+ */
+function gang_staff_masspayment(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $gangdata;
     $_POST['amt'] =
             (isset($_POST['amt']) && is_numeric($_POST['amt']))
                     ? abs(intval($_POST['amt'])) : 0;
@@ -1691,12 +1732,12 @@ function gang_staff_masspayment()
             if ($gangdata['gangMONEY'] >= $_POST['amt'])
             {
                 event_add($r['userid'],
-                        "You were given " . money_formatter($_POST['amt'])
-                                . " from your gang.", $c);
+                    'You were given ' . money_formatter($_POST['amt'])
+                    . ' from your gang.');
                 $db->query(
                         "UPDATE `users`
                          SET `money` = `money` + {$_POST['amt']}
-                         WHERE `userid` = {$r['userid']}", $c);
+                         WHERE `userid` = {$r['userid']}");
                 $gangdata['gangMONEY'] -= $_POST['amt'];
                 echo "Money sent to {$r['username']}.<br />";
             }
@@ -1711,8 +1752,8 @@ function gang_staff_masspayment()
                  WHERE `gangID` = {$gangdata['gangID']}");
         $credit_evt =
                 $db->escape(
-                        "A mass payment of " . money_formatter($_POST['amt'])
-                                . " was sent to the members of the Gang.");
+                        'A mass payment of ' . money_formatter($_POST['amt'])
+                                . ' was sent to the members of the Gang.');
         $db->query(
                 "INSERT INTO `gangevents`
                  VALUES(NULL, {$gangdata['gangID']}, " . time()
@@ -1732,9 +1773,12 @@ function gang_staff_masspayment()
     }
 }
 
-function gang_staff_desc()
+/**
+ * @return void
+ */
+function gang_staff_desc(): void
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']) && isset($_POST['desc']))
@@ -1771,13 +1815,16 @@ function gang_staff_desc()
     }
     else
     {
-        echo "This action is only available to the president of the gang.";
+        echo 'This action is only available to the president of the gang.';
     }
 }
 
-function gang_staff_ament()
+/**
+ * @return void
+ */
+function gang_staff_ament(): void
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']) && isset($_POST['ament']))
@@ -1814,13 +1861,16 @@ function gang_staff_ament()
     }
     else
     {
-        echo "This action is only available to the president of the gang.";
+        echo 'This action is only available to the president of the gang.';
     }
 }
 
-function gang_staff_name()
+/**
+ * @return void
+ */
+function gang_staff_name(): void
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']) && isset($_POST['name']))
@@ -1853,13 +1903,16 @@ function gang_staff_name()
     }
     else
     {
-        echo "This action is only available to the president of the gang.";
+        echo 'This action is only available to the president of the gang.';
     }
 }
 
-function gang_staff_tag()
+/**
+ * @return void
+ */
+function gang_staff_tag(): void
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']) && isset($_POST['tag']))
@@ -1892,7 +1945,7 @@ function gang_staff_tag()
     }
     else
     {
-        echo "This action is only available to the president of the gang.";
+        echo 'This action is only available to the president of the gang.';
     }
 }
 

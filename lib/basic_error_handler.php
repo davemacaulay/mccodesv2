@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -28,10 +29,15 @@
  */
 
 // Change to true to show the user more information (for development)
-define('DEBUG', false);
+const DEBUG = false;
 
-function error_critical($human_error, $debug_error, $action,
-        $context = array())
+/**
+ * @param $human_error
+ * @param $debug_error
+ * @param $action
+ * @return void
+ */
+function error_critical($human_error, $debug_error, $action): void
 {
     // Clear anything that was going to be shown
     ob_get_clean();
@@ -75,48 +81,47 @@ function error_critical($human_error, $debug_error, $action,
     exit;
 }
 
-function error_php($errno, $errstr, $errfile = '', $errline = 0,
-        $errcontext = array())
+/**
+ * @param $errno
+ * @param $errstr
+ * @param string $errfile
+ * @param int $errline
+ * @param array $errcontext
+ * @return void
+ */
+function error_php($errno, $errstr, string $errfile = '', int $errline = 0,
+                   array $errcontext = []): void
 {
     // What's happened?
     // If it's a PHP warning or user error/warning, don't go further - indicates bad code, unsafe
     if ($errno == E_WARNING)
     {
-        error_critical('',
-                '<strong>PHP Warning:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
+        error_critical('<strong>PHP Warning:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
     }
-    else if ($errno == E_RECOVERABLE_ERROR)
+    elseif ($errno == E_RECOVERABLE_ERROR)
     {
-        error_critical('',
-                '<strong>PHP Recoverable Error:</strong> ' . $errstr . ' ('
-                        . $errno . ')',
-                'Line executed: ' . $errfile . ':' . $errline, $errcontext);
+        error_critical('<strong>PHP Recoverable Error:</strong> ' . $errstr . ' ('
+            . $errno . ')',
+            'Line executed: ' . $errfile . ':' . $errline, $errcontext);
     }
-    else if ($errno == E_USER_ERROR)
+    elseif ($errno == E_USER_ERROR)
     {
-        error_critical('',
-                '<strong>Engine Error:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
+        error_critical('<strong>Engine Error:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
     }
-    else if ($errno == E_USER_WARNING)
+    elseif ($errno == E_USER_WARNING)
     {
-        error_critical('',
-                '<strong>Engine Warning:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
-    }
-    else
-    {
+        error_critical('<strong>Engine Warning:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
+    } elseif (DEBUG) {
+        // Determine the name to display from the error type
         // Only do anything if DEBUG is on, now
-        if (DEBUG)
-        {
-            // Determine the name to display from the error type
-            $errname = 'Unknown Error';
-            switch ($errno)
-            {
+        $errname = 'Unknown Error';
+        switch ($errno) {
             case E_NOTICE:
                 $errname = 'PHP Notice';
                 break;
@@ -129,19 +134,18 @@ function error_php($errno, $errstr, $errfile = '', $errline = 0,
             case 16384:
                 $errname = 'User Deprecation Notice';
                 break; // E_USER_DEPRECATED [since 5.3]
-            }
-            echo 'A non-critical error has occurred. Page execution will continue. '
-                    . 'Below are the details:<br /><strong>' . $errname
-                    . '</strong>: ' . $errstr . ' (' . $errno . ')'
-                    . '<br /><br />' . '<strong>Line executed</strong>: '
-                    . $errfile . ':' . $errline . '<br /><br />';
-            // Only uncomment the below if you know what you're doing,
-            // for debug purposes.
-            //if (is_array($errcontext) && count($errcontext) > 0)
-            //{
-            //    echo '<strong>Context at error time:</strong> '
-            //            . '<br /><br />' . nl2br(print_r($errcontext, true));
-            //}
         }
+        echo 'A non-critical error has occurred. Page execution will continue. '
+            . 'Below are the details:<br /><strong>' . $errname
+            . '</strong>: ' . $errstr . ' (' . $errno . ')'
+            . '<br /><br />' . '<strong>Line executed</strong>: '
+            . $errfile . ':' . $errline . '<br /><br />';
+        // Only uncomment the below if you know what you're doing,
+        // for debug purposes.
+        //if (is_array($errcontext) && count($errcontext) > 0)
+        //{
+        //    echo '<strong>Context at error time:</strong> '
+        //            . '<br /><br />' . nl2br(print_r($errcontext, true));
+        //}
     }
 }

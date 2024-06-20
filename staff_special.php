@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,14 +19,17 @@
  * File: staff_special.php
  * Signature: 3adb819832a38f3972bd3195eabc2917
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -62,10 +66,13 @@ default:
     break;
 }
 
-function newspaper_form()
+/**
+ * @return void
+ */
+function newspaper_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    $q = $db->query("SELECT `content` FROM `papercontent`");
+    global $db;
+    $q = $db->query('SELECT `content` FROM `papercontent`');
     $news = $db->fetch_row($q);
     $csrf = request_csrf_html('staff_editnews');
     echo "
@@ -80,27 +87,32 @@ function newspaper_form()
    ";
 }
 
-function newspaper_submit()
+/**
+ * @return void
+ */
+function newspaper_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     staff_csrf_stdverify('staff_editnews', 'staff_special.php?action=editnews');
     $news = $db->escape(strip_tags(stripslashes($_POST['newspaper'])));
     $db->query("UPDATE `papercontent`
     			SET `content` = '$news'");
     echo 'Newspaper updated!';
-    stafflog_add("Updated game newspaper");
+    stafflog_add('Updated game newspaper');
 }
 
-function give_dp_form()
+/**
+ * @return void
+ */
+function give_dp_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_givedp');
     echo "
     <h3>Giving User DP</h3>
     The user will receive the benefits of one 30-day donator pack.
     <br />
     <form action='staff_special.php?action=givedpsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user')
+    	User: " . user_dropdown()
             . "
     	<br />
     	<input type='radio' name='type' value='1' /> Pack 1 (Standard)
@@ -119,63 +131,61 @@ function give_dp_form()
        ";
 }
 
-function give_dp_submit()
+/**
+ * @return void
+ */
+function give_dp_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     staff_csrf_stdverify('staff_givedp', 'staff_special.php?action=givedpform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
                     ? abs(intval($_POST['user'])) : '';
     $_POST['type'] =
             (isset($_POST['type'])
-                    && in_array($_POST['type'], array(1, 2, 3, 4, 5)))
+                    && in_array($_POST['type'], [1, 2, 3, 4, 5]))
                     ? abs((int) $_POST['type']) : '';
     if (empty($_POST['user']) || empty($_POST['type']))
     {
         echo 'Something went wrong.<br />
         &gt; <a href="staff_special.php?action=givedpform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
+    $don = 'u.userid = u.userid';
+    $d = 0;
     if ($_POST['type'] == 1)
     {
         $don =
-                "`u`.`money` = `u`.`money` + 5000,
+            '`u`.`money` = `u`.`money` + 5000,
                  `u`.`crystals` = `u`.`crystals` + 50,
                  `us`.`IQ` = `us`.`IQ` + 50,
-                 `u`.`donatordays` = `u`.`donatordays` + 30";
+                 `u`.`donatordays` = `u`.`donatordays` + 30';
         $d = 30;
-    }
-    else if ($_POST['type'] == 2)
-    {
+    } elseif ($_POST['type'] == 2) {
         $don =
-                "`u`.`crystals` = `u`.`crystals` + 100,
-                 `u`.`donatordays` = `u`.`donatordays` + 30";
-        $d = 30;
-    }
-    else if ($_POST['type'] == 3)
-    {
+            '`u`.`crystals` = `u`.`crystals` + 100,
+                 `u`.`donatordays` = `u`.`donatordays` + 30';
+        $d   = 30;
+    } elseif ($_POST['type'] == 3) {
         $don =
-                "`us`.`IQ` = `us`.`IQ` + 120,
-                 `u`.`donatordays` = `u`.`donatordays` + 30";
-        $d = 30;
-    }
-    else if ($_POST['type'] == 4)
-    {
+            '`us`.`IQ` = `us`.`IQ` + 120,
+                 `u`.`donatordays` = `u`.`donatordays` + 30';
+        $d   = 30;
+    } elseif ($_POST['type'] == 4) {
         $don =
-                "`u`.`money` = `u`.`money` + 15000,
+            '`u`.`money` = `u`.`money` + 15000,
                  `u`.`crystals` = `u`.`crystals` + 75,
                  `us`.`IQ` = `us`.`IQ` + 80,
-                 `u`.`donatordays` = `u`.`donatordays` + 55";
-        $d = 55;
-    }
-    else if ($_POST['type'] == 5)
-    {
+                 `u`.`donatordays` = `u`.`donatordays` + 55';
+        $d   = 55;
+    } elseif ($_POST['type'] == 5) {
         $don =
-                "`u`.`money` = `u`.`money` + 35000,
+            '`u`.`money` = `u`.`money` + 35000,
                  `u`.`crystals` = `u`.`crystals` + 160,
                  `us`.`IQ` = `us`.`IQ` + 180,
-                 `u`.`donatordays` = `u`.`donatordays` + 115";
-        $d = 115;
+                 `u`.`donatordays` = `u`.`donatordays` + 115';
+        $d   = 115;
     }
     $db->query(
             "UPDATE `users` AS `u`
@@ -184,32 +194,40 @@ function give_dp_submit()
              SET {$don}
              WHERE `u`.`userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were given one {$d}-day donator pack (Pack {$_POST['type']}) from the administration.",
-            $c);
+        "You were given one {$d}-day donator pack (Pack {$_POST['type']}) from the administration.");
     stafflog_add(
             "Gave ID {$_POST['user']} a {$d}-day donator pack (Pack {$_POST['type']})");
     echo 'User given a DP.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function staff_userlevel_innerform($userid, $level, $desc, $csrf)
+/**
+ * @param $userid
+ * @param $level
+ * @param $desc
+ * @param $csrf
+ * @return string
+ */
+function staff_userlevel_innerform($userid, $level, $desc, $csrf): string
 {
-    $form =
-            "
-    <form action='staff_special.php?action=userlevel' method='post'>
-    	<input type='hidden' name='ID' value='{$userid}' />
-    	<input type='hidden' name='level' value='{$level}' />
-    	{$csrf}
-    	<input type='submit' value='{$desc}' />
-    </form>
-    ";
-    return $form;
+    return "
+<form action='staff_special.php?action=userlevel' method='post'>
+<input type='hidden' name='ID' value='{$userid}' />
+<input type='hidden' name='level' value='{$level}' />
+{$csrf}
+<input type='submit' value='{$desc}' />
+</form>
+";
 }
 
-function staff_list()
+/**
+ * @return void
+ */
+function staff_list(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db;
     echo "
     <h3>Staff Management</h3>
     <b>Admins</b>
@@ -222,14 +240,14 @@ function staff_list()
     		</tr>
        ";
     $csrf = request_csrf_html('staff_userlevel');
-    $staff = array();
+    $staff = [];
     $q =
             $db->query(
-                    "SELECT `userid`, `laston`, `username`, `level`, `money`,
+                'SELECT `userid`, `laston`, `username`, `level`, `money`,
  				 	 `user_level`
  				 	 FROM `users`
  				 	 WHERE `user_level` IN(2, 3, 5)
- 				 	 ORDER BY `userid` ASC");
+ 				 	 ORDER BY `userid` ASC');
     while ($r = $db->fetch_row($q))
     {
         $staff[$r['userid']] = $r;
@@ -253,16 +271,16 @@ function staff_list()
     			<td>
     				"
                     . staff_userlevel_innerform($r['userid'], 3, 'Secretary',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 5, 'Assistant',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . "
+                            $csrf) . '
     			</td>
     		</tr>
-       		";
+       		';
         }
     }
     echo "
@@ -294,16 +312,16 @@ function staff_list()
     			<td>
     				"
                     . staff_userlevel_innerform($r['userid'], 2, 'Admin',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 5, 'Assistant',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . "
+                            $csrf) . '
     			</td>
     		</tr>
-       		";
+       		';
         }
     }
     echo "
@@ -335,29 +353,32 @@ function staff_list()
     			<td>
     				"
                     . staff_userlevel_innerform($r['userid'], 2, 'Admin',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 3, 'Secretary',
-                            $csrf) . "
-    				&middot; "
+                            $csrf) . '
+    				&middot; '
                     . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . "
+                            $csrf) . '
     			</td>
     		</tr>
-       		";
+       		';
         }
     }
     echo '</table>';
 }
 
-function userlevel()
+/**
+ * @return void
+ */
+function userlevel(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     staff_csrf_stdverify('staff_userlevel',
             'staff_special.php?action=userlevelform');
     $_POST['level'] =
             (isset($_POST['level'])
-                    && in_array($_POST['level'], array(1, 2, 3, 4, 5)))
+                    && in_array($_POST['level'], [1, 2, 3, 4, 5]))
                     ? abs(intval($_POST['level'])) : 0;
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
@@ -366,7 +387,8 @@ function userlevel()
     {
         echo 'Invalid input.<br />
         &gt; <a href="staff_special.php?action=userlevelform">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $d =
             $db->query(
@@ -378,7 +400,8 @@ function userlevel()
         $db->free_result($d);
         echo 'Invalid user.<br />
         &gt; <a href="staff_special.php?action=userlevelform">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($d);
     $db->query(
@@ -388,17 +411,20 @@ function userlevel()
     stafflog_add('Adjusted user ID ' . $_POST['ID'] . '\'s staff status.');
     echo 'User\'s level adjusted.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function userlevelform()
+/**
+ * @return void
+ */
+function userlevelform(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_userlevel');
     echo "
     <h3>User Level Adjust</h3>
     <form action='staff_special.php?action=userlevel' method='post'>
-    	User: " . user_dropdown(NULL, 'ID')
+    	User: " . user_dropdown('ID')
             . "
     	<br />
     	User Level:
@@ -419,19 +445,22 @@ function userlevelform()
     ";
 }
 
-function massmailer()
+/**
+ * @return void
+ */
+function massmailer(): void
 {
-    global $db, $ir, $c, $userid;
+    global $db, $h;
     $_POST['text'] =
             (isset($_POST['text']))
                     ? $db->escape(strip_tags(stripslashes($_POST['text'])))
                     : '';
     $_POST['cat'] =
-            (isset($_POST['cat']) && in_array($_POST['cat'], array(1, 2, 3)))
+            (isset($_POST['cat']) && in_array($_POST['cat'], [1, 2, 3]))
                     ? $_POST['cat'] : '';
     $_POST['level'] =
             (isset($_POST['level'])
-                    && in_array($_POST['level'], array(1, 2, 3, 5)))
+                    && in_array($_POST['level'], [1, 2, 3, 5]))
                     ? abs((int) $_POST['level']) : '';
     if (!empty($_POST['text'])
             && (!empty($_POST['cat']) || empty($_POST['level'])))
@@ -440,7 +469,8 @@ function massmailer()
         {
             echo 'Please select one of the sending options, not both.<br />
             &gt; <a href="staff_special.php?action=massmailer">Try again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_massmailer',
                 'staff_special.php?action=massmailer');
@@ -449,35 +479,29 @@ function massmailer()
         {
             $q =
                     $db->query(
-                            "SELECT `userid`
+                        'SELECT `userid`
                              FROM `users`
-                             WHERE `user_level` != 0");
-        }
-        else if ($_POST['cat'] == 2)
-        {
+                             WHERE `user_level` != 0');
+        } elseif ($_POST['cat'] == 2) {
             $q =
-                    $db->query(
-                            "SELECT `userid`
+                $db->query(
+                    'SELECT `userid`
                              FROM `users`
-                             WHERE `user_level` > 1");
-        }
-        else if ($_POST['cat'] == 3)
-        {
+                             WHERE `user_level` > 1');
+        } elseif ($_POST['cat'] == 3) {
             $q =
-                    $db->query(
-                            "SELECT `userid`
+                $db->query(
+                    'SELECT `userid`
                              FROM users
-                             WHERE `user_level` = 2");
-        }
-        else
-        {
+                             WHERE `user_level` = 2');
+        } else {
             $q =
-                    $db->query(
-                            "SELECT `userid`
+                $db->query(
+                    "SELECT `userid`
                              FROM `users`
                              WHERE `user_level` = {$_POST['level']}");
         }
-        $uc = array();
+        $uc = [];
         $send_time = time();
         while ($r = $db->fetch_row($q))
         {

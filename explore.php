@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,11 +21,12 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $userid, $h, $set, $domain;
 require_once('globals.php');
-$tresder = (int) rand(100, 999);
+$tresder = rand(100, 999);
 if ($ir['jail'] > 0 || $ir['hospital'] > 0)
 {
-    die("This page cannot be accessed while in jail or hospital.");
+    die('This page cannot be accessed while in jail or hospital.');
 }
 echo "<b>You begin exploring the area you're in,
 		you see a bit that interests you.</b><br />
@@ -80,6 +82,6 @@ echo "	</td>
 	</tr>
 </table>
 <br /><br />
-This is your referal link: http://{$domain}/register.php?REF={$userid}<br />
+This is your referal link: https://{$domain}/register.php?REF={$userid}<br />
 Every signup from this link earns you two valuable crystals!";
 $h->endpage();

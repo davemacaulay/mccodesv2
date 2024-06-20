@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: viewuser.php
  * Signature: 359abfc90736815bd4dd5e155cd1edf8
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $ir, $h, $set;
 require_once('globals.php');
 $_GET['u'] =
         (isset($_GET['u']) && is_numeric($_GET['u'])) ? abs(intval($_GET['u']))
@@ -60,17 +63,17 @@ else
         $r = $db->fetch_row($q);
         $db->free_result($q);
         $checkulevel =
-                array(0 => 'NPC', 1 => 'Member', 2 => 'Owner',
-                        3 => 'Secretary', 5 => 'Assistant');
+                [0 => 'NPC', 1 => 'Member', 2 => 'Owner',
+                        3 => 'Secretary', 5 => 'Assistant'];
         $userl = $checkulevel[$r['user_level']];
         $lon =
-                ($r['laston'] > 0) ? date('F j, Y g:i:s a', $r['laston'])
-                        : "Never";
-        $ula = ($r['laston'] == 0) ? 'Never' : DateTime_Parse($r['laston']);
+                ($r['laston'] > 0) ? date('F j, Y g:i:s a', (int)$r['laston'])
+                        : 'Never';
+        $ula = ($r['laston'] == 0) ? 'Never' : datetime_parse($r['laston']);
         $ull =
                 ($r['last_login'] == 0) ? 'Never'
-                        : DateTime_Parse($r['last_login']);
-        $sup = date('F j, Y g:i:s a', $r['signedup']);
+                        : datetime_parse($r['last_login']);
+        $sup = date('F j, Y g:i:s a', (int)$r['signedup']);
         $u_duties =
                 ($r['user_level'] > 1) ? 'Duties: ' . $r['duties'] . '<br />'
                         : '';
@@ -115,7 +118,7 @@ else
                 Online: $on<br />
                 Days Old: {$r['daysold']}<br />
                 Location: {$r['cityname']}</td><td>
-                Money: " . money_formatter($r['money'])
+                Money: " . money_formatter((int)$r['money'])
                 . "<br />
                 Crystals: {$r['crystals']}<br />
                 Property: {$r['hNAME']}<br />
@@ -129,7 +132,7 @@ else
                 ? '<img src="' . $r['display_pic']
                         . '" width="150px" height="150px" alt="User Display Pic" title="User Display Pic" />'
                 : 'No Image';
-        $sh = ($ir['user_level'] > 1) ? "Staff Info" : "&nbsp;";
+        $sh = ($ir['user_level'] > 1) ? 'Staff Info' : '&nbsp;';
         echo "
 			</td>
 		</tr>
@@ -218,7 +221,7 @@ else
 				<br /><br />
 				[<a href='contactlist.php?action=add&ID={$r['userid']}'>Add Contact</a>]
    		";
-        if (in_array($ir['user_level'], array(2, 3, 5)))
+        if (in_array($ir['user_level'], [2, 3, 5]))
         {
             echo "
         <br /><br />
@@ -237,18 +240,27 @@ else
         <br />
            ";
         }
-        echo "
+        echo '
 			</td>
 			<td>
-   		";
-        if (in_array($ir['user_level'], array(2, 3, 5)))
+   		';
+        if (in_array($ir['user_level'], [2, 3, 5]))
         {
-            $r['lastiph'] = @gethostbyaddr($r['lastip']);
+            $r['lastiph'] = filter_var($r['lastip'], FILTER_VALIDATE_IP) ? @gethostbyaddr($r['lastip']) : null;
             $r['lastiph'] = checkblank($r['lastiph']);
-            $r['lastip_loginh'] = @gethostbyaddr($r['lastip_login']);
-            $r['lastip_loginh'] = checkblank($r['lastip_loginh']);
-            $r['lastip_signuph'] = @gethostbyaddr($r['lastip_signup']);
-            $r['lastip_signuph'] = checkblank($r['lastip_signuph']);
+            // No need to duplicate requests if we've already done it!
+            if ($r['lastip_login'] == $r['lastip']) {
+                $r['lastip_loginh'] = $r['lastiph'];
+            } else {
+                $r['lastip_loginh'] = filter_var($r['lastip_login'], FILTER_VALIDATE_IP) ? @gethostbyaddr($r['lastip_login']) : null;
+                $r['lastip_loginh'] = checkblank($r['lastip_loginh']);
+            }
+            if (in_array($r['lastip_signup'], [$r['lastip'], $r['lastip_login']])) {
+                $r['lastip_signuph'] = $r['lastip_signup'] === $r['lastip'] ? $r['lastiph'] : $r['lastip_loginh'];
+            } else {
+                $r['lastip_signuph'] = filter_var($r['lastip_signup'], FILTER_VALIDATE_IP) ? @gethostbyaddr($r['lastip_signup']) : null;
+                $r['lastip_signuph'] = checkblank($r['lastip_signuph']);
+            }
             echo "
             <h3>Internet Info</h3>
             <table width='100%' border='0' cellspacing='1' class='table'>
@@ -293,11 +305,15 @@ else
     }
 }
 
-function checkblank($in)
+/**
+ * @param string|null $in
+ * @return string
+ */
+function checkblank(?string $in): string
 {
     if (!$in)
     {
-        return "N/A";
+        return 'N/A';
     }
     return $in;
 }

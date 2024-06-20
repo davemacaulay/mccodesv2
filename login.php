@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $set;
 require_once('globals_nonauth.php');
 $login_csrf = request_csrf_code('login');
 print
@@ -40,7 +42,7 @@ print
 <td class="center"><img src="title.jpg" alt="Mccodes Version 2" /><br />
 <!-- Begin Main Content -->
 EOF;
-$IP = str_replace(array('/', '\\', '\0'), '', $_SERVER['REMOTE_ADDR']);
+$IP = str_replace(['/', '\\', '\0'], '', $_SERVER['REMOTE_ADDR']);
 if (file_exists('ipbans/' . $IP))
 {
     die(
@@ -55,10 +57,10 @@ echo "<h3>&gt; {$set['game_name']} Log-In</h3>
 <td width='50%'>
 <fieldset>
 <legend>About {$set['game_name']}</legend>
-" . nl2br($set['game_description']) . "
+" . nl2br($set['game_description']) . '
 </fieldset>
 </td>
-<td>";
+<td>';
 echo <<<EOF
 <fieldset>
 <legend>Login</legend>

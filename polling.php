@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,9 +21,10 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
-echo "<h3>Polling Booth</h3>
-Cast your vote today!<br />";
+echo '<h3>Polling Booth</h3>
+Cast your vote today!<br />';
 $_POST['poll'] =
         (isset($_POST['poll']) && is_numeric($_POST['poll']))
                 ? abs(intval($_POST['poll'])) : '';
@@ -41,7 +43,8 @@ if ($_POST['choice'] && $_POST['poll'])
     {
         echo "You've already voted in this poll.<br />
 		&gt; <a href='explore.php'>Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $check_q =
             $db->query(
@@ -54,7 +57,8 @@ if ($_POST['choice'] && $_POST['poll'])
         $db->free_result($check_q);
         echo "You are trying to vote in an invalid or finished poll.<br />
   		&gt; <a href='explore.php'>Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($check_q);
     $ir['voted'][$_POST['poll']] = $_POST['choice'];
@@ -80,7 +84,7 @@ else
     				 WHERE `active` = '1'");
     if (!$db->num_rows($q))
     {
-        echo "<b>There are no active polls at this time</b>";
+        echo '<b>There are no active polls at this time</b>';
     }
     else
     {
@@ -165,7 +169,7 @@ else
                         }
                         else
                         {
-                            $c = "";
+                            $c = '';
                         }
                         echo "<tr>
                     		<td>{$r[$k]}</td>

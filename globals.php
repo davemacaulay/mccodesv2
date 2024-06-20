@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,7 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-if (strpos($_SERVER['PHP_SELF'], "globals.php") !== false)
+if (str_contains($_SERVER['PHP_SELF'], 'globals.php'))
 {
     exit;
 }
@@ -32,53 +33,29 @@ if (!isset($_SESSION['started']))
     $_SESSION['started'] = true;
 }
 ob_start();
-if (function_exists("get_magic_quotes_gpc") == false)
-{
-
-    function get_magic_quotes_gpc()
-    {
-        return 0;
-    }
-}
-if (get_magic_quotes_gpc() == 0)
-{
-    foreach ($_POST as $k => $v)
-    {
-        $_POST[$k] = addslashes($v);
-    }
-    foreach ($_GET as $k => $v)
-    {
-        $_GET[$k] = addslashes($v);
-    }
-}
-require "lib/basic_error_handler.php";
+require 'lib/basic_error_handler.php';
 set_error_handler('error_php');
-require "global_func.php";
+require 'global_func.php';
 $domain = determine_game_urlbase();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == 0)
 {
-    $login_url = "http://{$domain}/login.php";
+    $login_url = "https://{$domain}/login.php";
     header("Location: {$login_url}");
     exit;
 }
-$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : 0;
-require "header.php";
+$userid = $_SESSION['userid'] ?? 0;
+require 'header.php';
 
-include "config.php";
-define("MONO_ON", 1);
+global $_CONFIG;
+include 'config.php';
+const MONO_ON = 1;
 require "class/class_db_{$_CONFIG['driver']}.php";
-$db = new database;
+$db = new database();
 $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
-        $_CONFIG['password'], $_CONFIG['database'], $_CONFIG['persistent']);
+        $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
 $c = $db->connection_id;
-$set = array();
-$settq = $db->query("SELECT *
-					 FROM `settings`");
-while ($r = $db->fetch_row($settq))
-{
-    $set[$r['conf_name']] = $r['conf_value'];
-}
+$set = get_site_settings();
 global $jobquery, $housequery;
 if (isset($jobquery) && $jobquery)
 {
@@ -94,7 +71,7 @@ if (isset($jobquery) && $jobquery)
                      WHERE `u`.`userid` = {$userid}
                      LIMIT 1");
 }
-else if (isset($housequery) && $housequery)
+elseif (isset($housequery) && $housequery)
 {
     $is =
             $db->query(
@@ -118,7 +95,8 @@ else
                      LIMIT 1");
 }
 $ir = $db->fetch_row($is);
-if ($ir['force_logout'] != '0')
+set_userdata_data_types($ir);
+if ($ir['force_logout'] > 0)
 {
     $db->query(
             "UPDATE `users`
@@ -126,20 +104,20 @@ if ($ir['force_logout'] != '0')
     			WHERE `userid` = {$userid}");
     session_unset();
     session_destroy();
-    $login_url = "http://{$domain}/login.php";
+    $login_url = "https://{$domain}/login.php";
     header("Location: {$login_url}");
     exit;
 }
 global $macropage;
 if ($macropage && !$ir['verified'] && $set['validate_on'] == 1)
 {
-    $macro_url = "http://{$domain}/macro1.php?refer=$macropage";
+    $macro_url = "https://{$domain}/macro1.php?refer=$macropage";
     header("Location: {$macro_url}");
     exit;
 }
 check_level();
-$h = new headers;
-if (isset($nohdr) == false || !$nohdr)
+$h = new headers();
+if (!isset($nohdr) || !$nohdr)
 {
     $h->startheaders();
     $fm = money_formatter($ir['money']);

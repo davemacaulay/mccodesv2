@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h, $set;
 require_once('globals.php');
 // Basic Stats (all users)
 $q =
@@ -33,28 +35,31 @@ $q =
                  SUM(IF(`gender` = 'Female', 1, 0)) AS `c_female`
                  FROM `users`");
 $mem_info = $db->fetch_row($q);
+foreach ($mem_info as $col => $value) {
+    $mem_info[$col] = (int)$value;
+}
 $membs = $mem_info['c_users'];
 $total = $mem_info['s_money'];
-$avg = (int) ($total / ($membs > 1 ? $membs : 1));
+$avg = (int) ($total / (max($membs, 1)));
 $totalc = $mem_info['s_crystals'];
-$avgc = (int) ($totalc / ($membs > 1 ? $membs : 1));
+$avgc = (int) ($totalc / (max($membs, 1)));
 $banks = $mem_info['c_users_bank'];
 $totalb = $mem_info['s_bank'];
 $avgb = (int) ($totalb / ($banks > 0 ? $banks : 1));
 $male = $mem_info['c_male'];
 $fem = $mem_info['c_female'];
 $db->free_result($q);
-$q = $db->query("SELECT SUM(`inv_qty`)
-				 FROM `inventory`");
-$totali = $db->fetch_single($q);
+$q = $db->query('SELECT SUM(`inv_qty`)
+				 FROM `inventory`');
+$totali = (int)$db->fetch_single($q);
 $db->free_result($q);
-$q = $db->query("SELECT COUNT(`mail_id`)
-				 FROM `mail`");
-$mail = $db->fetch_single($q);
+$q = $db->query('SELECT COUNT(`mail_id`)
+				 FROM `mail`');
+$mail = (int)$db->fetch_single($q);
 $db->free_result($q);
-$q = $db->query("SELECT COUNT(`evID`)
-				 FROM `events`");
-$events = $db->fetch_single($q);
+$q = $db->query('SELECT COUNT(`evID`)
+				 FROM `events`');
+$events = (int)$db->fetch_single($q);
 $db->free_result($q);
 echo "<h3>{$set['game_name']} Statistics</h3>
 You step into the Statistics Department and login to the service. You see some stats that interest you.<br />
@@ -70,20 +75,20 @@ You step into the Statistics Department and login to the service. You see some s
         </td>
         <td>
 			Amount of cash in circulation: " . money_formatter($total)
-        . ". <br />
-			The average player has: " . money_formatter($avg)
-        . ". <br />
-			Amount of cash in banks: " . money_formatter($totalb)
+        . '. <br />
+			The average player has: ' . money_formatter($avg)
+        . '. <br />
+			Amount of cash in banks: ' . money_formatter($totalb)
         . ". <br />
 			Amount of players with bank accounts: $banks<br />
 			The average player has in their bank accnt: "
         . money_formatter($avgb)
-        . ". <br />
-			Amount of crystals in circulation: "
-        . money_formatter($totalc, "")
-        . ". <br />
-			The average player has: " . money_formatter($avgc, "")
-        . " crystals.
+        . '. <br />
+			Amount of crystals in circulation: '
+        . money_formatter($totalc, '')
+        . '. <br />
+			The average player has: ' . money_formatter($avgc, '')
+        . ' crystals.
         </td>
     </tr>
 	<tr>
@@ -92,14 +97,14 @@ You step into the Statistics Department and login to the service. You see some s
 	</tr>
 	<tr>
 		<td>
-			" . money_formatter($mail, "") . " mails and "
-        . money_formatter($events, "")
-        . " events have been sent.
+			' . money_formatter($mail, '') . ' mails and '
+        . money_formatter($events, '')
+        . ' events have been sent.
         </td>
         <td>
-			There are currently " . money_formatter($totali, "")
-        . " items in circulation.
+			There are currently ' . money_formatter($totali, '')
+        . ' items in circulation.
         </td>
     </tr>
- </table>";
+ </table>';
 $h->endpage();

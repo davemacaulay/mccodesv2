@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,12 +21,14 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 //This contains house stuffs
 if (!isset($_GET['action']))
@@ -34,23 +37,26 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addhouse":
+case 'addhouse':
     addhouse();
     break;
-case "edithouse":
+case 'edithouse':
     edithouse();
     break;
-case "delhouse":
+case 'delhouse':
     delhouse();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
-function addhouse()
+/**
+ * @return void
+ */
+function addhouse(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $price =
             (isset($_POST['price']) && is_numeric($_POST['price']))
                     ? abs(intval($_POST['price'])) : '';
@@ -78,7 +84,8 @@ function addhouse()
             $db->free_result($q);
             echo 'Sorry, you cannot have two houses with the same maximum will.<br />
             &gt; <a href="staff_houses.php?action=addhouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -88,7 +95,8 @@ function addhouse()
         echo 'House ' . $name
                 . ' added to the game.<br />
                 &gt; <a href="staff.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -107,106 +115,54 @@ function addhouse()
     }
 }
 
-function edithouse()
+/**
+ * @return void
+ */
+function edit_house_select(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    if (!isset($_POST['step']))
-    {
-        $_POST['step'] = '0';
-    }
-    switch ($_POST['step'])
-    {
-    case "2":
-        $price =
-                (isset($_POST['price']) && is_numeric($_POST['price']))
-                        ? abs(intval($_POST['price'])) : 0;
-        $will =
-                (isset($_POST['will']) && is_numeric($_POST['will']))
-                        ? abs(intval($_POST['will'])) : 0;
-        $_POST['id'] =
-                (isset($_POST['id']) && is_numeric($_POST['id']))
-                        ? abs(intval($_POST['id'])) : 0;
-        if (!$price || !$will || !$_POST['id'])
-        {
-            echo 'Sorry, invalid input.
-            <br />&gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
-        }
-        staff_csrf_stdverify('staff_edithouse2',
-                'staff_houses.php?action=edithouse');
-        $q =
-                $db->query(
-                        "SELECT `hID`
-                         FROM `houses`
-                         WHERE `hWILL` = {$will} AND `hID` != {$_POST['id']}");
-        if ($db->num_rows($q))
-        {
-            echo 'Sorry, you cannot have two houses with the same maximum will.
-            <br />&gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
-        }
-        $q =
-                $db->query(
-                        'SELECT `hWILL`
-                         FROM `houses`
-                         WHERE `hID` = ' . $_POST['ID']);
-        if ($db->num_rows($q) == 0)
-        {
-            $db->free_result($q);
-            echo 'Invalid house.<br />
-            &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
-        }
-        $oldwill = $db->fetch_single($q);
-        $name =
-                (isset($_POST['name'])
-                        && preg_match(
-                                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                                $_POST['name']))
-                        ? $db->escape(strip_tags(stripslashes($_POST['name'])))
-                        : '';
-        if ($oldwill == 100 && $oldwill != $will)
-        {
-            echo 'Sorry, this house\'s will bar cannot be edited.<br />
-            &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
-        }
+    $csrf = request_csrf_html('staff_edithouse1');
+    echo "
+        <h3>Editing a House</h3>
+        <hr />
+        <form action='staff_houses.php?action=edithouse' method='post'>
+        	<input type='hidden' name='step' value='1' />
+        	House: " . house_dropdown()
+        . "
+        	<br />
+        	{$csrf}
+        	<input type='submit' value='Edit House' />
+        </form>
+           ";
+}
+
+/**
+ * @return void
+ */
+function edit_house_configure(): void
+{
+    global $db, $h;
+    $_POST['house'] =
+        (isset($_POST['house']) && is_numeric($_POST['house']))
+            ? abs(intval($_POST['house'])) : 0;
+    staff_csrf_stdverify('staff_edithouse1',
+        'staff_houses.php?action=edithouse');
+    $q =
         $db->query(
-                "UPDATE `houses`
-                 SET `hWILL` = $will, `hPRICE` = $price, `hNAME` = '$name'
-                 WHERE `hID` = {$_POST['id']}");
-        $db->query(
-                "UPDATE `users`
-                 SET `maxwill` = $will, `will` = LEAST(`will`, $will)
-                 WHERE `maxwill` = {$old['hWILL']}");
-        stafflog_add('Edited house ' . $name);
-        echo 'House ' . $name
-                . ' was edited successfully.<br />
-                &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-        die($h->endpage());
-        break;
-    case "1":
-        $_POST['house'] =
-                (isset($_POST['house']) && is_numeric($_POST['house']))
-                        ? abs(intval($_POST['house'])) : 0;
-        staff_csrf_stdverify('staff_edithouse1',
-                'staff_houses.php?action=edithouse');
-        $q =
-                $db->query(
-                        "SELECT `hWILL`, `hPRICE`, `hNAME`
+            "SELECT `hWILL`, `hPRICE`, `hNAME`
                          FROM `houses`
                          WHERE `hID` = {$_POST['house']}");
-        if ($db->num_rows($q) == 0)
-        {
-            $db->free_result($q);
-            echo 'Invalid house.<br />
-            &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
-        }
-        $old = $db->fetch_row($q);
+    if ($db->num_rows($q) == 0)
+    {
         $db->free_result($q);
-        $csrf = request_csrf_html('staff_edithouse2');
-        echo "
+        echo 'Invalid house.<br />
+            &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
+        $h->endpage();
+        exit;
+    }
+    $old = $db->fetch_row($q);
+    $db->free_result($q);
+    $csrf = request_csrf_html('staff_edithouse2');
+    echo "
         <h3>Editing a House</h3>
         <hr />
         <form action='staff_houses.php?action=edithouse' method='post'>
@@ -222,28 +178,118 @@ function edithouse()
         	<input type='submit' value='Edit House' />
         </form>
            ";
+}
+
+/**
+ * @return void
+ */
+function edit_house_do(): void
+{
+    global $db, $h;
+    $price =
+        (isset($_POST['price']) && is_numeric($_POST['price']))
+            ? abs(intval($_POST['price'])) : 0;
+    $will =
+        (isset($_POST['will']) && is_numeric($_POST['will']))
+            ? abs(intval($_POST['will'])) : 0;
+    $_POST['id'] =
+        (isset($_POST['id']) && is_numeric($_POST['id']))
+            ? abs(intval($_POST['id'])) : 0;
+    if (!$price || !$will || !$_POST['id'])
+    {
+        echo 'Sorry, invalid input.
+            <br />&gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
+        $h->endpage();
+        exit;
+    }
+    staff_csrf_stdverify('staff_edithouse2',
+        'staff_houses.php?action=edithouse');
+    $q =
+        $db->query(
+            "SELECT `hID`
+                         FROM `houses`
+                         WHERE `hWILL` = {$will} AND `hID` != {$_POST['id']}");
+    if ($db->num_rows($q))
+    {
+        echo 'Sorry, you cannot have two houses with the same maximum will.
+            <br />&gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
+        $h->endpage();
+        exit;
+    }
+    $q =
+        $db->query(
+            'SELECT `hWILL`
+                         FROM `houses`
+                         WHERE `hID` = ' . $_POST['ID']);
+    if ($db->num_rows($q) == 0)
+    {
+        $db->free_result($q);
+        echo 'Invalid house.<br />
+            &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
+        $h->endpage();
+        exit;
+    }
+    $oldwill = $db->fetch_single($q);
+    $name =
+        (isset($_POST['name'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['name']))
+            ? $db->escape(strip_tags(stripslashes($_POST['name'])))
+            : '';
+    if ($oldwill == 100 && $oldwill != $will)
+    {
+        echo 'Sorry, this house\'s will bar cannot be edited.<br />
+            &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
+        $h->endpage();
+        exit;
+    }
+    $db->query(
+        "UPDATE `houses`
+                 SET `hWILL` = $will, `hPRICE` = $price, `hNAME` = '$name'
+                 WHERE `hID` = {$_POST['id']}");
+    $db->query(
+        "UPDATE `users`
+                 SET `maxwill` = $will, `will` = LEAST(`will`, $will)
+                 WHERE `maxwill` = {$oldwill}");
+    stafflog_add('Edited house ' . $name);
+    echo 'House ' . $name
+        . ' was edited successfully.<br />
+                &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
+    $h->endpage();
+    exit;
+}
+
+/**
+ * @return void
+ */
+function edithouse(): void
+{
+    global $db, $h;
+    if (!isset($_POST['step']))
+    {
+        $_POST['step'] = '0';
+    }
+    switch ($_POST['step'])
+    {
+    case '2':
+        edit_house_do();
+        break;
+    case '1':
+        edit_house_configure();
         break;
     default:
-        $csrf = request_csrf_html('staff_edithouse1');
-        echo "
-        <h3>Editing a House</h3>
-        <hr />
-        <form action='staff_houses.php?action=edithouse' method='post'>
-        	<input type='hidden' name='step' value='1' />
-        	House: " . house_dropdown(NULL, "house")
-                . "
-        	<br />
-        	{$csrf}
-        	<input type='submit' value='Edit House' />
-        </form>
-           ";
+        edit_house_select();
         break;
     }
 }
 
-function delhouse()
+/**
+ * @return void
+ */
+function delhouse(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['house'] =
             (isset($_POST['house']) && is_numeric($_POST['house']))
                     ? abs(intval($_POST['house'])) : '';
@@ -261,7 +307,8 @@ function delhouse()
             $db->free_result($q);
             echo 'Invalid house.<br />
             &gt; <a href="staff_houses.php?action=edithouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $old = $db->fetch_row($q);
         $db->free_result($q);
@@ -269,7 +316,8 @@ function delhouse()
         {
             echo 'This house cannot be deleted.<br />
             &gt; <a href="staff_houses.php?action=delhouse">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->query(
                 "UPDATE `users`
@@ -283,7 +331,8 @@ function delhouse()
         echo 'House ' . $old['hNAME']
                 . ' deleted.<br />
                 &gt; <a href="staff_houses.php?action=delhouse">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -295,7 +344,7 @@ function delhouse()
         will be returned to the first house,
         and their money will be refunded.
         <form action='staff_houses.php?action=delhouse' method='post'>
-        	House: " . house_dropdown(NULL, "house")
+        	House: " . house_dropdown()
                 . "
         	<br />
         	{$csrf}

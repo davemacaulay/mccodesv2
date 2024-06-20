@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $h;
 require_once('globals.php');
 echo '
 <h3>My Contacts</h3>
@@ -38,10 +40,10 @@ echo '
 
 switch ($_GET['action'])
 {
-case "add":
+case 'add':
     add_contact();
     break;
-case "remove":
+case 'remove':
     remove_contact();
     break;
 default:
@@ -49,9 +51,12 @@ default:
     break;
 }
 
-function contacts_list()
+/**
+ * @return void
+ */
+function contacts_list(): void
 {
-    global $db, $ir, $c, $userid;
+    global $db, $userid;
     echo "
 <a href='contactlist.php?action=add'>&gt; Add a Contact</a><br />
 These are the people on your contact list.
@@ -97,9 +102,12 @@ These are the people on your contact list.
     echo '</table>';
 }
 
-function add_contact()
+/**
+ * @return void
+ */
+function add_contact(): void
 {
-    global $db, $ir, $c, $userid;
+    global $db, $userid;
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
                     ? abs(intval($_POST['ID'])) : '';
@@ -115,13 +123,13 @@ function add_contact()
                         "SELECT `username` FROM `users` WHERE `userid` = {$_POST['ID']}");
         if ($dupe_count > 0)
         {
-            echo "You cannot add the same person twice.";
+            echo 'You cannot add the same person twice.';
         }
-        else if ($userid == $_POST['ID'])
+        elseif ($userid == $_POST['ID'])
         {
-            echo "There is no point in adding yourself to your own list.";
+            echo 'There is no point in adding yourself to your own list.';
         }
-        else if ($db->num_rows($q) == 0)
+        elseif ($db->num_rows($q) == 0)
         {
             $db->free_result($q);
             echo "Oh no, you're trying to add a ghost.";
@@ -149,9 +157,12 @@ Adding a contact!
     }
 }
 
-function remove_contact()
+/**
+ * @return void
+ */
+function remove_contact(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['contact'] =
             (isset($_GET['contact']) && is_numeric($_GET['contact']))
                     ? abs(intval($_GET['contact'])) : '';
@@ -161,7 +172,8 @@ function remove_contact()
 You didn\'t select a real contact.<br />
 &gt; <a href="contactlist.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $qc =
             $db->query(
@@ -171,7 +183,8 @@ You didn\'t select a real contact.<br />
     if ($exist_count == 0)
     {
         echo 'Listing doesn\'t exist.<br />&gt; <a href="contactlist.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "DELETE FROM `contactlist` WHERE `cl_ID` = {$_GET['contact']} AND `cl_ADDER` = $userid");

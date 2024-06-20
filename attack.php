@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -22,6 +23,7 @@
 
 $menuhide = 1;
 $atkpage = 1;
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 
 $_GET['ID'] =
@@ -30,23 +32,27 @@ $_GET['ID'] =
 if (!$_GET['ID'])
 {
     echo 'Invalid ID<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($_GET['ID'] == $userid)
+elseif ($_GET['ID'] == $userid)
 {
     echo 'you can\'t attack yourself.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($ir['hp'] <= 1)
+elseif ($ir['hp'] <= 1)
 {
     echo 'You\'re unconcious therefore you can\'t attack.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if (isset($_SESSION['attacklost']) && $_SESSION['attacklost'] == 1)
+elseif (isset($_SESSION['attacklost']) && $_SESSION['attacklost'] == 1)
 {
     $_SESSION['attacklost'] = 0;
     echo 'Only the losers of all their EXP attack when they\'ve already lost.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $youdata = $ir;
 $odata_sql =
@@ -63,17 +69,19 @@ $q = $db->query($odata_sql);
 if ($db->num_rows($q) == 0)
 {
     echo 'That user doesn&#39;t exist<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $odata = $db->fetch_row($q);
 $db->free_result($q);
-$myabbr = ($ir['gender'] == "Male") ? "his" : "her";
-$oabbr = ($odata['gender'] == "Male") ? "his" : "her";
+$myabbr = ($ir['gender'] == 'Male') ? 'his' : 'her';
+$oabbr = ($odata['gender'] == 'Male') ? 'his' : 'her';
 if ($ir['attacking'] && $ir['attacking'] != $_GET['ID'])
 {
     $_SESSION['attacklost'] = 0;
     echo 'Something went wrong.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $endattk_sql =
         <<<SQL
@@ -87,39 +95,44 @@ if ($odata['hp'] == 1)
     $ir['attacking'] = 0;
     $db->query($endattk_sql);
     echo 'This player is unconscious.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($odata['hospital'])
+elseif ($odata['hospital'])
 {
     $_SESSION['attacking'] = 0;
     $ir['attacking'] = 0;
     $db->query($endattk_sql);
     echo 'This player is in hospital.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($ir['hospital'])
+elseif ($ir['hospital'])
 {
     $_SESSION['attacking'] = 0;
     $ir['attacking'] = 0;
     $db->query($endattk_sql);
     echo 'While in hospital you can\'t attack.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($odata['jail'])
+elseif ($odata['jail'])
 {
     $_SESSION['attacking'] = 0;
     $ir['attacking'] = 0;
     $db->query($endattk_sql);
     echo 'This player is in jail.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($ir['jail'])
+elseif ($ir['jail'])
 {
     $_SESSION['attacking'] = 0;
     $ir['attacking'] = 0;
     $db->query($endattk_sql);
     echo 'While in jail you can\'t attack.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 echo '
 <table width="100%">
@@ -153,7 +166,8 @@ if ($_GET['wepid'])
         else
         {
             echo 'You can only attack someone when you have 50% energy.<br />&gt; <a href="index.php">Go Home</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
     }
     $_SESSION['attacking'] = 1;
@@ -165,9 +179,6 @@ if ($_GET['wepid'])
     	WHERE `userid` = {$userid}
 SQL;
     $db->query($attackstatus_sql);
-    $_GET['nextstep'] =
-            (isset($_GET['nextstep']) && is_numeric($_GET['nextstep']))
-                    ? abs(intval($_GET['nextstep'])) : '';
     if ($_GET['wepid'] != $ir['equip_primary']
             && $_GET['wepid'] != $ir['equip_secondary'])
     {
@@ -179,7 +190,8 @@ SQL;
 SQL;
         $db->query($abuse_sql);
         echo 'Stop trying to abuse a game bug. You can lose all your EXP for that.<br />&gt; <a href="index.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $winfo_sql =
             <<<SQL
@@ -192,7 +204,8 @@ SQL;
     if ($db->num_rows($qo) == 0)
     {
         echo 'That weapon doesn&#39;t exist...';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r1 = $db->fetch_row($qo);
     $db->free_result($qo);
@@ -222,7 +235,7 @@ SQL;
         {
             $mydamage = abs($mydamage);
         }
-        else if ($mydamage < 1)
+        elseif ($mydamage < 1)
         {
             $mydamage = 1;
         }
@@ -231,7 +244,7 @@ SQL;
         {
             $mydamage *= rand(20, 40) / 10;
         }
-        else if ($crit == 25 OR $crit == 8)
+        elseif ($crit == 25 OR $crit == 8)
         {
             $mydamage /= (rand(20, 40) / 10);
         }
@@ -271,13 +284,14 @@ SQL;
     }
     else
     {
+        $enweps = [];
 
         $eq =
                 $db->query(
                         "SELECT `itmname`,`weapon` FROM  `items` WHERE `itmid` IN({$odata['equip_primary']}, {$odata['equip_secondary']})");
         if ($db->num_rows($eq) == 0)
         {
-            $wep = "Fists";
+            $wep = 'Fists';
             $dam =
                     (int) ((((int) ($odata['strength'] / $ir['guard'] / 100))
                             + 1) * (rand(8000, 12000) / 10000));
@@ -317,7 +331,7 @@ SQL;
             {
                 $dam = abs($dam);
             }
-            else if ($dam < 1)
+            elseif ($dam < 1)
             {
                 $dam = 1;
             }
@@ -326,7 +340,7 @@ SQL;
             {
                 $dam *= rand(20, 40) / 10;
             }
-            else if ($crit == 25 OR $crit == 8)
+            elseif ($crit == 25 OR $crit == 8)
             {
                 $dam /= (rand(20, 40) / 10);
             }
@@ -360,26 +374,30 @@ SQL;
         }
     }
 }
-else if ($odata['hp'] < 5)
+elseif ($odata['hp'] < 5)
 {
     echo 'You can only attack those who have health.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($ir['gang'] == $odata['gang'] && $ir['gang'] > 0)
+elseif ($ir['gang'] == $odata['gang'] && $ir['gang'] > 0)
 {
     echo 'You are in the same gang as ' . $odata['username']
             . '! What are you smoking today dude!<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($youdata['energy'] < $youdata['maxenergy'] / 2)
+elseif ($youdata['energy'] < $youdata['maxenergy'] / 2)
 {
     echo 'You can only attack someone when you have 50% energy.<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-else if ($youdata['location'] != $odata['location'])
+elseif ($youdata['location'] != $odata['location'])
 {
     echo 'You can only attack someone in the same location!<br />&gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 echo '
 	</td>
@@ -427,10 +445,10 @@ else
     }
     else
     {
-        echo "You have nothing to fight with.";
+        echo 'You have nothing to fight with.';
     }
     $db->free_result($mw);
-    echo "</table>";
+    echo '</table>';
     echo "<table width='50%' align='center'><tr><td align=right>Your Health: </td><td><img src=greenbar.png width={$vars['hpperc']} height=10><img src=redbar.png width={$vars['hpopp']} height=10></td><tr><td align=right>Opponents Health:  </td><td><img src=greenbar.png width={$vars2['hpperc']} height=10><img src=redbar.png width={$vars2['hpopp']} height=10></td></tr></table>";
 }
 $h->endpage();

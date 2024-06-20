@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 echo "<h3>Battle Tent</h3>
 <b>Welcome to the battle tent! Here you can challenge NPCs for money.</b>
@@ -55,23 +57,23 @@ while ($r = $db->fetch_row($q))
             && !$ir['hospital'] && !$ir['jail'] && !$r['hospital']
             && !$r['jail'])
     {
-        echo "<font color=green>Yes</font>";
+        echo '<font color=green>Yes</font>';
     }
     else
     {
-        echo "<font color=red>No</font>";
+        echo '<font color=red>No</font>';
     }
     echo "</td><td>{$r['cityname']}</td><td>$earn</td><td>";
     if ($r['npcid'])
     {
-        echo "<i>Already</i>";
+        echo '<i>Already</i>';
     }
     else
     {
         echo "<a href='attack.php?ID={$r['userid']}'>Challenge</a>";
     }
-    echo "</td></tr>";
+    echo '</td></tr>';
 }
 $db->free_result($q);
-echo "</table>";
+echo '</table>';
 $h->endpage();

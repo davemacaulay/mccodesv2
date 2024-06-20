@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,12 +21,14 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('sglobals.php');
-if (!in_array($ir['user_level'], array(2, 3, 5)))
+if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 //This contains log stuffs
 if (!isset($_GET['action']))
@@ -56,25 +59,28 @@ case 'stafflogs':
     view_staff_logs();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
-function view_attack_logs()
+/**
+ * @return void
+ */
+function view_attack_logs(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    echo "
+    global $db;
+    echo '
 	<h3>Attack Logs</h3>
 	<hr />
- 	  ";
+ 	  ';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`attacker`)
-    				 FROM `attacklogs`");
+    $q = $db->query('SELECT COUNT(`attacker`)
+    				 FROM `attacklogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -117,14 +123,14 @@ function view_attack_logs()
                      LIMIT $st, $app");
     while ($r = $db->fetch_row($q))
     {
-        echo "
+        echo '
 		<tr>
-        	<td>" . date('F j, Y, g:i:s a', $r['time'])
+        	<td>' . date('F j, Y, g:i:s a', (int)$r['time'])
                 . "</td>
         	<td>{$r['un_attacker']} [{$r['attacker']}]</td>
         	<td>{$r['un_attacked']} [{$r['attacked']}]</td>
            ";
-        if ($r['result'] == "won")
+        if ($r['result'] == 'won')
         {
             echo "
 			<td>{$r['un_attacker']}</td>
@@ -134,14 +140,14 @@ function view_attack_logs()
             {
                 echo "{$r['un_attacker']} hospitalized {$r['un_attacked']}";
             }
-            else if ($r['stole'] == -2)
+            elseif ($r['stole'] == -2)
             {
                 echo "{$r['un_attacker']} attacked {$r['un_attacked']} and left them";
             }
             else
             {
                 echo "{$r['un_attacker']} mugged "
-                        . money_formatter($r['stole'])
+                        . money_formatter((int)$r['stole'])
                         . " from {$r['un_attacked']}";
             }
             echo '</td>';
@@ -156,11 +162,11 @@ function view_attack_logs()
         echo '</tr>';
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -173,18 +179,21 @@ function view_attack_logs()
     stafflog_add("Looked at the attack logs (Page $mypage)");
 }
 
-function view_itm_logs()
+/**
+ * @return void
+ */
+function view_itm_logs(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    echo "<h3>Item Xfer Logs</h3><hr />";
+    global $db;
+    echo '<h3>Item Xfer Logs</h3><hr />';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`ixFROM`)
-    				 FROM `itemxferlogs`");
+    $q = $db->query('SELECT COUNT(`ixFROM`)
+    				 FROM `itemxferlogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -235,9 +244,9 @@ function view_itm_logs()
                 ($r['ixFROMIP'] == $r['ixTOIP'])
                         ? '<span style="color: red;">Yes</span>'
                         : '<span style="color: green;">No</span>';
-        echo "
+        echo '
 		<tr>
-        	<td>" . date('F j Y, g:i:s a', $r['ixTIME'])
+        	<td>' . date('F j Y, g:i:s a', (int)$r['ixTIME'])
                 . "</td>
         	<td>{$r['sender']} [{$r['ixFROM']}]</td>
         	<td>{$r['sent']} [{$r['ixTO']}]</td>
@@ -249,11 +258,11 @@ function view_itm_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -266,18 +275,21 @@ function view_itm_logs()
     stafflog_add("Looked at the Item Xfer Logs (Page $mypage)");
 }
 
-function view_cash_logs()
+/**
+ * @return void
+ */
+function view_cash_logs(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    echo "<h3>Cash Xfer Logs</h3>";
+    global $db;
+    echo '<h3>Cash Xfer Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`cxFROM`)
-    				 FROM `cashxferlogs`");
+    $q = $db->query('SELECT COUNT(`cxFROM`)
+    				 FROM `cashxferlogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -329,7 +341,7 @@ function view_cash_logs()
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -340,7 +352,7 @@ function view_cash_logs()
         		[{$r['cxTO']}] (IP: {$r['cxTOIP']})
         	</td>
         	<td>$m</td>
-        	<td> " . money_formatter($r['cxAMOUNT'])
+        	<td> " . money_formatter((int)$r['cxAMOUNT'])
                 . "</td>
         	<td>
         		[<a href='staff_punit.php?action=fedform&amp;XID={$r['cxFROM']}'>Jail Sender</a>]
@@ -350,11 +362,11 @@ function view_cash_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -367,18 +379,21 @@ function view_cash_logs()
     stafflog_add("Viewed the Cash Xfer Logs (Page $mypage)");
 }
 
-function view_bank_logs()
+/**
+ * @return void
+ */
+function view_bank_logs(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    echo "<h3>Bank Xfer Logs</h3>";
+    global $db;
+    echo '<h3>Bank Xfer Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`cxFROM`)
-    				 FROM `bankxferlogs`");
+    $q = $db->query('SELECT COUNT(`cxFROM`)
+    				 FROM `bankxferlogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -421,7 +436,7 @@ function view_bank_logs()
                      ON `cx`.`cxTO` = `u2`.`userid`
                      ORDER BY `cx`.`cxTIME` DESC
                      LIMIT $st, $app");
-    $banks = array('bank' => 'City Bank', 'cyber' => 'Cyber Bank');
+    $banks = ['bank' => 'City Bank', 'cyber' => 'Cyber Bank'];
     while ($r = $db->fetch_row($q))
     {
         $mb = $banks[$r['cxBANK']];
@@ -432,7 +447,7 @@ function view_bank_logs()
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -443,7 +458,7 @@ function view_bank_logs()
         		[{$r['cxTO']}] (IP: {$r['cxTOIP']})
         	</td>
         	<td>$m</td>
-        	<td> " . money_formatter($r['cxAMOUNT'])
+        	<td> " . money_formatter((int)$r['cxAMOUNT'])
                 . "</td>
             <td>$mb</td>
             <td>
@@ -454,11 +469,11 @@ function view_bank_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -471,10 +486,13 @@ function view_bank_logs()
     stafflog_add("Viewed the Bank Xfer Logs (Page $mypage)");
 }
 
-function view_crys_logs()
+/**
+ * @return void
+ */
+function view_crys_logs(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    echo "<h3>Crystal Xfer Logs</h3>";
+    global $db;
+    echo '<h3>Crystal Xfer Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
@@ -483,8 +501,8 @@ function view_crys_logs()
     $app = 100;
     $q =
             $db->query(
-                    "SELECT COUNT(`cxFROM`)
-    				 FROM `crystalxferlogs`");
+                'SELECT COUNT(`cxFROM`)
+    				 FROM `crystalxferlogs`');
     $attacks = $db->fetch_single($q);
     $db->free_result($q);
     if ($attacks == 0)
@@ -535,7 +553,7 @@ function view_crys_logs()
         echo "
 		<tr>
         	<td>{$r['cxID']}</td>
-        	<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+        	<td>" . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                 . "</td>
         	<td>
         		<a href='viewuser.php?u={$r['cxFROM']}'>{$r['sender']}</a>
@@ -555,11 +573,11 @@ function view_crys_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -572,18 +590,21 @@ function view_crys_logs()
     stafflog_add("Viewed the Crystal Xfer Logs (Page $mypage)");
 }
 
-function view_mail_logs()
+/**
+ * @return void
+ */
+function view_mail_logs(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    echo "<h3>Mail Logs</h3>";
+    global $db;
+    echo '<h3>Mail Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`mail_from`)
-    				 FROM `mail`");
+    $q = $db->query('SELECT COUNT(`mail_from`)
+    				 FROM `mail`');
     $attacks = $db->fetch_single($q);
     if ($attacks == 0)
     {
@@ -630,7 +651,7 @@ function view_mail_logs()
         echo "
 		<tr>
         	<td>{$r['mail_id']}</td>
-        	<td>" . date("F j, Y, g:i:s a", $r['mail_time'])
+        	<td>" . date('F j, Y, g:i:s a', (int)$r['mail_time'])
                 . "</td>
         	<td>{$r['sender']} [{$r['mail_from']}]</td>
         	<td>{$r['sent']} [{$r['mail_to']}]</td>
@@ -645,11 +666,11 @@ function view_mail_logs()
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;
@@ -663,23 +684,27 @@ function view_mail_logs()
     stafflog_add("Viewed the Mail Logs (Page $mypage)");
 }
 
-function view_staff_logs()
+/**
+ * @return void
+ */
+function view_staff_logs(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $ir, $h;
     if ($ir['user_level'] != 2)
     {
         echo 'Page cannot be accessed.';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
-    echo "<h3>Staff Logs</h3>";
+    echo '<h3>Staff Logs</h3>';
     if (!isset($_GET['st']))
     {
         $_GET['st'] = 0;
     }
     $st = abs(intval($_GET['st']));
     $app = 100;
-    $q = $db->query("SELECT COUNT(`user`)
-    				 FROM `stafflog`");
+    $q = $db->query('SELECT COUNT(`user`)
+    				 FROM `stafflog`');
     $attacks = $db->fetch_single($q);
     if ($attacks == 0)
     {
@@ -719,18 +744,18 @@ function view_staff_logs()
 		<tr>
         	<td>{$r['username']} [{$r['user']}]</td>
         	<td>{$r['action']}</td>
-        	<td>" . date('F j Y g:i:s a', $r['time'])
+        	<td>" . date('F j Y g:i:s a', (int)$r['time'])
                 . "</td>
         	<td>{$r['ip']}</td>
         </tr>
            ";
     }
     $db->free_result($q);
-    echo "
+    echo '
     </table>
     <br />
     Pages:&nbsp;
-       ";
+       ';
     for ($i = 1; $i <= $pages; $i++)
     {
         $s = ($i - 1) * $app;

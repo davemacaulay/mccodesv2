@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,10 +21,11 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h, $set;
 require_once('globals.php');
 if (!$set['sendcrys_on'])
 {
-    die("Sorry, the game owner has disabled this feature.");
+    die('Sorry, the game owner has disabled this feature.');
 }
 if (!isset($_GET['ID']))
 {
@@ -37,11 +39,11 @@ $_GET['ID'] = abs((int) $_GET['ID']);
 $_POST['crystals'] = abs((int) $_POST['crystals']);
 if (!((int) $_GET['ID']))
 {
-    echo "Invalid User ID";
+    echo 'Invalid User ID';
 }
-else if ($_GET['ID'] == $userid)
+elseif ($_GET['ID'] == $userid)
 {
-    echo "Haha, what does sending crystals to yourself do anyway?";
+    echo 'Haha, what does sending crystals to yourself do anyway?';
 }
 else
 {
@@ -69,11 +71,12 @@ else
     		This transaction has been blocked for your security.<br />
     		Please send money quickly after you open the form - do not leave it open in tabs.<br />
     		&gt; <a href="sendcrys.php?ID=' . $_GET['ID'] . '">Try Again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
-        else if ($_POST['crystals'] > $ir['crystals'])
+        elseif ($_POST['crystals'] > $ir['crystals'])
         {
-            echo "Not enough crystals to send.";
+            echo 'Not enough crystals to send.';
         }
         else
         {
@@ -87,8 +90,7 @@ else
                      WHERE `userid` = {$_GET['ID']}");
             echo "You sent {$_POST['crystals']} crystals to {$er['username']} (ID {$_GET['ID']}).";
             event_add($_GET['ID'],
-                    "You received {$_POST['crystals']} crystals from {$ir['username']}.",
-                    $c);
+                "You received {$_POST['crystals']} crystals from {$ir['username']}.");
             $db->query(
                     "INSERT INTO `crystalxferlogs`
                      VALUES (NULL, $userid, {$_GET['ID']},
@@ -128,17 +130,17 @@ else
                          LIMIT 5");
         while ($r = $db->fetch_row($q))
         {
-            echo "<tr>
-            		<td>" . date("F j, Y, g:i:s a", $r['cxTIME'])
+            echo '<tr>
+            		<td>' . date('F j, Y, g:i:s a', (int)$r['cxTIME'])
                     . "</td>
                     <td>{$ir['username']} [{$ir['userid']}] </td>
                     <td>{$r['recipient']} [{$r['cxTO']}] </td>
-                    <td> " . number_format($r['cxAMOUNT'])
-                    . " crystals</td>
-                  </tr>";
+                    <td> " . number_format((int)$r['cxAMOUNT'])
+                    . ' crystals</td>
+                  </tr>';
         }
         $db->free_result($q);
-        echo "</table>";
+        echo '</table>';
     }
 }
 $h->endpage();

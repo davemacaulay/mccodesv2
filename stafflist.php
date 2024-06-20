@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,17 +19,19 @@
  * File: stafflist.php
  * Signature: fbca6a2d04d5db023e507f742ab7f0fd
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $h;
 require_once('globals.php');
-$staff = array();
+$staff = [];
 $q =
         $db->query(
-                "SELECT `userid`, `laston`, `username`, `level`, `money`,
+            'SELECT `userid`, `laston`, `username`, `level`, `money`,
  				 `user_level`
  				 FROM `users`
  				 WHERE `user_level` IN(2, 3, 5)
- 				 ORDER BY `userid` ASC");
+ 				 ORDER BY `userid` ASC');
 while ($r = $db->fetch_row($q))
 {
     $staff[$r['userid']] = $r;
@@ -60,8 +63,8 @@ foreach ($staff as $r)
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money'], '$') . '</td>
-			<td>' . date("F j, Y, g:i:s a", $r['laston']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';
@@ -93,8 +96,8 @@ foreach ($staff as $r)
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money'], '$') . '</td>
-			<td>' . date("F j, Y, g:i:s a", $r['laston']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';
@@ -126,8 +129,8 @@ foreach ($staff as $r)
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a> [' . $r['userid'] . ']</td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money'], '$') . '</td>
-			<td>' . date("F j, Y, g:i:s a", $r['laston']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
+			<td>' . date('F j, Y, g:i:s a', (int)$r['laston']) . '</td>
 			<td>' . $on . '</td>
 		</tr>
    		';

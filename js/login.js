@@ -18,93 +18,78 @@
  * Signature: 45166f2fb1d14bc62137b8dc74f14cf1
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-function getCookieVal(offset)
-{
-    var endstr = document.cookie.indexOf(";", offset);
-    if (endstr == -1)
+const getCookieVal = (offset) => {
+    let endstr = document.cookie.indexOf(";", offset);
+    if (endstr === -1) {
         endstr = document.cookie.length;
-    return unescape(document.cookie.substring(offset, endstr));
+    }
+    return decodeURIComponent(document.cookie.substring(offset, endstr));
 }
-function GetCookie(name)
-{
-    var arg = name + "=";
-    var alen = arg.length;
-    var clen = document.cookie.length;
-    var i = 0;
-    while (i < clen)
-    {
-        var j = i + alen;
-        if (document.cookie.substring(i, j) == arg)
+
+const GetCookie = (name) => {
+    const arg = name + "=";
+    const alen = arg.length;
+    const clen = document.cookie.length;
+    let i = 0;
+    while (i < clen) {
+        const j = i + alen;
+        if (document.cookie.substring(i, j) === arg) {
             return getCookieVal(j);
+        }
         i = document.cookie.indexOf(" ", i) + 1;
-        if (i == 0)
+        if (i === 0) {
             break;
+        }
     }
     return null;
 }
-function SetCookie(name, value, expires, path, domain, secure)
-{
-    document.cookie = name + "=" + escape(value)
-            + ((expires) ? "; expires=" + expires.toGMTString() : "")
-            + ((path) ? "; path=" + path : "")
-            + ((domain) ? "; domain=" + domain : "")
-            + ((secure) ? "; secure" : "");
+
+const SetCookie = (name, value, expires, path = null, domain = null, secure = null) => {
+    document.cookie = name + "=" + encodeURIComponent(value) + ((expires) ? "; expires=" + expires.toDateString() : "") + ((path) ? "; path=" + path : "") + ((domain) ? "; domain=" + domain : "") + ((secure) ? "; secure" : "");
 }
 
-function DeleteCookie(name, path, domain)
-{
-    if (GetCookie(name))
-    {
-        document.cookie = name + "=" + ((path) ? "; path=" + path : "")
-                + ((domain) ? "; domain=" + domain : "")
-                + "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+const DeleteCookie = (name, path, domain) => {
+    if (GetCookie(name)) {
+        document.cookie = name + "=" + ((path) ? "; path=" + path : "") + ((domain) ? "; domain=" + domain : "") + "; expires=Thu, 01-Jan-70 00:00:01 GMT";
     }
 }
-var usr;
-var pw;
-var sv;
-function getme()
-{
+
+let usr;
+let pw;
+let sv;
+
+const getme = () => {
     usr = document.login.username;
     pw = document.login.password;
     sv = document.login.save;
 
-    if (GetCookie('username') != null)
-    {
+    if (GetCookie('username') != null) {
         usr.value = GetCookie('username');
         pw.value = GetCookie('password');
     }
-    if (GetCookie('save') == 'true')
-    {
+    if (GetCookie('save') === 'true') {
         sv[0].checked = true;
-    }
-    else
-    {
+    } else {
         sv[1].checked = true;
     }
 
 }
-function saveme()
-{
-    if (usr.value.length != 0 && pw.value.length != 0)
-    {
-        if (sv[0].checked)
-        {
-            expdate = new Date();
+
+const saveme = () => {
+    if (usr.value.length > 0 && pw.value.length > 0) {
+        if (sv[0].checked) {
+            let expdate = new Date();
             expdate.setTime(expdate.getTime() + 31536000000);
             SetCookie('username', usr.value, expdate);
             SetCookie('password', pw.value, expdate);
             SetCookie('save', 'true', expdate);
         }
-        if (sv[1].checked)
-        {
+        if (sv[1].checked) {
             DeleteCookie('username');
             DeleteCookie('password');
             DeleteCookie('save');
         }
-    }
-    else
-    {
+    } else {
         alert('You must enter a username/password.');
         return false;
     }

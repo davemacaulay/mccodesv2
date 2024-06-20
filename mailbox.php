@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: mailbox.php
  * Signature: 34fecc51f2446b223c101ea47ac85528
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $ir, $h;
 require_once('globals.php');
 if ($ir['mailban'])
 {
@@ -48,9 +51,6 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case 'inbox':
-    mail_inbox();
-    break;
 case 'outbox':
     mail_outbox();
     break;
@@ -77,9 +77,12 @@ default:
     break;
 }
 
-function mail_inbox()
+/**
+ * @return void
+ */
+function mail_inbox(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     print
             <<<OUT
 Only the last 25 messages sent to you are visible.<br />
@@ -100,16 +103,16 @@ OUT;
                      LIMIT 25");
     while ($r = $db->fetch_row($q))
     {
-        $sent = date('F j, Y, g:i:s a', $r['mail_time']);
-        echo "<tr>
-        		<td>";
+        $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
+        echo '<tr>
+        		<td>';
         if ($r['userid'])
         {
             echo "<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a> [{$r['userid']}]";
         }
         else
         {
-            echo "SYSTEM";
+            echo 'SYSTEM';
         }
         $fm = urlencode($r['mail_text']);
         print
@@ -145,9 +148,12 @@ EOF;
     echo '</table>';
 }
 
-function mail_outbox()
+/**
+ * @return void
+ */
+function mail_outbox(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid;
     echo "Only the last 25 messages you have sent are visible.<br />
 	<table width='75%' cellspacing=1 class='table'>
 		<tr>
@@ -165,7 +171,7 @@ function mail_outbox()
                      LIMIT 25");
     while ($r = $db->fetch_row($q))
     {
-        $sent = date('F j, Y, g:i:s a', $r['mail_time']);
+        $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
         echo "<tr>
         		<td>
         			<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a>
@@ -181,9 +187,12 @@ function mail_outbox()
     $db->free_result($q);
 }
 
-function mail_compose()
+/**
+ * @return void
+ */
+function mail_compose(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     echo "
 	<form action='mailbox.php?action=send' method='post'>
 	<table width=75% cellspacing=1 class='table'>
@@ -200,7 +209,7 @@ function mail_compose()
                      ORDER BY u.`username` ASC");
     if ($db->num_rows($q) == 0)
     {
-        echo "You have no contacts!";
+        echo 'You have no contacts!';
     }
     else
     {
@@ -210,7 +219,7 @@ function mail_compose()
             $esc_part = addslashes($r['username']);
             echo "<option value='{$esc_part}'>{$r['username']}</option>";
         }
-        echo "</select>";
+        echo '</select>';
     }
     $db->free_result($q);
     $_GET['ID'] =
@@ -284,27 +293,30 @@ function mail_compose()
         {
             $sender =
                     ($_GET['ID'] == $r['mail_from']) ? $user : $ir['username'];
-            $sent = date('F j, Y, g:i:s a', $r['mail_time']);
+            $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
             echo "<tr>
             		<td>$sent</td>
             		<td><b>{$sender} wrote:</b> {$r['mail_text']}</td>
             	  </tr>";
         }
         $db->free_result($q);
-        echo "</table>";
+        echo '</table>';
     }
 }
 
-function mail_send()
+/**
+ * @return void
+ */
+function mail_send(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $subj =
             $db->escape(
-                    str_replace("\n", "<br />",
+                    str_replace("\n", '<br />',
                             strip_tags(stripslashes($_POST['subject']))));
     $msg =
             $db->escape(
-                    str_replace("\n", "<br />",
+                    str_replace("\n", '<br />',
                             strip_tags(stripslashes($_POST['message']))));
     if (empty($subj) || empty($msg))
     {
@@ -312,7 +324,8 @@ function mail_send()
 		You must enter a message and subject.<br />
 		&gt; <a href="mailbox.php">Go Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     elseif ((strlen($msg) > 250) || (strlen($subj) > 50))
     {
@@ -320,7 +333,8 @@ function mail_send()
 		Messages/Subjects are limited to 250/50 characters per time.<br />
 		&gt; <a href="mailbox.php">Go Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['user1'] =
             (isset($_POST['user1'])
@@ -345,15 +359,17 @@ function mail_send()
 		<br />
 		<a href='mailbox.php'>&gt; Back</a>
    ";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (empty($_POST['user1']) && empty($_POST['user2']))
     {
         echo "You must select a contact or enter a username.<br />
 		<a href='mailbox.php'>&gt; Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
-    $sendto = ($_POST['user1']) ? $_POST['user1'] : $_POST['user2'];
+    $sendto = $_POST['user1'] ?: $_POST['user2'];
     $q =
             $db->query(
                     "SELECT `userid`
@@ -364,7 +380,8 @@ function mail_send()
         $db->free_result($q);
         echo "You cannot send mail to nonexistant users.<br />
 <a href='mailbox.php'>&gt; Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $to = $db->fetch_single($q);
     $db->free_result($q);
@@ -379,16 +396,20 @@ function mail_send()
 	<a href='mailbox.php'>&gt; Back</a>";
 }
 
-function mail_delete()
+/**
+ * @return void
+ */
+function mail_delete(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['ID'] =
             (isset($_GET['ID']) && is_numeric($_GET['ID']))
                     ? abs(intval($_GET['ID'])) : '';
     if (empty($_GET['ID']))
     {
         echo 'Invalid ID.<br />&gt; <a href="mailbox.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -401,7 +422,8 @@ function mail_delete()
         $db->free_result($q);
         echo 'Invalid ID.
         <br />&gt; <a href="mailbox.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(
@@ -412,9 +434,11 @@ function mail_delete()
 	<a href='mailbox.php'>&gt; Back</a>";
 }
 
-function mail_delall()
+/**
+ * @return void
+ */
+function mail_delall(): void
 {
-    global $ir, $c, $userid, $h;
     $delall_verf = request_csrf_code('mailbox_delall');
     echo "
 	This will delete all the messages in your inbox.
@@ -427,9 +451,12 @@ function mail_delall()
    	";
 }
 
-function mail_delall2()
+/**
+ * @return void
+ */
+function mail_delall2(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     if (!isset($_GET['verf'])
             || !verify_csrf_code('mailbox_delall', stripslashes($_GET['verf'])))
     {
@@ -456,8 +483,8 @@ function mail_delall2()
         $db->query(
                 "DELETE FROM `mail`
                  WHERE `mail_to` = $userid");
-        echo "
-		All " . $db->affected_rows()
+        echo '
+		All ' . $db->affected_rows()
                 . " mails in your inbox were deleted.<br />
 		&gt; <a href='mailbox.php'>Go Back</a>
    		";
@@ -465,9 +492,11 @@ function mail_delall2()
     $db->free_result($m_c);
 }
 
-function mail_archive()
+/**
+ * @return void
+ */
+function mail_archive(): void
 {
-    global $ir, $c, $userid, $h;
     echo "This tool will download an archive of all your messages.<br />
 	&gt; <a href='dlarchive.php?a=inbox'>Download Inbox</a><br />
 	&gt; <a href='dlarchive.php?a=outbox'>Download Outbox</a>";

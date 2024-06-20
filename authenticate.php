@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $set;
 require_once('globals_nonauth.php');
 // Check CSRF input
 if (!isset($_POST['verf'])
@@ -103,15 +105,14 @@ else
                     . $_SERVER['REQUEST_TIME']
                     . "
              WHERE `userid` = {$mem['userid']}");
-    if ($set['validate_period'] == "login" && $set['validate_on'])
+    if ($set['validate_period'] == 'login' && $set['validate_on'])
     {
         $db->query(
                 "UPDATE `users`
                  SET `verified` = 0
                  WHERE `userid` = {$mem['userid']}");
     }
-    $loggedin_url = 'http://' . determine_game_urlbase() . '/loggedin.php';
+    $loggedin_url = 'https://' . determine_game_urlbase() . '/loggedin.php';
     header("Location: {$loggedin_url}");
     exit;
 }
-

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,9 @@
  * File: cmarket.php
  * Signature: e26eace4420c392719bf14416ddb6230
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
-
+global $h;
 require_once('globals.php');
 echo '
 	<h3>Crystal Market</h3>
@@ -30,13 +32,13 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "buy":
+case 'buy':
     crystal_buy();
     break;
-case "remove":
+case 'remove':
     crystal_remove();
     break;
-case "add":
+case 'add':
     crystal_add();
     break;
 default:
@@ -44,9 +46,12 @@ default:
     break;
 }
 
-function cmarket_index()
+/**
+ * @return void
+ */
+function cmarket_index(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid;
     echo "
 	<a href='cmarket.php?action=add'>&gt; Add A Listing</a><br /><br />
 	Viewing all listings...
@@ -61,12 +66,12 @@ function cmarket_index()
 	</tr>";
 
     $sql =
-            "SELECT `cm`.`cmADDER`, `cm`.`cmPRICE`, `cmID`, `cmQTY`,
+        'SELECT `cm`.`cmADDER`, `cm`.`cmPRICE`, `cmID`, `cmQTY`,
               `u`.`userid`, `username`, `level`, `money`, `crystals`,
               `gender`, `donatordays`
               FROM `crystalmarket` AS `cm`
               LEFT JOIN `users` AS `u` ON `u`.`userid` = `cm`.`cmADDER`
-              ORDER BY (`cmPRICE`/`cmQTY`) ASC";
+              ORDER BY (`cmPRICE`/`cmQTY`) ASC';
     $q = $db->query($sql);
 
     while ($r = $db->fetch_row($q))
@@ -84,7 +89,7 @@ function cmarket_index()
                     "<a href='cmarket.php?action=buy&ID={$r['cmID']}'>Buy</a>";
         }
         $each = (float) $r['cmPRICE'] * $r['cmQTY'];
-        $r['money'] = number_format($r['money']);
+        $r['money'] = number_format((int)$r['money']);
 
         echo "
 		<br />
@@ -93,27 +98,31 @@ function cmarket_index()
 		<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a> [{$r['userid']}]
 		</td>
 		<td>{$r['cmQTY']}</td>
-		<td> " . money_formatter($r['cmPRICE']) . "</td> <td>"
-                . money_formatter($each)
+		<td> " . money_formatter((int)$r['cmPRICE']) . '</td> <td>'
+                . money_formatter((int)$each)
                 . "</td> <td>[{$link}]
 		</td> </tr>";
     }
     $db->free_result($q);
-    echo "
+    echo '
 	</table>
-	";
+	';
 }
 
-function crystal_remove()
+/**
+ * @return void
+ */
+function crystal_remove(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['ID'] =
             (isset($_GET['ID']) && is_numeric($_GET['ID']))
                     ? abs(intval($_GET['ID'])) : '';
     if (empty($_GET['ID']))
     {
         echo 'Something went wrong.<br />&gt; <a href="cmarket.php" alt="Go Back" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -140,16 +149,20 @@ function crystal_remove()
 	";
 }
 
-function crystal_buy()
+/**
+ * @return void
+ */
+function crystal_buy(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid, $h;
     $_GET['ID'] =
             (isset($_GET['ID']) && is_numeric($_GET['ID']))
                     ? abs(intval($_GET['ID'])) : '';
     if (empty($_GET['ID']))
     {
         echo 'Something went wrong.<br />&gt; <a href="cmarket.php" alt="Go Back" title="Go Back">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -170,7 +183,7 @@ function crystal_buy()
     $_POST['QTY'] =
             (isset($_POST['QTY']) && is_numeric($_POST['QTY']))
                     ? abs(intval($_POST['QTY'])) : '';
-    if ($_GET['ID'] && $_POST['QTY'])
+    if ($_GET['ID'] > 0 && $_POST['QTY'])
     {
         $cprice = $r['cmPRICE'] * $_POST['QTY'];
         if ($cprice > $ir['money'])
@@ -214,18 +227,18 @@ function crystal_buy()
                         . ' WHERE `userid` = ' . $r['cmADDER']);
 
         event_add($r['cmADDER'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> bought of {$_POST['QTY']} your crystals from the market for "
-                        . money_formatter($cprice) . ".", $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> bought of {$_POST['QTY']} your crystals from the market for "
+            . money_formatter((int)$cprice) . '.');
 
         echo '
 	You bought the ' . $_POST['QTY'] . ' crystals from the market for $'
-                . number_format($cprice)
+                . number_format((int)$cprice)
                 . '.
 	<br />
 	><a href="cmarket.php">Back</a>
 	';
     }
-    elseif ($_GET['ID'] AND !$_POST['QTY'])
+    elseif ($_GET['ID'] > 0 AND !$_POST['QTY'])
     {
 
         echo "
@@ -245,9 +258,12 @@ There is <b>{$r['cmQTY']}</b> available to buy.
 
 }
 
-function crystal_add()
+/**
+ * @return void
+ */
+function crystal_add(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid, $h;
     $_POST['amnt'] =
             (isset($_POST['amnt']) && is_numeric($_POST['amnt']))
                     ? abs(intval($_POST['amnt'])) : '';

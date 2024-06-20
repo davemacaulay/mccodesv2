@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,14 +21,14 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-function parse_bgcolor()
+function parse_bgcolor(): array
 {
     $hexdec = '0-9abcdef';
     if (preg_match('`^[' . $hexdec . ']{6}$`ims', $_GET['bgcolor']) == 0
             && preg_match('`^[' . $hexdec . ']+${3}`ims', $_GET['bgcolor'])
                     == 0)
     {
-        return array(0, 0, 0);
+        return [0, 0, 0];
     }
     if (strlen($_GET['bgcolor']) == 6)
     {
@@ -35,7 +36,7 @@ function parse_bgcolor()
         $p2 = $_GET['bgcolor'][2] . $_GET['bgcolor'][3];
         $p3 = $_GET['bgcolor'][4] . $_GET['bgcolor'][5];
     }
-    else if (strlen($_GET['bgcolor']) == 3)
+    elseif (strlen($_GET['bgcolor']) == 3)
     {
         $p1 = $_GET['bgcolor'][0] . $_GET['bgcolor'][0];
         $p2 = $_GET['bgcolor'][1] . $_GET['bgcolor'][1];
@@ -43,9 +44,9 @@ function parse_bgcolor()
     }
     else
     {
-        return array(0, 0, 0);
+        return [0, 0, 0];
     }
-    return array(hexdec($p1), hexdec($p2), hexdec($p3));
+    return [hexdec($p1), hexdec($p2), hexdec($p3)];
 }
 session_name('MCCSID');
 session_start();
@@ -56,14 +57,14 @@ if (!isset($_SESSION['started']))
 }
 $bgcolor =
         (isset($_GET['bgcolor']) && is_string($_GET['bgcolor']))
-                ? parse_bgcolor() : array(255, 255, 255);
-$text = array(255 - $bgcolor[0], 255 - $bgcolor[1], 255 - $bgcolor[2]);
+                ? parse_bgcolor() : [255, 255, 255];
+$text = [255 - $bgcolor[0], 255 - $bgcolor[1], 255 - $bgcolor[2]];
 $distort = rand(80, 120) / 100;
 $distort2 = rand(80, 120) / 100;
-$f_x = round(75 * $distort);
-$f_y = round(25 * $distort);
-$s_x = round(175 * $distort2);
-$s_y = round(70 * $distort2);
+$f_x = (int)round(75 * $distort);
+$f_y = (int)round(25 * $distort);
+$s_x = (int)round(175 * $distort2);
+$s_y = (int)round(70 * $distort2);
 $first = imagecreatetruecolor($f_x, $f_y);
 $second = imagecreatetruecolor($s_x, $s_y);
 $white = imagecolorallocate($first, $bgcolor[0], $bgcolor[1], $bgcolor[2]);
@@ -78,14 +79,14 @@ $color[2] = $blue;
 for ($i = 0; $i <= 2; $i++)
 {
     $points =
-            array(0 => array(10, $f_x - 10), 1 => array(5, $f_y - 5),
-                    2 => array(10, $f_x - 10), 3 => array(5, $f_y - 5),
-                    4 => array(10, $f_x - 10), 5 => array(5, $f_y - 5),
-                    6 => array(10, $f_x - 10), 7 => array(5, $f_y - 5),
-                    8 => array(10, $f_x - 10), 9 => array(5, $f_y - 5),);
-    imagefilledpolygon($first, $points, 5, $red);
+            [0 => [10, $f_x - 10], 1 => [5, $f_y - 5],
+                    2 => [10, $f_x - 10], 3 => [5, $f_y - 5],
+                    4 => [10, $f_x - 10], 5 => [5, $f_y - 5],
+                    6 => [10, $f_x - 10], 7 => [5, $f_y - 5],
+                    8 => [10, $f_x - 10], 9 => [5, $f_y - 5],];
+    imagefilledpolygon($first, $points, $red);
 }
-imagestring($first, 4, rand(0, $f_x / 3), rand(0, $f_y / 2.5),
+imagestring($first, 4, rand(0, (int)($f_x / 3)), rand(0, (int)($f_y / 2.5)),
         $_SESSION['captcha'], $black);
 imagecopyresized($second, $first, 0, 0, 0, 0, $s_x, $s_y, $f_x, $f_y);
 imagedestroy($first);
@@ -122,7 +123,7 @@ for ($i = 0; $i < 5; $i++)
             imagecolorallocate($second, rand(100, 255), rand(100, 255),
                     rand(100, 255));
 }
-@header("Content-Type: image/png");
+@header('Content-Type: image/png');
 $finished =
         imagerotate($second, rand(0, 15) - 7.5,
                 $bgcolor[2] * 65536 + $bgcolor[1] * 256 + $bgcolor[0]);

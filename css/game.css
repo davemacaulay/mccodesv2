@@ -1,3 +1,4 @@
+@CHARSET "ISO-8859-1";
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,12 +19,11 @@
  * Signature: cbae5999fc5ee7f66abb1dfeb0c0db49
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
-@CHARSET "ISO-8859-1";
 
 body {
 	background-color: #DEDEDE;
-	margin-top: 0px;
-	margin-bottom: 0px;
+	margin-top: 0;
+	margin-bottom: 0;
 	font-family: calibri, helvetica, arial, geneva, sans-serif;
 	font-size: 12px;
 	color: black;
@@ -53,7 +53,7 @@ textarea {
 }
 
 .table2 {
-	
+
 }
 
 .lgrad {
@@ -65,7 +65,7 @@ textarea {
 .linegrad {
 	background-image: url(../linegrad.PNG);
 	background-repeat: repeat-y;
-	background-align: center;
+	background-position: center;
 	width: 2px;
 }
 
@@ -103,10 +103,6 @@ textarea {
 }
 
 .table {
-	background-color: #000000;
-}
-
-.table3 {
 	background-color: #000000;
 }
 

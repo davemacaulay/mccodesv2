@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,10 +21,11 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h, $set;
 require_once('globals.php');
 if (!$set['sendbank_on'])
 {
-    die("Sorry, the game owner has disabled this feature.");
+    die('Sorry, the game owner has disabled this feature.');
 }
 if (!isset($_GET['ID']))
 {
@@ -37,11 +39,11 @@ $_GET['ID'] = abs((int) $_GET['ID']);
 $_POST['xfer'] = abs((int) $_POST['xfer']);
 if (!((int) $_GET['ID']))
 {
-    echo "Invalid User ID";
+    echo 'Invalid User ID';
 }
-else if ($_GET['ID'] == $userid)
+elseif ($_GET['ID'] == $userid)
 {
-    echo "Haha, what does sending money to yourself do anyway?";
+    echo 'Haha, what does sending money to yourself do anyway?';
 }
 else
 {
@@ -62,9 +64,9 @@ else
     if ($er['bankmoney'] == -1 || $ir['bankmoney'] == -1)
     {
         die(
-                "Sorry,you or the person you are sending to does not have a bank account.");
+        'Sorry,you or the person you are sending to does not have a bank account.');
     }
-    if ((int) $_POST['xfer'])
+    if ($_POST['xfer'] > 0)
     {
         if (!isset($_POST['verf'])
                 || !verify_csrf_code("sendbank_{$_GET['ID']}",
@@ -74,11 +76,12 @@ else
     		This transaction has been blocked for your security.<br />
     		Please send money quickly after you open the form - do not leave it open in tabs.<br />
     		&gt; <a href="sendbank.php?ID=' . $_GET['ID'] . '">Try Again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
-        else if ($_POST['xfer'] > $ir['bankmoney'])
+        elseif ($_POST['xfer'] > $ir['bankmoney'])
         {
-            echo "Not enough money to send.";
+            echo 'Not enough money to send.';
         }
         else
         {
@@ -90,12 +93,11 @@ else
                     "UPDATE `users`
                      SET `bankmoney` = `bankmoney` + {$_POST['xfer']}
                      WHERE `userid` = {$_GET['ID']}");
-            echo "You Bank Transferred " . money_formatter($_POST['xfer'])
+            echo 'You Bank Transferred ' . money_formatter($_POST['xfer'])
                     . " to {$er['username']} (ID {$_GET['ID']}).";
             event_add($_GET['ID'],
-                    "You received " . money_formatter($_POST['xfer'])
-                            . " into your bank account from {$ir['username']}.",
-                    $c);
+                'You received ' . money_formatter($_POST['xfer'])
+                . " into your bank account from {$ir['username']}.");
 
             $db->query(
                     "INSERT INTO `bankxferlogs`

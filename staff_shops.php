@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,11 +21,13 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -48,13 +51,15 @@ case 'delshop':
     delshop();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
 
-function new_shop_form()
+/**
+ * @return void
+ */
+function new_shop_form(): void
 {
-    global $db, $ir, $c, $h;
     $csrf = request_csrf_html('staff_newshop');
     echo "
     <h3>Adding a New Shop</h3>
@@ -63,7 +68,7 @@ function new_shop_form()
     	<br />
     	Shop Desc: <input type='text' name='sd' value='' />
     	<br />
-    	Shop Location: " . location_dropdown(NULL, "sl")
+    	Shop Location: " . location_dropdown('sl')
             . "
     	<br />
     	{$csrf}
@@ -72,9 +77,12 @@ function new_shop_form()
        ";
 }
 
-function new_shop_submit()
+/**
+ * @return void
+ */
+function new_shop_submit(): void
 {
-    global $db, $ir, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_newshop', 'staff_shops.php?action=newshop');
     $_POST['sl'] =
             (isset($_POST['sl']) && is_numeric($_POST['sl']))
@@ -105,7 +113,8 @@ function new_shop_submit()
             $db->free_result($q);
             echo 'Location doesn\'t seem to exist.<br />
             &gt; <a href="staff_shops.php?action=newshop">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -115,20 +124,23 @@ function new_shop_submit()
         echo 'The ' . $_POST['sn']
                 . ' Shop was successfully added to the game.<br />
                 &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 }
 
-function new_stock_form()
+/**
+ * @return void
+ */
+function new_stock_form(): void
 {
-    global $db, $ir, $c, $h;
     $csrf = request_csrf_html('staff_newstock');
     echo "
     <h3>Adding an item to a shop</h3>
     <form action='staff_shops.php?action=newstocksub' method='post'>
-    	Shop: " . shop_dropdown(NULL, "shop") . "
+    	Shop: " . shop_dropdown() . '
     	<br />
-    	Item: " . item_dropdown(NULL, "item")
+    	Item: ' . item_dropdown()
             . "
     	<br />
     	{$csrf}
@@ -137,9 +149,12 @@ function new_stock_form()
        ";
 }
 
-function new_stock_submit()
+/**
+ * @return void
+ */
+function new_stock_submit(): void
 {
-    global $db, $ir, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_newstock', 'staff_shops.php?action=newstock');
     $_POST['shop'] =
             (isset($_POST['shop']) && is_numeric($_POST['shop']))
@@ -151,7 +166,8 @@ function new_stock_submit()
     {
         echo 'Invalid shop/item.<br />
         &gt; <a href="staff_shops.php?action=newstock">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -169,7 +185,8 @@ function new_stock_submit()
         $db->free_result($q2);
         echo 'Invalid shop/item.<br />
         &gt; <a href="staff_shops.php?action=newstock">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->free_result($q2);
@@ -183,12 +200,16 @@ function new_stock_submit()
             . $_POST['shop']
             . '<br />
             &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function delshop()
+/**
+ * @return void
+ */
+function delshop(): void
 {
-    global $db, $ir, $c, $h;
+    global $db, $h;
     $_POST['shop'] =
             (isset($_POST['shop']) && is_numeric($_POST['shop']))
                     ? abs(intval($_POST['shop'])) : '';
@@ -205,7 +226,8 @@ function delshop()
             $db->free_result($shpq);
             echo "Invalid shop.<br />
             &gt; <a href='staff_shops.php?action=delshop'>Go back</a>";
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $sn = $db->fetch_single($shpq);
         $db->free_result($shpq);
@@ -219,7 +241,8 @@ function delshop()
         echo 'Shop ' . $sn
                 . ' Deleted.<br />
                 &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -229,7 +252,7 @@ function delshop()
         <hr />
         Deleting a shop will remove it from the game permanently. Be sure.
         <form action='staff_shops.php?action=delshop' method='post'>
-        	Shop: " . shop_dropdown(NULL, "shop")
+        	Shop: " . shop_dropdown()
                 . "
         	<br />
         	{$csrf}

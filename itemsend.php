@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))
@@ -62,13 +64,14 @@ if (!empty($_POST['qty']) && !empty($_POST['user']))
    			This transaction has been blocked for your security.<br />
     		Please send items quickly after you open the form - do not leave it open in tabs.<br />
     		&gt; <a href="itemsend.php?ID=' . $_GET['ID'] . '">Try Again</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
-        else if ($_POST['qty'] > $r['inv_qty'])
+        elseif ($_POST['qty'] > $r['inv_qty'])
         {
             echo 'You are trying to send more than you have!';
         }
-        else if ($db->num_rows($m) == 0)
+        elseif ($db->num_rows($m) == 0)
         {
             echo 'You are trying to send to an invalid user!';
         }
@@ -80,8 +83,7 @@ if (!empty($_POST['qty']) && !empty($_POST['user']))
             echo 'You sent ' . $_POST['qty'] . ' ' . $r['itmname'] . '(s) to '
                     . $rm['username'];
             event_add($_POST['user'],
-                    "You received {$_POST['qty']} {$r['itmname']}(s) from <a href='viewuser.php?u=$userid'>{$ir['username']}</a>",
-                    $c);
+                "You received {$_POST['qty']} {$r['itmname']}(s) from <a href='viewuser.php?u=$userid'>{$ir['username']}</a>");
             $db->query(
                     "INSERT INTO `itemxferlogs`
                      VALUES(NULL, $userid, {$_POST['user']}, {$r['itmid']},
@@ -92,7 +94,7 @@ if (!empty($_POST['qty']) && !empty($_POST['user']))
     }
     $db->free_result($id);
 }
-else if (!empty($_GET['ID']))
+elseif (!empty($_GET['ID']))
 {
     $id =
             $db->query(

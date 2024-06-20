@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,13 +19,16 @@
  * File: staff_polls.php
  * Signature: e7064aaaec3bbd2ec4d879dc8f3ac30b
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 //This contains shop stuffs
 if (!isset($_GET['action']))
@@ -47,9 +51,11 @@ default:
     break;
 }
 
-function startpoll()
+/**
+ * @return void
+ */
+function startpoll(): void
 {
-    global $ir, $c, $userid, $db;
     $csrf = request_csrf_html('staff_startpoll');
     echo "
         Fill out question and choices to start a poll.
@@ -87,9 +93,12 @@ function startpoll()
            ";
 }
 
-function startpollsub()
+/**
+ * @return void
+ */
+function startpollsub(): void
 {
-    global $ir, $c, $userid, $db, $h;
+    global $db, $h;
     echo 'Starting new poll...';
     staff_csrf_stdverify('staff_startpoll', 'staff_polls.php?action=spoll');
     $question =
@@ -140,10 +149,10 @@ function startpollsub()
     {
         echo 'You must input a question and atleast two answers.<br />
         &gt; <a href="staff_polls.php?action=spoll">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
-    $poll =
-            $db->query(
+    $db->query(
                     "INSERT INTO `polls`
                      (`active`, `question`, `choice1`, `choice2`, `choice3`,
                      `choice4`, `choice5`, `choice6`, `choice7`, `choice8`,
@@ -154,12 +163,16 @@ function startpollsub()
                      '{$_POST['hidden']}')");
     echo 'New Poll Started.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function endpoll()
+/**
+ * @return void
+ */
+function endpoll(): void
 {
-    global $ir, $c, $userid, $db, $h;
+    global $db, $h;
     $_POST['poll'] =
             (isset($_POST['poll']) && is_numeric($_POST['poll']))
                     ? abs(intval($_POST['poll'])) : '';
@@ -205,7 +218,8 @@ function endpoll()
             $db->free_result($q);
             echo 'Invalid poll.<br />
             &gt; <a href="staff_polls.php?action=endpoll">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -214,7 +228,8 @@ function endpoll()
                  WHERE `id` = {$_POST['poll']}");
         echo 'Poll closed.<br />
         &gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 }
 $h->endpage();

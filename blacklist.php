@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,11 +21,13 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $userid, $h;
 require_once('globals.php');
 if ($ir['donatordays'] == 0)
 {
     echo 'This feature is for donators only.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 echo '<h3>Black List</h3>';
 if (!isset($_GET['action']))
@@ -33,13 +36,13 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "add":
+case 'add':
     add_enemy();
     break;
-case "remove":
+case 'remove':
     remove_enemy();
     break;
-case "ccomment":
+case 'ccomment':
     change_comment();
     break;
 default:
@@ -47,9 +50,12 @@ default:
     break;
 }
 
-function black_list()
+/**
+ * @return void
+ */
+function black_list(): void
 {
-    global $db, $ir, $c, $userid;
+    global $db, $ir, $userid;
     echo "
 <a href='blacklist.php?action=add'>&gt; Add an Enemy</a><br />
 These are the people on your black list.
@@ -59,7 +65,7 @@ These are the people on your black list.
 Most hated: [";
     $q2r =
             $db->query(
-                    "SELECT `username`, `userid` FROM `users` ORDER BY `enemy_count` DESC LIMIT 5");
+                'SELECT `username`, `userid` FROM `users` ORDER BY `enemy_count` DESC LIMIT 5');
     $r = 0;
     while ($r2r = $db->fetch_row($q2r))
     {
@@ -98,7 +104,7 @@ Most hated: [";
                 ($r['laston'] >= (($_SERVER['REQUEST_TIME'] - 15) * 60))
                         ? '<font color="green"><b>Online</b></font>'
                         : '<font color="red"><b>Offline</b></font>';
-        $d = "";
+        $d = '';
         if ($r['donatordays'])
         {
             $r['username'] = "<font color=red>{$r['username']}</font>";
@@ -123,12 +129,15 @@ Most hated: [";
    ";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
 
-function add_enemy()
+/**
+ * @return void
+ */
+function add_enemy(): void
 {
-    global $db, $ir, $c, $userid;
+    global $db, $userid;
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
                     ? abs(intval($_POST['ID'])) : '';
@@ -150,13 +159,13 @@ function add_enemy()
         if ($dupe_count > 0)
         {
 
-            echo "You cannot add the same person twice.";
+            echo 'You cannot add the same person twice.';
         }
-        else if ($userid == $_POST['ID'])
+        elseif ($userid == $_POST['ID'])
         {
-            echo "You cannot be so lonely that you have to try and add yourself.";
+            echo 'You cannot be so lonely that you have to try and add yourself.';
         }
-        else if ($db->num_rows($q) == 0)
+        elseif ($db->num_rows($q) == 0)
         {
             echo "Oh no, you're trying to add a ghost.";
         }
@@ -190,9 +199,12 @@ Adding an enemy!
 
 }
 
-function remove_enemy()
+/**
+ * @return void
+ */
+function remove_enemy(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['b'] =
             (isset($_GET['b']) && is_numeric($_GET['b']))
                     ? abs(intval($_GET['b'])) : '';
@@ -202,7 +214,8 @@ function remove_enemy()
 You didn\'t select a real enemy.<br />
 &gt; <a href="blacklist.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 
     $q =
@@ -211,7 +224,8 @@ You didn\'t select a real enemy.<br />
     if ($db->num_rows($q) == 0)
     {
         echo 'Listing doesn\'t exist.';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->free_result($q);
@@ -225,9 +239,12 @@ Black list entry removed!<br />
    ";
 }
 
-function change_comment()
+/**
+ * @return void
+ */
+function change_comment(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_POST['b'] =
             (isset($_POST['b']) && is_numeric($_POST['b']))
                     ? abs(intval($_POST['b'])) : '';
@@ -255,7 +272,8 @@ Comment for enemy changed!<br />
 Invalid enemy.<br />
 <a href='blacklist.php'>&gt; Back</a>
    ";
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(

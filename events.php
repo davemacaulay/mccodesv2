@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: events.php
  * Signature: 9ad026a7332f4207ef5b852bfdac7554
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 if (!isset($_GET['delete']))
 {
@@ -84,7 +87,8 @@ if (isset($_GET['delall2']) && $_GET['delall2'])
     {
         echo 'You have no events to delete.<br />
         	  &gt; <a href="events.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query("DELETE FROM `events`
     			WHERE `evUSER` = $userid");
@@ -92,7 +96,8 @@ if (isset($_GET['delall2']) && $_GET['delall2'])
 All <b>{$am}</b> events you had were deleted.<br />
 <br />&gt; <a href='events.php'>Go Back</a>
    ";
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 echo "
 <b>Latest 10 events</b>
@@ -117,8 +122,8 @@ echo "
    ";
 while ($r = $db->fetch_row($q))
 {
-    echo "<tr>
-			<td>" . date('F j Y, g:i:s a', $r['evTIME']);
+    echo '<tr>
+			<td>' . date('F j Y, g:i:s a', (int)$r['evTIME']);
     if (!$r['evREAD'])
     {
         echo '<br /><b>New!</b>';
@@ -128,7 +133,7 @@ while ($r = $db->fetch_row($q))
 			<td><a href='events.php?delete={$r['evID']}'>Delete</a></td>
 		</tr>";
 }
-echo "</table>";
+echo '</table>';
 $db->free_result($q);
 if ($ir['new_events'] > 0)
 {

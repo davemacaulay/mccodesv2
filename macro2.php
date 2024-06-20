@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -21,20 +22,21 @@
  */
 
 $nohdr = 1;
+global $db, $ir, $userid, $set, $domain;
 require_once('globals.php');
 if (!$set['validate_on'] || $ir['verified'])
 {
-    echo "What are you doing on this page? Go somewhere else.";
+    echo 'What are you doing on this page? Go somewhere else.';
     exit;
 }
 if (!isset($_POST['refer']) || !is_string($_POST['refer'])
         || !isset($_POST['captcha']) || !is_string($_POST['captcha']))
 {
-    echo "Invalid usage.";
+    echo 'Invalid usage.';
     exit;
 }
 $macro1_url =
-        "http://{$domain}/macro1.php?code=invalid&amp;refer="
+        "https://{$domain}/macro1.php?code=invalid&amp;refer="
                 . urlencode(stripslashes($_POST['refer']));
 if (!isset($_SESSION['captcha']))
 {
@@ -54,7 +56,7 @@ if (!isset($_POST['verf'])
 }
 $ref = $_POST['refer'];
 unset($_SESSION['captcha']);
-$dest_url = "http://{$domain}/{$ref}";
+$dest_url = "https://{$domain}/{$ref}";
 $db->query(
         "UPDATE `users`
 		 SET `verified` = 1

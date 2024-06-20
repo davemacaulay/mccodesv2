@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,14 +19,17 @@
  * File: staff_courses.php
  * Signature: cd12f79bc59259fafe30ee2517389b04
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $ir, $h;
 require_once('sglobals.php');
 if ($ir['user_level'] != 2)
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 if (!isset($_GET['action']))
 {
@@ -33,74 +37,82 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "addcourse":
+case 'addcourse':
     addcourse();
     break;
-case "editcourse":
+case 'editcourse':
     editcourse();
     break;
-case "delcourse":
+case 'delcourse':
     delcourse();
     break;
 default:
-    echo "Error: This script requires an action.";
+    echo 'Error: This script requires an action.';
     break;
 }
-
-function addcourse()
+function process_course_post_data(): void
 {
-    global $db, $ir, $c, $h, $userid;
-    $cost =
-            (isset($_POST['cost']) && is_numeric($_POST['cost']))
-                    ? abs(intval($_POST['cost'])) : '';
-    $energy =
-            (isset($_POST['energy']) && is_numeric($_POST['energy']))
-                    ? abs(intval($_POST['energy'])) : '';
-    $days =
-            (isset($_POST['days']) && is_numeric($_POST['days']))
-                    ? abs(intval($_POST['days'])) : '';
-    $str =
-            (isset($_POST['str']) && is_numeric($_POST['str']))
-                    ? abs(intval($_POST['str'])) : '';
-    $agil =
-            (isset($_POST['agil']) && is_numeric($_POST['agil']))
-                    ? abs(intval($_POST['agil'])) : '';
-    $gua =
-            (isset($_POST['gua']) && is_numeric($_POST['gua']))
-                    ? abs(intval($_POST['gua'])) : '';
-    $lab =
-            (isset($_POST['lab']) && is_numeric($_POST['lab']))
-                    ? abs(intval($_POST['lab'])) : '';
-    $iq =
-            (isset($_POST['iq']) && is_numeric($_POST['iq']))
-                    ? abs(intval($_POST['iq'])) : '';
+    global $db;
+    $_POST['cost'] =
+        (isset($_POST['cost']) && is_numeric($_POST['cost']))
+            ? abs(intval($_POST['cost'])) : '';
+    $_POST['energy'] =
+        (isset($_POST['energy']) && is_numeric($_POST['energy']))
+            ? abs(intval($_POST['energy'])) : '';
+    $_POST['days'] =
+        (isset($_POST['days']) && is_numeric($_POST['days']))
+            ? abs(intval($_POST['days'])) : '';
+    $_POST['str'] =
+        (isset($_POST['str']) && is_numeric($_POST['str']))
+            ? abs(intval($_POST['str'])) : '';
+    $_POST['agil'] =
+        (isset($_POST['agil']) && is_numeric($_POST['agil']))
+            ? abs(intval($_POST['agil'])) : '';
+    $_POST['gua'] =
+        (isset($_POST['gua']) && is_numeric($_POST['gua']))
+            ? abs(intval($_POST['gua'])) : '';
+    $_POST['lab'] =
+        (isset($_POST['lab']) && is_numeric($_POST['lab']))
+            ? abs(intval($_POST['lab'])) : '';
+    $_POST['iq'] =
+        (isset($_POST['iq']) && is_numeric($_POST['iq']))
+            ? abs(intval($_POST['iq'])) : '';
     $_POST['name'] =
-            (isset($_POST['name'])
-                    && preg_match(
-                            "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                            $_POST['name']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['name'])))
-                    : '';
+        (isset($_POST['name'])
+            && preg_match(
+                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
+                $_POST['name']))
+            ? $db->escape(strip_tags(stripslashes($_POST['name'])))
+            : '';
     $_POST['desc'] =
-            (isset($_POST['desc'])
-                    && preg_match(
-                            "/^[a-z0-9_.]+([\\s]{1}[a-z0-9_.]|[a-z0-9_.])+$/i",
-                            $_POST['desc']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
-                    : '';
-    if ($_POST['name'] && $_POST['desc'] && $cost && $days && $cost && $energy
-            && $str && $agil && $gua && $lab && $iq)
+        (isset($_POST['desc'])
+            && preg_match(
+                "/^[a-z0-9_.]+([\\s]{1}[a-z0-9_.]|[a-z0-9_.])+$/i",
+                $_POST['desc']))
+            ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
+            : '';
+}
+
+/**
+ * @return void
+ */
+function addcourse(): void
+{
+    global $db, $h;
+    process_course_post_data();
+    if ($_POST['name'] && $_POST['desc'] && $_POST['cost'] && $_POST['days'] && $_POST['cost'] > 0 && $_POST['energy'] > 0
+            && $_POST['str'] > -1 && $_POST['agil'] > -1 && $_POST['gua'] > -1 && $_POST['lab'] > -1 && $_POST['iq'] > -1)
     {
         staff_csrf_stdverify('staff_addcourse',
                 'staff_courses.php?action=addcourse');
         $db->query(
                 "INSERT INTO `courses`
-                 VALUES(NULL, '{$_POST['name']}', '{$_POST['desc']}', '$cost',
-                 '$energy', '$days', '$str', '$gua',  '$lab', '$agil',
-                 '$iq')");
-        echo 'Course ' . $_POST['name']
-                . ' added.<br />&gt; <a href="staff.php">Goto Main</a>';
-        die($h->endpage());
+                 VALUES(NULL, '{$_POST['name']}', '{$_POST['desc']}', '{$_POST['cost']}',
+                 '{$_POST['energy']}', '{$_POST['days']}', '{$_POST['str']}', '{$_POST['gua']}',  '{$_POST['lab']}', '{$_POST['agil']}',
+                 '{$_POST['iq']}')");
+        echo 'Course ' . $_POST['name'] . ' added.<br />&gt; <a href="staff.php">Goto Main</a>';
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -135,80 +147,47 @@ function addcourse()
     }
 }
 
-function editcourse()
+/**
+ * @return void
+ */
+function editcourse(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     if (!isset($_POST['step']))
     {
         $_POST['step'] = '0';
     }
     switch ($_POST['step'])
     {
-    case "2":
-        $cost =
-                (isset($_POST['cost']) && is_numeric($_POST['cost']))
-                        ? abs(intval($_POST['cost'])) : '';
-        $energy =
-                (isset($_POST['energy']) && is_numeric($_POST['energy']))
-                        ? abs(intval($_POST['energy'])) : '';
-        $days =
-                (isset($_POST['days']) && is_numeric($_POST['days']))
-                        ? abs(intval($_POST['days'])) : '';
-        $str =
-                (isset($_POST['str']) && is_numeric($_POST['str']))
-                        ? abs(intval($_POST['str'])) : '';
-        $agil =
-                (isset($_POST['agil']) && is_numeric($_POST['agil']))
-                        ? abs(intval($_POST['agil'])) : '';
-        $gua =
-                (isset($_POST['gua']) && is_numeric($_POST['gua']))
-                        ? abs(intval($_POST['gua'])) : '';
-        $lab =
-                (isset($_POST['lab']) && is_numeric($_POST['lab']))
-                        ? abs(intval($_POST['lab'])) : '';
-        $iq =
-                (isset($_POST['iq']) && is_numeric($_POST['iq']))
-                        ? abs(intval($_POST['iq'])) : '';
-        $_POST['name'] =
-                (isset($_POST['name'])
-                        && preg_match(
-                                "/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
-                                $_POST['name']))
-                        ? $db->escape(strip_tags(stripslashes($_POST['name'])))
-                        : '';
-        $_POST['desc'] =
-                (isset($_POST['desc'])
-                        && preg_match(
-                                "/^[a-z0-9_.]+([\\s]{1}[a-z0-9_.]|[a-z0-9_.])+$/i",
-                                $_POST['desc']))
-                        ? $db->escape(strip_tags(stripslashes($_POST['desc'])))
-                        : '';
-        if (empty($_POST['name']) || empty($_POST['desc']) || empty($cost)
-                || empty($days) || empty($cost) || empty($energy)
-                || empty($str) || empty($agil) || empty($gua) || empty($lab)
-                || empty($iq))
+    case '2':
+        process_course_post_data();
+        if (empty($_POST['name']) || empty($_POST['desc']) || empty($_POST['cost'])
+                || empty($_POST['days']) || $_POST['energy'] < 0
+                || $_POST['str'] < 0 || $_POST['agil'] < 0 || $_POST['gua'] < 0 || $_POST['lab'] < 0
+                || $_POST['iq'] < 0)
         {
             echo 'Something went wrong.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editcourse2',
                 'staff_courses.php?action=editcourse');
         $db->query(
                 "UPDATE `courses`
                  SET `crNAME` = '{$_POST['name']}',
-                 `crDESC` = '{$_POST['desc']}', `crCOST` = $cost,
-                 `crENERGY` = $energy, `crDAYS` = $days, `crSTR` = $str,
-                 `crGUARD` = $gua, `crLABOUR` = $lab, `crAGIL` = $agil,
-                 `crIQ` = $iq
+                 `crDESC` = '{$_POST['desc']}', `crCOST` = {$_POST['cost']},
+                 `crENERGY` = {$_POST['energy']}, `crDAYS` = {$_POST['days']}, `crSTR` = {$_POST['str']},
+                 `crGUARD` = {$_POST['gua']}, `crLABOUR` = {$_POST['lab']}, `crAGIL` = {$_POST['agil']},
+                 `crIQ` = {$_POST['iq']}
                  WHERE `crID` = {$_POST['id']}");
         echo 'Course ' . $_POST['name']
                 . ' was edited successfully.<br />
                 &gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Edited course {$_POST['name']}");
-        die($h->endpage());
-        break;
-    case "1":
+        $h->endpage();
+        exit;
+    case '1':
         $_POST['course'] =
                 (isset($_POST['course']) && is_numeric($_POST['course']))
                         ? abs(intval($_POST['course'])) : '';
@@ -224,7 +203,8 @@ function editcourse()
             $db->free_result($q);
             echo 'Invalid course.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         staff_csrf_stdverify('staff_editcourse1',
                 'staff_courses.php?action=editcourse');
@@ -269,7 +249,7 @@ function editcourse()
         <hr />
         <form action='staff_courses.php?action=editcourse' method='post'>
         	<input type='hidden' name='step' value='1' />
-        	Course: " . course_dropdown(NULL, "course")
+        	Course: " . course_dropdown()
                 . "
         <br />
         	{$csrf}
@@ -280,9 +260,12 @@ function editcourse()
     }
 }
 
-function delcourse()
+/**
+ * @return void
+ */
+function delcourse(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     $_POST['course'] =
             (isset($_POST['course']) && is_numeric($_POST['course']))
                     ? abs(intval($_POST['course'])) : '';
@@ -300,7 +283,8 @@ function delcourse()
             $db->free_result($q);
             echo 'Invalid course.<br />
             &gt; <a href="staff.php">Goto Main</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $old = $db->fetch_row($q);
         $db->free_result($q);
@@ -315,7 +299,8 @@ function delcourse()
                 . ' deleted.<br />
                 &gt; <a href="staff.php">Goto Main</a>';
         stafflog_add("Deleted course {$old['crNAME']}");
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     else
     {
@@ -324,7 +309,7 @@ function delcourse()
         <h3>Deleting a Course</h3>
         <hr />
         <form action='staff_courses.php?action=delcourse' method='post'>
-        	Course: " . course_dropdown(NULL, "course")
+        	Course: " . course_dropdown()
                 . "<br />
             {$csrf}
         	<input type='submit' value='Delete Course' />

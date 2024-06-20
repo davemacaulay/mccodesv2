@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -24,7 +25,7 @@ if (file_exists('./installer.lock'))
 {
     exit;
 }
-define('MONO_ON', 1);
+const MONO_ON = 1;
 session_name('MCCSID');
 session_start();
 if (!isset($_SESSION['started']))
@@ -42,10 +43,10 @@ if (!isset($_GET['code']))
 }
 switch ($_GET['code'])
 {
-case "install":
+case 'install':
     install();
     break;
-case "config":
+case 'config':
     config();
     break;
 default:
@@ -53,13 +54,17 @@ default:
     break;
 }
 
-function menuprint($highlight)
+/**
+ * @param $highlight
+ * @return void
+ */
+function menuprint($highlight): void
 {
     $items =
-            array('diag' => '1. Diagnostics', 'input' => '2. Configuration',
-                    'sql' => '3. Installation & Extras',);
+            ['diag' => '1. Diagnostics', 'input' => '2. Configuration',
+                    'sql' => '3. Installation & Extras',];
     $c = 0;
-    echo "<hr />";
+    echo '<hr />';
     foreach ($items as $k => $v)
     {
         $c++;
@@ -79,9 +84,12 @@ function menuprint($highlight)
     echo '<hr />';
 }
 
-function diagnostics()
+/**
+ * @return void
+ */
+function diagnostics(): void
 {
-    menuprint("diag");
+    menuprint('diag');
     if (version_compare(phpversion(), '5.2.0') < 0)
     {
         $pv = '<span style="color: red">Failed</span>';
@@ -102,7 +110,7 @@ function diagnostics()
         $wv = '<span style="color: red">Failed</span>';
         $wvf = 0;
     }
-    if (function_exists('mysql_connect') || function_exists('mysqli_connect'))
+    if (function_exists('mysqli_connect'))
     {
         $dv = '<span style="color: green">OK</span>';
         $dvf = 1;
@@ -131,7 +139,7 @@ function diagnostics()
     			<td>MCCodes up to date</td>
     			<td>
         			<iframe
-        				src='http://www.mccodes.com/update_check.php?version=20503'
+        				src='https://www.mccodes.com/update_check.php?version=20503'
         				width='250' height='30'></iframe>
         		</td>
         	</tr>
@@ -158,9 +166,12 @@ function diagnostics()
     }
 }
 
-function config()
+/**
+ * @return void
+ */
+function config(): void
 {
-    menuprint("input");
+    menuprint('input');
     echo "
     <h3>Configuration:</h3>
     <form action='installer.php?code=install' method='post'>
@@ -171,18 +182,7 @@ function config()
     		<tr>
     			<td align='center'>MySQL Driver</td>
     			<td>
-    				<select name='driver' type='dropdown'>
-       ";
-    if (function_exists('mysql_connect'))
-    {
-        echo '<option value="mysql">MySQL Standard</option>';
-    }
-    if (function_exists('mysqli_connect'))
-    {
-        echo '<option value="mysqli">MySQLi Enhanced</option>';
-    }
-    echo "
-    				</select>
+    				<input type='text' name='driver' value='mysqli' readonly>
     			</td>
     		</tr>
     		<tr>
@@ -275,25 +275,20 @@ function config()
     </form>
        ";
 }
-if (!function_exists('get_magic_quotes_gpc'))
-{
 
-    function get_magic_quotes_gpc()
-    {
-        return 0;
-    }
-}
-
-function gpc_cleanup($text)
+/**
+ * @param $text
+ * @return string
+ */
+function gpc_cleanup($text): string
 {
-    if (get_magic_quotes_gpc())
-    {
-        return stripslashes($text);
-    }
     return $text;
 }
 
-function install()
+/**
+ * @return void
+ */
+function install(): void
 {
     menuprint('sql');
     $paypal =
@@ -311,7 +306,7 @@ function install()
                     ? gpc_cleanup($_POST['a_username']) : '';
     $adm_gender =
             (isset($_POST['gender'])
-                    && in_array($_POST['gender'], array('Male', 'Female'),
+                    && in_array($_POST['gender'], ['Male', 'Female'],
                             true)) ? $_POST['gender'] : 'Male';
     $description =
             (isset($_POST['game_description']))
@@ -338,9 +333,8 @@ function install()
             isset($_POST['database']) ? gpc_cleanup($_POST['database']) : '';
     $db_driver =
             (isset($_POST['driver'])
-                    && in_array($_POST['driver'], array('mysql', 'mysqli'),
-                            true)) ? $_POST['driver'] : 'mysql';
-    $errors = array();
+                    && $_POST['driver'] === 'mysqli') ? $_POST['driver'] : 'mysqli';
+    $errors = [];
     if (empty($db_hostname))
     {
         $errors[] = 'No Database hostname specified';
@@ -395,11 +389,11 @@ function install()
     }
     if (count($errors) > 0)
     {
-        echo "Installation failed.<br />
+        echo 'Installation failed.<br />
         There were one or more problems with your input.<br />
         <br />
         <b>Problem(s) encountered:</b>
-        <ul>";
+        <ul>';
         foreach ($errors as $error)
         {
             echo "<li><span style='color: red;'>{$error}</span></li>";
@@ -412,18 +406,18 @@ function install()
     // Try to establish DB connection first...
     echo 'Attempting DB connection...<br />';
     require_once("class/class_db_{$db_driver}.php");
-    $db = new database;
-    $db->configure($db_hostname, $db_username, $db_password, $db_database, 0);
+    $db = new database();
+    $db->configure($db_hostname, $db_username, $db_password, $db_database);
     $db->connect();
     $c = $db->connection_id;
     // Done, move on
     echo '... Successful.<br />';
     echo 'Writing game config file...<br />';
     echo 'Write Config...<br />';
-    $code = md5(rand(1, 100000000000));
-    if (file_exists("config.php"))
+    $code = md5((string)rand(1, 100000000000));
+    if (file_exists('config.php'))
     {
-        unlink("config.php");
+        unlink('config.php');
     }
     $e_db_hostname = addslashes($db_hostname);
     $e_db_username = addslashes($db_username);
@@ -449,16 +443,16 @@ EOF;
     fclose($f);
     echo '... file written.<br />';
     echo 'Writing base database schema...<br />';
-    $fo = fopen("dbdata.sql", "r");
+    $fo = fopen('dbdata.sql', 'r');
     $query = '';
     $lines = explode("\n", fread($fo, 1024768));
     fclose($fo);
     foreach ($lines as $line)
     {
-        if (!(strpos($line, "--") === 0) && trim($line) != '')
+        if (!(str_starts_with($line, '--')) && trim($line) != '')
         {
             $query .= $line;
-            if (!(strpos($line, ";") === FALSE))
+            if (!(!str_contains($line, ';')))
             {
                 $db->query($query);
                 $query = '';
@@ -488,28 +482,28 @@ EOF;
              `crystals`, `donatordays`, `user_level`, `energy`, `maxenergy`,
              `will`, `maxwill`, `brave`, `maxbrave`, `hp`, `maxhp`, `location`,
              `gender`, `signedup`, `email`, `bankmoney`, `lastip`,
-             `lastip_signup`, `pass_salt`)
+             `lastip_signup`, `pass_salt`, , `display_pic`, `staffnotes`, `voted`, `user_notepad`)
              VALUES ('{$ins_username}', '{$ins_username}', '{$e_encpsw}', 1,
              100, 0, 0, 2, 12, 12, 100, 100, 5, 5, 100, 100, 1,
              '{$adm_gender}', " . time()
                     . ", '{$ins_email}', -1, '$IP', '$IP',
-             '{$e_salt}')");
+             '{$e_salt}', '', '', '', '')");
     $i = $db->insert_id();
     $db->query(
             "INSERT INTO `userstats`
     		 VALUES($i, 10, 10, 10, 10, 10)");
     $db->query(
             "INSERT INTO `settings`
-             VALUES(NULL, 'game_name', '{$ins_game_name}')");
+             VALUES(NULL, 'game_name', '{$ins_game_name}', 'string')");
     $db->query(
             "INSERT INTO `settings`
-             VALUES(NULL, 'game_owner', '{$ins_game_owner}')");
+             VALUES(NULL, 'game_owner', '{$ins_game_owner}', 'string')");
     $db->query(
             "INSERT INTO `settings`
-             VALUES(NULL, 'paypal', '{$ins_paypal}')");
+             VALUES(NULL, 'paypal', '{$ins_paypal}', 'string')");
     $db->query(
             "INSERT INTO `settings`
-             VALUES(NULL, 'game_description', '{$ins_game_desc}')");
+             VALUES(NULL, 'game_description', '{$ins_game_desc}', 'string')");
     echo '... Done.<br />';
     $path = dirname($_SERVER['SCRIPT_FILENAME']);
     echo "
@@ -525,35 +519,35 @@ EOF;
     0 0 * * * php $path/cron_day.php $code
     </pre>
        ";
-    echo "<h3>Installer Security</h3>
-    Attempting to remove installer... ";
+    echo '<h3>Installer Security</h3>
+    Attempting to remove installer... ';
     @unlink('./installer.php');
     $success = !file_exists('./installer.php');
     echo "<span style='color: "
             . ($success ? "green;'>Succeeded" : "red;'>Failed")
-            . "</span><br />";
+            . '</span><br />';
     if (!$success)
     {
-        echo "Attempting to lock installer... ";
+        echo 'Attempting to lock installer... ';
         @touch('./installer.lock');
         $success2 = file_exists('installer.lock');
         echo "<span style='color: "
                 . ($success2 ? "green;'>Succeeded" : "red;'>Failed")
-                . "</span><br />";
+                . '</span><br />';
         if ($success2)
         {
             echo "<span style='font-weight: bold;'>"
-                    . "You should now remove installer.php from your server."
-                    . "</span>";
+                    . 'You should now remove installer.php from your server.'
+                    . '</span>';
         }
         else
         {
             echo "<span style='font-weight: bold; font-size: 20pt;'>"
-                    . "YOU MUST REMOVE installer.php "
-                    . "from your server.<br />"
-                    . "Failing to do so will allow other people "
-                    . "to run the installer again and potentially "
-                    . "mess up your game entirely." . "</span>";
+                    . 'YOU MUST REMOVE installer.php '
+                    . 'from your server.<br />'
+                    . 'Failing to do so will allow other people '
+                    . 'to run the installer again and potentially '
+                    . 'mess up your game entirely.' . '</span>';
         }
     }
     else

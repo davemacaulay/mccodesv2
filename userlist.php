@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,23 +19,25 @@
  * File: userlist.php
  * Signature: 59391462203b4bded53a86b1304f407e
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $h;
 require_once('globals.php');
 $st =
         (isset($_GET['st']) && is_numeric($_GET['st']))
                 ? abs(intval($_GET['st'])) : 0;
-$allowed_by = array('userid', 'username', 'level', 'money');
+$allowed_by = ['userid', 'username', 'level', 'money'];
 $by =
         (isset($_GET['by']) && in_array($_GET['by'], $allowed_by, true))
                 ? $_GET['by'] : 'userid';
-$allowed_ord = array('asc', 'desc', 'ASC', 'DESC');
+$allowed_ord = ['asc', 'desc', 'ASC', 'DESC'];
 $ord =
         (isset($_GET['ord']) && in_array($_GET['ord'], $allowed_ord, true))
                 ? $_GET['ord'] : 'ASC';
-echo "<h3>Userlist</h3>";
-$cnt = $db->query("SELECT COUNT(`userid`)
-				   FROM `users`");
+echo '<h3>Userlist</h3>';
+$cnt = $db->query('SELECT COUNT(`userid`)
+				   FROM `users`');
 $membs = $db->fetch_single($cnt);
 $db->free_result($cnt);
 $pages = (int) ($membs / 100) + 1;
@@ -42,7 +45,7 @@ if ($membs % 100 == 0)
 {
     $pages--;
 }
-echo "Pages: ";
+echo 'Pages: ';
 for ($i = 1; $i <= $pages; $i++)
 {
     $stl = ($i - 1) * 100;
@@ -97,7 +100,7 @@ while ($r = $db->fetch_row($q))
 			<td>' . $r['userid'] . '</td>
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
             . $r['gangPREF'] . ' ' . $r['username'] . '</a></td>
-			<td>' . money_formatter($r['money']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
 			<td>' . $r['level'] . '</td>
 			<td>' . $r['gender'] . '</td>
 			<td>'

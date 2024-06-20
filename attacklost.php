@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -21,6 +22,7 @@
  */
 
 $atkpage = 1;
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 
 $_GET['ID'] =
@@ -44,8 +46,7 @@ if ($db->num_rows($od) > 0)
     $db->query(
             "UPDATE `users` SET `exp` = {$newexp}, `attacking` = 0 WHERE `userid` = $userid");
     event_add($r['userid'],
-            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> attacked you and lost.",
-            $c);
+        "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> attacked you and lost.");
     $atklog = $db->escape($_SESSION['attacklog']);
     $db->query(
             "INSERT INTO `attacklogs` VALUES(NULL, $userid, {$_GET['ID']},
@@ -64,7 +65,7 @@ if ($db->num_rows($od) > 0)
                     "UPDATE `gangs` SET `gangRESPECT` = `gangRESPECT` + 1 WHERE `gangID` = {$r['gang']}");
             $db->query(
                     "UPDATE `gangs` SET `gangRESPECT` = `gangRESPECT` - 1 WHERE `gangID` = {$ir['gang']}");
-            echo "<br />You lost 1 respect for your gang!";
+            echo '<br />You lost 1 respect for your gang!';
         }
         $db->free_result($warq);
     }
@@ -72,6 +73,6 @@ if ($db->num_rows($od) > 0)
 else
 {
     $db->free_result($od);
-    echo "You lost to Mr. Non-existant! =O";
+    echo 'You lost to Mr. Non-existent! =O';
 }
 $h->endpage();

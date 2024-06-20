@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $h, $set;
 require_once('globals.php');
 if (!isset($_GET['action']))
 {
@@ -27,21 +29,19 @@ if (!isset($_GET['action']))
     header('HTTP/1.1 400 Bad Request');
     exit;
 }
-if ($_GET['action'] == "cancel")
+if ($_GET['action'] == 'cancel')
 {
     echo 'You have cancelled your donation. Please donate later...';
-}
-else if ($_GET['action'] == "done")
-{
-    if (!$_GET['tx'])
-    {
+} elseif ($_GET['action'] == 'done') {
+    if (!$_GET['tx']) {
         echo 'Get a life.';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     echo 'Thank you for your payment to ' . $set['game_name']
-            . '. Your transaction has been completed, and a receipt for
+        . '. Your transaction has been completed, and a receipt for
             your purchase has been emailed to you. You may log into your
-            account at <a href="http://www.paypal.com">www.paypal.com</a>
+            account at <a href="https://www.paypal.com">www.paypal.com</a>
             to view details of this transaction.
             Your Will Potion should be credited within a few minutes,
             if not, contact an admin for assistance.';

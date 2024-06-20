@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,15 +19,21 @@
  * File: preferences.php
  * Signature: 5ef365cacecc5a3f8601e964d414a315
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $h;
 require_once('globals.php');
 if (!isset($_GET['action']))
 {
     $_GET['action'] = '';
 }
 
-function csrf_error($goBackTo)
+/**
+ * @param $goBackTo
+ * @return void
+ */
+function csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />
@@ -73,9 +80,11 @@ default:
     break;
 }
 
-function prefs_home()
+/**
+ * @return void
+ */
+function prefs_home(): void
 {
-    global $db, $ir, $c, $userid, $h;
     echo "
 	<h3>Preferences</h3>
 	<a href='preferences.php?action=sexchange'>Sex Change</a><br />
@@ -86,17 +95,20 @@ function prefs_home()
    ";
 }
 
-function conf_sex_change()
+/**
+ * @return void
+ */
+function conf_sex_change(): void
 {
-    global $ir, $c, $userid, $h;
+    global $ir;
     $code = request_csrf_code('prefs_sexchange');
-    if ($ir['gender'] == "Male")
+    if ($ir['gender'] == 'Male')
     {
-        $g = "Female";
+        $g = 'Female';
     }
     else
     {
-        $g = "Male";
+        $g = 'Male';
     }
     echo "
 	Are you sure you want to become a $g?
@@ -105,16 +117,19 @@ function conf_sex_change()
    	";
 }
 
-function do_sex_change()
+/**
+ * @return void
+ */
+function do_sex_change(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     if (!isset($_GET['verf'])
             || !verify_csrf_code('prefs_sexchange',
                     stripslashes($_GET['verf'])))
     {
         csrf_error('sexchange');
     }
-    $g = ($ir['gender'] == "Female") ? 'Male' : 'Female';
+    $g = ($ir['gender'] == 'Female') ? 'Male' : 'Female';
     $db->query(
             "UPDATE `users`
     		 SET `gender` = '$g'
@@ -125,9 +140,11 @@ function do_sex_change()
    	";
 }
 
-function pass_change()
+/**
+ * @return void
+ */
+function pass_change(): void
 {
-    global $ir, $c, $userid, $h;
     $code = request_csrf_code('prefs_passchange');
     echo "
 	<h3>Password Change</h3>
@@ -141,9 +158,12 @@ function pass_change()
    	";
 }
 
-function do_pass_change()
+/**
+ * @return void
+ */
+function do_pass_change(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir;
     if (!isset($_POST['verf'])
             || !verify_csrf_code('prefs_passchange',
                     stripslashes($_POST['verf'])))
@@ -160,7 +180,7 @@ function do_pass_change()
 		<a href='preferences.php?action=passchange'>&gt; Back</a>
    		";
     }
-    else if ($newpw !== $newpw2)
+    elseif ($newpw !== $newpw2)
     {
         echo "The new passwords you entered did not match!<br />
 		<a href='preferences.php?action=passchange'>&gt; Back</a>";
@@ -178,9 +198,11 @@ function do_pass_change()
     }
 }
 
-function name_change()
+/**
+ * @return void
+ */
+function name_change(): void
 {
-    global $ir, $c, $userid, $h;
     $code = request_csrf_code('prefs_namechange');
     echo "
 	<h3>Name Change</h3>
@@ -194,9 +216,12 @@ function name_change()
    	";
 }
 
-function do_name_change()
+/**
+ * @return void
+ */
+function do_name_change(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     if (!isset($_POST['verf'])
             || !verify_csrf_code('prefs_namechange',
                     stripslashes($_POST['verf'])))
@@ -212,7 +237,8 @@ function do_name_change()
 		You did not enter a new username.<br />
 		&gt; <a href="preferences.php?action=namechange">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     elseif (((strlen($_POST['newname']) > 32)
             OR (strlen($_POST['newname']) < 3)))
@@ -221,7 +247,8 @@ function do_name_change()
 		Usernames can only be a max of 32 characters or a min of 3 characters.<br />
 		&gt; <a href="preferences.php?action=namechange">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!preg_match("/^[a-z0-9_]+([\\s]{1}[a-z0-9_]|[a-z0-9_])+$/i",
             $_POST['newname']))
@@ -230,7 +257,8 @@ function do_name_change()
 		Your username can only consist of Numbers, Letters, underscores and spaces.<br />
 		&gt; <a href="preferences.php?action=namechange">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $check_ex =
             $db->query(
@@ -244,7 +272,8 @@ function do_name_change()
 		This username is already in use.<br />
 		&gt; <a href="preferences.php">Back</a>
    		';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $_POST['newname'] =
             $db->escape(
@@ -253,17 +282,20 @@ function do_name_change()
             "UPDATE `users`
              SET `username` = '{$_POST['newname']}'
              WHERE `userid` = $userid");
-    echo "Username changed!";
+    echo 'Username changed!';
 }
 
-function pic_change()
+/**
+ * @return void
+ */
+function pic_change(): void
 {
-    global $ir, $c, $userid, $h;
+    global $ir;
     $code = request_csrf_code('prefs_picchange');
     echo "
 	<h3>Pic Change</h3>
 	Please note that this must be externally hosted,
-		<a href='http://www.photobucket.com'>Photobucket</a> is our recommendation.
+		<a href='https://www.photobucket.com'>Photobucket</a> is our recommendation.
 	<br />
 	Any images that are not 150x150 will be automatically resized
 	<form action='preferences.php?action=picchange2' method='post'>
@@ -275,9 +307,12 @@ function pic_change()
    	";
 }
 
-function do_pic_change()
+/**
+ * @return void
+ */
+function do_pic_change(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     if (!isset($_POST['verf'])
             || !verify_csrf_code('prefs_picchange',
                     stripslashes($_POST['verf'])))
@@ -289,13 +324,12 @@ function do_pic_change()
                     ? stripslashes($_POST['newpic']) : '';
     if (!empty($npic))
     {
-        if (strlen($npic) < 8
-                || !(substr($npic, 0, 7) == 'http://'
-                        || substr($npic, 0, 8 == 'https://')))
+        if (strlen($npic) < 8 || !str_starts_with($npic, 'https://'))
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=picchange">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $sz = get_filesize_remote($npic);
         if ($sz <= 0 || $sz >= 1048576)
@@ -310,7 +344,8 @@ function do_pic_change()
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=picchange">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
     }
     echo htmlentities($_POST['newpic'], ENT_QUOTES, 'ISO-8859-1') . '<br />';
@@ -323,14 +358,17 @@ function do_pic_change()
         &gt; <a href="index.php">Go Home</a>';
 }
 
-function forum_change()
+/**
+ * @return void
+ */
+function forum_change(): void
 {
-    global $ir, $c, $userid, $h;
+    global $ir;
     $code = request_csrf_code('prefs_forumchange');
     echo "
 	<h3>Forum Info Change</h3>
 	Please note that the avatar must be externally hosted,
-		<a href='http://www.photobucket.com'>Photobucket</a> is our recommendation.
+		<a href='https://www.photobucket.com'>Photobucket</a> is our recommendation.
 		<br />
 	Any avatars that are not 150x150 will be automatically resized
 	<form action='preferences.php?action=forumchange2' method='post'>
@@ -345,9 +383,12 @@ function forum_change()
    ";
 }
 
-function do_forum_change()
+/**
+ * @return void
+ */
+function do_forum_change(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     if (!isset($_POST['verf'])
             || !verify_csrf_code('prefs_forumchange',
                     stripslashes($_POST['verf'])))
@@ -360,13 +401,12 @@ function do_forum_change()
                     ? stripslashes($_POST['forums_avatar']) : '';
     if (!empty($av))
     {
-        if (strlen($av) < 8
-                || !(substr($av, 0, 7) == 'http://'
-                        || substr($av, 0, 8 == 'https://')))
+        if (strlen($av) < 8 || !str_starts_with($av, 'https://'))
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=forumchange">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $sz = get_filesize_remote($av);
         if ($sz <= 0 || $sz >= 1048576)
@@ -381,7 +421,8 @@ function do_forum_change()
         {
             echo 'Invalid Image.<br />
         	&gt; <a href="preferences.php?action=forumchange">Go Back</a>';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
     }
 
@@ -391,7 +432,8 @@ function do_forum_change()
     {
         echo 'You may only have a forums signature consisting of 250 characters or less.
         <br />&gt; <a href="preferences.php?action=forumchange">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "UPDATE `users`

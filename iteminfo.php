@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: iteminfo.php
  * Signature: a022cee84c0995e9600dcb86e30babd3
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $h;
 require_once('globals.php');
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))
@@ -67,7 +70,7 @@ else
    ";
         if ($id['itmbuyprice'])
         {
-            echo money_formatter($id['itmbuyprice']);
+            echo money_formatter((int)$id['itmbuyprice']);
         }
         else
         {
@@ -79,7 +82,7 @@ else
    ';
         if ($id['itmsellprice'])
         {
-            echo money_formatter($id['itmsellprice'])
+            echo money_formatter((int)$id['itmsellprice'])
                     . '
 	</td>
 		</tr>

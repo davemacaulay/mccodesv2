@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
 if (!isset($_GET['ID']))
 {
@@ -28,7 +30,7 @@ if (!isset($_GET['ID']))
 $_GET['ID'] = abs((int) $_GET['ID']);
 if (!$_GET['ID'])
 {
-    echo "Invalid use of file";
+    echo 'Invalid use of file';
 }
 else
 {
@@ -45,11 +47,7 @@ else
     }
     switch ($_GET['action'])
     {
-    case 'view':
-        gang_view();
-        break;
-
-    case 'userlist':
+        case 'userlist':
         gang_userlist();
         break;
 
@@ -67,9 +65,12 @@ else
     }
 }
 
-function gang_view()
+/**
+ * @return void
+ */
+function gang_view(): void
 {
-    global $db, $ir, $c, $h, $gangdata;
+    global $db, $gangdata;
     $pq =
             $db->query(
                     "SELECT `userid`, `username`
@@ -78,7 +79,7 @@ function gang_view()
     				 LIMIT 1");
     if ($db->num_rows($pq) == 0)
     {
-        $ldr = array('userid' => 0);
+        $ldr = ['userid' => 0];
     }
     else
     {
@@ -92,7 +93,7 @@ function gang_view()
                      WHERE `userid` = {$gangdata['gangVICEPRES']}");
     if ($db->num_rows($vpq) == 0)
     {
-        $coldr = array('userid' => 0);
+        $coldr = ['userid' => 0];
     }
     else
     {
@@ -107,7 +108,7 @@ function gang_view()
     }
     else
     {
-        print "President: N/A<br />";
+        print 'President: N/A<br />';
     }
     if ($coldr['userid'] > 0)
     {
@@ -116,14 +117,14 @@ function gang_view()
     }
     else
     {
-        print "Vice-President: N/A<hr />";
+        print 'Vice-President: N/A<hr />';
     }
     $cnt =
             $db->query(
                     "SELECT COUNT(`userid`)
                      FROM `users`
                      WHERE `gang` = {$gangdata['gangID']}");
-    echo "<b>Members:</b> " . $db->fetch_single($cnt)
+    echo '<b>Members:</b> ' . $db->fetch_single($cnt)
             . "<br />
 		  <b>Description: </b> {$gangdata['gangDESC']}<br />
 		  <b>Respect Level: </b> {$gangdata['gangRESPECT']}<br />
@@ -136,9 +137,12 @@ function gang_view()
     $db->free_result($cnt);
 }
 
-function gang_userlist()
+/**
+ * @return void
+ */
+function gang_userlist(): void
 {
-    global $db, $ir, $c, $h, $gangdata;
+    global $db, $gangdata;
     echo "<h3>Userlist for {$gangdata['gangNAME']}</h3>
 		  <table>
 		  	<tr style='background: gray;'>
@@ -169,9 +173,12 @@ function gang_userlist()
 	</a>";
 }
 
-function gang_applyform()
+/**
+ * @return void
+ */
+function gang_applyform(): void
 {
-    global $ir, $c, $h, $gangdata;
+    global $ir;
     if ($ir['gang'] == 0)
     {
         $apply_csrf = request_csrf_code('gang_apply');
@@ -183,13 +190,16 @@ Type the reason you should be in this faction.<br />
     }
     else
     {
-        echo "You cannot apply for a gang when you are already in one.";
+        echo 'You cannot apply for a gang when you are already in one.';
     }
 }
 
-function gang_applysubmit()
+/**
+ * @return void
+ */
+function gang_applysubmit(): void
 {
-    global $db, $ir, $c, $h, $gangdata, $userid;
+    global $db, $ir, $h, $gangdata, $userid;
     $application =
             (isset($_POST['application']) && is_string($_POST['application']))
                     ? $db->escape(
@@ -203,7 +213,8 @@ function gang_applysubmit()
         Your request to apply to this gang has expired. Please try again.<br />
         &gt; <a href='gangs.php?action=apply&amp;ID={$_GET['ID']}'>Back</a>
            ";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     if (!$ir['gang'])
     {
@@ -213,7 +224,7 @@ function gang_applysubmit()
         $gev =
                 $db->escape(
                         "<a href='viewuser.php?u={$userid}'>{$ir['username']}</a>"
-                                . " sent an application to join this gang.");
+                                . ' sent an application to join this gang.');
         $db->query(
                 "INSERT INTO `gangevents`
                  VALUES(NULL, {$_GET['ID']}, " . time() . ", '{$gev}')");
@@ -221,7 +232,7 @@ function gang_applysubmit()
     }
     else
     {
-        echo "You cannot apply for a gang when you are already in one.";
+        echo 'You cannot apply for a gang when you are already in one.';
     }
 }
 $h->endpage();

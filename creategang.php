@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,32 +19,36 @@
  * File: creategang.php
  * Signature: 4c05acde022af67e7df7d3aa23e43ca9
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
-
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $cg_price = 500000;
 if ($ir['money'] < $cg_price)
 {
     echo "You don't have enough money. You need " . money_formatter($cg_price)
-            . ".";
-    die($h->endpage());
+            . '.';
+    $h->endpage();
+    exit;
 }
 if ($ir['gang'])
 {
     echo "You're already in a gang!";
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
-if (isset($_POST['submit']) && isset($_POST['name']) && isset($_POST['desc'])
+if (isset($_POST['submit']) && isset($_POST['desc'])
         && !empty($_POST['name']))
 {
     if (!isset($_POST['verf'])
-            || !verify_csrf_code("creategang", stripslashes($_POST['verf'])))
+            || !verify_csrf_code('creategang', stripslashes($_POST['verf'])))
     {
         echo '<h3>Error</h3><hr />
     This transaction has been blocked for your security.<br />
     Please create your gang quickly after you open the form - do not leave it open in tabs.<br />
     &gt; <a href="creategang.php">Try Again</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $name =
             $db->escape(
@@ -60,7 +65,7 @@ if (isset($_POST['submit']) && isset($_POST['name']) && isset($_POST['desc'])
     $i = $db->insert_id();
     $db->query(
             "UPDATE `users` SET `gang` = $i, `money` = `money` - {$cg_price} WHERE `userid` = $userid");
-    echo "Gang created!";
+    echo 'Gang created!';
 }
 else
 {

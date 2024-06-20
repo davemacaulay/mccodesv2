@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -26,14 +27,16 @@ if (!isset($_GET['c']))
 }
 $_GET['c'] = abs((int) $_GET['c']);
 $macropage = "docrime.php?c={$_GET['c']}";
+global $db, $ir, $userid, $h;
+$sucrate = 0;
 require_once('globals.php');
 if ($ir['jail'] > 0 || $ir['hospital'] > 0)
 {
-    die("This page cannot be accessed while in jail or hospital.");
+    die('This page cannot be accessed while in jail or hospital.');
 }
 if ($_GET['c'] <= 0)
 {
-    echo "Invalid crime";
+    echo 'Invalid crime';
 }
 else
 {
@@ -53,17 +56,17 @@ else
     $db->free_result($q);
     if ($ir['brave'] < $r['crimeBRAVE'])
     {
-        echo "You do not have enough Brave to perform this crime.";
+        echo 'You do not have enough Brave to perform this crime.';
     }
     else
     {
         $ec =
-                "\$sucrate="
+                '$sucrate='
                         . str_replace(
-                                array("LEVEL", "CRIMEXP", "EXP", "WILL", "IQ"),
-                                array($ir['level'], $ir['crimexp'],
-                                        $ir['exp'], $ir['will'], $ir['IQ']),
-                                $r['crimePERCFORM']) . ";";
+                                ['LEVEL', 'CRIMEXP', 'EXP', 'WILL', 'IQ'],
+                                [$ir['level'], $ir['crimexp'],
+                                        $ir['exp'], $ir['will'], $ir['IQ']],
+                                $r['crimePERCFORM']) . ';';
         eval($ec);
         print $r['crimeITEXT'];
         $ir['brave'] -= $r['crimeBRAVE'];
@@ -74,7 +77,7 @@ else
         if (rand(1, 100) <= $sucrate)
         {
             print
-                    str_replace("{money}", $r['crimeSUCCESSMUNY'],
+                    str_replace('{money}', $r['crimeSUCCESSMUNY'],
                             $r['crimeSTEXT']);
             $ir['money'] += $r['crimeSUCCESSMUNY'];
             $ir['crystals'] += $r['crimeSUCCESSCRYS'];
@@ -84,27 +87,20 @@ else
                     SET `money` = {$ir['money']},
                     `crystals` = {$ir['crystals']}, `exp` = {$ir['exp']},
                     `crimexp` = `crimexp` + {$r['crimeXP']}
-                    WHERE `userid` = $userid", $c);
+                    WHERE `userid` = $userid");
             if ($r['crimeSUCCESSITEM'])
             {
                 item_add($userid, $r['crimeSUCCESSITEM'], 1);
             }
-        }
-        else
-        {
-            if (rand(1, 2) == 1)
-            {
-                print $r['crimeFTEXT'];
-            }
-            else
-            {
-                print $r['crimeJTEXT'];
-                $db->query(
-                        "UPDATE `users`
+        } elseif (rand(1, 2) == 1) {
+            print $r['crimeFTEXT'];
+        } else {
+            print $r['crimeJTEXT'];
+            $db->query(
+                "UPDATE `users`
                         SET `jail` = '{$r['crimeJAILTIME']}',
                         `jail_reason` = '{$r['crimeJREASON']}'
                         WHERE `userid` = $userid");
-            }
         }
 
         echo "<br /><a href='docrime.php?c={$_GET['c']}'>Try Again</a><br />

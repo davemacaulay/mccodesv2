@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -21,6 +22,7 @@
  */
 
 $atkpage = 1;
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))
@@ -41,15 +43,15 @@ if ($db->num_rows($od) > 0)
     $db->free_result($od);
     if ($r['hp'] == 1)
     {
-        echo "What a cheater you are.";
+        echo 'What a cheater you are.';
     }
     else
     {
-        $stole = round($r['money'] / (rand(200, 5000) / 10));
+        $stole = (int)round($r['money'] / (rand(200, 5000) / 10));
         echo "You beat {$r['username']}!!<br />
 		You knock {$r['username']} on the floor a few times to make sure he is unconscious, "
-                . "then open his wallet, snatch " . money_formatter($stole)
-                . ", and run home happily.";
+                . 'then open his wallet, snatch ' . money_formatter($stole)
+                . ', and run home happily.';
         $hosptime = rand(20, 40) + floor($ir['level'] / 8);
         $expgain = 0;
         $db->query(
@@ -62,8 +64,8 @@ if ($db->num_rows($od) > 0)
                         SET `hp` = 1, `money` = `money` - $stole, `hospital` = $hosptime,
                         `hospreason` = '{$hospreason}' WHERE `userid` = {$r['userid']}");
         event_add($r['userid'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> mugged you and stole "
-                        . money_formatter($stole) . ".", $c);
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> mugged you and stole "
+            . money_formatter($stole) . '.');
         $atklog = $db->escape($_SESSION['attacklog']);
         $db->query(
                 "INSERT INTO `attacklogs` VALUES(NULL, $userid, {$_GET['ID']},
@@ -89,7 +91,7 @@ if ($db->num_rows($od) > 0)
                     $ga['gangRESPECT'] -= 2;
                     $db->query(
                             "UPDATE `gangs` SET `gangRESPECT` = `gangRESPECT` + 2 WHERE `gangID` = {$ir['gang']}");
-                    echo "<br />You earnt 2 respect for your gang!";
+                    echo '<br />You earnt 2 respect for your gang!';
 
                 }
                 $db->free_result($warq);
@@ -99,7 +101,7 @@ if ($db->num_rows($od) > 0)
                     $db->query(
                             "UPDATE `users` SET `gang` = 0 WHERE `gang` = {$r['gang']}");
 
-                    $db->query("DELETE FROM `gangs` WHERE `gangRESPECT` <= 0");
+                    $db->query('DELETE FROM `gangs` WHERE `gangRESPECT` <= 0');
                     $db->query(
                             "DELETE FROM `gangwars`
                                     WHERE `warDECLARER` = {$ga['gangID']} OR `warDECLARED` = {$ga['gangID']}");
@@ -122,10 +124,10 @@ if ($db->num_rows($od) > 0)
                                         WHERE `userid` = $userid AND `npcid` = {$r['userid']}");
                 if ($db->fetch_single($qk) > 0)
                 {
-                    $m = $cb['cb_money'];
+                    $m = (int)$cb['cb_money'];
                     $db->query(
                             "UPDATE `users` SET `money` = `money` + $m WHERE `userid` = $userid");
-                    echo "<br /> You gained " . money_formatter($m)
+                    echo '<br /> You gained ' . money_formatter($m)
                             . " for beating the challenge bot {$r['username']}";
                     $db->query(
                             "INSERT INTO `challengesbeaten` VALUES($userid, {$r['userid']})");
@@ -140,6 +142,6 @@ if ($db->num_rows($od) > 0)
 else
 {
     $db->free_result($od);
-    echo "You beat Mr. non-existant! Haha, pwned!";
+    echo 'You beat Mr. non-existent! Haha, pwned!';
 }
 $h->endpage();

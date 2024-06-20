@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,6 +19,7 @@
  * File: logout.php
  * Signature: 9416661a1a2a397cc7695f6bb952fcaf
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
 session_name('MCCSID');
@@ -27,13 +29,14 @@ if (!isset($_SESSION['started']))
     session_regenerate_id();
     $_SESSION['started'] = true;
 }
+global $db;
 require_once('global_func.php');
 if (isset($_SESSION['userid']))
 {
     $sessid = (int) $_SESSION['userid'];
     if (isset($_SESSION['attacking']) && $_SESSION['attacking'] > 0)
     {
-        echo "You lost all your EXP for running from the fight.<br />";
+        echo 'You lost all your EXP for running from the fight.<br />';
         require_once('globals_nonauth.php');
         $db->query(
                 "UPDATE `users`
@@ -49,5 +52,5 @@ if (isset($_SESSION['userid']))
 session_regenerate_id(true);
 session_unset();
 session_destroy();
-$login_url = 'http://' . determine_game_urlbase() . '/login.php';
+$login_url = 'https://' . determine_game_urlbase() . '/login.php';
 header("Location: {$login_url}");

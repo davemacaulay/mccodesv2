@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -21,6 +22,7 @@
  */
 
 $housequery = 1;
+global $db, $ir, $userid, $h, $set, $lv, $cm, $fm;
 require_once('globals.php');
 if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/installer.php')
         && $ir['user_level'] == 2)
@@ -111,7 +113,7 @@ echo "
 		</tr>
 </table>
    ";
-$q = $db->query("SELECT `content` FROM `papercontent`");
+$q = $db->query('SELECT `content` FROM `papercontent`');
 $news = $db->fetch_single($q);
 $db->free_result($q);
 echo $set['game_name'] . ' Latest News:

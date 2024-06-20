@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -21,6 +22,7 @@
  */
 
 $nohdr = true;
+global $db, $userid;
 require_once('globals.php');
 if (!isset($_GET['a']))
 {
@@ -47,16 +49,16 @@ if ($_GET['a'] == 'inbox')
                     ORDER BY `mail_time` DESC");
     while ($r = $db->fetch_row($q))
     {
-        $sent = date('F j, Y, g:i:s a', $r['mail_time']);
-        echo "<tr>
-        		<td>";
+        $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
+        echo '<tr>
+        		<td>';
         if ($r['userid'])
         {
             echo "{$r['username']} [{$r['userid']}]";
         }
         else
         {
-            echo "SYSTEM";
+            echo 'SYSTEM';
         }
         echo "</td>
         	<td>{$r['mail_subject']}</td>
@@ -67,9 +69,9 @@ if ($_GET['a'] == 'inbox')
         </tr>";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
-else if ($_GET['a'] == 'outbox')
+elseif ($_GET['a'] == 'outbox')
 {
     header('Content-type: text/html');
     header(
@@ -90,7 +92,7 @@ else if ($_GET['a'] == 'outbox')
                     ORDER BY `mail_time` DESC");
     while ($r = $db->fetch_row($q))
     {
-        $sent = date('F j, Y, g:i:s a', $r['mail_time']);
+        $sent = date('F j, Y, g:i:s a', (int)$r['mail_time']);
         echo "<tr>
         	  	<td>{$r['username']} [{$r['userid']}]</td>
         	  	<td>{$r['mail_subject']}</td>
@@ -101,7 +103,7 @@ else if ($_GET['a'] == 'outbox')
         	  </tr>";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
 else
 {

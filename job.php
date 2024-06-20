@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -21,6 +22,7 @@
  */
 
 $jobquery = 1;
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $_GET['interview'] =
         (isset($_GET['interview']) && is_numeric($_GET['interview']))
@@ -29,14 +31,14 @@ if (!$ir['job'])
 {
     if (!$_GET['interview'])
     {
-        echo "
+        echo '
 		You do not yet have a job. A list of jobs is available below.
 		<br />
-   		";
+   		';
         $q =
                 $db->query(
-                        "SELECT `jID`,`jDESC`,`jNAME`
-        				 FROM `jobs`");
+                    'SELECT `jID`,`jDESC`,`jNAME`
+        				 FROM `jobs`');
         while ($r = $db->fetch_row($q))
         {
             echo "
@@ -59,7 +61,7 @@ if (!$ir['job'])
         if ($db->num_rows($q) == 0)
         {
             $db->free_result($q);
-            print "Invalid job specified.";
+            print 'Invalid job specified.';
             $h->endpage();
             exit;
         }
@@ -135,9 +137,12 @@ else
     }
 }
 
-function job_index()
+/**
+ * @return void
+ */
+function job_index(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir;
     echo "
     <h3>Your Job</h3>
     You currently work in the {$ir['jNAME']}! You receive "
@@ -196,9 +201,12 @@ function job_index()
    	";
 }
 
-function job_promote()
+/**
+ * @return void
+ */
+function job_promote(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid;
     $q =
             $db->query(
                     "SELECT `jrID`,`jrNAME`
@@ -233,9 +241,12 @@ function job_promote()
     $db->free_result($q);
 }
 
-function quit_job()
+/**
+ * @return void
+ */
+function quit_job(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid;
     $db->query(
             "UPDATE `users`
              SET `job` = 0, `jobrank` = 0

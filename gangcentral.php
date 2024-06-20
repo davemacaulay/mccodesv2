@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
 echo "<h3>Gang Central</h3>
 <a href='creategang.php'>&gt; Create A Gang Here</a><br />
@@ -33,11 +35,11 @@ echo "<h3>Gang Central</h3>
 	</tr>";
 $gq =
         $db->query(
-                "SELECT `gangID`, `gangNAME`, `gangRESPECT`,
+            'SELECT `gangID`, `gangNAME`, `gangRESPECT`,
                  `userid`, `username`
                  FROM `gangs` AS `g`
                  LEFT JOIN `users` AS `u` ON `g`.`gangPRESIDENT` = `u`.`userid`
-                 ORDER BY `g`.`gangID` ASC");
+                 ORDER BY `g`.`gangID` ASC');
 while ($gangdata = $db->fetch_row($gq))
 {
     echo "<tr>
@@ -57,5 +59,5 @@ while ($gangdata = $db->fetch_row($gq))
     $db->free_result($cnt);
 }
 $db->free_result($gq);
-echo "</table>";
+echo '</table>';
 $h->endpage();

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -22,54 +23,52 @@
 
 /**
  * Return the difference between the current time and a given time, formatted in appropriate units so the number is not too big or small.
- * @param int $time_stamp The timestamp to find the difference to.
+ * @param string|int $time_stamp The timestamp to find the difference to.
  * @return string The difference formatted in units so that the numerical component is not less than 1 or absurdly large.
  */
-function DateTime_Parse($time_stamp)
+function datetime_parse(string|int $time_stamp): string
 {
-    $time_difference = ($_SERVER['REQUEST_TIME'] - $time_stamp);
+    $time_difference = ($_SERVER['REQUEST_TIME'] - (int)$time_stamp);
     $unit =
-            array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-    $lengths = array(60, 60, 24, 7, 4.35, 12);
+            ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+    $lengths = [60, 60, 24, 7, 4.35, 12];
     for ($i = 0; $time_difference >= $lengths[$i]; $i++)
     {
         $time_difference = $time_difference / $lengths[$i];
     }
     $time_difference = round($time_difference);
-    $date =
-            $time_difference . ' ' . $unit[$i]
-                    . (($time_difference > 1 OR $time_difference < 1) ? 's'
-                            : '') . ' ago';
-    return $date;
+    return $time_difference . ' ' . $unit[$i]
+            . (($time_difference > 1 OR $time_difference < 1) ? 's'
+                    : '') . ' ago';
 }
 
 /**
  * Format money in the way humans expect to read it.
- * @param int $muny The amount of money to display
+ * @param int|float|string $muny The amount of money to display
  * @param string $symb The money unit symbol to use, e.g. $
+ * @return string
  */
-function money_formatter($muny, $symb = '$')
+function money_formatter(int|float|string $muny, string $symb = '$'): string
 {
-    return $symb . number_format($muny);
+    return $symb . number_format((float)$muny);
 }
 
 /**
  * Constructs a drop-down listbox of all the item types in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the item type which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first item type alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function itemtype_dropdown($connection, $ddname = "item_type", $selected = -1)
+function itemtype_dropdown(string $ddname = 'item_type', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `itmtypeid`, `itmtypename`
+                'SELECT `itmtypeid`, `itmtypename`
     				 FROM `itemtypes`
-    				 ORDER BY `itmtypename` ASC");
+    				 ORDER BY `itmtypename` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -95,21 +94,20 @@ function itemtype_dropdown($connection, $ddname = "item_type", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the items in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the item which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first item alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function item_dropdown($connection, $ddname = "item", $selected = -1)
+function item_dropdown(string $ddname = 'item', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `itmid`, `itmname`
+                'SELECT `itmid`, `itmname`
     				 FROM `items`
-    				 ORDER BY `itmname` ASC");
+    				 ORDER BY `itmname` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -135,21 +133,20 @@ function item_dropdown($connection, $ddname = "item", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the items in the game to let the user select one, including a "None" option.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the item which should be selected by default.<br />
  * Not specifying this or setting it to a number less than 1 makes "None" selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function item2_dropdown($connection, $ddname = "item", $selected = -1)
+function item2_dropdown(string $ddname = 'item', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `itmid`, `itmname`
+                'SELECT `itmid`, `itmname`
     				 FROM `items`
-    				 ORDER BY `itmname` ASC");
+    				 ORDER BY `itmname` ASC');
     if ($selected < 1)
     {
         $ret .= "<option value='0' selected='selected'>-- None --</option>";
@@ -164,7 +161,6 @@ function item2_dropdown($connection, $ddname = "item", $selected = -1)
         if ($selected == $r['itmid'])
         {
             $ret .= " selected='selected'";
-            $first = 1;
         }
         $ret .= ">{$r['itmname']}</option>";
     }
@@ -175,21 +171,20 @@ function item2_dropdown($connection, $ddname = "item", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the locations in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the location which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first item alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function location_dropdown($connection, $ddname = "location", $selected = -1)
+function location_dropdown(string $ddname = 'location', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `cityid`, `cityname`
+                'SELECT `cityid`, `cityname`
     				 FROM `cities`
-    				 ORDER BY `cityname` ASC");
+    				 ORDER BY `cityname` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -215,21 +210,20 @@ function location_dropdown($connection, $ddname = "location", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the shops in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the shop which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first shop alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function shop_dropdown($connection, $ddname = "shop", $selected = -1)
+function shop_dropdown(string $ddname = 'shop', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `shopID`, `shopNAME`
+                'SELECT `shopID`, `shopNAME`
     				 FROM `shops`
-    				 ORDER BY `shopNAME` ASC");
+    				 ORDER BY `shopNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -255,21 +249,20 @@ function shop_dropdown($connection, $ddname = "shop", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the registered users in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the user who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function user_dropdown($connection, $ddname = "user", $selected = -1)
+function user_dropdown(string $ddname = 'user', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `userid`, `username`
+                'SELECT `userid`, `username`
     				 FROM `users`
-    				 ORDER BY `username` ASC");
+    				 ORDER BY `username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -295,23 +288,22 @@ function user_dropdown($connection, $ddname = "user", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the challenge bot NPC users in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the bot who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first bot alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function challengebot_dropdown($connection, $ddname = "bot", $selected = -1)
+function challengebot_dropdown(string $ddname = 'bot', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `u`.`userid`, `u`.`username`
+                'SELECT `u`.`userid`, `u`.`username`
                      FROM `challengebots` AS `cb`
                      INNER JOIN `users` AS `u`
                      ON `cb`.`cb_npcid` = `u`.`userid`
-                     ORDER BY `u`.`username` ASC");
+                     ORDER BY `u`.`username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -337,22 +329,21 @@ function challengebot_dropdown($connection, $ddname = "bot", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the users in federal jail in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the user who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function fed_user_dropdown($connection, $ddname = "user", $selected = -1)
+function fed_user_dropdown(string $ddname = 'user', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `userid`, `username`
+                'SELECT `userid`, `username`
                      FROM `users`
                      WHERE `fedjail` = 1
-                     ORDER BY `username` ASC");
+                     ORDER BY `username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -378,22 +369,21 @@ function fed_user_dropdown($connection, $ddname = "user", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the mail banned users in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the user who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function mailb_user_dropdown($connection, $ddname = "user", $selected = -1)
+function mailb_user_dropdown(string $ddname = 'user', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `userid`, `username`
+                'SELECT `userid`, `username`
                      FROM `users`
                      WHERE `mailban` > 0
-                     ORDER BY `username` ASC");
+                     ORDER BY `username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -419,22 +409,21 @@ function mailb_user_dropdown($connection, $ddname = "user", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the forum banned users in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the user who should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forumb_user_dropdown($connection, $ddname = "user", $selected = -1)
+function forumb_user_dropdown(string $ddname = 'user', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `userid`, `username`
+                'SELECT `userid`, `username`
                      FROM `users`
                      WHERE `forumban` > 0
-                     ORDER BY `username` ASC");
+                     ORDER BY `username` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -460,21 +449,20 @@ function forumb_user_dropdown($connection, $ddname = "user", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the jobs in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the job which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first job alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function job_dropdown($connection, $ddname = "job", $selected = -1)
+function job_dropdown(string $ddname = 'job', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `jID`, `jNAME`
+                'SELECT `jID`, `jNAME`
     				 FROM `jobs`
-    				 ORDER BY `jNAME` ASC");
+    				 ORDER BY `jNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -500,23 +488,22 @@ function job_dropdown($connection, $ddname = "job", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the job ranks in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the job rank which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first job's first job rank alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function jobrank_dropdown($connection, $ddname = "jobrank", $selected = -1)
+function jobrank_dropdown(string $ddname = 'jobrank', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `jrID`, `jNAME`, `jrNAME`
+                'SELECT `jrID`, `jNAME`, `jrNAME`
                      FROM `jobranks` AS `jr`
                      INNER JOIN `jobs` AS `j`
                      ON `jr`.`jrJOB` = `j`.`jID`
-                     ORDER BY `j`.`jNAME` ASC, `jr`.`jrNAME` ASC");
+                     ORDER BY `j`.`jNAME` ASC, `jr`.`jrNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -542,21 +529,20 @@ function jobrank_dropdown($connection, $ddname = "jobrank", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the houses in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the house which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first house alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function house_dropdown($connection, $ddname = "house", $selected = -1)
+function house_dropdown(string $ddname = 'house', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `hID`, `hNAME`
+                'SELECT `hID`, `hNAME`
     				 FROM houses
-    				 ORDER BY `hNAME` ASC");
+    				 ORDER BY `hNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -583,21 +569,20 @@ function house_dropdown($connection, $ddname = "house", $selected = -1)
 /**
  * Constructs a drop-down listbox of all the houses in the game to let the user select one.<br />
  * However, the values in the list box return the house's maximum will value instead of its ID.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the house which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first house alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function house2_dropdown($connection, $ddname = "house", $selected = -1)
+function house2_dropdown(string $ddname = 'house', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `hWILL`, `hNAME`
+                'SELECT `hWILL`, `hNAME`
     				 FROM houses
-    				 ORDER BY `hNAME` ASC");
+    				 ORDER BY `hNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -623,21 +608,20 @@ function house2_dropdown($connection, $ddname = "house", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the courses in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the course which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first course alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function course_dropdown($connection, $ddname = "course", $selected = -1)
+function course_dropdown(string $ddname = 'course', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `crID`, `crNAME`
+                'SELECT `crID`, `crNAME`
     				 FROM `courses`
-    				 ORDER BY `crNAME` ASC");
+    				 ORDER BY `crNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -663,21 +647,20 @@ function course_dropdown($connection, $ddname = "course", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the crimes in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the crime which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first crime alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function crime_dropdown($connection, $ddname = "crime", $selected = -1)
+function crime_dropdown(string $ddname = 'crime', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `crimeID`, `crimeNAME`
+                'SELECT `crimeID`, `crimeNAME`
     				 FROM `crimes`
-    				 ORDER BY `crimeNAME` ASC");
+    				 ORDER BY `crimeNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -703,22 +686,21 @@ function crime_dropdown($connection, $ddname = "crime", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the crime groups in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the crime group which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first crime group alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function crimegroup_dropdown($connection, $ddname = "crimegroup",
-        $selected = -1)
+function crimegroup_dropdown(string $ddname = 'crimegroup',
+                             int    $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `cgID`, `cgNAME`
+                'SELECT `cgID`, `cgNAME`
     				 FROM `crimegroups`
-    				 ORDER BY `cgNAME` ASC");
+    				 ORDER BY `cgNAME` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -746,10 +728,9 @@ function crimegroup_dropdown($connection, $ddname = "crimegroup",
  * Sends a user an event, given their ID and the text.
  * @param int $userid The user ID to be sent the event
  * @param string $text The event's text. This should be fully sanitized for HTML, but not pre-escaped for database insertion.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @return int 1
  */
-function event_add($userid, $text, $connection = 0)
+function event_add(int $userid, string $text): int
 {
     global $db;
     $text = $db->escape($text);
@@ -766,10 +747,9 @@ function event_add($userid, $text, $connection = 0)
 /**
  * Internal function: used to see if a user is due to level up, and if so, perform that levelup.
  */
-function check_level()
+function check_level(): void
 {
-    global $db;
-    global $ir, $c, $userid;
+    global $db, $ir, $userid;
     $ir['exp_needed'] =
             (int) (($ir['level'] + 1) * ($ir['level'] + 1)
                     * ($ir['level'] + 1) * 2.2);
@@ -798,15 +778,14 @@ function check_level()
 }
 
 /**
- * Get the "rank" a user has for a particular stat - if the return is n, then the user has the n'th highest value for that stat.
- * @param int $stat The value of the current user's stat.
+ * Get the "rank" a user has for a particular stat - if the return is n, then the user has the nth-highest value for that stat.
+ * @param int|float $stat The value of the current user's stat.
  * @param string $mykey The stat to be ranked in. Must be a valid column name in the userstats table
- * @return integer The user's rank in the stat
+ * @return int The user's rank in the stat
  */
-function get_rank($stat, $mykey)
+function get_rank(int|float $stat, string $mykey): int
 {
-    global $db;
-    global $ir, $userid, $c;
+    global $db, $userid;
     $q =
             $db->query(
                     "SELECT count(`u`.`userid`)
@@ -828,7 +807,7 @@ function get_rank($stat, $mykey)
  * @param int $notid [optional] If specified and greater than zero, prevents the item given's<br />
  * database entry combining with inventory id $notid.
  */
-function item_add($user, $itemid, $qty, $notid = 0)
+function item_add(int $user, int $itemid, int $qty, int $notid = 0): void
 {
     global $db;
     if ($notid > 0)
@@ -877,7 +856,7 @@ function item_add($user, $itemid, $qty, $notid = 0)
  * @param int $itemid The item ID which is to be taken
  * @param int $qty The item quantity to be taken
  */
-function item_remove($user, $itemid, $qty)
+function item_remove(int $user, int $itemid, int $qty): void
 {
     global $db;
     $q =
@@ -909,21 +888,20 @@ function item_remove($user, $itemid, $qty)
 
 /**
  * Constructs a drop-down listbox of all the forums in the game to let the user select one.
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the forum which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first forum alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forum_dropdown($connection, $ddname = "forum", $selected = -1)
+function forum_dropdown(string $ddname = 'forum', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
     $q =
             $db->query(
-                    "SELECT `ff_id`, `ff_name`
+                'SELECT `ff_id`, `ff_name`
     				 FROM `forum_forums`
-    				 ORDER BY `ff_name` ASC");
+    				 ORDER BY `ff_name` ASC');
     if ($selected == -1)
     {
         $first = 0;
@@ -949,13 +927,12 @@ function forum_dropdown($connection, $ddname = "forum", $selected = -1)
 
 /**
  * Constructs a drop-down listbox of all the forums in the game, except gang forums, to let the user select one.<br />
- * @param mysql $connection Redundant (legacy from v1) - use NULL
  * @param string $ddname The "name" attribute the &lt;select&gt; attribute should have
  * @param int $selected [optional] The <i>ID number</i> of the forum which should be selected by default.<br />
  * Not specifying this or setting it to -1 makes the first forum alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forum2_dropdown($connection, $ddname = "forum", $selected = -1)
+function forum2_dropdown(string $ddname = 'forum', int $selected = -1): string
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -989,35 +966,10 @@ function forum2_dropdown($connection, $ddname = "forum", $selected = -1)
 }
 
 /**
- * Attempt to parse the given string as an arbritrary-length integer, returning the result.
- * @param string $str The input string
- * @param int $positive Whether the resulting number must be positive or not.
- * @param string The resulting integer as a string, or "0" if the input string was not able to be parsed as an integer.
- */
-function make_bigint($str, $positive = 1)
-{
-    $str = (string) $str;
-    $ret = "";
-    for ($i = 0; $i < strlen($str); $i++)
-    {
-        if ((ord($str[$i]) > 47 && ord($str[$i]) < 58)
-                or ($str[$i] == "-" && $positive == 0))
-        {
-            $ret .= $str[$i];
-        }
-    }
-    if (strlen($ret) == 0)
-    {
-        return "0";
-    }
-    return $ret;
-}
-
-/**
  * Records an action by a member of staff in the central staff log.
  * @param string $text The log's text. This should be fully sanitized for HTML, but not pre-escaped for database insertion.
  */
-function stafflog_add($text)
+function stafflog_add(string $text): void
 {
     global $db, $ir;
     $IP = $db->escape($_SERVER['REMOTE_ADDR']);
@@ -1032,14 +984,14 @@ function stafflog_add($text)
  * @param string $formid A unique string used to identify this form to match up its submission with the right token.
  * @return string The code issued to be added to the form.
  */
-function request_csrf_code($formid)
+function request_csrf_code(string $formid): string
 {
     // Generate the token
-    $token = md5(mt_rand());
+    $token = md5((string)mt_rand());
     // Insert/Update it
     $issue_time = time();
     $_SESSION["csrf_{$formid}"] =
-            array('token' => $token, 'issued' => $issue_time);
+            ['token' => $token, 'issued' => $issue_time];
     return $token;
 }
 
@@ -1048,7 +1000,7 @@ function request_csrf_code($formid)
  * @param string $formid A unique string used to identify this form to match up its submission with the right token.
  * @return string The HTML for the code issued to be added to the form.
  */
-function request_csrf_html($formid)
+function request_csrf_html(string $formid): string
 {
     return "<input type='hidden' name='verf' value='"
             . request_csrf_code($formid) . "' />";
@@ -1058,9 +1010,9 @@ function request_csrf_html($formid)
  * Check the CSRF code we received against the one that was registered for the form - return false if the request shouldn't be processed...
  * @param string $formid A unique string used to identify this form to match up its submission with the right token.
  * @param string $code The code the user's form input returned.
- * @return boolean Whether the user provided a valid code or not
+ * @return bool Whether the user provided a valid code or not
  */
-function verify_csrf_code($formid, $code)
+function verify_csrf_code(string $formid, string $code): bool
 {
     // Lookup the token entry
     // Is there a token in existence?
@@ -1102,10 +1054,10 @@ function verify_csrf_code($formid, $code)
  * @param string $salt 	The user's unique pass salt
  * @param string $pass	The user's encrypted password
  *
- * @return boolean	true for equal, false for not (login failed etc)
+ * @return bool    true for equal, false for not (login failed etc)
  *
  */
-function verify_user_password($input, $salt, $pass)
+function verify_user_password(string $input, string $salt, string $pass): bool
 {
     return ($pass === encode_password($input, $salt));
 }
@@ -1116,13 +1068,13 @@ function verify_user_password($input, $salt, $pass)
  *
  * @param string $password 		The password to be encoded
  * @param string $salt			The user's unique pass salt
- * @param boolean $already_md5	Whether the specified password is already
+ * @param bool $already_md5	Whether the specified password is already
  * 								a md5 hash. This would be true for legacy
  * 								v2 passwords.
  *
  * @return string	The resulting encoded password.
  */
-function encode_password($password, $salt, $already_md5 = false)
+function encode_password(string $password, string $salt, bool $already_md5 = false): string
 {
     if (!$already_md5)
     {
@@ -1137,16 +1089,16 @@ function encode_password($password, $salt, $already_md5 = false)
  *
  * @return string	The generated salt, 8 alphanumeric characters
  */
-function generate_pass_salt()
+function generate_pass_salt(): string
 {
-    return substr(md5(microtime(true)), 0, 8);
+    return substr(md5((string)microtime(true)), 0, 8);
 }
 
 /**
  *
  * @return string The URL of the game.
  */
-function determine_game_urlbase()
+function determine_game_urlbase(): string
 {
     $domain = $_SERVER['HTTP_HOST'];
     $turi = $_SERVER['REQUEST_URI'];
@@ -1178,10 +1130,10 @@ function determine_game_urlbase()
  * Check to see if this request was made via XMLHttpRequest.
  * Uses variables supported by most JS frameworks.
  *
- * @return boolean Whether the request was made via AJAX or not.
+ * @return bool Whether the request was made via AJAX or not.
  **/
 
-function is_ajax()
+function is_ajax(): bool
 {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
             && is_string($_SERVER['HTTP_X_REQUESTED_WITH'])
@@ -1198,7 +1150,7 @@ function is_ajax()
  * 						not determine its size.
  */
 
-function get_filesize_remote($url)
+function get_filesize_remote(string $url): int
 {
     // Retrieve headers
     if (strlen($url) < 8)
@@ -1206,11 +1158,12 @@ function get_filesize_remote($url)
         return 0; // no file
     }
     $is_ssl = false;
-    if (substr($url, 0, 7) == 'http://')
+    /** @noinspection HttpUrlsUsage */
+    if (str_starts_with($url, 'http://'))
     {
         $port = 80;
     }
-    else if (substr($url, 0, 8) == 'https://' && extension_loaded('openssl'))
+    elseif (str_starts_with($url, 'https://') && extension_loaded('openssl'))
     {
         $port = 443;
         $is_ssl = true;
@@ -1226,7 +1179,7 @@ function get_filesize_remote($url)
     unset($url_parts[1]);
     unset($url_parts[0]);
     $path = '/' . implode('/', $url_parts);
-    if (strpos($host, ':') !== false)
+    if (str_contains($host, ':'))
     {
         $host_parts = explode(':', $host);
         if (count($host_parts) == 2 && ctype_digit($host_parts[1]))
@@ -1248,7 +1201,7 @@ function get_filesize_remote($url)
         return 0;
     }
     fwrite($fh, $request);
-    $headers = array();
+    $headers = [];
     $total_loaded = 0;
     while (!feof($fh) && $line = fgets($fh, 1024))
     {
@@ -1256,9 +1209,9 @@ function get_filesize_remote($url)
         {
             break;
         }
-        if (strpos($line, ':') !== false)
+        if (str_contains($line, ':'))
         {
-            list($key, $val) = explode(':', $line, 2);
+            [$key, $val] = explode(':', $line, 2);
             $headers[strtolower($key)] = trim($val);
         }
         else
@@ -1278,4 +1231,50 @@ function get_filesize_remote($url)
         return 0;
     }
     return (int) $headers['content-length'];
+}
+
+/**
+ * Typecasting the player data array - tasty - to set values to have the expected data types.
+ * Ideally, this engine should be updated to use db abstraction from column types.
+ * Note: The match() array is not an exhaustive list, simply the types found in the default bundled dbdata.sql.
+ * Note: At the time of writing, there are no overlapping column types. Consider that a growing project will likely hit this "gotcha!".
+ * @param array $ir
+ * @return void
+ */
+function set_userdata_data_types(array &$ir): void
+{
+    global $db, $_CONFIG;
+    $types_query = $db->query('SELECT COLUMN_NAME AS colName, DATA_TYPE AS dataType FROM information_schema.COLUMNS WHERE COLUMNS.TABLE_SCHEMA = \''.$_CONFIG['database'].'\' AND COLUMNS.TABLE_NAME IN (\'users\', \'userstats\', \'houses\', \'jobs\', \'jobranks\')');
+    $data = [];
+    while ($row = $db->fetch_row($types_query)) {
+        $data[$row['colName']] = match ($row['dataType']) {
+            'tinyint', 'bool' => 'bool',
+            'smallint', 'int', 'bigint' => 'int',
+            'varchar', 'tinytext', 'smalltext', 'text', 'longtext', 'enum' => 'string',
+            'float', 'decimal' => 'float',
+            default => null,
+        };
+    }
+    foreach ($ir as $column => $value) {
+        if (array_key_exists($column, $data) && $data[$column] !== null) {
+            settype($ir[$column], $data[$column]);
+        }
+    }
+}
+
+function get_site_settings(): array
+{
+    global $db;
+    $set = [];
+    $settq = $db->query('SELECT * FROM `settings`');
+    while ($r = $db->fetch_row($settq)) {
+        $set[$r['conf_name']] = $r['conf_value'];
+        settype($set[$r['conf_name']], $r['data_type']);
+    }
+    return $set;
+}
+
+function userBox(int|string $target_id): string
+{
+    return $target_id;
 }

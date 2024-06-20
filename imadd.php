@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 
 $_GET['ID'] =
@@ -33,7 +35,7 @@ $_POST['QTY'] =
                 ? abs(intval($_POST['QTY'])) : '';
 $_POST['currency'] =
         (isset($_POST['currency'])
-                && in_array($_POST['currency'], array('money', 'crystals')))
+                && in_array($_POST['currency'], ['money', 'crystals']))
                 ? $_POST['currency'] : 'money';
 if ($_POST['price'] && $_POST['QTY'] && $_GET['ID'])
 {
@@ -44,7 +46,8 @@ if ($_POST['price'] && $_POST['QTY'] && $_GET['ID'])
         echo "Your request to add this item to the market has expired.
         Please try again.<br />
 		&gt; <a href='imadd.php?ID={$_GET['ID']}'>Back</a>";
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -57,7 +60,7 @@ if ($_POST['price'] && $_POST['QTY'] && $_GET['ID'])
     if ($db->num_rows($q) == 0)
     {
         $db->free_result($q);
-        echo "Invalid Item ID";
+        echo 'Invalid Item ID';
     }
     else
     {
@@ -107,7 +110,7 @@ if ($_POST['price'] && $_POST['QTY'] && $_GET['ID'])
                 "INSERT INTO `imarketaddlogs`
                 VALUES (NULL, {$r['inv_itemid']}, {$_POST['price']},
                 {$r['inv_id']}, $userid, " . time() . ", '{$imadd_log}')");
-        echo "Item added to market.";
+        echo 'Item added to market.';
     }
 }
 else

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,11 +21,13 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('sglobals.php');
-if (!in_array($ir['user_level'], array(2, 3, 5)))
+if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 //This contains punishment stuffs
 if (!isset($_GET['action']))
@@ -89,9 +92,11 @@ default:
     break;
 }
 
-function fed_user_form()
+/**
+ * @return void
+ */
+function fed_user_form(): void
 {
-    global $c;
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
                     ? abs(intval($_GET['XID'])) : 0;
@@ -101,7 +106,7 @@ function fed_user_form()
     The user will be put in fed jail and will be unable to do anything in the game.
     <br />
     <form action='staff_punit.php?action=fedsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user', $_GET['XID'])
+    	User: " . user_dropdown('user', $_GET['XID'])
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -114,9 +119,12 @@ function fed_user_form()
        ";
 }
 
-function fed_user_submit()
+/**
+ * @return void
+ */
+function fed_user_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h, $userid;
     staff_csrf_stdverify('staff_feduser', 'staff_punit.php?action=fedform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -133,7 +141,8 @@ function fed_user_submit()
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -145,7 +154,8 @@ function fed_user_submit()
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_userlevel = $db->fetch_single($q);
     $db->free_result($q);
@@ -153,10 +163,10 @@ function fed_user_submit()
     {
         echo 'You cannot fed admins, please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
-    $re =
-            $db->query(
+    $db->query(
                     "UPDATE `users`
                      SET `fedjail` = 1
                      WHERE `userid` = {$_POST['user']}");
@@ -170,25 +180,28 @@ function fed_user_submit()
     $db->query(
             "INSERT INTO `jaillogs`
              VALUES(NULL, $userid, {$_POST['user']}, {$_POST['days']},
-             '{$_POST['reason']}', " . time() . ")");
+             '{$_POST['reason']}', " . time() . ')');
     stafflog_add(
             'Fedded ID ' . $_POST['user'] . ' for ' . $_POST['days']
                     . ', reason: ' . $_POST['reason']);
     echo 'User jailed.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function fed_edit_form()
+/**
+ * @return void
+ */
+function fed_edit_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_fededit');
     echo "
     <h3>Editing Fedjail Reason</h3>
     You are editing a player's sentence in fed jail.
     <br />
     <form action='staff_punit.php?action=fedesub' method='post'>
-    	User: " . fed_user_dropdown(NULL, 'user')
+    	User: " . fed_user_dropdown()
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -201,9 +214,12 @@ function fed_edit_form()
        ";
 }
 
-function fed_edit_submit()
+/**
+ * @return void
+ */
+function fed_edit_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h, $userid;
     staff_csrf_stdverify('staff_fededit', 'staff_punit.php?action=fedeform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -220,7 +236,8 @@ function fed_edit_submit()
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -234,7 +251,8 @@ function fed_edit_submit()
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_userlevel = $db->fetch_single($q);
     $db->free_result($q);
@@ -242,7 +260,8 @@ function fed_edit_submit()
     {
         echo 'You cannot fed admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->query(
             "DELETE FROM `fedjail`
@@ -254,16 +273,19 @@ function fed_edit_submit()
     $db->query(
             "INSERT INTO `jaillogs`
              VALUES(NULL, $userid, {$_POST['user']}, {$_POST['days']},
-             '{$_POST['reason']}', " . time() . ")");
+             '{$_POST['reason']}', " . time() . ')');
     stafflog_add('Edited user ID ' . $_POST['user'] . '\'s fedjail sentence');
     echo 'User\'s sentence edited.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function mail_user_form()
+/**
+ * @return void
+ */
+function mail_user_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
                     ? abs(intval($_GET['XID'])) : 0;
@@ -273,7 +295,7 @@ function mail_user_form()
     The user will be banned from the mail system.
     <br />
     <form action='staff_punit.php?action=mailsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user', $_GET['XID'])
+    	User: " . user_dropdown('user', $_GET['XID'])
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -286,9 +308,12 @@ function mail_user_form()
        ";
 }
 
-function mail_user_submit()
+/**
+ * @return void
+ */
+function mail_user_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     staff_csrf_stdverify('staff_mailbanuser',
             'staff_punit.php?action=mailform');
     $_POST['user'] =
@@ -306,7 +331,8 @@ function mail_user_submit()
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -318,7 +344,8 @@ function mail_user_submit()
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_userlevel = $db->fetch_single($q);
     $db->free_result($q);
@@ -326,27 +353,29 @@ function mail_user_submit()
     {
         echo 'You cannot mail ban admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=mailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
-    $re =
-            $db->query(
+    $db->query(
                     "UPDATE `users`
                      SET `mailban` = {$_POST['days']},
                      `mb_reason` = '{$_POST['reason']}'
                      WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were banned from mail for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}",
-            $c);
+        "You were banned from mail for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}");
     stafflog_add(
             "Mail banned User ID {$_POST['user']} for {$_POST['days']} days");
     echo 'User mail banned.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function forum_user_form()
+/**
+ * @return void
+ */
+function forum_user_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
                     ? abs(intval($_GET['XID'])) : 0;
@@ -356,7 +385,7 @@ function forum_user_form()
     The user will be banned from the forums.
     <br />
     <form action='staff_punit.php?action=forumsub' method='post'>
-    	User: " . user_dropdown(NULL, 'user', $_GET['XID'])
+    	User: " . user_dropdown('user', $_GET['XID'])
             . "
     	<br />
     	Days: <input type='text' name='days' />
@@ -369,9 +398,12 @@ function forum_user_form()
        ";
 }
 
-function forum_user_submit()
+/**
+ * @return void
+ */
+function forum_user_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     staff_csrf_stdverify('staff_forumbanuser',
             'staff_punit.php?action=forumform');
     $_POST['user'] =
@@ -389,7 +421,8 @@ function forum_user_submit()
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -401,7 +434,8 @@ function forum_user_submit()
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $f_userlevel = $db->fetch_single($q);
     $db->free_result($q);
@@ -409,35 +443,37 @@ function forum_user_submit()
     {
         echo 'You cannot forum ban admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
-    $re =
-            $db->query(
+    $db->query(
                     "UPDATE `users`
                      SET `forumban` = {$_POST['days']},
                      `fb_reason` = '{$_POST['reason']}'
                      WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were banned from the forums for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}",
-            $c);
+        "You were banned from the forums for {$_POST['days']} day(s) for the following reason: {$_POST['reason']}");
     stafflog_add(
             'Forum banned User ID ' . $_POST['user'] . ' for '
                     . $_POST['days'] . ' days');
     echo 'User forum banned.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function unfed_user_form()
+/**
+ * @return void
+ */
+function unfed_user_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_unfeduser');
     echo "
     <h3>Unjailing User</h3>
     The user will be taken out of fed jail.
     <br />
     <form action='staff_punit.php?action=unfedsub' method='post'>
-    	User: " . fed_user_dropdown(NULL, 'user')
+    	User: " . fed_user_dropdown()
             . "
     	<br />
     	{$csrf}
@@ -446,9 +482,12 @@ function unfed_user_form()
        ";
 }
 
-function unfed_user_submit()
+/**
+ * @return void
+ */
+function unfed_user_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h, $userid;
     staff_csrf_stdverify('staff_unfeduser', 'staff_punit.php?action=unfedform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -457,7 +496,8 @@ function unfed_user_submit()
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=unfedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -469,7 +509,8 @@ function unfed_user_submit()
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=unfedform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(
@@ -481,23 +522,26 @@ function unfed_user_submit()
      		 WHERE `fed_userid` = {$_POST['user']}");
     $db->query(
             "INSERT INTO `unjaillogs`
-             VALUES(NULL, $userid, {$_POST['user']}, " . time() . ")");
+             VALUES(NULL, $userid, {$_POST['user']}, " . time() . ')');
     stafflog_add("Unfedded user ID {$_POST['user']}");
     echo 'User unjailed.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function unmail_user_form()
+/**
+ * @return void
+ */
+function unmail_user_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_unmailbanuser');
     echo "
     <h3>Un-mailbanning User</h3>
     The user will be taken out of mail ban.
     <br />
     <form action='staff_punit.php?action=unmailsub' method='post'>
-    	User: " . mailb_user_dropdown(NULL, 'user')
+    	User: " . mailb_user_dropdown()
             . "<br />
         {$csrf}
     	<input type='submit' value='Un-mailban User' />
@@ -505,9 +549,12 @@ function unmail_user_form()
        ";
 }
 
-function unmail_user_submit()
+/**
+ * @return void
+ */
+function unmail_user_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     staff_csrf_stdverify('staff_unmailbanuser',
             'staff_punit.php?action=unmailform');
     $_POST['user'] =
@@ -517,7 +564,8 @@ function unmail_user_submit()
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=unmailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -529,7 +577,8 @@ function unmail_user_submit()
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=unmailform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(
@@ -537,23 +586,26 @@ function unmail_user_submit()
              SET `mailban` = 0
              WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were unbanned from mail. You can now use it again.", $c);
+        'You were unbanned from mail. You can now use it again.');
     stafflog_add('Un-mailbanned user ID ' . $_POST['user']);
     echo 'User un-mailbanned.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function unforum_user_form()
+/**
+ * @return void
+ */
+function unforum_user_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_unforumbanuser');
     echo "
     <h3>Un-forumbanning User</h3>
     The user will be taken out of forum ban.
     <br />
     <form action='staff_punit.php?action=unforumsub' method='post'>
-    	User: " . forumb_user_dropdown(NULL, 'user')
+    	User: " . forumb_user_dropdown()
             . "
     	<br />
         {$csrf}
@@ -562,9 +614,12 @@ function unforum_user_form()
        ";
 }
 
-function unforum_user_submit()
+/**
+ * @return void
+ */
+function unforum_user_submit(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h;
     staff_csrf_stdverify('staff_unforumbanuser',
             'staff_punit.php?action=unforumform');
     $_POST['user'] =
@@ -574,7 +629,8 @@ function unforum_user_submit()
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=unforumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $q =
             $db->query(
@@ -586,7 +642,8 @@ function unforum_user_submit()
         $db->free_result($q);
         echo 'Invalid user.<br />
         &gt; <a href="staff_punit.php?action=unforumform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($q);
     $db->query(
@@ -594,17 +651,19 @@ function unforum_user_submit()
              SET `forumban` = 0
              WHERE `userid` = {$_POST['user']}");
     event_add($_POST['user'],
-            "You were unbanned from the forums. You can now use them again.",
-            $c);
+        'You were unbanned from the forums. You can now use them again.');
     stafflog_add("Un-forumbanned user ID {$_POST['user']}");
     echo 'User un-forumbanned.<br />
     &gt; <a href="staff.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 
-function ip_search_form()
+/**
+ * @return void
+ */
+function ip_search_form(): void
 {
-    global $db, $ir, $c, $h, $userid;
     $csrf = request_csrf_html('staff_ipsearch');
     echo "
     <h3>IP Search</h3>
@@ -617,9 +676,12 @@ function ip_search_form()
        ";
 }
 
-function ip_search_submit()
+/**
+ * @return void
+ */
+function ip_search_submit(): void
 {
-    global $db, $ir, $c, $h, $userid, $domain;
+    global $db, $h, $domain;
     staff_csrf_stdverify('staff_ipsearch', 'staff_punit.php?action=ipform');
     $_POST['ip'] =
             (filter_input(INPUT_POST, 'ip', FILTER_VALIDATE_IP)) ? $_POST['ip']
@@ -628,7 +690,8 @@ function ip_search_submit()
     {
         echo 'Invalid ip.<br />
         &gt; <a href="staff_punit.php?action=ipform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $echoip =
             htmlentities(stripslashes($_POST['ip']), ENT_QUOTES, 'ISO-8859-1');
@@ -648,7 +711,7 @@ function ip_search_submit()
                      FROM `users`
                      WHERE `lastip` = '"
                             . $db->escape(stripslashes($_POST['ip'])) . "'");
-    $ids = array();
+    $ids = [];
     while ($r = $db->fetch_row($q))
     {
         $ids[] = $r['userid'];
@@ -669,7 +732,7 @@ function ip_search_submit()
     <b>Mass Jail</b>
     <br />
     <form action='staff_punit.php?action=massjailip' method='post'>
-    	<input type='hidden' name='ids' value='" . implode(",", $ids)
+    	<input type='hidden' name='ids' value='" . implode(',', $ids)
             . "' />
     	Days: <input type='text' name='days' value='300' />
     	<br />
@@ -682,16 +745,19 @@ function ip_search_submit()
        ";
 }
 
-function mass_jail()
+/**
+ * @return void
+ */
+function mass_jail(): void
 {
-    global $db, $ir, $c, $h, $userid;
+    global $db, $h, $userid;
     staff_csrf_stdverify('staff_massjail', 'staff_punit.php?action=ipform');
     if (!isset($_POST['ids']))
     {
         $_POST['ids'] = '';
     }
-    $ids = explode(",", $_POST['ids']);
-    $ju = array();
+    $ids = explode(',', $_POST['ids']);
+    $ju = [];
     $_POST['reason'] =
             (isset($_POST['reason']))
                     ? $db->escape(strip_tags(stripslashes($_POST['reason'])))
@@ -704,7 +770,8 @@ function mass_jail()
     {
         echo 'You need to fill in all the fields.<br />
         &gt; <a href="staff_punit.php?action=ipform">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     foreach ($ids as $id)
     {
@@ -718,7 +785,7 @@ function mass_jail()
             $db->query(
                     "INSERT INTO `jaillogs`
                      VALUES(NULL, $userid, {$safe_id}, {$_POST['days']},
-                     '{$_POST['reason']}', " . time() . ")");
+                     '{$_POST['reason']}', " . time() . ')');
             echo 'User jailed : ' . $id . '<br />';
             $ju[] = $id;
         }
@@ -726,20 +793,18 @@ function mass_jail()
     if (count($ju) > 0)
     {
         $juv = implode(',', $ju);
-        $re =
-                $db->query(
+        $db->query(
                         "UPDATE `users`
                          SET `fedjail` = 1
                          WHERE `userid` IN($juv)");
         stafflog_add('Mass jailed IDs ' . $juv);
-        echo '&gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
     }
     else
     {
         echo 'No users jailed...<br />';
-        echo '&gt; <a href="staff.php">Go Home</a>';
-        die($h->endpage());
     }
+    echo '&gt; <a href="staff.php">Go Home</a>';
+    $h->endpage();
+    exit;
 }
 $h->endpage();

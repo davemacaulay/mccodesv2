@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,11 +21,13 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $ir, $h;
 require_once('globals.php');
 if ($ir['donatordays'] == 0)
 {
     echo 'This feature is for donators only.';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 echo '<h3>Friends List</h3>';
 if (!isset($_GET['action']))
@@ -33,13 +36,13 @@ if (!isset($_GET['action']))
 }
 switch ($_GET['action'])
 {
-case "add":
+case 'add':
     add_friend();
     break;
-case "remove":
+case 'remove':
     remove_friend();
     break;
-case "ccomment":
+case 'ccomment':
     change_comment();
     break;
 default:
@@ -47,9 +50,12 @@ default:
     break;
 }
 
-function friends_list()
+/**
+ * @return void
+ */
+function friends_list(): void
 {
-    global $db, $ir, $c, $userid;
+    global $db, $ir, $userid;
     echo "
 <a href='friendslist.php?action=add'>&gt; Add an friend</a><br />
 These are the people on your friends list.
@@ -59,10 +65,10 @@ These are the people on your friends list.
 Most hated: [";
     $q2r =
             $db->query(
-                    "SELECT `username`, `userid`
+                'SELECT `username`, `userid`
                      FROM `users`
                      ORDER BY `friend_count` DESC
-                     LIMIT 5");
+                     LIMIT 5');
     $r = 0;
     while ($r2r = $db->fetch_row($q2r))
     {
@@ -101,7 +107,7 @@ Most hated: [";
                 ($r['laston'] >= (($_SERVER['REQUEST_TIME'] - 15) * 60))
                         ? '<span style="color: green; font-weight: bold;">Online</font>'
                         : '<span style="color: red; font-weight: bold;">Offline</font>';
-        $d = "";
+        $d = '';
         if ($r['donatordays'] > 0)
         {
             $r['username'] =
@@ -129,12 +135,15 @@ Most hated: [";
    ";
     }
     $db->free_result($q);
-    echo "</table>";
+    echo '</table>';
 }
 
-function add_friend()
+/**
+ * @return void
+ */
+function add_friend(): void
 {
-    global $db, $ir, $c, $userid;
+    global $db, $userid;
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
                     ? abs(intval($_POST['ID'])) : '';
@@ -160,13 +169,13 @@ function add_friend()
                          WHERE `userid` = {$_POST['ID']}");
         if ($dupe_count > 0)
         {
-            echo "You cannot add the same person twice.";
+            echo 'You cannot add the same person twice.';
         }
-        else if ($userid == $_POST['ID'])
+        elseif ($userid == $_POST['ID'])
         {
-            echo "You cannot be so lonely that you have to try and add yourself.";
+            echo 'You cannot be so lonely that you have to try and add yourself.';
         }
-        else if ($db->num_rows($q) == 0)
+        elseif ($db->num_rows($q) == 0)
         {
             echo "Oh no, you're trying to add a ghost.";
         }
@@ -203,9 +212,12 @@ Adding an friend!
 
 }
 
-function remove_friend()
+/**
+ * @return void
+ */
+function remove_friend(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_GET['f'] =
             (isset($_GET['f']) && is_numeric($_GET['f']))
                     ? abs(intval($_GET['f'])) : '';
@@ -215,7 +227,8 @@ function remove_friend()
 You didn\'t select a real friend.<br />
 &gt; <a href="friendslist.php">Back</a>
    ';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
 
     $q =
@@ -226,7 +239,8 @@ You didn\'t select a real friend.<br />
     if ($db->num_rows($q) == 0)
     {
         echo 'Listing doesn\'t exist.';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $r = $db->fetch_row($q);
     $db->query(
@@ -242,9 +256,12 @@ Friends list entry removed!<br />
    ";
 }
 
-function change_comment()
+/**
+ * @return void
+ */
+function change_comment(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $userid, $h;
     $_POST['f'] =
             (isset($_POST['f']) && is_numeric($_POST['f']))
                     ? abs(intval($_POST['f'])) : '';
@@ -261,7 +278,8 @@ function change_comment()
         {
             $db->free_result($q);
             echo 'Listing doesn\'t exist.';
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $db->free_result($q);
         $db->query(
@@ -284,7 +302,8 @@ Comment for friend changed!<br />
 Invalid friend.<br />
 <a href='friendslist.php'>&gt; Back</a>
    ";
-            die($h->endpage());
+            $h->endpage();
+            exit;
         }
         $q =
                 $db->query(

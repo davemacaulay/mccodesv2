@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -24,11 +25,11 @@
  * An error handler used to handle PHP errors encountered during installation.
  */
 
-function error_critical($human_error, $debug_error, $action,
-        $context = array())
+function error_critical($debug_error, $action,
+                        $context = []): void
 {
     require_once('./installer_head.php'); // in case it hasn't been included
-    // Setup a new error
+    // Set up a new error
     header('HTTP/1.1 500 Internal Server Error');
     echo '<h1>Installer Error</h1>';
     echo 'A critical error has occurred, and installation has stopped. '
@@ -43,48 +44,47 @@ function error_critical($human_error, $debug_error, $action,
     exit;
 }
 
-function error_php($errno, $errstr, $errfile = '', $errline = 0,
-        $errcontext = array())
+/**
+ * @param $errno
+ * @param $errstr
+ * @param string $errfile
+ * @param int $errline
+ * @param array $errcontext
+ * @return void
+ */
+function error_php($errno, $errstr, string $errfile = '', int $errline = 0,
+                   array $errcontext = []): void
 {
     // What's happened?
     // If it's a PHP warning or user error/warning, don't go further - indicates bad code, unsafe
     if ($errno == E_WARNING)
     {
-        error_critical('',
-                '<strong>PHP Warning:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
+        error_critical('<strong>PHP Warning:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
     }
-    else if ($errno == E_RECOVERABLE_ERROR)
+    elseif ($errno == E_RECOVERABLE_ERROR)
     {
-        error_critical('',
-                '<strong>PHP Recoverable Error:</strong> ' . $errstr . ' ('
-                        . $errno . ')',
-                'Line executed: ' . $errfile . ':' . $errline, $errcontext);
+        error_critical('<strong>PHP Recoverable Error:</strong> ' . $errstr . ' ('
+            . $errno . ')',
+            'Line executed: ' . $errfile . ':' . $errline, $errcontext);
     }
-    else if ($errno == E_USER_ERROR)
+    elseif ($errno == E_USER_ERROR)
     {
-        error_critical('',
-                '<strong>User Error:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
+        error_critical('<strong>User Error:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
     }
-    else if ($errno == E_USER_WARNING)
+    elseif ($errno == E_USER_WARNING)
     {
-        error_critical('',
-                '<strong>User Warning:</strong> ' . $errstr . ' (' . $errno
-                        . ')', 'Line executed: ' . $errfile . ':' . $errline,
-                $errcontext);
-    }
-    else
-    {
+        error_critical('<strong>User Warning:</strong> ' . $errstr . ' (' . $errno
+            . ')', 'Line executed: ' . $errfile . ':' . $errline,
+            $errcontext);
+    } elseif (DEBUG) {
+        // Determine the name to display from the error type
         // Only do anything if DEBUG is on, now
-        if (DEBUG)
-        {
-            // Determine the name to display from the error type
-            $errname = 'Unknown Error';
-            switch ($errno)
-            {
+        $errname = 'Unknown Error';
+        switch ($errno) {
             case E_NOTICE:
                 $errname = 'PHP Notice';
                 break;
@@ -97,18 +97,16 @@ function error_php($errno, $errstr, $errfile = '', $errline = 0,
             case 16384:
                 $errname = 'User Deprecation Notice';
                 break; // E_USER_DEPRECATED [since 5.3]
-            }
-            require_once('./installer_head.php'); // in case it hasn't been included
-            echo 'A non-critical error has occurred. Page execution will continue. '
-                    . 'Below are the details:<br /><strong>' . $errname
-                    . '</strong>: ' . $errstr . ' (' . $errno . ')'
-                    . '<br /><br />' . '<strong>Line executed</strong>: '
-                    . $errfile . ':' . $errline . '<br /><br />';
-            if (is_array($errcontext) && count($errcontext) > 0)
-            {
-                echo '<strong>Context at error time:</strong> '
-                        . '<br /><br />' . nl2br(print_r($errcontext, true));
-            }
+        }
+        require_once('./installer_head.php'); // in case it hasn't been included
+        echo 'A non-critical error has occurred. Page execution will continue. '
+            . 'Below are the details:<br /><strong>' . $errname
+            . '</strong>: ' . $errstr . ' (' . $errno . ')'
+            . '<br /><br />' . '<strong>Line executed</strong>: '
+            . $errfile . ':' . $errline . '<br /><br />';
+        if (is_array($errcontext) && count($errcontext) > 0) {
+            echo '<strong>Context at error time:</strong> '
+                . '<br /><br />' . nl2br(print_r($errcontext, true));
         }
     }
 }

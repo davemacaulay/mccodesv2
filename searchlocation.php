@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -20,6 +21,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
+global $db, $h;
 require_once('globals.php');
 $_POST['location'] =
         (isset($_POST['location']) && is_numeric($_POST['location']))
@@ -39,7 +41,8 @@ else
     {
         $db->free_result($check_it);
         echo 'This location doesn\'t exist.<br />&gt; <a href="search.php">Go Back</a>';
-        die($h->endpage());
+        $h->endpage();
+        exit;
     }
     $db->free_result($check_it);
     $q =
@@ -66,8 +69,8 @@ else
 			<td><a href="viewuser.php?u=' . $r['userid'] . '">'
                 . $r['username'] . '</a></td>
 			<td>' . $r['level'] . '</td>
-			<td>' . money_formatter($r['money']) . '</td>
-			<td>' . number_format($r['crystals']) . '</td>
+			<td>' . money_formatter((int)$r['money']) . '</td>
+			<td>' . number_format((int)$r['crystals']) . '</td>
 		</tr>
    		';
     }

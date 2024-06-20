@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -18,8 +19,10 @@
  * File: oclog.php
  * Signature: 76ded8b56b6ddfb5c2de0e01f6f42a24
  * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * @noinspection SpellCheckingInspection
  */
 
+global $db, $h;
 require_once('globals.php');
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))
@@ -28,7 +31,8 @@ if (empty($_GET['ID']))
 {
     echo 'Invalid command.<br />
     &gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $q =
         $db->query(
@@ -40,7 +44,8 @@ if ($db->num_rows($q) == 0)
     $db->free_result($q);
     echo 'Invalid OC.<br />
     &gt; <a href="index.php">Go Home</a>';
-    die($h->endpage());
+    $h->endpage();
+    exit;
 }
 $r = $db->fetch_row($q);
 $db->free_result($q);
@@ -49,7 +54,7 @@ Here is the detailed view on this crime.
 <br />
 <b>Crime:</b> {$r['ocCRIMEN']}
 <br />
-<b>Time Executed:</b> " . date('F j, Y, g:i:s a', $r['ocTIME'])
+<b>Time Executed:</b> " . date('F j, Y, g:i:s a', (int)$r['ocTIME'])
         . "
 <br />
         {$r['oclLOG']}
@@ -57,6 +62,6 @@ Here is the detailed view on this crime.
 <br />
 <b>Result:</b> {$r['oclRESULT']}
 <br />
-<b>Money Made:</b> " . money_formatter($r['oclMONEY']) . "
-   ";
+<b>Money Made:</b> " . money_formatter((int)$r['oclMONEY']) . '
+   ';
 $h->endpage();

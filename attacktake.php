@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * MCCodes Version 2.0.5b
  * Copyright (C) 2005-2012 Dabomstew
@@ -21,6 +22,7 @@
  */
 
 $atkpage = 1;
+global $db, $ir, $userid, $h;
 require_once('globals.php');
 $_GET['ID'] =
         (isset($_GET['ID']) && is_numeric($_GET['ID']))
@@ -41,7 +43,7 @@ if ($db->num_rows($od))
     $db->free_result($od);
     if ($r['hp'] == 1)
     {
-        echo "What a cheater u are.";
+        echo 'What a cheater u are.';
     }
     else
     {
@@ -62,8 +64,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
                         `hospreason` = '$hospreason'
                         WHERE `userid` = {$r['userid']}");
         event_add($r['userid'],
-                "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> attacked you and left you lying outside the hospital.",
-                $c, 'combat');
+            "<a href='viewuser.php?u=$userid'>{$ir['username']}</a> attacked you and left you lying outside the hospital.");
         $atklog = $db->escape($_SESSION['attacklog']);
         $db->query(
                 "INSERT INTO `attacklogs` VALUES(NULL, $userid, {$_GET['ID']},
@@ -89,7 +90,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
                     $ga['gangRESPECT'] -= 1;
                     $db->query(
                             "UPDATE `gangs` SET `gangRESPECT` = `gangRESPECT` + 1 WHERE `gangID` = {$ir['gang']}");
-                    echo "<br />You earnt 1 respect for your gang!";
+                    echo '<br />You earnt 1 respect for your gang!';
 
                 }
                 $db->free_result($warq);
@@ -99,7 +100,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
                     $db->query(
                             "UPDATE `users` SET `gang` = 0 WHERE `gang` = {$r['gang']}");
 
-                    $db->query("DELETE FROM `gangs` WHERE `gangRESPECT` <= 0");
+                    $db->query('DELETE FROM `gangs` WHERE `gangRESPECT` <= 0');
                     $db->query(
                             "DELETE FROM `gangwars`
                                     WHERE `warDECLARER` = {$ga['gangID']} OR `warDECLARED` = {$ga['gangID']}");
@@ -122,10 +123,10 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
                                         WHERE `userid` = $userid AND `npcid` = {$r['userid']}");
                 if ($db->fetch_single($qk) > 0)
                 {
-                    $m = $cb['cb_money'];
+                    $m = (int)$cb['cb_money'];
                     $db->query(
                             "UPDATE `users` SET `money` = `money` + $m WHERE `userid` = $userid");
-                    echo "<br /> You gained " . money_formatter($m)
+                    echo '<br /> You gained ' . money_formatter($m)
                             . " for beating the challenge bot {$r['username']}";
                     $db->query(
                             "INSERT INTO `challengesbeaten` VALUES($userid, {$r['userid']})");
@@ -140,7 +141,7 @@ You hide your weapons and drop {$r['username']} off outside the hospital entranc
 else
 {
     $db->free_result($od);
-    echo "You beat Mr. non-existant!";
+    echo 'You beat Mr. non-existent!';
 }
 
 $h->endpage();
