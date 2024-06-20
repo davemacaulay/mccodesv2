@@ -47,7 +47,7 @@ function staff_csrf_stdverify($formid, $goBackTo)
     }
     return true;
 }
-if (str_contains($_SERVER['PHP_SELF'], "sglobals.php"))
+if (str_contains($_SERVER['PHP_SELF'], 'sglobals.php'))
 {
     exit;
 }

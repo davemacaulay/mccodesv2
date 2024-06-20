@@ -20,7 +20,7 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-if (str_contains($_SERVER['PHP_SELF'], "globals_nonauth.php"))
+if (str_contains($_SERVER['PHP_SELF'], 'globals_nonauth.php'))
 {
     exit;
 }
@@ -32,7 +32,7 @@ if (!isset($_SESSION['started']))
     $_SESSION['started'] = true;
 }
 ob_start();
-if (!function_exists("get_magic_quotes_gpc"))
+if (!function_exists('get_magic_quotes_gpc'))
 {
 
     function get_magic_quotes_gpc()
