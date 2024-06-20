@@ -1273,3 +1273,8 @@ function get_site_settings(): array
     }
     return $set;
 }
+
+function userBox(int|string $target_id): string
+{
+    return $target_id;
+}
