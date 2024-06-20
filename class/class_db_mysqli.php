@@ -33,7 +33,7 @@ if (!function_exists('error_critical')) {
 if (!extension_loaded('mysqli')) {
     // dl doesn't work anymore, crash
     error_critical('MySQLi extension not present but required', 'N/A',
-        debug_backtrace(false));
+        debug_backtrace());
 }
 
 class database
@@ -44,7 +44,7 @@ class database
     public string $database;
     public string $last_query;
     public mysqli_result|bool $result;
-    public mysqli $connection_id;
+    public mysqli|int $connection_id;
     public int $num_queries = 0;
     public array $queries = [];
 
@@ -71,7 +71,7 @@ class database
         if (mysqli_connect_error()) {
             error_critical(mysqli_connect_errno() . ': ' . mysqli_connect_error(),
                 'Attempted to connect to database on ' . $this->host,
-                debug_backtrace(false));
+                debug_backtrace());
         }
         // @overridecharset mysqli
         $this->connection_id = $conn;
@@ -95,7 +95,7 @@ class database
             error_critical(mysqli_errno($this->connection_id) . ': '
                 . mysqli_error($this->connection_id),
                 'Attempted to select database: ' . $database,
-                debug_backtrace(false));
+                debug_backtrace());
         }
         $this->database = $database;
     }
@@ -111,7 +111,7 @@ class database
             error_critical(mysqli_errno($this->connection_id) . ': '
                 . mysqli_error($this->connection_id),
                 'Attempted to execute query: ' . nl2br($this->last_query),
-                debug_backtrace(false));
+                debug_backtrace());
         }
         return $this->result;
     }
