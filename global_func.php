@@ -1300,9 +1300,12 @@ function check_access(string|array $permissions, bool $exit = true, ?int $target
     $target_id ??= (int)$userid;
     // Get the target's roles
     $get_user_roles = $db->query(
-        'SELECT staff_roles FROM users WHERE userid = '.$target_id,
+        'SELECT staff_role FROM users_roles WHERE userid = '.$target_id,
     );
-    $target_roles = $db->fetch_single($get_user_roles);
+    $target_roles = [];
+    while ($role = $db->fetch_row($get_user_roles)) {
+        $target_roles[] = $role['staff_role'];
+    }
     // They don't have any
     if (!$target_roles) {
         // Do we exit?
@@ -1315,7 +1318,7 @@ function check_access(string|array $permissions, bool $exit = true, ?int $target
     }
     // Get the corresponding role data
     $get_staff_roles = $db->query(
-        'SELECT * FROM staff_roles WHERE id IN ('.$target_roles.')',
+        'SELECT * FROM staff_roles WHERE id IN ('.implode(',', $target_roles).')',
     );
     $role_permissions = [];
     while ($row = $db->fetch_row($get_staff_roles)) {
