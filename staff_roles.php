@@ -73,7 +73,11 @@ class StaffRolesManagement
             };
             if (!empty($response)) {
                 echo '<div class="alert alert-' . $response['type'] . '">' . $response['message'] . '</div>';
-                $this->roleIndex();
+                match ($_GET['action'] ?? '') {
+                    'grant' => $this->viewGrantRole(),
+                    'revoke' => $this->viewRevokeRole(),
+                    default => $this->roleIndex(),
+                };
                 return;
             }
         }
