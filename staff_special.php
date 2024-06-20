@@ -193,16 +193,14 @@ function give_dp_submit()
 
 function staff_userlevel_innerform($userid, $level, $desc, $csrf)
 {
-    $form =
-            "
-    <form action='staff_special.php?action=userlevel' method='post'>
-    	<input type='hidden' name='ID' value='{$userid}' />
-    	<input type='hidden' name='level' value='{$level}' />
-    	{$csrf}
-    	<input type='submit' value='{$desc}' />
-    </form>
-    ";
-    return $form;
+    return "
+<form action='staff_special.php?action=userlevel' method='post'>
+<input type='hidden' name='ID' value='{$userid}' />
+<input type='hidden' name='level' value='{$level}' />
+{$csrf}
+<input type='submit' value='{$desc}' />
+</form>
+";
 }
 
 function staff_list()

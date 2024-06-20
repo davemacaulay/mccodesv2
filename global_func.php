@@ -36,11 +36,9 @@ function DateTime_Parse($time_stamp)
         $time_difference = $time_difference / $lengths[$i];
     }
     $time_difference = round($time_difference);
-    $date =
-            $time_difference . ' ' . $unit[$i]
-                    . (($time_difference > 1 OR $time_difference < 1) ? 's'
-                            : '') . ' ago';
-    return $date;
+    return $time_difference . ' ' . $unit[$i]
+            . (($time_difference > 1 OR $time_difference < 1) ? 's'
+                    : '') . ' ago';
 }
 
 /**

@@ -100,8 +100,7 @@ class bbcode
                                 'onresize', 'onscroll'), "", $html);
         $html =
                 str_replace(array('"', "'"), array("&quot;", "&#39;"), $html);
-        $mf = $this->engine->parse_bbcode($this->quote_corrector($html));
-        return $mf;
+        return $this->engine->parse_bbcode($this->quote_corrector($html));
     }
 
     function quote_corrector($in)
