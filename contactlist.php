@@ -51,7 +51,7 @@ default:
     break;
 }
 
-function contacts_list()
+function contacts_list(): void
 {
     global $db, $userid;
     echo "
@@ -99,7 +99,7 @@ These are the people on your contact list.
     echo '</table>';
 }
 
-function add_contact()
+function add_contact(): void
 {
     global $db, $userid;
     $_POST['ID'] =
@@ -151,7 +151,7 @@ Adding a contact!
     }
 }
 
-function remove_contact()
+function remove_contact(): void
 {
     global $db, $userid, $h;
     $_GET['contact'] =

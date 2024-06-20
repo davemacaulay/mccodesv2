@@ -65,7 +65,7 @@ default:
     break;
 }
 
-function new_item_form()
+function new_item_form(): void
 {
     global $ir, $h;
     if ($ir['user_level'] != 2)
@@ -147,7 +147,7 @@ function new_item_form()
   	";
 }
 
-function new_item_submit()
+function new_item_submit(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -248,7 +248,7 @@ function new_item_submit()
     die($h->endpage());
 }
 
-function give_item_form()
+function give_item_form(): void
 {
     global $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -274,7 +274,7 @@ function give_item_form()
        ";
 }
 
-function give_item_submit()
+function give_item_submit(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -329,7 +329,7 @@ function give_item_submit()
     die($h->endpage());
 }
 
-function kill_item_form()
+function kill_item_form(): void
 {
     global $ir, $h;
     if ($ir['user_level'] != 2)
@@ -353,7 +353,7 @@ function kill_item_form()
        ";
 }
 
-function kill_item_submit()
+function kill_item_submit(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -404,7 +404,7 @@ function kill_item_submit()
     die($h->endpage());
 }
 
-function edit_item_begin()
+function edit_item_begin(): void
 {
     global $ir, $h;
     if ($ir['user_level'] != 2)
@@ -426,7 +426,7 @@ function edit_item_begin()
        ";
 }
 
-function edit_item_form()
+function edit_item_form(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -560,7 +560,7 @@ function edit_item_form()
        ";
 }
 
-function edit_item_sub()
+function edit_item_sub(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -681,7 +681,7 @@ function edit_item_sub()
     die($h->endpage());
 }
 
-function newitemtype()
+function newitemtype(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)

@@ -71,7 +71,7 @@ if ($ir['cybermoney'] > -1)
 <a href='cyberbank.php?buy'>&gt; Yes, sign me up!</a>";
 }
 
-function index()
+function index(): void
 {
     global $ir, $bank_maxfee_dp, $bank_feepercent_dp, $bank_maxfee_wd, $bank_feepercent_wd;
     echo "\n<b>You currently have " . money_formatter($ir['cybermoney'])
@@ -91,7 +91,7 @@ Amount: <input type='text' name='withdraw' value='{$ir['cybermoney']}' /><br />
 <input type='submit' value='Withdraw' /></form></td> </tr> </table>";
 }
 
-function deposit()
+function deposit(): void
 {
     global $db, $ir, $userid, $bank_maxfee_dp, $bank_feepercent_dp;
     $_POST['deposit'] =
@@ -130,7 +130,7 @@ after the fee is taken (' . money_formatter($fee) . '), '
     }
 }
 
-function withdraw()
+function withdraw(): void
 {
     global $db, $ir, $userid, $bank_maxfee_wd, $bank_feepercent_wd;
     $_POST['withdraw'] =

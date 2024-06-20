@@ -65,7 +65,7 @@ else
     }
 }
 
-function gang_view()
+function gang_view(): void
 {
     global $db, $gangdata;
     $pq =
@@ -134,7 +134,7 @@ function gang_view()
     $db->free_result($cnt);
 }
 
-function gang_userlist()
+function gang_userlist(): void
 {
     global $db, $gangdata;
     echo "<h3>Userlist for {$gangdata['gangNAME']}</h3>
@@ -167,7 +167,7 @@ function gang_userlist()
 	</a>";
 }
 
-function gang_applyform()
+function gang_applyform(): void
 {
     global $ir;
     if ($ir['gang'] == 0)
@@ -185,7 +185,7 @@ Type the reason you should be in this faction.<br />
     }
 }
 
-function gang_applysubmit()
+function gang_applysubmit(): void
 {
     global $db, $ir, $h, $gangdata, $userid;
     $application =

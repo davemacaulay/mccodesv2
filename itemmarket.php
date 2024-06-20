@@ -29,7 +29,7 @@ if (!isset($_GET['action']))
     $_GET['action'] = '';
 }
 
-function csrf_error($goBackTo)
+function csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />
@@ -58,7 +58,7 @@ default:
     break;
 }
 
-function imarket_index()
+function imarket_index(): void
 {
     global $db, $userid;
     echo '
@@ -149,7 +149,7 @@ function imarket_index()
    ';
 }
 
-function itemm_remove()
+function itemm_remove(): void
 {
     global $db, $ir, $userid, $h;
     $_GET['ID'] =
@@ -197,7 +197,7 @@ function itemm_remove()
    ';
 }
 
-function item_buy()
+function item_buy(): void
 {
     global $db, $ir, $userid, $h;
     $_GET['ID'] =
@@ -381,7 +381,7 @@ function item_buy()
 
 }
 
-function item_gift1()
+function item_gift1(): void
 {
     global $db, $ir, $h;
     $_GET['ID'] =
@@ -451,7 +451,7 @@ function item_gift1()
 	";
 }
 
-function item_gift2()
+function item_gift2(): void
 {
     global $db, $ir, $c, $userid, $h;
     $_POST['QTY'] =

@@ -49,7 +49,7 @@ default:
     break;
 }
 
-function addforum()
+function addforum(): void
 {
     global $db, $h;
     $name =
@@ -115,7 +115,7 @@ function addforum()
     }
 }
 
-function editforum()
+function editforum(): void
 {
     global $db, $h;
     if (!isset($_POST['step']))
@@ -257,7 +257,7 @@ function editforum()
     }
 }
 
-function delforum()
+function delforum(): void
 {
     global $db, $h;
     $_POST['forum'] =
@@ -346,7 +346,7 @@ function delforum()
     }
 }
 
-function recache_forum($forum)
+function recache_forum($forum): void
 {
     global $db;
     $forum = abs((int) $forum);

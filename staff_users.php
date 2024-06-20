@@ -83,7 +83,7 @@ default:
     break;
 }
 
-function new_user_form()
+function new_user_form(): void
 {
     global $ir, $h;
     if ($ir['user_level'] != 2)
@@ -142,7 +142,7 @@ function new_user_form()
         ";
 }
 
-function new_user_submit()
+function new_user_submit(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -274,7 +274,7 @@ function new_user_submit()
 
 }
 
-function edit_user_begin()
+function edit_user_begin(): void
 {
     global $ir, $h;
     if ($ir['user_level'] != 2)
@@ -305,7 +305,7 @@ function edit_user_begin()
        ";
 }
 
-function edit_user_form()
+function edit_user_form(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -426,7 +426,7 @@ function edit_user_form()
        ";
 }
 
-function edit_user_sub()
+function edit_user_sub(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -636,7 +636,7 @@ function edit_user_sub()
 
 }
 
-function deluser()
+function deluser(): void
 {
     global $ir, $h, $db;
     if ($ir['user_level'] != 2)
@@ -790,7 +790,7 @@ function deluser()
     }
 }
 
-function inv_user_begin()
+function inv_user_begin(): void
 {
     global $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -814,7 +814,7 @@ function inv_user_begin()
        ";
 }
 
-function inv_user_view()
+function inv_user_view(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -904,7 +904,7 @@ function inv_user_view()
     stafflog_add('.Viewed user ' . $un . ' [' . $_POST['user'] . '] inventory');
 }
 
-function inv_delete()
+function inv_delete(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -953,7 +953,7 @@ function inv_delete()
   	 ';
 }
 
-function credit_user_form()
+function credit_user_form(): void
 {
     global $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -980,7 +980,7 @@ function credit_user_form()
    ";
 }
 
-function credit_user_submit()
+function credit_user_submit(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -1043,7 +1043,7 @@ function credit_user_submit()
    	';
 }
 
-function mcredit_user_form()
+function mcredit_user_form(): void
 {
     global $ir, $h;
     if ($ir['user_level'] != 2)
@@ -1067,7 +1067,7 @@ function mcredit_user_form()
        ";
 }
 
-function mcredit_user_submit()
+function mcredit_user_submit(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -1109,7 +1109,7 @@ function mcredit_user_submit()
     die($h->endpage());
 }
 
-function reports_view()
+function reports_view(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -1168,7 +1168,7 @@ function reports_view()
     echo '</table>';
 }
 
-function forcelogout()
+function forcelogout(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -1230,7 +1230,7 @@ function forcelogout()
     }
 }
 
-function report_clear()
+function report_clear(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))

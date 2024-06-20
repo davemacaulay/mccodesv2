@@ -21,7 +21,7 @@ declare(strict_types=1);
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-function staff_csrf_error($goBackTo)
+function staff_csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />
@@ -39,7 +39,7 @@ function staff_csrf_error($goBackTo)
  * @param string $code The code the user's form input returned.
  * @return bool Whether the user provided a valid code or not
  */
-function staff_csrf_stdverify(string $formid, $goBackTo)
+function staff_csrf_stdverify(string $formid, $goBackTo): bool
 {
     if (!isset($_POST['verf'])
             || !verify_csrf_code($formid, stripslashes($_POST['verf'])))

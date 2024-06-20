@@ -54,7 +54,7 @@ default:
     break;
 }
 
-function menuprint($highlight)
+function menuprint($highlight): void
 {
     $items =
             ['diag' => '1. Diagnostics', 'input' => '2. Configuration',
@@ -80,7 +80,7 @@ function menuprint($highlight)
     echo '<hr />';
 }
 
-function diagnostics()
+function diagnostics(): void
 {
     menuprint('diag');
     if (version_compare(phpversion(), '5.2.0') < 0)
@@ -159,7 +159,7 @@ function diagnostics()
     }
 }
 
-function config()
+function config(): void
 {
     menuprint('input');
     echo "
@@ -268,7 +268,7 @@ function config()
 if (!function_exists('get_magic_quotes_gpc'))
 {
 
-    function get_magic_quotes_gpc()
+    function get_magic_quotes_gpc(): int
     {
         return 0;
     }
@@ -283,7 +283,7 @@ function gpc_cleanup($text)
     return $text;
 }
 
-function install()
+function install(): void
 {
     menuprint('sql');
     $paypal =

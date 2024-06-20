@@ -76,7 +76,7 @@ default:
     break;
 }
 
-function mail_inbox()
+function mail_inbox(): void
 {
     global $db, $ir, $userid;
     print
@@ -144,7 +144,7 @@ EOF;
     echo '</table>';
 }
 
-function mail_outbox()
+function mail_outbox(): void
 {
     global $db, $userid;
     echo "Only the last 25 messages you have sent are visible.<br />
@@ -180,7 +180,7 @@ function mail_outbox()
     $db->free_result($q);
 }
 
-function mail_compose()
+function mail_compose(): void
 {
     global $db, $ir, $userid;
     echo "
@@ -294,7 +294,7 @@ function mail_compose()
     }
 }
 
-function mail_send()
+function mail_send(): void
 {
     global $db, $userid, $h;
     $subj =
@@ -378,7 +378,7 @@ function mail_send()
 	<a href='mailbox.php'>&gt; Back</a>";
 }
 
-function mail_delete()
+function mail_delete(): void
 {
     global $db, $userid, $h;
     $_GET['ID'] =
@@ -411,7 +411,7 @@ function mail_delete()
 	<a href='mailbox.php'>&gt; Back</a>";
 }
 
-function mail_delall()
+function mail_delall(): void
 {
     $delall_verf = request_csrf_code('mailbox_delall');
     echo "
@@ -425,7 +425,7 @@ function mail_delall()
    	";
 }
 
-function mail_delall2()
+function mail_delall2(): void
 {
     global $db, $userid, $h;
     if (!isset($_GET['verf'])
@@ -463,7 +463,7 @@ function mail_delall2()
     $db->free_result($m_c);
 }
 
-function mail_archive()
+function mail_archive(): void
 {
     echo "This tool will download an archive of all your messages.<br />
 	&gt; <a href='dlarchive.php?a=inbox'>Download Inbox</a><br />

@@ -91,7 +91,7 @@ default:
     break;
 }
 
-function fed_user_form()
+function fed_user_form(): void
 {
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
@@ -115,7 +115,7 @@ function fed_user_form()
        ";
 }
 
-function fed_user_submit()
+function fed_user_submit(): void
 {
     global $db, $h, $userid;
     staff_csrf_stdverify('staff_feduser', 'staff_punit.php?action=fedform');
@@ -179,7 +179,7 @@ function fed_user_submit()
     die($h->endpage());
 }
 
-function fed_edit_form()
+function fed_edit_form(): void
 {
     $csrf = request_csrf_html('staff_fededit');
     echo "
@@ -200,7 +200,7 @@ function fed_edit_form()
        ";
 }
 
-function fed_edit_submit()
+function fed_edit_submit(): void
 {
     global $db, $h, $userid;
     staff_csrf_stdverify('staff_fededit', 'staff_punit.php?action=fedeform');
@@ -260,7 +260,7 @@ function fed_edit_submit()
     die($h->endpage());
 }
 
-function mail_user_form()
+function mail_user_form(): void
 {
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
@@ -284,7 +284,7 @@ function mail_user_form()
        ";
 }
 
-function mail_user_submit()
+function mail_user_submit(): void
 {
     global $db, $h;
     staff_csrf_stdverify('staff_mailbanuser',
@@ -340,7 +340,7 @@ function mail_user_submit()
     die($h->endpage());
 }
 
-function forum_user_form()
+function forum_user_form(): void
 {
     $_GET['XID'] =
             (isset($_GET['XID']) && is_numeric($_GET['XID']))
@@ -364,7 +364,7 @@ function forum_user_form()
        ";
 }
 
-function forum_user_submit()
+function forum_user_submit(): void
 {
     global $db, $h;
     staff_csrf_stdverify('staff_forumbanuser',
@@ -421,7 +421,7 @@ function forum_user_submit()
     die($h->endpage());
 }
 
-function unfed_user_form()
+function unfed_user_form(): void
 {
     $csrf = request_csrf_html('staff_unfeduser');
     echo "
@@ -438,7 +438,7 @@ function unfed_user_form()
        ";
 }
 
-function unfed_user_submit()
+function unfed_user_submit(): void
 {
     global $db, $h, $userid;
     staff_csrf_stdverify('staff_unfeduser', 'staff_punit.php?action=unfedform');
@@ -480,7 +480,7 @@ function unfed_user_submit()
     die($h->endpage());
 }
 
-function unmail_user_form()
+function unmail_user_form(): void
 {
     $csrf = request_csrf_html('staff_unmailbanuser');
     echo "
@@ -496,7 +496,7 @@ function unmail_user_form()
        ";
 }
 
-function unmail_user_submit()
+function unmail_user_submit(): void
 {
     global $db, $h;
     staff_csrf_stdverify('staff_unmailbanuser',
@@ -535,7 +535,7 @@ function unmail_user_submit()
     die($h->endpage());
 }
 
-function unforum_user_form()
+function unforum_user_form(): void
 {
     $csrf = request_csrf_html('staff_unforumbanuser');
     echo "
@@ -552,7 +552,7 @@ function unforum_user_form()
        ";
 }
 
-function unforum_user_submit()
+function unforum_user_submit(): void
 {
     global $db, $h;
     staff_csrf_stdverify('staff_unforumbanuser',
@@ -591,7 +591,7 @@ function unforum_user_submit()
     die($h->endpage());
 }
 
-function ip_search_form()
+function ip_search_form(): void
 {
     $csrf = request_csrf_html('staff_ipsearch');
     echo "
@@ -605,7 +605,7 @@ function ip_search_form()
        ";
 }
 
-function ip_search_submit()
+function ip_search_submit(): void
 {
     global $db, $h, $domain;
     staff_csrf_stdverify('staff_ipsearch', 'staff_punit.php?action=ipform');
@@ -670,7 +670,7 @@ function ip_search_submit()
        ";
 }
 
-function mass_jail()
+function mass_jail(): void
 {
     global $db, $h, $userid;
     staff_csrf_stdverify('staff_massjail', 'staff_punit.php?action=ipform');

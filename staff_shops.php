@@ -54,7 +54,7 @@ default:
     break;
 }
 
-function new_shop_form()
+function new_shop_form(): void
 {
     $csrf = request_csrf_html('staff_newshop');
     echo "
@@ -73,7 +73,7 @@ function new_shop_form()
        ";
 }
 
-function new_shop_submit()
+function new_shop_submit(): void
 {
     global $db, $h;
     staff_csrf_stdverify('staff_newshop', 'staff_shops.php?action=newshop');
@@ -120,7 +120,7 @@ function new_shop_submit()
     }
 }
 
-function new_stock_form()
+function new_stock_form(): void
 {
     $csrf = request_csrf_html('staff_newstock');
     echo "
@@ -137,7 +137,7 @@ function new_stock_form()
        ";
 }
 
-function new_stock_submit()
+function new_stock_submit(): void
 {
     global $db, $h;
     staff_csrf_stdverify('staff_newstock', 'staff_shops.php?action=newstock');
@@ -186,7 +186,7 @@ function new_stock_submit()
     die($h->endpage());
 }
 
-function delshop()
+function delshop(): void
 {
     global $db, $h;
     $_POST['shop'] =

@@ -45,7 +45,7 @@ default:
     break;
 }
 
-function cmarket_index()
+function cmarket_index(): void
 {
     global $db, $userid;
     echo "
@@ -105,7 +105,7 @@ function cmarket_index()
 	';
 }
 
-function crystal_remove()
+function crystal_remove(): void
 {
     global $db, $userid, $h;
     $_GET['ID'] =
@@ -141,7 +141,7 @@ function crystal_remove()
 	";
 }
 
-function crystal_buy()
+function crystal_buy(): void
 {
     global $db, $ir, $userid, $h;
     $_GET['ID'] =
@@ -246,7 +246,7 @@ There is <b>{$r['cmQTY']}</b> available to buy.
 
 }
 
-function crystal_add()
+function crystal_add(): void
 {
     global $db, $ir, $userid, $h;
     $_POST['amnt'] =

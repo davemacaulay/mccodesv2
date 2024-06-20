@@ -49,7 +49,7 @@ default:
     break;
 }
 
-function startpoll()
+function startpoll(): void
 {
     $csrf = request_csrf_html('staff_startpoll');
     echo "
@@ -88,7 +88,7 @@ function startpoll()
            ";
 }
 
-function startpollsub()
+function startpollsub(): void
 {
     global $db, $h;
     echo 'Starting new poll...';
@@ -157,7 +157,7 @@ function startpollsub()
     die($h->endpage());
 }
 
-function endpoll()
+function endpoll(): void
 {
     global $db, $h;
     $_POST['poll'] =

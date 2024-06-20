@@ -49,7 +49,7 @@ default:
     break;
 }
 
-function addcity()
+function addcity(): void
 {
     global $db, $h;
     $minlevel =
@@ -113,7 +113,7 @@ function addcity()
     }
 }
 
-function editcity()
+function editcity(): void
 {
     global $db, $h;
     if (!isset($_POST['step']))
@@ -234,7 +234,7 @@ function editcity()
     }
 }
 
-function delcity()
+function delcity(): void
 {
     global $db, $h;
     $_POST['city'] =

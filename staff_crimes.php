@@ -80,7 +80,7 @@ default:
     break;
 }
 
-function new_crime_form()
+function new_crime_form(): void
 {
     $csrf = request_csrf_html('staff_newcrime');
     echo "
@@ -122,7 +122,7 @@ function new_crime_form()
        ";
 }
 
-function new_crime_submit()
+function new_crime_submit(): void
 {
     global $db, $h;
     $_POST['name'] =
@@ -229,7 +229,7 @@ function new_crime_submit()
     stafflog_add('Created crime ' . $_POST['name']);
 }
 
-function edit_crime_begin()
+function edit_crime_begin(): void
 {
     $csrf = request_csrf_html('staff_editcrime1');
     echo "
@@ -246,7 +246,7 @@ function edit_crime_begin()
        ";
 }
 
-function edit_crime_form()
+function edit_crime_form(): void
 {
     global $h, $db;
     $_POST['crime'] =
@@ -314,7 +314,7 @@ function edit_crime_form()
        ";
 }
 
-function edit_crime_sub()
+function edit_crime_sub(): void
 {
     global $h, $db;
     $_POST['crimeNAME'] =
@@ -438,7 +438,7 @@ function edit_crime_sub()
 
 }
 
-function delcrime()
+function delcrime(): void
 {
     global $h, $db;
     switch ($_GET['step'])
@@ -545,7 +545,7 @@ function delcrime()
     }
 }
 
-function new_crimegroup_form()
+function new_crimegroup_form(): void
 {
     $csrf = request_csrf_html('staff_newcrimegroup');
     echo "
@@ -562,7 +562,7 @@ function new_crimegroup_form()
        ";
 }
 
-function new_crimegroup_submit()
+function new_crimegroup_submit(): void
 {
     global $db, $h;
     $_POST['cgNAME'] =
@@ -606,7 +606,7 @@ function new_crimegroup_submit()
     stafflog_add('Created Crime Group ' . $_POST['cgNAME']);
 }
 
-function edit_crimegroup_begin()
+function edit_crimegroup_begin(): void
 {
     $csrf = request_csrf_html('staff_editcrimegroup1');
     echo "
@@ -621,7 +621,7 @@ function edit_crimegroup_begin()
        ";
 }
 
-function edit_crimegroup_form()
+function edit_crimegroup_form(): void
 {
     global $h, $db;
     $_POST['crimeGROUP'] =
@@ -664,7 +664,7 @@ function edit_crimegroup_form()
        ";
 }
 
-function edit_crimegroup_sub()
+function edit_crimegroup_sub(): void
 {
     global $h, $db;
     $_POST['cgNAME'] =
@@ -717,7 +717,7 @@ function edit_crimegroup_sub()
     }
 }
 
-function delcrimegroup()
+function delcrimegroup(): void
 {
     global $h, $db;
     switch ($_GET['step'])
@@ -850,7 +850,7 @@ function delcrimegroup()
     }
 }
 
-function reorder_crimegroups()
+function reorder_crimegroups(): void
 {
     global $db, $h;
     if (isset($_POST['submit']))

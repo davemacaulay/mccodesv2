@@ -49,7 +49,7 @@ default:
     break;
 }
 
-function addcourse()
+function addcourse(): void
 {
     global $db, $h;
     $cost =
@@ -137,7 +137,7 @@ function addcourse()
     }
 }
 
-function editcourse()
+function editcourse(): void
 {
     global $db, $h;
     if (!isset($_POST['step']))
@@ -281,7 +281,7 @@ function editcourse()
     }
 }
 
-function delcourse()
+function delcourse(): void
 {
     global $db, $h;
     $_POST['course'] =

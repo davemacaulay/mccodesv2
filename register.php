@@ -25,7 +25,7 @@ global $db, $set;
 require_once('globals_nonauth.php');
 //thx to http://www.phpit.net/code/valid-email/ for valid_email
 
-function valid_email($email)
+function valid_email($email): bool
 {
     return (filter_var($email, FILTER_VALIDATE_EMAIL) === $email);
 }
@@ -304,7 +304,7 @@ else
 }
 register_footer();
 
-function register_footer()
+function register_footer(): void
 {
     print
             <<<OUT

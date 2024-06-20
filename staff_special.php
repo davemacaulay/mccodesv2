@@ -64,7 +64,7 @@ default:
     break;
 }
 
-function newspaper_form()
+function newspaper_form(): void
 {
     global $db;
     $q = $db->query('SELECT `content` FROM `papercontent`');
@@ -82,7 +82,7 @@ function newspaper_form()
    ";
 }
 
-function newspaper_submit()
+function newspaper_submit(): void
 {
     global $db;
     staff_csrf_stdverify('staff_editnews', 'staff_special.php?action=editnews');
@@ -93,7 +93,7 @@ function newspaper_submit()
     stafflog_add('Updated game newspaper');
 }
 
-function give_dp_form()
+function give_dp_form(): void
 {
     $csrf = request_csrf_html('staff_givedp');
     echo "
@@ -120,7 +120,7 @@ function give_dp_form()
        ";
 }
 
-function give_dp_submit()
+function give_dp_submit(): void
 {
     global $db, $h;
     staff_csrf_stdverify('staff_givedp', 'staff_special.php?action=givedpform');
@@ -187,7 +187,7 @@ function give_dp_submit()
     die($h->endpage());
 }
 
-function staff_userlevel_innerform($userid, $level, $desc, $csrf)
+function staff_userlevel_innerform($userid, $level, $desc, $csrf): string
 {
     return "
 <form action='staff_special.php?action=userlevel' method='post'>
@@ -199,7 +199,7 @@ function staff_userlevel_innerform($userid, $level, $desc, $csrf)
 ";
 }
 
-function staff_list()
+function staff_list(): void
 {
     global $db;
     echo "
@@ -342,7 +342,7 @@ function staff_list()
     echo '</table>';
 }
 
-function userlevel()
+function userlevel(): void
 {
     global $db, $h;
     staff_csrf_stdverify('staff_userlevel',
@@ -383,7 +383,7 @@ function userlevel()
     die($h->endpage());
 }
 
-function userlevelform()
+function userlevelform(): void
 {
     $csrf = request_csrf_html('staff_userlevel');
     echo "
@@ -410,7 +410,7 @@ function userlevelform()
     ";
 }
 
-function massmailer()
+function massmailer(): void
 {
     global $db, $h;
     $_POST['text'] =

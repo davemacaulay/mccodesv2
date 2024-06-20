@@ -49,7 +49,7 @@ default:
     break;
 }
 
-function friends_list()
+function friends_list(): void
 {
     global $db, $ir, $userid;
     echo "
@@ -134,7 +134,7 @@ Most hated: [";
     echo '</table>';
 }
 
-function add_friend()
+function add_friend(): void
 {
     global $db, $userid;
     $_POST['ID'] =
@@ -205,7 +205,7 @@ Adding an friend!
 
 }
 
-function remove_friend()
+function remove_friend(): void
 {
     global $db, $userid, $h;
     $_GET['f'] =
@@ -244,7 +244,7 @@ Friends list entry removed!<br />
    ";
 }
 
-function change_comment()
+function change_comment(): void
 {
     global $db, $userid, $h;
     $_POST['f'] =

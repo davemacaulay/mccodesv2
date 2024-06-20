@@ -157,7 +157,7 @@ case 'iq':
     break;
 }
 
-function hof_level()
+function hof_level(): void
 {
     global $db, $userid, $q;
     echo "
@@ -190,7 +190,7 @@ Showing the 20 users with the highest levels
     echo '</table>';
 }
 
-function hof_money()
+function hof_money(): void
 {
     global $db, $userid, $q;
     echo "
@@ -223,7 +223,7 @@ Showing the 20 users with the highest amount of money
     echo '</table>';
 }
 
-function hof_crystals()
+function hof_crystals(): void
 {
     global $db, $userid, $q;
     echo "
@@ -256,7 +256,7 @@ Showing the 20 users with the highest amount of crystals
     echo '</table>';
 }
 
-function hof_respect()
+function hof_respect(): void
 {
     global $db, $ir;
     echo "
@@ -294,7 +294,7 @@ Showing the 20 gangs with the highest amount of respect
     echo '</table>';
 }
 
-function hof_total()
+function hof_total(): void
 {
     global $db, $userid, $q;
     echo "
@@ -325,7 +325,7 @@ Showing the 20 users with the highest total stats
     echo '</table>';
 }
 
-function hof_strength()
+function hof_strength(): void
 {
     global $db, $userid, $q;
     echo "
@@ -356,7 +356,7 @@ Showing the 20 users with the highest strength
     echo '</table>';
 }
 
-function hof_agility()
+function hof_agility(): void
 {
     global $db, $userid, $q;
     echo "
@@ -387,7 +387,7 @@ Showing the 20 users with the highest agility
     echo '</table>';
 }
 
-function hof_guard()
+function hof_guard(): void
 {
     global $db, $userid, $q;
     echo "
@@ -418,7 +418,7 @@ Showing the 20 users with the highest guard
     echo '</table>';
 }
 
-function hof_labour()
+function hof_labour(): void
 {
     global $db, $userid, $q;
     echo "
@@ -449,7 +449,7 @@ Showing the 20 users with the highest labour
     echo '</table>';
 }
 
-function hof_iq()
+function hof_iq(): void
 {
     global $db, $userid, $q;
     echo "

@@ -38,7 +38,7 @@ if (!is_ajax())
     exit;
 }
 
-function valid_email($email)
+function valid_email($email): bool
 {
     return (filter_var($email, FILTER_VALIDATE_EMAIL) === $email);
 }

@@ -28,7 +28,7 @@ if (!isset($_GET['action']))
     $_GET['action'] = '';
 }
 
-function csrf_error($goBackTo)
+function csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />
@@ -75,7 +75,7 @@ default:
     break;
 }
 
-function prefs_home()
+function prefs_home(): void
 {
     echo "
 	<h3>Preferences</h3>
@@ -87,7 +87,7 @@ function prefs_home()
    ";
 }
 
-function conf_sex_change()
+function conf_sex_change(): void
 {
     global $ir;
     $code = request_csrf_code('prefs_sexchange');
@@ -106,7 +106,7 @@ function conf_sex_change()
    	";
 }
 
-function do_sex_change()
+function do_sex_change(): void
 {
     global $db, $ir, $userid;
     if (!isset($_GET['verf'])
@@ -126,7 +126,7 @@ function do_sex_change()
    	";
 }
 
-function pass_change()
+function pass_change(): void
 {
     $code = request_csrf_code('prefs_passchange');
     echo "
@@ -141,7 +141,7 @@ function pass_change()
    	";
 }
 
-function do_pass_change()
+function do_pass_change(): void
 {
     global $db, $ir;
     if (!isset($_POST['verf'])
@@ -178,7 +178,7 @@ function do_pass_change()
     }
 }
 
-function name_change()
+function name_change(): void
 {
     $code = request_csrf_code('prefs_namechange');
     echo "
@@ -193,7 +193,7 @@ function name_change()
    	";
 }
 
-function do_name_change()
+function do_name_change(): void
 {
     global $db, $userid, $h;
     if (!isset($_POST['verf'])
@@ -255,7 +255,7 @@ function do_name_change()
     echo 'Username changed!';
 }
 
-function pic_change()
+function pic_change(): void
 {
     global $ir;
     $code = request_csrf_code('prefs_picchange');
@@ -274,7 +274,7 @@ function pic_change()
    	";
 }
 
-function do_pic_change()
+function do_pic_change(): void
 {
     global $db, $userid, $h;
     if (!isset($_POST['verf'])
@@ -322,7 +322,7 @@ function do_pic_change()
         &gt; <a href="index.php">Go Home</a>';
 }
 
-function forum_change()
+function forum_change(): void
 {
     global $ir;
     $code = request_csrf_code('prefs_forumchange');
@@ -344,7 +344,7 @@ function forum_change()
    ";
 }
 
-function do_forum_change()
+function do_forum_change(): void
 {
     global $db, $userid, $h;
     if (!isset($_POST['verf'])

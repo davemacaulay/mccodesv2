@@ -70,7 +70,7 @@ default:
     break;
 }
 
-function admin_gang_record()
+function admin_gang_record(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -169,7 +169,7 @@ function admin_gang_record()
     }
 }
 
-function admin_gang_credit()
+function admin_gang_credit(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -291,7 +291,7 @@ function admin_gang_credit()
     }
 }
 
-function admin_gang_wars()
+function admin_gang_wars(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -347,7 +347,7 @@ function admin_gang_wars()
     echo '</table>';
 }
 
-function admin_gang_wardelete()
+function admin_gang_wardelete(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -395,7 +395,7 @@ function admin_gang_wardelete()
               	[{$r['frespect']} respect])");
 }
 
-function admin_gang_edit_begin()
+function admin_gang_edit_begin(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -478,7 +478,7 @@ function admin_gang_edit_begin()
     }
 }
 
-function admin_gang_edit_name()
+function admin_gang_edit_name(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -562,7 +562,7 @@ function admin_gang_edit_name()
     }
 }
 
-function admin_gang_edit_prefix()
+function admin_gang_edit_prefix(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -631,7 +631,7 @@ function admin_gang_edit_prefix()
     }
 }
 
-function admin_gang_edit_finances()
+function admin_gang_edit_finances(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -732,7 +732,7 @@ function admin_gang_edit_finances()
     }
 }
 
-function admin_gang_edit_staff()
+function admin_gang_edit_staff(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -823,7 +823,7 @@ function admin_gang_edit_staff()
     }
 }
 
-function admin_gang_edit_capacity()
+function admin_gang_edit_capacity(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -904,7 +904,7 @@ function admin_gang_edit_capacity()
     }
 }
 
-function admin_gang_edit_crime()
+function admin_gang_edit_crime(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
@@ -995,7 +995,7 @@ function admin_gang_edit_crime()
     }
 }
 
-function admin_gang_edit_ament()
+function admin_gang_edit_ament(): void
 {
     global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))

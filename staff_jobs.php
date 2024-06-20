@@ -58,7 +58,7 @@ default:
     break;
 }
 
-function newjob()
+function newjob(): void
 {
     global $db, $h;
 
@@ -170,7 +170,7 @@ function newjob()
     }
 }
 
-function jobedit()
+function jobedit(): void
 {
     global $db, $h;
     $_POST['jNAME'] =
@@ -295,7 +295,7 @@ function jobedit()
     }
 }
 
-function newjobrank()
+function newjobrank(): void
 {
     global $db, $h;
     $_POST['jrNAME'] =
@@ -387,7 +387,7 @@ function newjobrank()
     }
 }
 
-function jobrankedit()
+function jobrankedit(): void
 {
     global $db, $h;
     $_POST['jrID'] =
@@ -528,7 +528,7 @@ function jobrankedit()
     }
 }
 
-function jobrankdele()
+function jobrankdele(): void
 {
     global $db, $h;
     $_POST['jrID'] =
@@ -603,7 +603,7 @@ function jobrankdele()
     }
 }
 
-function jobdele()
+function jobdele(): void
 {
     global $db, $h;
     $_POST['jID'] =

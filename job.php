@@ -137,7 +137,7 @@ else
     }
 }
 
-function job_index()
+function job_index(): void
 {
     global $db, $ir;
     echo "
@@ -198,7 +198,7 @@ function job_index()
    	";
 }
 
-function job_promote()
+function job_promote(): void
 {
     global $db, $ir, $userid;
     $q =
@@ -235,7 +235,7 @@ function job_promote()
     $db->free_result($q);
 }
 
-function quit_job()
+function quit_job(): void
 {
     global $db, $userid;
     $db->query(

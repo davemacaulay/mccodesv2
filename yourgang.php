@@ -24,7 +24,7 @@ declare(strict_types=1);
 global $db, $ir, $h;
 require_once('globals.php');
 
-function csrf_error($goBackTo)
+function csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />
@@ -36,7 +36,7 @@ function csrf_error($goBackTo)
     exit;
 }
 
-function csrf_stdverify($formid, $goBackTo)
+function csrf_stdverify($formid, $goBackTo): void
 {
     if (!isset($_POST['verf'])
             || !verify_csrf_code($formid, stripslashes($_POST['verf'])))
@@ -133,7 +133,7 @@ else
     }
 }
 
-function gang_index()
+function gang_index(): void
 {
     global $db, $ir, $userid, $gangdata;
     echo "
@@ -208,7 +208,7 @@ function gang_index()
     echo '</table>';
 }
 
-function gang_summary()
+function gang_summary(): void
 {
     global $db, $gangdata;
     echo '
@@ -273,7 +273,7 @@ function gang_summary()
        ";
 }
 
-function gang_memberlist()
+function gang_memberlist(): void
 {
     global $db, $userid, $gangdata;
     echo "
@@ -328,7 +328,7 @@ function gang_memberlist()
    	";
 }
 
-function gang_staff_kick()
+function gang_staff_kick(): void
 {
     global $db, $ir, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid
@@ -392,7 +392,7 @@ function gang_staff_kick()
     }
 }
 
-function gang_forums()
+function gang_forums(): void
 {
     global $db, $ir, $gangdata, $domain;
     $q =
@@ -430,7 +430,7 @@ function gang_forums()
     exit;
 }
 
-function gang_donate()
+function gang_donate(): void
 {
     global $ir;
     $csrf = request_csrf_html('yourgang_donate');
@@ -463,7 +463,7 @@ function gang_donate()
        ";
 }
 
-function gang_donate2()
+function gang_donate2(): void
 {
     global $db, $ir, $userid, $gangdata, $h;
     csrf_stdverify('yourgang_donate', 'donate');
@@ -518,7 +518,7 @@ function gang_donate2()
     }
 }
 
-function gang_leave()
+function gang_leave(): void
 {
     global $db, $ir, $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid
@@ -563,7 +563,7 @@ function gang_leave()
     }
 }
 
-function gang_warview()
+function gang_warview(): void
 {
     global $db, $ir, $gangdata;
     $wq =
@@ -611,7 +611,7 @@ function gang_warview()
     echo '</table>';
 }
 
-function gang_atklogs()
+function gang_atklogs(): void
 {
     global $db, $ir;
     $atks =
@@ -660,7 +660,7 @@ function gang_atklogs()
     echo '</table>';
 }
 
-function gang_crimes()
+function gang_crimes(): void
 {
     global $gangdata;
     if ($gangdata['gangCRIME'] > 0)
@@ -675,7 +675,7 @@ function gang_crimes()
     }
 }
 
-function gang_staff()
+function gang_staff(): void
 {
     global $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid
@@ -745,7 +745,7 @@ function gang_staff()
     }
 }
 
-function gang_staff_idx()
+function gang_staff_idx(): void
 {
     global $userid, $gangdata;
     echo "
@@ -789,7 +789,7 @@ function gang_staff_idx()
     }
 }
 
-function gang_staff_apps()
+function gang_staff_apps(): void
 {
     global $db, $ir, $userid, $gangdata, $h;
     $_POST['app'] =
@@ -953,7 +953,7 @@ function gang_staff_apps()
     }
 }
 
-function gang_staff_vault()
+function gang_staff_vault(): void
 {
     global $db, $gangdata, $h;
     $_POST['who'] =
@@ -1052,7 +1052,7 @@ function gang_staff_vault()
     }
 }
 
-function gang_staff_vicepres()
+function gang_staff_vicepres(): void
 {
     global $db, $gangdata, $h;
     if (isset($_POST['subm']))
@@ -1101,7 +1101,7 @@ function gang_staff_vicepres()
     }
 }
 
-function gang_staff_wardeclare()
+function gang_staff_wardeclare(): void
 {
     global $db, $gangdata, $h;
     if (isset($_POST['subm']))
@@ -1176,7 +1176,7 @@ function gang_staff_wardeclare()
     }
 }
 
-function gang_staff_surrender()
+function gang_staff_surrender(): void
 {
     global $db, $gangdata, $h;
     if (!isset($_POST['subm']))
@@ -1289,7 +1289,7 @@ function gang_staff_surrender()
     }
 }
 
-function gang_staff_viewsurrenders()
+function gang_staff_viewsurrenders(): void
 {
     global $db, $gangdata, $h;
     if (!isset($_POST['subm']))
@@ -1403,7 +1403,7 @@ function gang_staff_viewsurrenders()
     }
 }
 
-function gang_staff_orgcrimes()
+function gang_staff_orgcrimes(): void
 {
     global $db, $gangdata, $h;
     $_POST['crime'] =
@@ -1481,7 +1481,7 @@ function gang_staff_orgcrimes()
     }
 }
 
-function gang_staff_pres()
+function gang_staff_pres(): void
 {
     global $db, $userid, $gangdata, $h;
     if ($gangdata['gangPRESIDENT'] == $userid)
@@ -1537,7 +1537,7 @@ function gang_staff_pres()
     }
 }
 
-function gang_staff_upgrades()
+function gang_staff_upgrades(): void
 {
     global $db, $gangdata;
     if (isset($_POST['membs']))
@@ -1578,7 +1578,7 @@ function gang_staff_upgrades()
     }
 }
 
-function gang_staff_massmailer()
+function gang_staff_massmailer(): void
 {
     global $db, $ir, $gangdata;
     $_POST['text'] =
@@ -1628,7 +1628,7 @@ function gang_staff_massmailer()
     }
 }
 
-function gang_staff_masspayment()
+function gang_staff_masspayment(): void
 {
     global $db, $gangdata;
     $_POST['amt'] =
@@ -1689,7 +1689,7 @@ function gang_staff_masspayment()
     }
 }
 
-function gang_staff_desc()
+function gang_staff_desc(): void
 {
     global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
@@ -1732,7 +1732,7 @@ function gang_staff_desc()
     }
 }
 
-function gang_staff_ament()
+function gang_staff_ament(): void
 {
     global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
@@ -1775,7 +1775,7 @@ function gang_staff_ament()
     }
 }
 
-function gang_staff_name()
+function gang_staff_name(): void
 {
     global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
@@ -1814,7 +1814,7 @@ function gang_staff_name()
     }
 }
 
-function gang_staff_tag()
+function gang_staff_tag(): void
 {
     global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)

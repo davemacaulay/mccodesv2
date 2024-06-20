@@ -49,7 +49,7 @@ default:
     break;
 }
 
-function addbot()
+function addbot(): void
 {
     global $db, $h;
     $_POST['userid'] =
@@ -121,7 +121,7 @@ function addbot()
     }
 }
 
-function editbot()
+function editbot(): void
 {
     global $db, $h;
     $_GET['step'] =
@@ -247,7 +247,7 @@ function editbot()
     }
 }
 
-function delbot()
+function delbot(): void
 {
     global $db, $h;
     $_POST['userid'] =

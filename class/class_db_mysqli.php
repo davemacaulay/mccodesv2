@@ -48,7 +48,7 @@ class database
     public int $num_queries = 0;
     public array $queries = [];
 
-    public function configure($host, $user, $pass, $database)
+    public function configure($host, $user, $pass, $database): int
     {
         $this->host     = $host;
         $this->user     = $user;
@@ -57,7 +57,7 @@ class database
         return 1; //Success.
     }
 
-    public function connect()
+    public function connect(): false|mysqli
     {
         if (!$this->host) {
             $this->host = 'localhost';
@@ -78,7 +78,7 @@ class database
         return $this->connection_id;
     }
 
-    public function disconnect()
+    public function disconnect(): int
     {
         if ($this->connection_id) {
             mysqli_close($this->connection_id);
@@ -89,7 +89,7 @@ class database
         }
     }
 
-    public function change_db($database)
+    public function change_db($database): void
     {
         if (!mysqli_select_db($this->connection_id, $database)) {
             error_critical(mysqli_errno($this->connection_id) . ': '
@@ -100,7 +100,7 @@ class database
         $this->database = $database;
     }
 
-    public function query($query)
+    public function query($query): mysqli_result|bool
     {
         $this->last_query = $query;
         $this->queries[]  = $query;
@@ -116,7 +116,7 @@ class database
         return $this->result;
     }
 
-    public function fetch_row($result = 0)
+    public function fetch_row($result = 0): false|array|null
     {
         if (!$result) {
             $result = $this->result;
@@ -124,7 +124,7 @@ class database
         return mysqli_fetch_assoc($result);
     }
 
-    public function num_rows($result = 0)
+    public function num_rows($result = 0): int|string
     {
         if (!$result) {
             $result = $this->result;
@@ -132,7 +132,7 @@ class database
         return mysqli_num_rows($result);
     }
 
-    public function insert_id()
+    public function insert_id(): int|string
     {
         return mysqli_insert_id($this->connection_id);
     }
@@ -148,7 +148,7 @@ class database
         return $temp[0];
     }
 
-    public function easy_insert($table, $data)
+    public function easy_insert($table, $data): mysqli_result|bool
     {
         $query = "INSERT INTO `$table` (";
         $i     = 0;
@@ -172,17 +172,17 @@ class database
         return $this->query($query);
     }
 
-    public function escape($text)
+    public function escape($text): string
     {
         return mysqli_real_escape_string($this->connection_id, $text);
     }
 
-    public function affected_rows()
+    public function affected_rows(): int|string
     {
         return mysqli_affected_rows($this->connection_id);
     }
 
-    public function free_result($result)
+    public function free_result($result): void
     {
         mysqli_free_result($result);
     }

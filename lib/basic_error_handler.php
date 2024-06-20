@@ -31,7 +31,7 @@ declare(strict_types=1);
 // Change to true to show the user more information (for development)
 const DEBUG = false;
 
-function error_critical($human_error, $debug_error, $action)
+function error_critical($human_error, $debug_error, $action): void
 {
     // Clear anything that was going to be shown
     ob_get_clean();
@@ -76,7 +76,7 @@ function error_critical($human_error, $debug_error, $action)
 }
 
 function error_php($errno, $errstr, $errfile = '', $errline = 0,
-        $errcontext = [])
+        $errcontext = []): void
 {
     // What's happened?
     // If it's a PHP warning or user error/warning, don't go further - indicates bad code, unsafe

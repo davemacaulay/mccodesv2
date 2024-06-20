@@ -40,7 +40,7 @@ default:
     break;
 }
 
-function basicsettings()
+function basicsettings(): void
 {
     global $db, $ir, $h, $set;
     if ($ir['user_level'] != 2)
@@ -251,7 +251,7 @@ function basicsettings()
     }
 }
 
-function announcements()
+function announcements(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)
@@ -298,7 +298,7 @@ function announcements()
     }
 }
 
-function index()
+function index(): void
 {
     global $db, $ir, $set, $_CONFIG;
     if ($ir['user_level'] == 2)

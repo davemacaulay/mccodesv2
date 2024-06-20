@@ -24,7 +24,7 @@ declare(strict_types=1);
 global $db, $ir, $userid, $h, $set;
 require_once('globals.php');
 
-function csrf_error($goBackTo)
+function csrf_error($goBackTo): void
 {
     global $h;
     echo '<h3>Error</h3><hr />

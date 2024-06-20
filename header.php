@@ -25,7 +25,7 @@ declare(strict_types=1);
 class headers
 {
 
-    public function startheaders()
+    public function startheaders(): void
     {
         global $set;
         echo <<<EOF
@@ -45,7 +45,7 @@ class headers
 EOF;
     }
 
-    public function userdata($ir, $lv, $fm, $cm, $dosessh = 1)
+    public function userdata($ir, $lv, $fm, $cm, $dosessh = 1): void
     {
         global $db, $userid, $set;
         $IP = $db->escape($_SERVER['REMOTE_ADDR']);
@@ -143,7 +143,7 @@ OUT;
         }
     }
 
-    public function menuarea()
+    public function menuarea(): void
     {
         define('JDSF45TJI', true);
         include 'mainmenu.php';
@@ -162,7 +162,7 @@ OUT;
         echo "<a href='donator.php'><b>Donate to {$set['game_name']} now for game benefits!</b></a><br />";
     }
 
-    public function smenuarea()
+    public function smenuarea(): void
     {
         define('JDSF45TJI', true);
         include 'smenu.php';
@@ -173,7 +173,7 @@ OUT;
             . $bgcolor . '" valign="top"><center>';
     }
 
-    public function endpage()
+    public function endpage(): void
     {
         global $db, $ir;
         $query_extra = '';

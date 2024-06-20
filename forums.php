@@ -90,7 +90,7 @@ class bbcode
         $this->engine->cust_tag('/\[\*\]/', '<li>');
     }
 
-    public function bbcode_parse($html)
+    public function bbcode_parse($html): array|string|null
     {
         $html =
             str_ireplace(
@@ -134,7 +134,7 @@ class bbcode
     }
 }
 
-function check_image($src)
+function check_image($src): string
 {
     if (str_contains($src, '.php') || str_contains($src, '.asp')
             || str_contains($src, '.aspx')
@@ -164,7 +164,7 @@ function check_image($src)
     return "<img src='{$src}' title='{$the_title}' alt='{$the_title}' />";
 }
 
-function forums_rank($tp)
+function forums_rank($tp): string
 {
     $new_rank = '#0 Inactive';
     $f_ranks =
@@ -271,7 +271,7 @@ default:
     break;
 }
 
-function idx()
+function idx(): void
 {
     global $ir, $db;
     $q =
@@ -352,7 +352,7 @@ function idx()
     }
 }
 
-function viewforum()
+function viewforum(): void
 {
     global $ir, $h, $db;
     $_GET['viewforum'] =
@@ -456,7 +456,7 @@ You have no permission to view this forum.<br />
     $db->free_result($q);
 }
 
-function viewtopic()
+function viewtopic(): void
 {
     global $ir, $h, $bbc, $db;
     $precache = [];
@@ -744,7 +744,7 @@ EOF;
     }
 }
 
-function reply()
+function reply(): void
 {
     global $ir, $userid, $h, $db;
     $_GET['reply'] =
@@ -863,7 +863,7 @@ function reply()
     }
 }
 
-function newtopicform()
+function newtopicform(): void
 {
     global $ir, $h, $db;
     $_GET['forum'] =
@@ -929,7 +929,7 @@ function newtopicform()
 EOF;
 }
 
-function newtopic()
+function newtopic(): void
 {
     global $ir, $userid, $h, $db;
     $_GET['forum'] =
@@ -1039,7 +1039,7 @@ You have no permission to view this forum.<br />
     viewtopic();
 }
 
-function emptyallforums()
+function emptyallforums(): void
 {
     global $db;
     $db->query(
@@ -1051,7 +1051,7 @@ function emptyallforums()
     $db->query('TRUNCATE `forum_posts`');
 }
 
-function quote()
+function quote(): void
 {
     global $ir, $h, $db;
     $_GET['viewtopic'] =
@@ -1158,7 +1158,7 @@ EOF;
     }
 }
 
-function edit()
+function edit(): void
 {
     global $ir, $h, $db;
     $_GET['topic'] =
@@ -1269,7 +1269,7 @@ You have no permission to edit this post.<br />
 EOF;
 }
 
-function editsub()
+function editsub(): void
 {
     global $ir, $userid, $h, $db;
     $_GET['post'] =
@@ -1377,7 +1377,7 @@ You have no permission to edit this post.<br />
 
 }
 
-function recache_forum($forum)
+function recache_forum($forum): void
 {
     global $db;
     $forum = abs((int) $forum);
@@ -1438,7 +1438,7 @@ function recache_forum($forum)
     echo ' ... Done<br />';
 }
 
-function recache_topic($topic)
+function recache_topic($topic): void
 {
     global $db;
     $topic = abs((int) $topic);
@@ -1485,7 +1485,7 @@ function recache_topic($topic)
     echo ' ... Done<br />';
 }
 
-function move()
+function move(): void
 {
     global $ir, $h, $db;
     if (!in_array($ir['user_level'], [2, 3, 5]))
@@ -1549,7 +1549,7 @@ function move()
     echo '&gt; <a href="forums.php" alt="Go Back" title="Go Back">Go Back</a><br />';
 }
 
-function lock()
+function lock(): void
 {
     global $ir, $h, $db;
     if (!in_array($ir['user_level'], [2, 3, 5]))
@@ -1603,7 +1603,7 @@ function lock()
     }
 }
 
-function pin()
+function pin(): void
 {
     global $ir, $h, $db;
     if (!in_array($ir['user_level'], [2, 3, 5]))
@@ -1657,7 +1657,7 @@ function pin()
     }
 }
 
-function delepost()
+function delepost(): void
 {
     global $ir, $h, $db;
     if (!in_array($ir['user_level'], [2, 3, 5]))
@@ -1714,7 +1714,7 @@ function delepost()
 
 }
 
-function deletopic()
+function deletopic(): void
 {
     global $h, $db;
     $_GET['topic'] =

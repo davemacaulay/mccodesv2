@@ -62,7 +62,7 @@ default:
     break;
 }
 
-function view_attack_logs()
+function view_attack_logs(): void
 {
     global $db;
     echo '
@@ -175,7 +175,7 @@ function view_attack_logs()
     stafflog_add("Looked at the attack logs (Page $mypage)");
 }
 
-function view_itm_logs()
+function view_itm_logs(): void
 {
     global $db;
     echo '<h3>Item Xfer Logs</h3><hr />';
@@ -268,7 +268,7 @@ function view_itm_logs()
     stafflog_add("Looked at the Item Xfer Logs (Page $mypage)");
 }
 
-function view_cash_logs()
+function view_cash_logs(): void
 {
     global $db;
     echo '<h3>Cash Xfer Logs</h3>';
@@ -369,7 +369,7 @@ function view_cash_logs()
     stafflog_add("Viewed the Cash Xfer Logs (Page $mypage)");
 }
 
-function view_bank_logs()
+function view_bank_logs(): void
 {
     global $db;
     echo '<h3>Bank Xfer Logs</h3>';
@@ -473,7 +473,7 @@ function view_bank_logs()
     stafflog_add("Viewed the Bank Xfer Logs (Page $mypage)");
 }
 
-function view_crys_logs()
+function view_crys_logs(): void
 {
     global $db;
     echo '<h3>Crystal Xfer Logs</h3>';
@@ -574,7 +574,7 @@ function view_crys_logs()
     stafflog_add("Viewed the Crystal Xfer Logs (Page $mypage)");
 }
 
-function view_mail_logs()
+function view_mail_logs(): void
 {
     global $db;
     echo '<h3>Mail Logs</h3>';
@@ -665,7 +665,7 @@ function view_mail_logs()
     stafflog_add("Viewed the Mail Logs (Page $mypage)");
 }
 
-function view_staff_logs()
+function view_staff_logs(): void
 {
     global $db, $ir, $h;
     if ($ir['user_level'] != 2)

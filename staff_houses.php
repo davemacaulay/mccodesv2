@@ -50,7 +50,7 @@ default:
     break;
 }
 
-function addhouse()
+function addhouse(): void
 {
     global $db, $h;
     $price =
@@ -109,7 +109,7 @@ function addhouse()
     }
 }
 
-function edithouse()
+function edithouse(): void
 {
     global $db, $h;
     if (!isset($_POST['step']))
@@ -242,7 +242,7 @@ function edithouse()
     }
 }
 
-function delhouse()
+function delhouse(): void
 {
     global $db, $h;
     $_POST['house'] =
