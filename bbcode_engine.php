@@ -173,12 +173,12 @@ class bbcode_engine
         return $text;
     }
 
-    public function export_parsings()
+    public function export_parsings(): array
     {
         return $this->parsings;
     }
 
-    public function export_htmls()
+    public function export_htmls(): array
     {
         return $this->htmls;
     }

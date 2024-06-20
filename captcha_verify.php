@@ -61,10 +61,10 @@ $bgcolor =
 $text = [255 - $bgcolor[0], 255 - $bgcolor[1], 255 - $bgcolor[2]];
 $distort = rand(80, 120) / 100;
 $distort2 = rand(80, 120) / 100;
-$f_x = round(75 * $distort);
-$f_y = round(25 * $distort);
-$s_x = round(175 * $distort2);
-$s_y = round(70 * $distort2);
+$f_x = (int)round(75 * $distort);
+$f_y = (int)round(25 * $distort);
+$s_x = (int)round(175 * $distort2);
+$s_y = (int)round(70 * $distort2);
 $first = imagecreatetruecolor($f_x, $f_y);
 $second = imagecreatetruecolor($s_x, $s_y);
 $white = imagecolorallocate($first, $bgcolor[0], $bgcolor[1], $bgcolor[2]);
@@ -86,7 +86,7 @@ for ($i = 0; $i <= 2; $i++)
                     8 => [10, $f_x - 10], 9 => [5, $f_y - 5],];
     imagefilledpolygon($first, $points, 5, $red);
 }
-imagestring($first, 4, rand(0, $f_x / 3), rand(0, $f_y / 2.5),
+imagestring($first, 4, rand(0, $f_x / 3), rand(0, (int)($f_y / 2.5)),
         $_SESSION['captcha'], $black);
 imagecopyresized($second, $first, 0, 0, 0, 0, $s_x, $s_y, $f_x, $f_y);
 imagedestroy($first);

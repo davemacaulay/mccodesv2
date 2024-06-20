@@ -47,7 +47,7 @@ while ($r = $db->fetch_row($q))
     {
         $log = $r['ocSTARTTEXT'] . $r['ocSUCCTEXT'];
         $muny = rand($r['ocMINMONEY'], $r['ocMAXMONEY']);
-        $log = $db->escape(str_replace('{muny}', $muny, $log));
+        $log = $db->escape(str_replace('{muny}', (string)$muny, $log));
         $db->query(
                 "UPDATE `gangs` SET `gangMONEY` = `gangMONEY` + {$muny}, `gangCRIME` = 0 WHERE `gangID` = {$r['gangID']}");
         $db->query(
@@ -68,7 +68,7 @@ while ($r = $db->fetch_row($q))
     {
         $log = $r['ocSTARTTEXT'] . $r['ocFAILTEXT'];
         $muny = 0;
-        $log = $db->escape(str_replace('{muny}', $muny, $log));
+        $log = $db->escape(str_replace('{muny}', (string)$muny, $log));
         $db->query(
                 "UPDATE `gangs` SET `gangCRIME` = 0 WHERE `gangID` = {$r['gangID']}");
         $db->query(

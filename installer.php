@@ -409,7 +409,7 @@ function install(): void
     echo '... Successful.<br />';
     echo 'Writing game config file...<br />';
     echo 'Write Config...<br />';
-    $code = md5(rand(1, 100000000000));
+    $code = md5((string)rand(1, 100000000000));
     if (file_exists('config.php'))
     {
         unlink('config.php');

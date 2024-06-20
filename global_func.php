@@ -26,7 +26,7 @@ declare(strict_types=1);
  * @param int $time_stamp The timestamp to find the difference to.
  * @return string The difference formatted in units so that the numerical component is not less than 1 or absurdly large.
  */
-function datetime_parse(int $time_stamp)
+function datetime_parse(int $time_stamp): string
 {
     $time_difference = ($_SERVER['REQUEST_TIME'] - $time_stamp);
     $unit =
@@ -47,7 +47,7 @@ function datetime_parse(int $time_stamp)
  * @param int $muny The amount of money to display
  * @param string $symb The money unit symbol to use, e.g. $
  */
-function money_formatter(int $muny, string $symb = '$'): string
+function money_formatter(int|float $muny, string $symb = '$'): string
 {
     return $symb . number_format($muny);
 }
@@ -986,7 +986,7 @@ function stafflog_add(string $text): void
 function request_csrf_code(string $formid): string
 {
     // Generate the token
-    $token = md5(mt_rand());
+    $token = md5((string)mt_rand());
     // Insert/Update it
     $issue_time = time();
     $_SESSION["csrf_{$formid}"] =
@@ -1090,7 +1090,7 @@ function encode_password(string $password, string $salt, bool $already_md5 = fal
  */
 function generate_pass_salt(): string
 {
-    return substr(md5(microtime(true)), 0, 8);
+    return substr(md5((string)microtime(true)), 0, 8);
 }
 
 /**
