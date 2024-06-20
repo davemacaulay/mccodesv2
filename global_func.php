@@ -964,31 +964,6 @@ function forum2_dropdown($ddname = 'forum', $selected = -1)
 }
 
 /**
- * Attempt to parse the given string as an arbritrary-length integer, returning the result.
- * @param string $str The input string
- * @param int $positive Whether the resulting number must be positive or not.
- * @param string The resulting integer as a string, or "0" if the input string was not able to be parsed as an integer.
- */
-function make_bigint($str, $positive = 1)
-{
-    $str = (string) $str;
-    $ret = '';
-    for ($i = 0; $i < strlen($str); $i++)
-    {
-        if ((ord($str[$i]) > 47 && ord($str[$i]) < 58)
-                or ($str[$i] == '-' && $positive == 0))
-        {
-            $ret .= $str[$i];
-        }
-    }
-    if (strlen($ret) == 0)
-    {
-        return '0';
-    }
-    return $ret;
-}
-
-/**
  * Records an action by a member of staff in the central staff log.
  * @param string $text The log's text. This should be fully sanitized for HTML, but not pre-escaped for database insertion.
  */
@@ -1181,7 +1156,7 @@ function get_filesize_remote($url)
         return 0; // no file
     }
     $is_ssl = false;
-    if (str_starts_with($url, 'https://'))
+    if (str_starts_with($url, 'http://'))
     {
         $port = 80;
     }
