@@ -65,7 +65,7 @@ textarea {
 .linegrad {
 	background-image: url(../linegrad.PNG);
 	background-repeat: repeat-y;
-	background-align: center;
+	background-position: center;
 	width: 2px;
 }
 
