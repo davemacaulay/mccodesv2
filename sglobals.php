@@ -123,6 +123,7 @@ else
 }
 $ir = $db->fetch_row($is);
 if ($ir['force_logout'] != '0')
+if ($ir['force_logout'] > 0)
 {
     $db->query(
             "UPDATE `users`
