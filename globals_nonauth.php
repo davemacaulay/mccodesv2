@@ -62,7 +62,7 @@ $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
         $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
 $c = $db->connection_id;
-$set = array();
+$set = [];
 $settq = $db->query("SELECT *
 					 FROM `settings`");
 while ($r = $db->fetch_row($settq))

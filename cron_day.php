@@ -34,7 +34,7 @@ else if (!isset($_GET['code']) || $_GET['code'] !== $_CONFIG['code'])
 }
 $db->query("UPDATE `fedjail` SET `fed_days` = `fed_days` - 1");
 $q = $db->query("SELECT * FROM `fedjail` WHERE `fed_days` <= 0");
-$ids = array();
+$ids = [];
 while ($r = $db->fetch_row($q))
 {
     $ids[] = $r['fed_userid'];
@@ -60,7 +60,7 @@ $db->query($user_update_query);
 $q =
         $db->query(
                 "SELECT `userid`, `course` FROM `users` WHERE `cdays` <= 0 AND `course` > 0");
-$course_cache = array();
+$course_cache = [];
 while ($r = $db->fetch_row($q))
 {
     if (!array_key_exists($r['course'], $course_cache))

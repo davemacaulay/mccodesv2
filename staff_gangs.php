@@ -72,7 +72,7 @@ default:
 function admin_gang_record()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
@@ -171,7 +171,7 @@ function admin_gang_record()
 function admin_gang_credit()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
@@ -293,7 +293,7 @@ function admin_gang_credit()
 function admin_gang_wars()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
@@ -349,7 +349,7 @@ function admin_gang_wars()
 function admin_gang_wardelete()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
         die($h->endpage());
@@ -397,7 +397,7 @@ function admin_gang_wardelete()
 function admin_gang_edit_begin()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
@@ -421,13 +421,13 @@ function admin_gang_edit_begin()
         }
         $theirname = $db->fetch_single($q);
         $edits =
-                array(1 => array('Name And Description', 'gedit_name', '4'),
-                        2 => array('Prefix', 'gedit_prefix', '4'),
-                        3 => array('Finances + Respect', 'gedit_finances', '4'),
-                        4 => array('Staff', 'gedit_staff', '4'),
-                        5 => array('Capacity', 'gedit_capacity', '4'),
-                        6 => array('Organised Crime', 'gedit_crime', '4'),
-                        7 => array('Announcement', 'gedit_ament', '4'));
+                [1 => ['Name And Description', 'gedit_name', '4'],
+                        2 => ['Prefix', 'gedit_prefix', '4'],
+                        3 => ['Finances + Respect', 'gedit_finances', '4'],
+                        4 => ['Staff', 'gedit_staff', '4'],
+                        5 => ['Capacity', 'gedit_capacity', '4'],
+                        6 => ['Organised Crime', 'gedit_crime', '4'],
+                        7 => ['Announcement', 'gedit_ament', '4']];
         echo "
         <h3>Manage Gang</h3>
         You are managing the gang: $theirname
@@ -480,7 +480,7 @@ function admin_gang_edit_begin()
 function admin_gang_edit_name()
 {
     global $db, $ir, $userid, $h, $c;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
@@ -564,7 +564,7 @@ function admin_gang_edit_name()
 function admin_gang_edit_prefix()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
@@ -633,7 +633,7 @@ function admin_gang_edit_prefix()
 function admin_gang_edit_finances()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
         die($h->endpage());
@@ -734,7 +734,7 @@ function admin_gang_edit_finances()
 function admin_gang_edit_staff()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
         die($h->endpage());
@@ -825,7 +825,7 @@ function admin_gang_edit_staff()
 function admin_gang_edit_capacity()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
         die($h->endpage());
@@ -906,7 +906,7 @@ function admin_gang_edit_capacity()
 function admin_gang_edit_crime()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="index.php">Go Back</a>';
@@ -997,7 +997,7 @@ function admin_gang_edit_crime()
 function admin_gang_edit_ament()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
         die($h->endpage());

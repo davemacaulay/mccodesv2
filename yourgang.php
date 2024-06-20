@@ -416,7 +416,7 @@ function gang_forums()
                 "INSERT INTO `forum_forums`
                  VALUES(NULL, '{$gangdata['gangNAME']}', '', 0, 0, 0, 0, 'N/A',
                  0, 'N/A', 'gang', {$ir['gang']})");
-        $r = array();
+        $r = [];
         $r['ff_id'] = $db->insert_id();
     }
     else
@@ -816,7 +816,7 @@ function gang_staff_apps()
                     ? abs(intval($_POST['app'])) : '';
     $what =
             (isset($_POST['what'])
-                    && in_array($_POST['what'], array('accept', 'decline'),
+                    && in_array($_POST['what'], ['accept', 'decline'],
                             true)) ? $_POST['what'] : '';
     if (!empty($_POST['app']) && !empty($what))
     {

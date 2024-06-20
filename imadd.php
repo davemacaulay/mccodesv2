@@ -33,7 +33,7 @@ $_POST['QTY'] =
                 ? abs(intval($_POST['QTY'])) : '';
 $_POST['currency'] =
         (isset($_POST['currency'])
-                && in_array($_POST['currency'], array('money', 'crystals')))
+                && in_array($_POST['currency'], ['money', 'crystals']))
                 ? $_POST['currency'] : 'money';
 if ($_POST['price'] && $_POST['QTY'] && $_GET['ID'])
 {

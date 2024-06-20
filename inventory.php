@@ -29,7 +29,7 @@ $q =
                   IN({$ir['equip_primary']}, {$ir['equip_secondary']},
                      {$ir['equip_armor']})");
 echo "<h3>Equipped Items</h3><hr />";
-$equip = array();
+$equip = [];
 while ($r = $db->fetch_row($q))
 {
     $equip[$r['itmid']] = $r;

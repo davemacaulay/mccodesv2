@@ -123,7 +123,7 @@ function editbot()
 {
     global $db, $h;
     $_GET['step'] =
-            (isset($_GET['step']) && in_array($_GET['step'], array(1, 2, 3)))
+            (isset($_GET['step']) && in_array($_GET['step'], [1, 2, 3]))
                     ? abs(intval($_GET['step'])) : '';
     switch ($_GET['step'])
     {

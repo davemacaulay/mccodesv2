@@ -62,7 +62,7 @@ else
                 if ($einfo['inc_type'] == "percent")
                 {
                     if (in_array($einfo['stat'],
-                            array('energy', 'will', 'brave', 'hp')))
+                            ['energy', 'will', 'brave', 'hp']))
                     {
                         $inc =
                                 round(
@@ -84,7 +84,7 @@ else
                 if ($einfo['dir'] == "pos")
                 {
                     if (in_array($einfo['stat'],
-                            array('energy', 'will', 'brave', 'hp')))
+                            ['energy', 'will', 'brave', 'hp']))
                     {
                         $ir[$einfo['stat']] =
                                 min($ir[$einfo['stat']] + $inc,
@@ -101,7 +101,7 @@ else
                 }
                 $upd = $ir[$einfo['stat']];
                 if (in_array($einfo['stat'],
-                        array('strength', 'agility', 'guard', 'labour', 'IQ')))
+                        ['strength', 'agility', 'guard', 'labour', 'IQ']))
                 {
                     $db->query(
                             "UPDATE `userstats`

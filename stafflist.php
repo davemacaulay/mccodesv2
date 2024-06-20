@@ -21,7 +21,7 @@
  */
 
 require_once('globals.php');
-$staff = array();
+$staff = [];
 $q =
         $db->query(
                 "SELECT `userid`, `laston`, `username`, `level`, `money`,

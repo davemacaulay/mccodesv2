@@ -127,7 +127,7 @@ function give_dp_submit()
                     ? abs(intval($_POST['user'])) : '';
     $_POST['type'] =
             (isset($_POST['type'])
-                    && in_array($_POST['type'], array(1, 2, 3, 4, 5)))
+                    && in_array($_POST['type'], [1, 2, 3, 4, 5]))
                     ? abs((int) $_POST['type']) : '';
     if (empty($_POST['user']) || empty($_POST['type']))
     {
@@ -218,7 +218,7 @@ function staff_list()
     		</tr>
        ";
     $csrf = request_csrf_html('staff_userlevel');
-    $staff = array();
+    $staff = [];
     $q =
             $db->query(
                     "SELECT `userid`, `laston`, `username`, `level`, `money`,
@@ -353,7 +353,7 @@ function userlevel()
             'staff_special.php?action=userlevelform');
     $_POST['level'] =
             (isset($_POST['level'])
-                    && in_array($_POST['level'], array(1, 2, 3, 4, 5)))
+                    && in_array($_POST['level'], [1, 2, 3, 4, 5]))
                     ? abs(intval($_POST['level'])) : 0;
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))
@@ -422,11 +422,11 @@ function massmailer()
                     ? $db->escape(strip_tags(stripslashes($_POST['text'])))
                     : '';
     $_POST['cat'] =
-            (isset($_POST['cat']) && in_array($_POST['cat'], array(1, 2, 3)))
+            (isset($_POST['cat']) && in_array($_POST['cat'], [1, 2, 3]))
                     ? $_POST['cat'] : '';
     $_POST['level'] =
             (isset($_POST['level'])
-                    && in_array($_POST['level'], array(1, 2, 3, 5)))
+                    && in_array($_POST['level'], [1, 2, 3, 5]))
                     ? abs((int) $_POST['level']) : '';
     if (!empty($_POST['text'])
             && (!empty($_POST['cat']) || empty($_POST['level'])))
@@ -472,7 +472,7 @@ function massmailer()
                              FROM `users`
                              WHERE `user_level` = {$_POST['level']}");
         }
-        $uc = array();
+        $uc = [];
         $send_time = time();
         while ($r = $db->fetch_row($q))
         {

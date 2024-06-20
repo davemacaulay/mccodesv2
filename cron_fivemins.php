@@ -39,7 +39,7 @@ if ($set['validate_period'] == 5 && $set['validate_on'])
     $ver_reset = true;
 }
 if ($set['validate_period'] == 15 && $set['validate_on']
-        && in_array(date('i'), array("00", "15", "30", "45")))
+        && in_array(date('i'), ["00", "15", "30", "45"]))
 {
     $ver_reset = true;
 }

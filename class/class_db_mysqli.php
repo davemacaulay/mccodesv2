@@ -48,7 +48,7 @@ class database
     var $result;
     var $connection_id;
     var $num_queries = 0;
-    var $queries = array();
+    var $queries = [];
 
     function configure($host, $user, $pass, $database)
     {

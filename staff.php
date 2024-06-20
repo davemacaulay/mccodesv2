@@ -90,24 +90,24 @@ function basicsettings()
                     ? abs(intval($_POST['willp_item'])) : '';
     $_POST['validate_on'] =
             (isset($_POST['validate_on'])
-                    && in_array($_POST['validate_on'], array('1', '0'), true))
+                    && in_array($_POST['validate_on'], ['1', '0'], true))
                     ? $_POST['validate_on'] : FALSE;
     $_POST['validate_period'] =
             (isset($_POST['validate_period'])
                     && in_array($_POST['validate_period'],
-                            array('5', '15', '60', 'login'), true))
+                            ['5', '15', '60', 'login'], true))
                     ? $_POST['validate_period'] : FALSE;
     $_POST['regcap_on'] =
             (isset($_POST['regcap_on'])
-                    && in_array($_POST['regcap_on'], array('1', '0'), true))
+                    && in_array($_POST['regcap_on'], ['1', '0'], true))
                     ? $_POST['regcap_on'] : FALSE;
     $_POST['sendcrys_on'] =
             (isset($_POST['sendcrys_on'])
-                    && in_array($_POST['sendcrys_on'], array('1', '0'), true))
+                    && in_array($_POST['sendcrys_on'], ['1', '0'], true))
                     ? $_POST['sendcrys_on'] : FALSE;
     $_POST['sendbank_on'] =
             (isset($_POST['sendbank_on'])
-                    && in_array($_POST['sendbank_on'], array('1', '0'), true))
+                    && in_array($_POST['sendbank_on'], ['1', '0'], true))
                     ? $_POST['sendbank_on'] : FALSE;
     if (empty($_POST['game_name']) || empty($_POST['game_owner'])
             || empty($_POST['game_description']) || empty($_POST['paypal'])
@@ -131,7 +131,7 @@ function basicsettings()
         	Paypal Address: <input type='text' name='paypal' value='{$set['paypal']}' /><br />
         	Gym/Crimes Validation: <select name='validate_on' type='dropdown'>
            ";
-        $opt = array("1" => "On", "0" => "Off");
+        $opt = ["1" => "On", "0" => "Off"];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['validate_on'])
@@ -144,8 +144,8 @@ function basicsettings()
         <br />
         	Validation Period: <select name='validate_period' type='dropdown'>";
         $opt =
-                array("5" => "Every 5 Minutes", "15" => "Every 15 Minutes",
-                        "60" => "Every Hour", "login" => "Every Login");
+                ["5" => "Every 5 Minutes", "15" => "Every 15 Minutes",
+                        "60" => "Every Hour", "login" => "Every Login"];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['validate_period'])
@@ -157,7 +157,7 @@ function basicsettings()
         </select>
         <br />
         	Registration CAPTCHA: <select name='regcap_on' type='dropdown'>";
-        $opt = array("1" => "On", "0" => "Off");
+        $opt = ["1" => "On", "0" => "Off"];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['regcap_on'])
@@ -169,7 +169,7 @@ function basicsettings()
         </select>
         <br />
         	Send Crystals: <select name='sendcrys_on' type='dropdown'>";
-        $opt = array("1" => "On", "0" => "Off");
+        $opt = ["1" => "On", "0" => "Off"];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['sendcrys_on'])
@@ -181,7 +181,7 @@ function basicsettings()
         </select>
         <br />
         	Bank Transfers: <select name='sendbank_on' type='dropdown'>";
-        $opt = array("1" => "On", "0" => "Off");
+        $opt = ["1" => "On", "0" => "Off"];
         foreach ($opt as $k => $v)
         {
             echo ($k == $set['sendbank_on'])

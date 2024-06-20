@@ -53,7 +53,7 @@ if (!$r['weapon'])
 }
 if (isset($_POST['type']))
 {
-    if (!in_array($_POST['type'], array("equip_primary", "equip_secondary"),
+    if (!in_array($_POST['type'], ["equip_primary", "equip_secondary"],
             true))
     {
         echo "This slot ID is not valid.";

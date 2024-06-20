@@ -78,7 +78,7 @@ function gang_view()
     				 LIMIT 1");
     if ($db->num_rows($pq) == 0)
     {
-        $ldr = array('userid' => 0);
+        $ldr = ['userid' => 0];
     }
     else
     {
@@ -92,7 +92,7 @@ function gang_view()
                      WHERE `userid` = {$gangdata['gangVICEPRES']}");
     if ($db->num_rows($vpq) == 0)
     {
-        $coldr = array('userid' => 0);
+        $coldr = ['userid' => 0];
     }
     else
     {

@@ -56,8 +56,8 @@ default:
 function menuprint($highlight)
 {
     $items =
-            array('diag' => '1. Diagnostics', 'input' => '2. Configuration',
-                    'sql' => '3. Installation & Extras',);
+            ['diag' => '1. Diagnostics', 'input' => '2. Configuration',
+                    'sql' => '3. Installation & Extras',];
     $c = 0;
     echo "<hr />";
     foreach ($items as $k => $v)
@@ -300,7 +300,7 @@ function install()
                     ? gpc_cleanup($_POST['a_username']) : '';
     $adm_gender =
             (isset($_POST['gender'])
-                    && in_array($_POST['gender'], array('Male', 'Female'),
+                    && in_array($_POST['gender'], ['Male', 'Female'],
                             true)) ? $_POST['gender'] : 'Male';
     $description =
             (isset($_POST['game_description']))
@@ -328,7 +328,7 @@ function install()
     $db_driver =
             (isset($_POST['driver'])
                     && $_POST['driver'] === 'mysqli') ? $_POST['driver'] : 'mysqli';
-    $errors = array();
+    $errors = [];
     if (empty($db_hostname))
     {
         $errors[] = 'No Database hostname specified';

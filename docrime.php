@@ -60,9 +60,9 @@ else
         $ec =
                 "\$sucrate="
                         . str_replace(
-                                array("LEVEL", "CRIMEXP", "EXP", "WILL", "IQ"),
-                                array($ir['level'], $ir['crimexp'],
-                                        $ir['exp'], $ir['will'], $ir['IQ']),
+                                ["LEVEL", "CRIMEXP", "EXP", "WILL", "IQ"],
+                                [$ir['level'], $ir['crimexp'],
+                                        $ir['exp'], $ir['will'], $ir['IQ']],
                                 $r['crimePERCFORM']) . ";";
         eval($ec);
         print $r['crimeITEXT'];

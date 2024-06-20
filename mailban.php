@@ -21,7 +21,7 @@
  */
 
 require_once('globals.php');
-if (!in_array($ir['user_level'], array(2, 3, 5)))
+if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.
     <br />&gt; <a href="index.php">Go Home</a>';

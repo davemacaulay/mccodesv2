@@ -27,7 +27,7 @@ function parse_bgcolor()
             && preg_match('`^[' . $hexdec . ']+${3}`ims', $_GET['bgcolor'])
                     == 0)
     {
-        return array(0, 0, 0);
+        return [0, 0, 0];
     }
     if (strlen($_GET['bgcolor']) == 6)
     {
@@ -43,9 +43,9 @@ function parse_bgcolor()
     }
     else
     {
-        return array(0, 0, 0);
+        return [0, 0, 0];
     }
-    return array(hexdec($p1), hexdec($p2), hexdec($p3));
+    return [hexdec($p1), hexdec($p2), hexdec($p3)];
 }
 session_name('MCCSID');
 session_start();
@@ -56,8 +56,8 @@ if (!isset($_SESSION['started']))
 }
 $bgcolor =
         (isset($_GET['bgcolor']) && is_string($_GET['bgcolor']))
-                ? parse_bgcolor() : array(255, 255, 255);
-$text = array(255 - $bgcolor[0], 255 - $bgcolor[1], 255 - $bgcolor[2]);
+                ? parse_bgcolor() : [255, 255, 255];
+$text = [255 - $bgcolor[0], 255 - $bgcolor[1], 255 - $bgcolor[2]];
 $distort = rand(80, 120) / 100;
 $distort2 = rand(80, 120) / 100;
 $f_x = round(75 * $distort);
@@ -78,11 +78,11 @@ $color[2] = $blue;
 for ($i = 0; $i <= 2; $i++)
 {
     $points =
-            array(0 => array(10, $f_x - 10), 1 => array(5, $f_y - 5),
-                    2 => array(10, $f_x - 10), 3 => array(5, $f_y - 5),
-                    4 => array(10, $f_x - 10), 5 => array(5, $f_y - 5),
-                    6 => array(10, $f_x - 10), 7 => array(5, $f_y - 5),
-                    8 => array(10, $f_x - 10), 9 => array(5, $f_y - 5),);
+            [0 => [10, $f_x - 10], 1 => [5, $f_y - 5],
+                    2 => [10, $f_x - 10], 3 => [5, $f_y - 5],
+                    4 => [10, $f_x - 10], 5 => [5, $f_y - 5],
+                    6 => [10, $f_x - 10], 7 => [5, $f_y - 5],
+                    8 => [10, $f_x - 10], 9 => [5, $f_y - 5],];
     imagefilledpolygon($first, $points, 5, $red);
 }
 imagestring($first, 4, rand(0, $f_x / 3), rand(0, $f_y / 2.5),

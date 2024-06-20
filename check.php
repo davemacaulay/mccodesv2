@@ -51,7 +51,7 @@ elseif (isset($_POST['password']))
     if ($PASS != NULL)
     { // If the current password is not NULL (empty).
         $numbers =
-                array( // Creates our array to store 1 - 9 in.
+                [ // Creates our array to store 1 - 9 in.
                         1 => "1", // 1.
                         2 => "2", // 2.
                         3 => "3", // 3.
@@ -62,10 +62,10 @@ elseif (isset($_POST['password']))
                         8 => "8", // 8.
                         9 => "9", // 9.
                         0 => "0" // 0.
-                ); // Closes the Array.
+                ]; // Closes the Array.
 
         $undercase =
-                array( // Creates our array to store a - z in.
+                [ // Creates our array to store a - z in.
                         1 => "a", // a.
                         2 => "b", // b.
                         3 => "c", // c.
@@ -92,10 +92,10 @@ elseif (isset($_POST['password']))
                         24 => "x", // x.
                         25 => "y", // y.
                         26 => "z" // z.
-                ); // Closes the Array.
+                ]; // Closes the Array.
 
         $uppercase =
-                array( // Creates our array to store A - Z in.
+                [ // Creates our array to store A - Z in.
                         1 => "A", // A.
                         2 => "B", // B.
                         3 => "C", // C.
@@ -122,11 +122,11 @@ elseif (isset($_POST['password']))
                         24 => "X", // X.
                         25 => "Y", // Y.
                         26 => "Z" // Z.
-                ); // Closes the Array.
+                ]; // Closes the Array.
         $symbs =
-                array('\\', '/', '"', "'", "{", "}", ")", "(", "|", "?", ".",
+                ['\\', '/', '"', "'", "{", "}", ")", "(", "|", "?", ".",
                         ",", "<", ">", "_", "-", "!", "#", "\$", "%", "^",
-                        "&", "*");
+                        "&", "*"];
         $strength = 0;
         if (strlen($PASS) >= 7)
         {

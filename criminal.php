@@ -26,7 +26,7 @@ if ($ir['jail'] || $ir['hospital'])
 {
     die("This page cannot be accessed while in jail or hospital.");
 }
-$crimes = array();
+$crimes = [];
 $q2 =
         $db->query(
                 "SELECT `crimeGROUP`, `crimeNAME`, `crimeBRAVE`, `crimeID`

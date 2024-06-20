@@ -22,11 +22,11 @@
 
 require_once('globals.php');
 $filters =
-        array('nodon' => 'AND `donatordays` = 0',
-                'don' => 'AND `donatordays` > 0', 'all' => '');
+        ['nodon' => 'AND `donatordays` = 0',
+                'don' => 'AND `donatordays` > 0', 'all' => ''];
 $hofheads =
-        array('level', 'money', 'crystals', 'respect', 'total', 'strength',
-                'agility', 'guard', 'labour', 'iq');
+        ['level', 'money', 'crystals', 'respect', 'total', 'strength',
+                'agility', 'guard', 'labour', 'iq'];
 $_GET['action'] =
         (isset($_GET['action']) && in_array($_GET['action'], $hofheads))
                 ? $_GET['action'] : 'level';
@@ -34,7 +34,7 @@ $filter =
         (isset($_GET['filter']) && isset($filters[$_GET['filter']]))
                 ? $_GET['filter'] : 'all';
 $myf = $filters[$filter];
-$hofqone = array('level', 'money', 'crystals');
+$hofqone = ['level', 'money', 'crystals'];
 if (in_array($_GET['action'], $hofqone))
 {
     $q =
@@ -49,7 +49,7 @@ if (in_array($_GET['action'], $hofqone))
                      ORDER BY `{$_GET['action']}` DESC, `userid` ASC
                      LIMIT 20");
 }
-$hofqtwo = array('total', 'strength', 'agility', 'guard', 'labour', 'iq');
+$hofqtwo = ['total', 'strength', 'agility', 'guard', 'labour', 'iq'];
 if (in_array($_GET['action'], $hofqtwo))
 {
     if ($_GET['action'] == 'total')

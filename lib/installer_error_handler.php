@@ -25,7 +25,7 @@
  */
 
 function error_critical($debug_error, $action,
-                        $context = array())
+                        $context = [])
 {
     require_once('./installer_head.php'); // in case it hasn't been included
     // Setup a new error
@@ -44,7 +44,7 @@ function error_critical($debug_error, $action,
 }
 
 function error_php($errno, $errstr, $errfile = '', $errline = 0,
-        $errcontext = array())
+        $errcontext = [])
 {
     // What's happened?
     // If it's a PHP warning or user error/warning, don't go further - indicates bad code, unsafe

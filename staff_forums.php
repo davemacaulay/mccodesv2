@@ -63,7 +63,7 @@ function addforum()
                     : '';
     $auth =
             (isset($_POST['auth'])
-                    && in_array($_POST['auth'], array('staff', 'public'), true))
+                    && in_array($_POST['auth'], ['staff', 'public'], true))
                     ? $_POST['auth'] : 'public';
     if ($auth && $desc && $name)
     {
@@ -136,7 +136,7 @@ function editforum()
                         : '';
         $auth =
                 (isset($_POST['auth'])
-                        && in_array($_POST['auth'], array('staff', 'public')))
+                        && in_array($_POST['auth'], ['staff', 'public']))
                         ? $_POST['auth'] : 'public';
         $_POST['id'] =
                 (isset($_POST['id']) && is_numeric($_POST['id']))

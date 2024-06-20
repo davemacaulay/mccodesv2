@@ -92,7 +92,7 @@ $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
         $_CONFIG['password'], $_CONFIG['database']);
 $db->connect();
 $c = $db->connection_id;
-$set = array();
+$set = [];
 $settq = $db->query("SELECT *
 					 FROM `settings`");
 while ($r = $db->fetch_row($settq))
@@ -150,7 +150,7 @@ if ($ir['force_logout'] != '0')
     header("Location: {$login_url}");
     exit;
 }
-if (!in_array($ir['user_level'], array(2, 3, 5)))
+if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'This page cannot be accessed.<br />&gt; <a href="index.php">Go Home</a>';
     die;

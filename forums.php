@@ -92,14 +92,14 @@ class bbcode
     {
         $html =
                 str_ireplace(
-                        array("javascript:", "document.", "onClick",
+                        ["javascript:", "document.", "onClick",
                                 "onDblClick", "onLoad", "onMouseOver",
                                 "onBlur", "onChange", "onFocus", "onkeydown",
                                 "onkeypress", "onkeyup", "onmousedown",
                                 "onmouseup", 'onmouseout', 'onmousemove',
-                                'onresize', 'onscroll'), "", $html);
+                                'onresize', 'onscroll'], "", $html);
         $html =
-                str_replace(array('"', "'"), array("&quot;", "&#39;"), $html);
+                str_replace(['"', "'"], ["&quot;", "&#39;"], $html);
         return $this->engine->parse_bbcode($this->quote_corrector($html));
     }
 
@@ -114,7 +114,7 @@ class bbcode
         elseif ($quotes > $quote_starts)
         {
             $so = 0;
-            $poss = array();
+            $poss = [];
             for ($i = 0; $i < $quotes; $i++)
             {
                 $kx = strpos($in, "[/quote]", $so);
@@ -173,13 +173,13 @@ function forums_rank($tp)
 {
     $new_rank = '#0 Inactive';
     $f_ranks =
-            array(3 => '#1 Absolute Newbie', 7 => '#2 Newbie',
+            [3 => '#1 Absolute Newbie', 7 => '#2 Newbie',
                     12 => '#3 Beginner', 18 => '#4 Not Experienced',
                     25 => '#5 Rookie', 50 => '#6 Average', 100 => '#7 Good',
                     200 => '#8 Very Good', 350 => '#9 Greater Than Average',
                     500 => '#10 Experienced', 750 => '#11 Highly Experienced',
                     1200 => '#12 Honoured', 1800 => '#13 Highly Hounoured',
-                    2500 => '#14 Respect King', 5000 => '#15 True Champion');
+                    2500 => '#14 Respect King', 5000 => '#15 True Champion'];
     foreach ($f_ranks AS $fr_key => $fr_value)
     {
         if ($tp >= $fr_key)
@@ -464,7 +464,7 @@ You have no permission to view this forum.<br />
 function viewtopic()
 {
     global $ir, $h, $bbc, $db;
-    $precache = array();
+    $precache = [];
     $_GET['viewtopic'] =
             (isset($_GET['viewtopic']) && is_numeric($_GET['viewtopic']))
                     ? abs(intval($_GET['viewtopic'])) : '';
@@ -634,7 +634,7 @@ You have no permission to view this forum.<br />
                              WHERE `userid` = {$r['fp_poster_id']}");
             if ($db->num_rows($membq) == 0)
             {
-                $memb = array('userid' => 0, 'forums_signature' => '');
+                $memb = ['userid' => 0, 'forums_signature' => ''];
             }
             else
             {
@@ -1493,7 +1493,7 @@ function recache_topic($topic)
 function move()
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], array(2, 3, 5)))
+    if (!in_array($ir['user_level'], [2, 3, 5]))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1557,7 +1557,7 @@ function move()
 function lock()
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], array(2, 3, 5)))
+    if (!in_array($ir['user_level'], [2, 3, 5]))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1611,7 +1611,7 @@ function lock()
 function pin()
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], array(2, 3, 5)))
+    if (!in_array($ir['user_level'], [2, 3, 5]))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1665,7 +1665,7 @@ function pin()
 function delepost()
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], array(2, 3, 5)))
+    if (!in_array($ir['user_level'], [2, 3, 5]))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';

@@ -67,7 +67,7 @@ if (isset($_POST['bet']) && is_numeric($_POST['bet']))
                 "The Numbers are only 0 - 36.<br />
 		<a href='roulette.php?tresde=$tresder'>&gt; Back</a>");
     }
-    $slot = array();
+    $slot = [];
     $slot[1] = (int) rand(0, 36);
     echo "You place " . money_formatter($_POST['bet'])
             . " into the slot and pull the pole.<br />

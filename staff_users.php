@@ -156,7 +156,7 @@ function new_user_submit()
                     ? $db->escape(stripslashes($_POST['email'])) : '';
     $ulevel =
             (isset($_POST['user_level'])
-                    && in_array($_POST['user_level'], array('1', '0'), true))
+                    && in_array($_POST['user_level'], ['1', '0'], true))
                     ? $_POST['user_level'] : FALSE;
     $level =
             (isset($_POST['level']) && is_numeric($_POST['level']))
@@ -172,7 +172,7 @@ function new_user_submit()
                     ? abs(intval($_POST['donatordays'])) : 0;
     $_POST['gender'] =
             (isset($_POST['gender'])
-                    && in_array($_POST['gender'], array('Male', 'Female'),
+                    && in_array($_POST['gender'], ['Male', 'Female'],
                             true)) ? $_POST['gender'] : 'Male';
     $strength =
             (isset($_POST['strength']) && is_numeric($_POST['strength']))
@@ -728,7 +728,7 @@ function deluser()
                         ? abs(intval($_POST['userid'])) : 0;
         $_POST['yesorno'] =
                 (isset($_POST['yesorno'])
-                        && in_array($_POST['yesorno'], array('Yes', 'No')))
+                        && in_array($_POST['yesorno'], ['Yes', 'No']))
                         ? $_POST['yesorno'] : '';
         if ((empty($_POST['userid']) || empty($_POST['yesorno']))
                 || $_POST['userid'] == 1 || $_POST['userid'] == $ir['userid'])
@@ -792,7 +792,7 @@ function deluser()
 function inv_user_begin()
 {
     global $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -816,7 +816,7 @@ function inv_user_begin()
 function inv_user_view()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -906,7 +906,7 @@ function inv_user_view()
 function inv_delete()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -955,7 +955,7 @@ function inv_delete()
 function credit_user_form()
 {
     global $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
         die($h->endpage());
@@ -982,7 +982,7 @@ function credit_user_form()
 function credit_user_submit()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -1111,7 +1111,7 @@ function mcredit_user_submit()
 function reports_view()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -1232,7 +1232,7 @@ function forcelogout()
 function report_clear()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';

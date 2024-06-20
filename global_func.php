@@ -29,8 +29,8 @@ function DateTime_Parse($time_stamp)
 {
     $time_difference = ($_SERVER['REQUEST_TIME'] - $time_stamp);
     $unit =
-            array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
-    $lengths = array(60, 60, 24, 7, 4.35, 12);
+            ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+    $lengths = [60, 60, 24, 7, 4.35, 12];
     for ($i = 0; $time_difference >= $lengths[$i]; $i++)
     {
         $time_difference = $time_difference / $lengths[$i];
@@ -1014,7 +1014,7 @@ function request_csrf_code($formid)
     // Insert/Update it
     $issue_time = time();
     $_SESSION["csrf_{$formid}"] =
-            array('token' => $token, 'issued' => $issue_time);
+            ['token' => $token, 'issued' => $issue_time];
     return $token;
 }
 
@@ -1223,7 +1223,7 @@ function get_filesize_remote($url)
         return 0;
     }
     fwrite($fh, $request);
-    $headers = array();
+    $headers = [];
     $total_loaded = 0;
     while (!feof($fh) && $line = fgets($fh, 1024))
     {

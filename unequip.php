@@ -23,7 +23,7 @@
 require_once('globals.php');
 if (!isset($_GET['type'])
         || !in_array($_GET['type'],
-                array("equip_primary", "equip_secondary", "equip_armor"),
+                ["equip_primary", "equip_secondary", "equip_armor"],
                 true))
 {
     echo 'This slot ID is not valid.';
@@ -40,9 +40,9 @@ $db->query(
         SET `{$_GET['type']}` = 0
         WHERE `userid` = {$ir['userid']}");
 $names =
-        array('equip_primary' => 'Primary Weapon',
+        ['equip_primary' => 'Primary Weapon',
                 'equip_secondary' => 'Secondary Weapon',
-                'equip_armor' => 'Armor');
+                'equip_armor' => 'Armor'];
 echo 'The item in your ' . $names[$_GET['type']]
         . ' slot was successfully unequiped.';
 $h->endpage();

@@ -21,7 +21,7 @@
  */
 
 require_once('globals.php');
-if (in_array($ir['user_level'], array(2, 3, 5)))
+if (in_array($ir['user_level'], [2, 3, 5]))
 {
     $_POST['ID'] =
             (isset($_POST['ID']) && is_numeric($_POST['ID']))

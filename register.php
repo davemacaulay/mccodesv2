@@ -46,7 +46,7 @@ print
 <td class="center"><img src="title.jpg" alt="Mccodes Version 2" /><br />
 <!-- Begin Main Content -->
 EOF;
-$IP = str_replace(array('/', '\\', '\0'), '', $_SERVER['REMOTE_ADDR']);
+$IP = str_replace(['/', '\\', '\0'], '', $_SERVER['REMOTE_ADDR']);
 if (file_exists('ipbans/' . $IP))
 {
     die(

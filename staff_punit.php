@@ -21,7 +21,7 @@
  */
 
 require_once('sglobals.php');
-if (!in_array($ir['user_level'], array(2, 3, 5)))
+if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Home</a>';
     die($h->endpage());
@@ -634,7 +634,7 @@ function ip_search_submit()
                      FROM `users`
                      WHERE `lastip` = '"
                             . $db->escape(stripslashes($_POST['ip'])) . "'");
-    $ids = array();
+    $ids = [];
     while ($r = $db->fetch_row($q))
     {
         $ids[] = $r['userid'];
@@ -677,7 +677,7 @@ function mass_jail()
         $_POST['ids'] = '';
     }
     $ids = explode(",", $_POST['ids']);
-    $ju = array();
+    $ju = [];
     $_POST['reason'] =
             (isset($_POST['reason']))
                     ? $db->escape(strip_tags(stripslashes($_POST['reason'])))

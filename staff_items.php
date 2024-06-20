@@ -190,28 +190,28 @@ function new_item_submit()
         die($h->endpage());
     }
     $itmbuy = ($_POST['itmbuyable'] == 'on') ? 1 : 0;
-    $effects = array();
+    $effects = [];
     for ($i = 1; $i <= 3; $i++)
     {
         $efxkey = "effect{$i}";
         $_POST[$efxkey . 'stat'] =
                 (isset($_POST[$efxkey . 'stat'])
                         && in_array($_POST[$efxkey . 'stat'],
-                                array('energy', 'will', 'brave', 'hp',
+                                ['energy', 'will', 'brave', 'hp',
                                         'strength', 'agility', 'guard',
                                         'labour', 'IQ', 'hospital', 'jail',
                                         'money', 'crystals', 'cdays',
-                                        'bankmoney', 'cybermoney', 'crimexp')))
+                                        'bankmoney', 'cybermoney', 'crimexp']))
                         ? $_POST[$efxkey . 'stat'] : 'energy';
         $_POST[$efxkey . 'dir'] =
                 (isset($_POST[$efxkey . 'dir'])
                         && in_array($_POST[$efxkey . 'dir'],
-                                array('pos', 'neg'))) ? $_POST[$efxkey . 'dir']
+                                ['pos', 'neg'])) ? $_POST[$efxkey . 'dir']
                         : 'pos';
         $_POST[$efxkey . 'type'] =
                 (isset($_POST[$efxkey . 'type'])
                         && in_array($_POST[$efxkey . 'type'],
-                                array('figure', 'percent')))
+                                ['figure', 'percent']))
                         ? $_POST[$efxkey . 'type'] : 'figure';
         $_POST[$efxkey . 'amount'] =
                 (isset($_POST[$efxkey . 'amount'])
@@ -219,17 +219,17 @@ function new_item_submit()
                         ? abs(intval($_POST[$efxkey . 'amount'])) : 0;
         $_POST[$efxkey . 'on'] =
                 (isset($_POST[$efxkey . 'on'])
-                        && in_array($_POST[$efxkey . 'on'], array('1', '0')))
+                        && in_array($_POST[$efxkey . 'on'], ['1', '0']))
                         ? $_POST[$efxkey . 'on'] : 0;
         $effects[$i] =
                 $db->escape(
                         serialize(
-                                array("stat" => $_POST[$efxkey . 'stat'],
+                                ["stat" => $_POST[$efxkey . 'stat'],
                                         "dir" => $_POST[$efxkey . 'dir'],
                                         "inc_type" => $_POST[$efxkey . 'type'],
                                         "inc_amount" => abs(
                                                 (int) $_POST[$efxkey
-                                                        . 'amount']))));
+                                                        . 'amount'])]));
     }
     $db->query(
                     "INSERT INTO `items`
@@ -249,7 +249,7 @@ function new_item_submit()
 function give_item_form()
 {
     global $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -275,7 +275,7 @@ function give_item_form()
 function give_item_submit()
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], array(2, 3)))
+    if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -484,7 +484,7 @@ function edit_item_form()
     	<hr />
        ";
     $stats =
-            array("energy" => "Energy", "will" => "Will", "brave" => "Brave",
+            ["energy" => "Energy", "will" => "Will", "brave" => "Brave",
                     "hp" => "Health", "strength" => "Strength",
                     "agility" => "Agility", "guard" => "Guard",
                     "labour" => "Labour", "IQ" => "IQ",
@@ -492,7 +492,7 @@ function edit_item_form()
                     "money" => "Money", "crystals" => "Crystals",
                     "cdays" => "Education Days Left",
                     "bankmoney" => "Bank money",
-                    "cybermoney" => "Cyber money", "crimexp" => "Crime XP");
+                    "cybermoney" => "Cyber money", "crimexp" => "Crime XP"];
     for ($i = 1; $i <= 3; $i++)
     {
         if (!empty($itemi["effect" . $i]))
@@ -501,7 +501,7 @@ function edit_item_form()
         }
         else
         {
-            $efx = array("inc_amount" => 0);
+            $efx = ["inc_amount" => 0];
         }
         $switch1 =
                 ($itemi['effect' . $i . '_on'] > 0) ? " checked='checked'" : "";
@@ -619,28 +619,28 @@ function edit_item_sub()
     }
     $db->free_result($q);
     $itmbuy = ($_POST['itmbuyable'] == 'on') ? 1 : 0;
-    $effects = array();
+    $effects = [];
     for ($i = 1; $i <= 3; $i++)
     {
         $efxkey = "effect{$i}";
         $_POST[$efxkey . 'stat'] =
                 (isset($_POST[$efxkey . 'stat'])
                         && in_array($_POST[$efxkey . 'stat'],
-                                array('energy', 'will', 'brave', 'hp',
+                                ['energy', 'will', 'brave', 'hp',
                                         'strength', 'agility', 'guard',
                                         'labour', 'IQ', 'hospital', 'jail',
                                         'money', 'crystals', 'cdays',
-                                        'bankmoney', 'cybermoney', 'crimexp')))
+                                        'bankmoney', 'cybermoney', 'crimexp']))
                         ? $_POST[$efxkey . 'stat'] : 'energy';
         $_POST[$efxkey . 'dir'] =
                 (isset($_POST[$efxkey . 'dir'])
                         && in_array($_POST[$efxkey . 'dir'],
-                                array('pos', 'neg'))) ? $_POST[$efxkey . 'dir']
+                                ['pos', 'neg'])) ? $_POST[$efxkey . 'dir']
                         : 'pos';
         $_POST[$efxkey . 'type'] =
                 (isset($_POST[$efxkey . 'type'])
                         && in_array($_POST[$efxkey . 'type'],
-                                array('figure', 'percent')))
+                                ['figure', 'percent']))
                         ? $_POST[$efxkey . 'type'] : 'figure';
         $_POST[$efxkey . 'amount'] =
                 (isset($_POST[$efxkey . 'amount'])
@@ -648,17 +648,17 @@ function edit_item_sub()
                         ? abs(intval($_POST[$efxkey . 'amount'])) : 0;
         $_POST[$efxkey . 'on'] =
                 (isset($_POST[$efxkey . 'on'])
-                        && in_array($_POST[$efxkey . 'on'], array('1', '0')))
+                        && in_array($_POST[$efxkey . 'on'], ['1', '0']))
                         ? $_POST[$efxkey . 'on'] : 0;
         $effects[$i] =
                 $db->escape(
                         serialize(
-                                array("stat" => $_POST[$efxkey . 'stat'],
+                                ["stat" => $_POST[$efxkey . 'stat'],
                                         "dir" => $_POST[$efxkey . 'dir'],
                                         "inc_type" => $_POST[$efxkey . 'type'],
                                         "inc_amount" => abs(
                                                 (int) $_POST[$efxkey
-                                                        . 'amount']))));
+                                                        . 'amount'])]));
     }
     $db->query(
             'UPDATE `items` SET `itmtype` = ' . $_POST['itmtype']

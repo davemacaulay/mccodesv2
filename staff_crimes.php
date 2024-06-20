@@ -508,7 +508,7 @@ function delcrime()
         }
         $_POST['yesorno'] =
                 (isset($_POST['yesorno'])
-                        && in_array($_POST['yesorno'], array('Yes', 'No')))
+                        && in_array($_POST['yesorno'], ['Yes', 'No']))
                         ? $_POST['yesorno'] : 'No';
         if ($_POST['yesorno'] == 'No')
         {
@@ -819,7 +819,7 @@ function delcrimegroup()
         $db->free_result($q);
         $_POST['yesorno'] =
                 (isset($_POST['yesorno'])
-                        && in_array($_POST['yesorno'], array('Yes', 'No')))
+                        && in_array($_POST['yesorno'], ['Yes', 'No']))
                         ? $_POST['yesorno'] : 'No';
         if ($_POST['yesorno'] == 'No')
         {
@@ -857,7 +857,7 @@ function reorder_crimegroups()
         staff_csrf_stdverify('staff_reorder_crimegroups',
                 'staff_crimes.php?action=reorder');
         unset($_POST['verf']);
-        $used = array();
+        $used = [];
         foreach ($_POST as $v)
         {
             $v = (isset($v) && is_numeric($v)) ? abs(intval($v)) : '';

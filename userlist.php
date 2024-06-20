@@ -24,11 +24,11 @@ require_once('globals.php');
 $st =
         (isset($_GET['st']) && is_numeric($_GET['st']))
                 ? abs(intval($_GET['st'])) : 0;
-$allowed_by = array('userid', 'username', 'level', 'money');
+$allowed_by = ['userid', 'username', 'level', 'money'];
 $by =
         (isset($_GET['by']) && in_array($_GET['by'], $allowed_by, true))
                 ? $_GET['by'] : 'userid';
-$allowed_ord = array('asc', 'desc', 'ASC', 'DESC');
+$allowed_ord = ['asc', 'desc', 'ASC', 'DESC'];
 $ord =
         (isset($_GET['ord']) && in_array($_GET['ord'], $allowed_ord, true))
                 ? $_GET['ord'] : 'ASC';

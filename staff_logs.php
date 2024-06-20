@@ -21,7 +21,7 @@
  */
 
 require_once('sglobals.php');
-if (!in_array($ir['user_level'], array(2, 3, 5)))
+if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.<br />
     &gt; <a href="staff.php">Go Back</a>';
@@ -421,7 +421,7 @@ function view_bank_logs()
                      ON `cx`.`cxTO` = `u2`.`userid`
                      ORDER BY `cx`.`cxTIME` DESC
                      LIMIT $st, $app");
-    $banks = array('bank' => 'City Bank', 'cyber' => 'Cyber Bank');
+    $banks = ['bank' => 'City Bank', 'cyber' => 'Cyber Bank'];
     while ($r = $db->fetch_row($q))
     {
         $mb = $banks[$r['cxBANK']];

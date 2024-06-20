@@ -27,8 +27,8 @@ if ($ir['hospital'])
     die("This page cannot be accessed while in hospital.");
 }
 $statnames =
-        array('Strength' => 'strength', 'Agility' => 'agility',
-                'Guard' => 'guard', 'Labour' => 'labour');
+        ['Strength' => 'strength', 'Agility' => 'agility',
+                'Guard' => 'guard', 'Labour' => 'labour'];
 if (!isset($_POST['amnt']))
 {
     $_POST['amnt'] = 0;
