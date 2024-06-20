@@ -12,18 +12,15 @@ class StaffRolesManagement
     private static ?self $inst = null;
     private string $viewPath = '';
     private ?database $mysql = null;
-    private ?headers $headers = null;
     private array $roles = [];
 
     /**
      * @param database $db
-     * @param headers $headers
      */
-    public function __construct(database $db, headers $headers)
+    public function __construct(database $db)
     {
         $this->setViewPath();
         $this->setDb($db);
-        $this->setHeaders($headers);
         $this->setRoles();
         $this->processAction();
     }
@@ -43,15 +40,6 @@ class StaffRolesManagement
     private function setDb(database $db): void
     {
         $this->mysql = $db;
-    }
-
-    /**
-     * @param headers $headers
-     * @return void
-     */
-    private function setHeaders(headers $headers): void
-    {
-        $this->headers = $headers;
     }
 
     /**
@@ -172,6 +160,48 @@ class StaffRolesManagement
     }
 
     /**
+     * @param int|null $role_id
+     * @return string[]
+     */
+    private function doRemoveRole(?int $role_id): array
+    {
+        $role = $this->getRole($role_id);
+        if (empty($role)) {
+            return [
+                'type' => 'error',
+                'message' => 'The role you selected doesn\'t exist',
+            ];
+        }
+        if (!array_key_exists('confirm', $_POST) || !$_POST['confirm']) {
+            return [
+                'type' => 'error',
+                'message' => 'You must confirm the desire to remove the staff role: ' . $role['name'],
+            ];
+        }
+        $this->mysql->query(
+            'DELETE FROM users_roles WHERE staff_role = ' . $role_id,
+        );
+        $this->mysql->query(
+            'DELETE FROM staff_roles WHERE id = ' . $role_id,
+        );
+        stafflog_add('Deleted staff role: ' . $role['name']);
+        $this->setRoles();
+        return [
+            'type' => 'success',
+            'message' => 'The staff role "' . $role['name'] . '" has been deleted',
+        ];
+    }
+
+    /**
+     * @param int $role_id
+     * @return array|null
+     */
+    private function getRole(int $role_id): ?array
+    {
+        return $this->roles[$role_id] ?? null;
+    }
+
+    /**
      * @return void
      */
     private function roleIndex(): void
@@ -269,15 +299,6 @@ class StaffRolesManagement
     }
 
     /**
-     * @param int $role_id
-     * @return array|null
-     */
-    private function getRole(int $role_id): ?array
-    {
-        return $this->roles[$role_id] ?? null;
-    }
-
-    /**
      * @param array|null $role
      * @return string
      */
@@ -312,25 +333,23 @@ class StaffRolesManagement
         $role     = $this->getRole($role_id);
         $template = file_get_contents($this->viewPath . '/staff-roles/role-remove.html');
         echo strtr($template, [
-            '{{ROLE-ID}}' => $role['id'],
             '{{ROLE-NAME}}' => $role['name'],
             '{{FORM-ACTION}}' => 'staff_roles.php?action=remove&id=' . $role['id'],
-            '{{BTN-ACTION}}' => 'Remove',
         ]);
     }
 
     /**
      * @param database $db
-     * @param headers $headers
      * @return self|null
      */
-    public static function getInstance(database $db, headers $headers): ?self
+    public static function getInstance(database $db): ?self
     {
         if (self::$inst === null) {
-            self::$inst = new self($db, $headers);
+            self::$inst = new self($db);
         }
         return self::$inst;
     }
 }
 
-$module = StaffRolesManagement::getInstance($db, $h);
+$module = StaffRolesManagement::getInstance($db);
+$h->endpage();
