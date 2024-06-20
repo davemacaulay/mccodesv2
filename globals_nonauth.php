@@ -32,7 +32,7 @@ if (!isset($_SESSION['started']))
     $_SESSION['started'] = true;
 }
 ob_start();
-if (function_exists("get_magic_quotes_gpc") == false)
+if (!function_exists("get_magic_quotes_gpc"))
 {
 
     function get_magic_quotes_gpc()

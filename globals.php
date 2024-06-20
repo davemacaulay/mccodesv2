@@ -32,7 +32,7 @@ if (!isset($_SESSION['started']))
     $_SESSION['started'] = true;
 }
 ob_start();
-if (function_exists("get_magic_quotes_gpc") == false)
+if (!function_exists("get_magic_quotes_gpc"))
 {
 
     function get_magic_quotes_gpc()
@@ -139,7 +139,7 @@ if ($macropage && !$ir['verified'] && $set['validate_on'] == 1)
 }
 check_level();
 $h = new headers;
-if (isset($nohdr) == false || !$nohdr)
+if (!isset($nohdr) || !$nohdr)
 {
     $h->startheaders();
     $fm = money_formatter($ir['money']);
