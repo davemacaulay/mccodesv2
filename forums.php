@@ -26,7 +26,7 @@ require_once('globals.php');
 
 class bbcode
 {
-    public $engine = '';
+    public bbcode_engine|string $engine = '';
 
     public function bbcode()
     {

@@ -20,19 +20,16 @@
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-if (!defined('MONO_ON'))
-{
+if (!defined('MONO_ON')) {
     exit;
 }
 
-if (!function_exists('error_critical'))
-{
+if (!function_exists('error_critical')) {
     // Umm...
     die('<h1>Error</h1>' . 'Error handler not present');
 }
 
-if (!extension_loaded('mysqli'))
-{
+if (!extension_loaded('mysqli')) {
     // dl doesn't work anymore, crash
     error_critical('MySQLi extension not present but required', 'N/A',
         debug_backtrace(false));
@@ -40,15 +37,15 @@ if (!extension_loaded('mysqli'))
 
 class database
 {
-    public $host;
-    public $user;
-    public $pass;
-    public $database;
-    public $last_query;
-    public $result;
-    public $connection_id;
-    public $num_queries = 0;
-    public $queries = [];
+    public string $host;
+    public string $user;
+    public string $pass;
+    public string $database;
+    public string $last_query;
+    public mysqli_result|bool $result;
+    public mysqli $connection_id;
+    public int $num_queries = 0;
+    public array $queries = [];
 
     public function configure($host, $user, $pass, $database)
     {

@@ -25,7 +25,7 @@
  * @param int $time_stamp The timestamp to find the difference to.
  * @return string The difference formatted in units so that the numerical component is not less than 1 or absurdly large.
  */
-function datetime_parse($time_stamp)
+function datetime_parse(int $time_stamp)
 {
     $time_difference = ($_SERVER['REQUEST_TIME'] - $time_stamp);
     $unit =
@@ -46,7 +46,7 @@ function datetime_parse($time_stamp)
  * @param int $muny The amount of money to display
  * @param string $symb The money unit symbol to use, e.g. $
  */
-function money_formatter($muny, $symb = '$')
+function money_formatter(int $muny, string $symb = '$')
 {
     return $symb . number_format($muny);
 }
@@ -58,7 +58,7 @@ function money_formatter($muny, $symb = '$')
  * Not specifying this or setting it to -1 makes the first item type alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function itemtype_dropdown($ddname = 'item_type', $selected = -1)
+function itemtype_dropdown(string $ddname = 'item_type', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -97,7 +97,7 @@ function itemtype_dropdown($ddname = 'item_type', $selected = -1)
  * Not specifying this or setting it to -1 makes the first item alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function item_dropdown($ddname = 'item', $selected = -1)
+function item_dropdown(string $ddname = 'item', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -136,7 +136,7 @@ function item_dropdown($ddname = 'item', $selected = -1)
  * Not specifying this or setting it to a number less than 1 makes "None" selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function item2_dropdown($ddname = 'item', $selected = -1)
+function item2_dropdown(string $ddname = 'item', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -174,7 +174,7 @@ function item2_dropdown($ddname = 'item', $selected = -1)
  * Not specifying this or setting it to -1 makes the first item alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function location_dropdown($ddname = 'location', $selected = -1)
+function location_dropdown(string $ddname = 'location', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -213,7 +213,7 @@ function location_dropdown($ddname = 'location', $selected = -1)
  * Not specifying this or setting it to -1 makes the first shop alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function shop_dropdown($ddname = 'shop', $selected = -1)
+function shop_dropdown(string $ddname = 'shop', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -252,7 +252,7 @@ function shop_dropdown($ddname = 'shop', $selected = -1)
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function user_dropdown($ddname = 'user', $selected = -1)
+function user_dropdown(string $ddname = 'user', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -291,7 +291,7 @@ function user_dropdown($ddname = 'user', $selected = -1)
  * Not specifying this or setting it to -1 makes the first bot alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function challengebot_dropdown($ddname = 'bot', $selected = -1)
+function challengebot_dropdown(string $ddname = 'bot', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -332,7 +332,7 @@ function challengebot_dropdown($ddname = 'bot', $selected = -1)
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function fed_user_dropdown($ddname = 'user', $selected = -1)
+function fed_user_dropdown(string $ddname = 'user', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -372,7 +372,7 @@ function fed_user_dropdown($ddname = 'user', $selected = -1)
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function mailb_user_dropdown($ddname = 'user', $selected = -1)
+function mailb_user_dropdown(string $ddname = 'user', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -412,7 +412,7 @@ function mailb_user_dropdown($ddname = 'user', $selected = -1)
  * Not specifying this or setting it to -1 makes the first user alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forumb_user_dropdown($ddname = 'user', $selected = -1)
+function forumb_user_dropdown(string $ddname = 'user', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -452,7 +452,7 @@ function forumb_user_dropdown($ddname = 'user', $selected = -1)
  * Not specifying this or setting it to -1 makes the first job alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function job_dropdown($ddname = 'job', $selected = -1)
+function job_dropdown(string $ddname = 'job', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -491,7 +491,7 @@ function job_dropdown($ddname = 'job', $selected = -1)
  * Not specifying this or setting it to -1 makes the first job's first job rank alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function jobrank_dropdown($ddname = 'jobrank', $selected = -1)
+function jobrank_dropdown(string $ddname = 'jobrank', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -532,7 +532,7 @@ function jobrank_dropdown($ddname = 'jobrank', $selected = -1)
  * Not specifying this or setting it to -1 makes the first house alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function house_dropdown($ddname = 'house', $selected = -1)
+function house_dropdown(string $ddname = 'house', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -572,7 +572,7 @@ function house_dropdown($ddname = 'house', $selected = -1)
  * Not specifying this or setting it to -1 makes the first house alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function house2_dropdown($ddname = 'house', $selected = -1)
+function house2_dropdown(string $ddname = 'house', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -611,7 +611,7 @@ function house2_dropdown($ddname = 'house', $selected = -1)
  * Not specifying this or setting it to -1 makes the first course alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function course_dropdown($ddname = 'course', $selected = -1)
+function course_dropdown(string $ddname = 'course', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -650,7 +650,7 @@ function course_dropdown($ddname = 'course', $selected = -1)
  * Not specifying this or setting it to -1 makes the first crime alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function crime_dropdown($ddname = 'crime', $selected = -1)
+function crime_dropdown(string $ddname = 'crime', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -689,8 +689,8 @@ function crime_dropdown($ddname = 'crime', $selected = -1)
  * Not specifying this or setting it to -1 makes the first crime group alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function crimegroup_dropdown($ddname = 'crimegroup',
-                             $selected = -1)
+function crimegroup_dropdown(string $ddname = 'crimegroup',
+                             int    $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -728,7 +728,7 @@ function crimegroup_dropdown($ddname = 'crimegroup',
  * @param string $text The event's text. This should be fully sanitized for HTML, but not pre-escaped for database insertion.
  * @return int 1
  */
-function event_add($userid, $text)
+function event_add(int $userid, string $text)
 {
     global $db;
     $text = $db->escape($text);
@@ -781,7 +781,7 @@ function check_level()
  * @param string $mykey The stat to be ranked in. Must be a valid column name in the userstats table
  * @return int The user's rank in the stat
  */
-function get_rank($stat, $mykey)
+function get_rank(int $stat, string $mykey)
 {
     global $db, $userid;
     $q =
@@ -805,7 +805,7 @@ function get_rank($stat, $mykey)
  * @param int $notid [optional] If specified and greater than zero, prevents the item given's<br />
  * database entry combining with inventory id $notid.
  */
-function item_add($user, $itemid, $qty, $notid = 0)
+function item_add(int $user, int $itemid, int $qty, int $notid = 0)
 {
     global $db;
     if ($notid > 0)
@@ -854,7 +854,7 @@ function item_add($user, $itemid, $qty, $notid = 0)
  * @param int $itemid The item ID which is to be taken
  * @param int $qty The item quantity to be taken
  */
-function item_remove($user, $itemid, $qty)
+function item_remove(int $user, int $itemid, int $qty)
 {
     global $db;
     $q =
@@ -891,7 +891,7 @@ function item_remove($user, $itemid, $qty)
  * Not specifying this or setting it to -1 makes the first forum alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forum_dropdown($ddname = 'forum', $selected = -1)
+function forum_dropdown(string $ddname = 'forum', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -930,7 +930,7 @@ function forum_dropdown($ddname = 'forum', $selected = -1)
  * Not specifying this or setting it to -1 makes the first forum alphabetically be selected.
  * @return string The HTML code for the listbox, to be inserted in a form.
  */
-function forum2_dropdown($ddname = 'forum', $selected = -1)
+function forum2_dropdown(string $ddname = 'forum', int $selected = -1)
 {
     global $db;
     $ret = "<select name='$ddname' type='dropdown'>";
@@ -967,7 +967,7 @@ function forum2_dropdown($ddname = 'forum', $selected = -1)
  * Records an action by a member of staff in the central staff log.
  * @param string $text The log's text. This should be fully sanitized for HTML, but not pre-escaped for database insertion.
  */
-function stafflog_add($text)
+function stafflog_add(string $text)
 {
     global $db, $ir;
     $IP = $db->escape($_SERVER['REMOTE_ADDR']);
@@ -982,7 +982,7 @@ function stafflog_add($text)
  * @param string $formid A unique string used to identify this form to match up its submission with the right token.
  * @return string The code issued to be added to the form.
  */
-function request_csrf_code($formid)
+function request_csrf_code(string $formid)
 {
     // Generate the token
     $token = md5(mt_rand());
@@ -998,7 +998,7 @@ function request_csrf_code($formid)
  * @param string $formid A unique string used to identify this form to match up its submission with the right token.
  * @return string The HTML for the code issued to be added to the form.
  */
-function request_csrf_html($formid)
+function request_csrf_html(string $formid)
 {
     return "<input type='hidden' name='verf' value='"
             . request_csrf_code($formid) . "' />";
@@ -1010,7 +1010,7 @@ function request_csrf_html($formid)
  * @param string $code The code the user's form input returned.
  * @return bool Whether the user provided a valid code or not
  */
-function verify_csrf_code($formid, $code)
+function verify_csrf_code(string $formid, string $code)
 {
     // Lookup the token entry
     // Is there a token in existence?
@@ -1055,7 +1055,7 @@ function verify_csrf_code($formid, $code)
  * @return bool    true for equal, false for not (login failed etc)
  *
  */
-function verify_user_password($input, $salt, $pass)
+function verify_user_password(string $input, string $salt, string $pass)
 {
     return ($pass === encode_password($input, $salt));
 }
@@ -1072,7 +1072,7 @@ function verify_user_password($input, $salt, $pass)
  *
  * @return string	The resulting encoded password.
  */
-function encode_password($password, $salt, $already_md5 = false)
+function encode_password(string $password, string $salt, bool $already_md5 = false)
 {
     if (!$already_md5)
     {
@@ -1148,7 +1148,7 @@ function is_ajax()
  * 						not determine its size.
  */
 
-function get_filesize_remote($url)
+function get_filesize_remote(string $url)
 {
     // Retrieve headers
     if (strlen($url) < 8)
