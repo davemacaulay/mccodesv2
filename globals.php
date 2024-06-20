@@ -101,6 +101,7 @@ else
                      LIMIT 1");
 }
 $ir = $db->fetch_row($is);
+set_userdata_data_types($ir);
 if ($ir['force_logout'] > 0)
 {
     $db->query(

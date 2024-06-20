@@ -1232,3 +1232,32 @@ function get_filesize_remote(string $url): int
     }
     return (int) $headers['content-length'];
 }
+
+/**
+ * Typecasting the player data array - tasty - to set values to have the expected data types.
+ * Ideally, this engine should be updated to use db abstraction from column types.
+ * Note: The match() array is not an exhaustive list, simply the types found in the default bundled dbdata.sql.
+ * Note: At the time of writing, there are no overlapping column types. Consider that a growing project will likely hit this "gotcha!".
+ * @param array $ir
+ * @return void
+ */
+function set_userdata_data_types(array &$ir): void
+{
+    global $db, $_CONFIG;
+    $types_query = $db->query('SELECT COLUMN_NAME AS colName, DATA_TYPE AS dataType FROM information_schema.COLUMNS WHERE COLUMNS.TABLE_SCHEMA = \''.$_CONFIG['database'].'\' AND COLUMNS.TABLE_NAME IN (\'users\', \'userstats\', \'houses\', \'jobs\', \'jobranks\')');
+    $data = [];
+    while ($row = $db->fetch_row($types_query)) {
+        $data[$row['colName']] = match ($row['dataType']) {
+            'tinyint', 'bool' => 'bool',
+            'smallint', 'int', 'bigint' => 'int',
+            'varchar', 'tinytext', 'smalltext', 'text', 'longtext', 'enum' => 'string',
+            'float', 'decimal' => 'float',
+            default => null,
+        };
+    }
+    foreach ($ir as $column => $value) {
+        if (array_key_exists($column, $data) && $data[$column] !== null) {
+            settype($ir[$column], $data[$column]);
+        }
+    }
+}
