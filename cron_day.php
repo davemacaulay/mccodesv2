@@ -23,7 +23,7 @@ declare(strict_types=1);
  */
 global $db, $_CONFIG;
 require_once('globals_nonauth.php');
-if ($argc == 2)
+if (isset($argc) && $argc == 2)
 {
     if ($argv[1] != $_CONFIG['code'])
     {
