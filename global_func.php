@@ -779,11 +779,11 @@ function check_level(): void
 
 /**
  * Get the "rank" a user has for a particular stat - if the return is n, then the user has the nth-highest value for that stat.
- * @param string|int $stat The value of the current user's stat.
+ * @param int|float $stat The value of the current user's stat.
  * @param string $mykey The stat to be ranked in. Must be a valid column name in the userstats table
  * @return int The user's rank in the stat
  */
-function get_rank(string|int $stat, string $mykey): int
+function get_rank(int|float $stat, string $mykey): int
 {
     global $db, $userid;
     $q =
