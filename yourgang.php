@@ -328,7 +328,7 @@ function gang_memberlist()
 
 function gang_staff_kick()
 {
-    global $db, $ir, $c, $userid, $gangdata;
+    global $db, $ir, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid
             || $gangdata['gangVICEPRES'] == $userid)
     {
@@ -789,7 +789,7 @@ function gang_staff_idx()
 
 function gang_staff_apps()
 {
-    global $db, $ir, $c, $userid, $gangdata, $h;
+    global $db, $ir, $userid, $gangdata, $h;
     $_POST['app'] =
             (isset($_POST['app']) && is_numeric($_POST['app']))
                     ? abs(intval($_POST['app'])) : '';
@@ -953,7 +953,7 @@ function gang_staff_apps()
 
 function gang_staff_vault()
 {
-    global $db, $c, $gangdata;
+    global $db, $gangdata;
     $_POST['who'] =
             (isset($_POST['who']) && is_numeric($_POST['who']))
                     ? abs(intval($_POST['who'])) : '';
@@ -1052,7 +1052,7 @@ function gang_staff_vault()
 
 function gang_staff_vicepres()
 {
-    global $db, $c, $gangdata;
+    global $db, $gangdata;
     if (isset($_POST['subm']))
     {
         csrf_stdverify('gang_staff_vicepres', 'staff&amp;act2=vicepres');
@@ -1481,7 +1481,7 @@ function gang_staff_orgcrimes()
 
 function gang_staff_pres()
 {
-    global $db, $c, $userid, $gangdata;
+    global $db, $userid, $gangdata;
     if ($gangdata['gangPRESIDENT'] == $userid)
     {
         if (isset($_POST['subm']))
@@ -1628,7 +1628,7 @@ function gang_staff_massmailer()
 
 function gang_staff_masspayment()
 {
-    global $db, $c, $gangdata;
+    global $db, $gangdata;
     $_POST['amt'] =
             (isset($_POST['amt']) && is_numeric($_POST['amt']))
                     ? abs(intval($_POST['amt'])) : 0;

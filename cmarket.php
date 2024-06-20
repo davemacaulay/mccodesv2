@@ -142,7 +142,7 @@ function crystal_remove()
 
 function crystal_buy()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid, $h;
     $_GET['ID'] =
             (isset($_GET['ID']) && is_numeric($_GET['ID']))
                     ? abs(intval($_GET['ID'])) : '';

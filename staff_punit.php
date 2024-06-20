@@ -284,7 +284,7 @@ function mail_user_form()
 
 function mail_user_submit()
 {
-    global $db, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_mailbanuser',
             'staff_punit.php?action=mailform');
     $_POST['user'] =
@@ -364,7 +364,7 @@ function forum_user_form()
 
 function forum_user_submit()
 {
-    global $db, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_forumbanuser',
             'staff_punit.php?action=forumform');
     $_POST['user'] =
@@ -496,7 +496,7 @@ function unmail_user_form()
 
 function unmail_user_submit()
 {
-    global $db, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_unmailbanuser',
             'staff_punit.php?action=unmailform');
     $_POST['user'] =
@@ -552,7 +552,7 @@ function unforum_user_form()
 
 function unforum_user_submit()
 {
-    global $db, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_unforumbanuser',
             'staff_punit.php?action=unforumform');
     $_POST['user'] =

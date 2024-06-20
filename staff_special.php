@@ -120,7 +120,7 @@ function give_dp_form()
 
 function give_dp_submit()
 {
-    global $db, $c, $h;
+    global $db, $h;
     staff_csrf_stdverify('staff_givedp', 'staff_special.php?action=givedpform');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))

@@ -479,7 +479,7 @@ function admin_gang_edit_begin()
 
 function admin_gang_edit_name()
 {
-    global $db, $ir, $userid, $h, $c;
+    global $db, $ir, $h;
     if (!in_array($ir['user_level'], [2, 3]))
     {
         echo 'You cannot access this area.<br />

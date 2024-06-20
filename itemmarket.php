@@ -197,7 +197,7 @@ function itemm_remove()
 
 function item_buy()
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid, $h;
     $_GET['ID'] =
             (isset($_GET['ID']) && is_numeric($_GET['ID']))
                     ? abs(intval($_GET['ID'])) : '';
