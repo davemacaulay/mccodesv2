@@ -1858,6 +1858,13 @@ function deletopic(): void
     stafflog_add("Deleted topic {$topic['ft_name']}");
 }
 
+/**
+ * @param int $pages
+ * @param int $st
+ * @param int $pst
+ * @param int $topic_id
+ * @return void
+ */
 function display_pagination(int $pages, int $st, int $pst, int $topic_id): void
 {
     echo 'Pages: ';
