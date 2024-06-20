@@ -327,8 +327,7 @@ function install()
             isset($_POST['database']) ? gpc_cleanup($_POST['database']) : '';
     $db_driver =
             (isset($_POST['driver'])
-                    && in_array($_POST['driver'], array('mysqli'),
-                            true)) ? $_POST['driver'] : 'mysqli';
+                    && $_POST['driver'] === 'mysqli') ? $_POST['driver'] : 'mysqli';
     $errors = array();
     if (empty($db_hostname))
     {
