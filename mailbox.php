@@ -353,7 +353,7 @@ function mail_send()
 		<a href='mailbox.php'>&gt; Back</a>";
         die($h->endpage());
     }
-    $sendto = ($_POST['user1']) ? $_POST['user1'] : $_POST['user2'];
+    $sendto = $_POST['user1'] ?: $_POST['user2'];
     $q =
             $db->query(
                     "SELECT `userid`
