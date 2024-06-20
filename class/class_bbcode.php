@@ -7,7 +7,7 @@ class bbcode
 
     public function __construct()
     {
-        require 'bbcode_engine.php';
+        require __DIR__ . '/bbcode_engine.php';
         $this->engine = $this->getEngine();
         $this->engine->cust_tag('/</', '&lt;');
         $this->engine->cust_tag('/>/', '&gt;');
