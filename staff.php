@@ -41,10 +41,10 @@ switch ($_GET['action']) {
 /**
  * @param string $name
  * @param array $options
- * @param string|int|float|null $selected
+ * @param mixed $selected
  * @return string
  */
-function render_menu_options(string $name, array $options, string|int|float|null $selected = null): string
+function render_menu_options(string $name, array $options, mixed $selected = null): string
 {
     $ret = '<select name="' . $name . '">';
     foreach ($options as $key => $value) {
