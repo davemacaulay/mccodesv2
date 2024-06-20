@@ -141,10 +141,10 @@ class database
     }
 
     /**
-     * @param int $result
+     * @param mysqli_result|int $result
      * @return false|array|null
      */
-    public function fetch_row(int $result = 0): false|array|null
+    public function fetch_row(mysqli_result|int $result = 0): false|array|null
     {
         if (!$result) {
             $result = $this->result;
@@ -153,10 +153,10 @@ class database
     }
 
     /**
-     * @param int $result
+     * @param mysqli_result|int $result
      * @return int|string
      */
-    public function num_rows(int $result = 0): int|string
+    public function num_rows(mysqli_result|int $result = 0): int|string
     {
         if (!$result) {
             $result = $this->result;
@@ -173,10 +173,10 @@ class database
     }
 
     /**
-     * @param int $result
+     * @param mysqli_result|int $result
      * @return mixed
      */
-    public function fetch_single(int $result = 0): mixed
+    public function fetch_single(mysqli_result|int $result = 0): mixed
     {
         if (!$result) {
             $result = $this->result;
@@ -234,10 +234,10 @@ class database
     }
 
     /**
-     * @param $result
+     * @param mysqli_result|int $result
      * @return void
      */
-    public function free_result($result): void
+    public function free_result(mysqli_result|int $result): void
     {
         mysqli_free_result($result);
     }
