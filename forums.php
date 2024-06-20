@@ -486,6 +486,56 @@ You have no permission to view this forum.<br />
 }
 
 /**
+ * @param int $topic_id
+ * @return array|false|void|null
+ */
+function get_topic(int $topic_id)
+{
+    global $db, $h;
+    $q =
+        $db->query(
+            "SELECT `ft_forum_id`, `ft_name`, `ft_posts`, `ft_id`,
+                    `ft_locked`
+                     FROM `forum_topics`
+                     WHERE `ft_id` = {$topic_id}");
+    if ($db->num_rows($q) == 0)
+    {
+        $db->free_result($q);
+        echo 'Topic doesn\'t exist.<br />
+        	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
+        $h->endpage();
+        exit;
+    }
+    $topic = $db->fetch_row($q);
+    $db->free_result($q);
+    return $topic;
+}
+
+/**
+ * @param int $forum_id
+ * @return array|false|void|null
+ */
+function get_forum(int $forum_id)
+{
+    global $db, $h;
+    $q2 =
+        $db->query(
+            "SELECT `ff_auth`, `ff_owner`, `ff_id`, `ff_name`
+                    FROM `forum_forums`
+                    WHERE `ff_id` = {$forum_id}");
+    if ($db->num_rows($q2) == 0)
+    {
+        $db->free_result($q2);
+        echo 'Forum doesn\'t exist.<br />
+        	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
+        $h->endpage();
+        exit;
+    }
+    $forum = $db->fetch_row($q2);
+    $db->free_result($q2);
+    return $forum;
+}
+/**
  * @return void
  */
 function viewtopic(): void
@@ -502,37 +552,8 @@ function viewtopic(): void
         $h->endpage();
         exit;
     }
-    $q =
-            $db->query(
-                    "SELECT `ft_forum_id`, `ft_name`, `ft_posts`, `ft_id`,
-                    `ft_locked`
-                     FROM `forum_topics`
-                     WHERE `ft_id` = {$_GET['viewtopic']}");
-    if ($db->num_rows($q) == 0)
-    {
-        $db->free_result($q);
-        echo 'Topic doesn\'t exist.<br />
-        	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
-    $topic = $db->fetch_row($q);
-    $db->free_result($q);
-    $q2 =
-            $db->query(
-                    "SELECT `ff_auth`, `ff_owner`, `ff_id`, `ff_name`
-                    FROM `forum_forums`
-                    WHERE `ff_id` = {$topic['ft_forum_id']}");
-    if ($db->num_rows($q2) == 0)
-    {
-        $db->free_result($q2);
-        echo 'Forum doesn\'t exist.<br />
-        	  &gt; <a href="forums.php" title="Go Back">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
-    $forum = $db->fetch_row($q2);
-    $db->free_result($q2);
+    $topic = get_topic($_GET['viewtopic']);
+    $forum = get_forum((int)$topic['ft_forum_id']);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner']
             && $ir['user_level'] < 2)
             || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
@@ -552,57 +573,16 @@ You have no permission to view this forum.<br />
     	  <br /><br />";
     $posts_per_page = 20;
     $posts_topic = $topic['ft_posts'];
-    $pages = ceil($posts_topic / $posts_per_page);
+    $pages = (int)ceil($posts_topic / $posts_per_page);
     $st =
-            (isset($_GET['st']) && is_numeric($_GET['st']))
-                    ? abs((int) $_GET['st']) : 0;
+        (isset($_GET['st']) && is_numeric($_GET['st']))
+            ? abs((int) $_GET['st']) : 0;
     if (isset($_GET['lastpost']))
     {
         $st = ($pages - 1) * 20;
     }
-    $pst = -20;
-    echo 'Pages: ';
-    for ($i = 1; $i <= $pages; $i++)
-    {
-        $pst += 20;
-        echo "<a href='forums.php?viewtopic={$topic['ft_id']}&st=$pst'>";
-        if ($pst == $st)
-        {
-            echo '<b>';
-        }
-        echo $i;
-        if ($pst == $st)
-        {
-            echo '</b>';
-        }
-        echo '</a>&nbsp;';
-        if ($i % 25 == 0)
-        {
-            echo '<br />';
-        }
-    }
-    echo '<br />';
-    if ($ir['user_level'] > 1)
-    {
-        echo "
-	<form action='forums.php?act=move&amp;topic={$_GET['viewtopic']}' method='post'>
-    <b>Move topic to:</b> " . forum_dropdown('forum', -1)
-                . "
-	<input type='submit' value='Move' />
-	</form>
-	<br />
-	<a href='forums.php?act=pin&amp;topic={$_GET['viewtopic']}'>
-		<img src='sticky.jpg' alt='Pin/Unpin Topic' title='Pin/Unpin Topic' />
-	</a>
-	<a href='forums.php?act=lock&amp;topic={$_GET['viewtopic']}'>
-		<img src='lock.jpg' alt='Lock/Unlock Topic' title='Lock/Unlock Topic' />
-	</a>
-	<a href='forums.php?act=deletopic&amp;topic={$_GET['viewtopic']}'>
-		<img src='delete.gif' alt='Delete Topic' title='Delete Topic' />
-	</a><br />
-            ";
-    }
-    echo "<table cellspacing='1' class='table' width='100%'>\n";
+    display_pagination($pages, $st, -20, (int)$topic['ft_id']);
+    topic_management_options($ir['user_level']);
     $q3 =
             $db->query(
                     "SELECT `fp_poster_name`, `fp_editor_time`,
@@ -616,83 +596,10 @@ You have no permission to view this forum.<br />
     $no = $st;
     while ($r = $db->fetch_row($q3))
     {
-        $av = '';
-        $rank = '';
-        $qlink =
-                "[<a href='forums.php?act=quote&amp;viewtopic={$_GET['viewtopic']}&amp;quotename="
-                        . urlencode(
-                                htmlentities($r['fp_poster_name'], ENT_QUOTES,
-                                        'ISO-8859-1')) . '&amp;quotetext='
-                        . urlencode(
-                                htmlentities($r['fp_text'], ENT_QUOTES,
-                                        'ISO-8859-1')) . "'>Quote Post</a>]";
-        if ($ir['user_level'] > 1 || $ir['userid'] == $r['fp_poster_id'])
-        {
-            $elink =
-                    "[<a href='forums.php?act=edit&amp;post={$r['fp_id']}&amp;topic={$_GET['viewtopic']}'>Edit Post</a>]";
-        }
-        else
-        {
-            $elink = '';
-        }
-        $no++;
-        if ($no > 1 and $ir['user_level'] > 1)
-        {
-            $dlink =
-                    "[<a href='forums.php?act=delepost&amp;post={$r['fp_id']}'>Delete Post</a>]";
-        }
-        else
-        {
-            $dlink = '';
-        }
+        [$qlink, $elink, $dlink] = get_links($r, $no);
         $t = date('F j Y, g:i:s a', $r['fp_time']);
-        if ($r['fp_edit_count'] > 0)
-        {
-            $edittext =
-                    "\n<br /><i>Last edited by <a href='viewuser.php?u={$r['fp_editor_id']}'>{$r['fp_editor_name']}</a> at "
-                            . date('F j Y, g:i:s a', $r['fp_editor_time'])
-                            . ", edited <b>{$r['fp_edit_count']}</b> times in total.</i>";
-        }
-        else
-        {
-            $edittext = '';
-        }
-        if (!isset($precache[$r['fp_poster_id']]))
-        {
-            $membq =
-                    $db->query(
-                            "SELECT `userid`, `posts`, `forums_avatar`,
-                            `forums_signature`, `level`
-                             FROM `users`
-                             WHERE `userid` = {$r['fp_poster_id']}");
-            if ($db->num_rows($membq) == 0)
-            {
-                $memb = ['userid' => 0, 'forums_signature' => ''];
-            }
-            else
-            {
-                $memb = $db->fetch_row($membq);
-            }
-            $db->free_result($membq);
-            $precache[$memb['userid']] = $memb;
-        }
-        else
-        {
-            $memb = $precache[$r['fp_poster_id']];
-        }
-        if ($memb['userid'] > 0)
-        {
-            $rank = forums_rank($memb['posts']);
-            $av =
-                    ($memb['forums_avatar'])
-                            ? '<img src="' . $memb['forums_avatar']
-                                    . '" width="150px" height="150px" />'
-                            : '<img src="noav.gif" />';
-            $memb['forums_signature'] =
-                    ($memb['forums_signature'])
-                            ? $bbc->bbcode_parse($memb['forums_signature'])
-                            : 'No Signature';
-        }
+        $edittext = get_edit_text($r);
+        [$memb, $av, $rank] = get_cached_userdata($r['fp_poster_id'], $precache);
         $r['fp_text'] = $bbc->bbcode_parse($r['fp_text']);
         echo "<tr>
 				<th align='center'>Post #{$no}</th>
@@ -728,29 +635,98 @@ You have no permission to view this forum.<br />
     }
     $db->free_result($q3);
     echo '</table>';
-    $pst = -20;
-    echo 'Pages: ';
-    for ($i = 1; $i <= $pages; $i++)
+    display_pagination($pages, $st, -20, (int)$topic['ft_id']);
+    topic_response_form($topic);
+}
+
+/**
+ * @param array $r
+ * @return string
+ */
+function get_edit_text(array $r): string
+{
+    return $r['fp_edit_count'] > 0
+        ? "\n<br /><i>Last edited by <a href='viewuser.php?u={$r['fp_editor_id']}'>{$r['fp_editor_name']}</a> at "
+            . date('F j Y, g:i:s a', $r['fp_editor_time'])
+            . ", edited <b>{$r['fp_edit_count']}</b> times in total.</i>"
+        : '';
+}
+
+/**
+ * @param int|string $fp_poster_id
+ * @param array $precache
+ * @return array
+ */
+function get_cached_userdata(int|string $fp_poster_id, array &$precache): array
+{
+    global $db, $bbc;
+    if (!isset($precache[$fp_poster_id]))
     {
-        $pst += 20;
-        echo "<a href='forums.php?viewtopic={$topic['ft_id']}&amp;st=$pst'>";
-        if ($pst == $st)
-        {
-            echo '<b>';
-        }
-        echo $i;
-        if ($pst == $st)
-        {
-            echo '</b>';
-        }
-        echo '</a>&nbsp;';
-        if ($i % 25 == 0)
-        {
-            echo '<br />';
-        }
+        $membq =
+            $db->query(
+                "SELECT `userid`, `posts`, `forums_avatar`,
+                            `forums_signature`, `level`
+                             FROM `users`
+                             WHERE `userid` = {$fp_poster_id}");
+        $memb  = !$db->num_rows($membq) ? ['userid' => 0, 'forums_signature' => ''] : $db->fetch_row($membq);
+        $db->free_result($membq);
+        $precache[$memb['userid']] = $memb;
     }
-    if ($topic['ft_locked'] == 0)
+    else
     {
+        $memb = $precache[$fp_poster_id];
+    }
+    $av = '';
+    $rank = '';
+    if ($memb['userid'] > 0)
+    {
+        $rank = forums_rank($memb['posts']);
+        $av = $memb['forums_avatar']
+            ? '<img src="' . $memb['forums_avatar'] . '" width="150px" height="150px" />'
+            : '<img src="noav.gif" />';
+        $memb['forums_signature'] = $memb['forums_signature']
+            ? $bbc->bbcode_parse($memb['forums_signature'])
+            : 'No Signature';
+    }
+    return [$memb, $av, $rank];
+}
+
+/**
+ * @param $user_level
+ * @return void
+ */
+function topic_management_options($user_level): void
+{
+    echo '<br />';
+    if ($user_level > 1) {
+        echo "
+	<form action='forums.php?act=move&amp;topic={$_GET['viewtopic']}' method='post'>
+    <b>Move topic to:</b> " . forum_dropdown('forum', -1)
+            . "
+	<input type='submit' value='Move' />
+	</form>
+	<br />
+	<a href='forums.php?act=pin&amp;topic={$_GET['viewtopic']}'>
+		<img src='sticky.jpg' alt='Pin/Unpin Topic' title='Pin/Unpin Topic' />
+	</a>
+	<a href='forums.php?act=lock&amp;topic={$_GET['viewtopic']}'>
+		<img src='lock.jpg' alt='Lock/Unlock Topic' title='Lock/Unlock Topic' />
+	</a>
+	<a href='forums.php?act=deletopic&amp;topic={$_GET['viewtopic']}'>
+		<img src='delete.gif' alt='Delete Topic' title='Delete Topic' />
+	</a><br />
+            ";
+    }
+    echo "<table cellspacing='1' class='table' width='100%'>\n";
+}
+
+/**
+ * @param false|array|null $topic
+ * @return void
+ */
+function topic_response_form(false|array|null $topic): void
+{
+    if ($topic['ft_locked'] == 0) {
         $reply_csrf = request_csrf_code("forums_reply_{$topic['ft_id']}");
         echo <<<EOF
 <br /><br />
@@ -772,9 +748,7 @@ You have no permission to view this forum.<br />
 </table>
 </form>
 EOF;
-    }
-    else
-    {
+    } else {
         echo '<br /><br />
 <i>This topic has been locked, you cannot reply to it.</i>';
     }
@@ -1882,6 +1856,52 @@ function deletopic(): void
     echo 'Deleting topic... Done<br />';
     recache_forum($topic['ft_forum_id']);
     stafflog_add("Deleted topic {$topic['ft_name']}");
+}
+
+function display_pagination(int $pages, int $st, int $pst, int $topic_id): void
+{
+    echo 'Pages: ';
+    for ($i = 1; $i <= $pages; $i++)
+    {
+        $pst += 20;
+        echo "<a href='forums.php?viewtopic={$topic_id}&st=$pst'>";
+        if ($pst == $st)
+        {
+            echo '<b>';
+        }
+        echo $i;
+        if ($pst == $st)
+        {
+            echo '</b>';
+        }
+        echo '</a>&nbsp;';
+        if ($i % 25 == 0)
+        {
+            echo '<br />';
+        }
+    }
+}
+
+/**
+ * @param array $r
+ * @param int $no
+ * @return string[]
+ */
+function get_links(array $r, int &$no): array
+{
+    global $ir;
+    $qlink =
+        "[<a href='forums.php?act=quote&amp;viewtopic={$_GET['viewtopic']}&amp;quotename="
+        . urlencode(
+            htmlentities($r['fp_poster_name'], ENT_QUOTES,
+                'ISO-8859-1')) . '&amp;quotetext='
+        . urlencode(
+            htmlentities($r['fp_text'], ENT_QUOTES,
+                'ISO-8859-1')) . "'>Quote Post</a>]";
+    $elink = $ir['user_level'] > 1 || $ir['userid'] == $r['fp_poster_id'] ? "[<a href='forums.php?act=edit&amp;post={$r['fp_id']}&amp;topic={$_GET['viewtopic']}'>Edit Post</a>]" : '';
+    $no++;
+    $dlink = ($no > 1 && $ir['user_level'] > 1) ? "[<a href='forums.php?act=delepost&amp;post={$r['fp_id']}'>Delete Post</a>]" : '';
+    return [$qlink, $elink, $dlink];
 }
 
 $h->endpage();
