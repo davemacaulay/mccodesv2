@@ -23,12 +23,12 @@ declare(strict_types=1);
 
 /**
  * Return the difference between the current time and a given time, formatted in appropriate units so the number is not too big or small.
- * @param int $time_stamp The timestamp to find the difference to.
+ * @param string|int $time_stamp The timestamp to find the difference to.
  * @return string The difference formatted in units so that the numerical component is not less than 1 or absurdly large.
  */
-function datetime_parse(int $time_stamp): string
+function datetime_parse(string|int $time_stamp): string
 {
-    $time_difference = ($_SERVER['REQUEST_TIME'] - $time_stamp);
+    $time_difference = ($_SERVER['REQUEST_TIME'] - (int)$time_stamp);
     $unit =
             ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
     $lengths = [60, 60, 24, 7, 4.35, 12];
@@ -44,13 +44,13 @@ function datetime_parse(int $time_stamp): string
 
 /**
  * Format money in the way humans expect to read it.
- * @param int|float $muny The amount of money to display
+ * @param int|float|string $muny The amount of money to display
  * @param string $symb The money unit symbol to use, e.g. $
  * @return string
  */
-function money_formatter(int|float $muny, string $symb = '$'): string
+function money_formatter(int|float|string $muny, string $symb = '$'): string
 {
-    return $symb . number_format($muny);
+    return $symb . number_format((float)$muny);
 }
 
 /**
@@ -779,11 +779,11 @@ function check_level(): void
 
 /**
  * Get the "rank" a user has for a particular stat - if the return is n, then the user has the nth-highest value for that stat.
- * @param int $stat The value of the current user's stat.
+ * @param string|int $stat The value of the current user's stat.
  * @param string $mykey The stat to be ranked in. Must be a valid column name in the userstats table
  * @return int The user's rank in the stat
  */
-function get_rank(int $stat, string $mykey): int
+function get_rank(string|int $stat, string $mykey): int
 {
     global $db, $userid;
     $q =
