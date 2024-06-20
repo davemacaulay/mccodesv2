@@ -463,7 +463,7 @@ function item_gift1(): void
 
 function item_gift2(): void
 {
-    global $db, $ir, $c, $userid, $h;
+    global $db, $ir, $userid, $h;
     $_POST['QTY'] =
             (isset($_POST['QTY']) && is_numeric($_POST['QTY']))
                     ? abs(intval($_POST['QTY'])) : '';
