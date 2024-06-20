@@ -45,6 +45,14 @@ class headers
 EOF;
     }
 
+    /**
+     * @param $ir
+     * @param $lv
+     * @param $fm
+     * @param $cm
+     * @param $dosessh
+     * @return void
+     */
     public function userdata($ir, $lv, $fm, $cm, $dosessh = 1): void
     {
         global $db, $userid, $set;

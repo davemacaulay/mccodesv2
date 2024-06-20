@@ -27,6 +27,10 @@ class bbcode_engine
     public array $parsings = [];
     public array $htmls = [];
 
+    /**
+     * @param $tag
+     * @return void
+     */
     public function simple_bbcode_tag($tag = ''): void
     {
 
@@ -37,6 +41,11 @@ class bbcode_engine
         $this->htmls[]    = '<' . $tag . ">\\1</" . $tag . '>';
     }
 
+    /**
+     * @param $tag
+     * @param $reptag
+     * @return void
+     */
     public function adv_bbcode_tag($tag = '', $reptag = ''): void
     {
 
@@ -48,6 +57,11 @@ class bbcode_engine
         $this->htmls[]    = '<' . $reptag . ">\\1</" . $reptag . '>';
     }
 
+    /**
+     * @param $tag
+     * @param $optionval
+     * @return void
+     */
     public function simple_option_tag($tag = '', $optionval = ''): void
     {
 
@@ -60,6 +74,12 @@ class bbcode_engine
             '<' . $tag . ' ' . $optionval . "='\\1'>\\2</" . $tag . '>';
     }
 
+    /**
+     * @param $tag
+     * @param $reptag
+     * @param $optionval
+     * @return void
+     */
     public function adv_option_tag($tag = '', $reptag = '', $optionval = ''): void
     {
 
@@ -73,6 +93,12 @@ class bbcode_engine
             . '>';
     }
 
+    /**
+     * @param $tag
+     * @param $reptag
+     * @param $optionval
+     * @return void
+     */
     public function adv_option_tag_em($tag = '', $reptag = '', $optionval = ''): void
     {
 
@@ -86,6 +112,11 @@ class bbcode_engine
             . $reptag . '>';
     }
 
+    /**
+     * @param $tag
+     * @param $optionval
+     * @return void
+     */
     public function simp_option_notext($tag = '', $optionval = ''): void
     {
 
@@ -96,6 +127,12 @@ class bbcode_engine
         $this->htmls[]    = '<' . $tag . ' ' . $optionval . "='\\1' />";
     }
 
+    /**
+     * @param $tag
+     * @param $reptag
+     * @param $optionval
+     * @return void
+     */
     public function adv_option_notext($tag = '', $reptag = '', $optionval = ''): void
     {
 
@@ -106,6 +143,12 @@ class bbcode_engine
         $this->htmls[]    = '<' . $reptag . ' ' . $optionval . "='\\1' />";
     }
 
+    /**
+     * @param $tag
+     * @param $reptag
+     * @param $optionval
+     * @return void
+     */
     public function adv_option_notext_em($tag = '', $reptag = '', $optionval = ''): void
     {
 
@@ -118,6 +161,11 @@ class bbcode_engine
             . $reptag . '>';
     }
 
+    /**
+     * @param $tag
+     * @param $optionval
+     * @return void
+     */
     public function simp_bbcode_att($tag = '', $optionval = ''): void
     {
 
@@ -128,6 +176,12 @@ class bbcode_engine
         $this->htmls[]    = '<' . $tag . ' ' . $optionval . "='\\1' />";
     }
 
+    /**
+     * @param $tag
+     * @param $reptag
+     * @param $optionval
+     * @return void
+     */
     public function adv_bbcode_att($tag = '', $reptag = '', $optionval = ''): void
     {
 
@@ -138,6 +192,12 @@ class bbcode_engine
         $this->htmls[]    = '<' . $reptag . ' ' . $optionval . "='\\1' />";
     }
 
+    /**
+     * @param $tag
+     * @param $reptag
+     * @param $optionval
+     * @return void
+     */
     public function adv_bbcode_att_em($tag = '', $reptag = '', $optionval = ''): void
     {
 
@@ -150,6 +210,11 @@ class bbcode_engine
             . $reptag . '>';
     }
 
+    /**
+     * @param $bbcode
+     * @param $html
+     * @return void
+     */
     public function cust_tag($bbcode = '', $html = ''): void
     {
 
@@ -160,6 +225,10 @@ class bbcode_engine
         $this->htmls[]    = $html;
     }
 
+    /**
+     * @param $text
+     * @return array|string|null
+     */
     public function parse_bbcode($text): array|string|null
     {
 

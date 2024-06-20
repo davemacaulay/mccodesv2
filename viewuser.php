@@ -295,6 +295,10 @@ else
     }
 }
 
+/**
+ * @param $in
+ * @return mixed|string
+ */
 function checkblank($in)
 {
     if (!$in)

@@ -190,6 +190,13 @@ function give_dp_submit(): void
     exit;
 }
 
+/**
+ * @param $userid
+ * @param $level
+ * @param $desc
+ * @param $csrf
+ * @return string
+ */
 function staff_userlevel_innerform($userid, $level, $desc, $csrf): string
 {
     return "

@@ -31,6 +31,12 @@ declare(strict_types=1);
 // Change to true to show the user more information (for development)
 const DEBUG = false;
 
+/**
+ * @param $human_error
+ * @param $debug_error
+ * @param $action
+ * @return void
+ */
 function error_critical($human_error, $debug_error, $action): void
 {
     // Clear anything that was going to be shown
@@ -75,8 +81,16 @@ function error_critical($human_error, $debug_error, $action): void
     exit;
 }
 
+/**
+ * @param $errno
+ * @param $errstr
+ * @param $errfile
+ * @param $errline
+ * @param $errcontext
+ * @return void
+ */
 function error_php($errno, $errstr, $errfile = '', $errline = 0,
-        $errcontext = []): void
+                   $errcontext = []): void
 {
     // What's happened?
     // If it's a PHP warning or user error/warning, don't go further - indicates bad code, unsafe

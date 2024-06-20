@@ -36,6 +36,9 @@ if (!extension_loaded('mysqli')) {
         debug_backtrace());
 }
 
+/**
+ *
+ */
 class database
 {
     public string $host;
@@ -48,6 +51,13 @@ class database
     public int $num_queries = 0;
     public array $queries = [];
 
+    /**
+     * @param $host
+     * @param $user
+     * @param $pass
+     * @param $database
+     * @return int
+     */
     public function configure($host, $user, $pass, $database): int
     {
         $this->host     = $host;
@@ -89,6 +99,10 @@ class database
         }
     }
 
+    /**
+     * @param $database
+     * @return void
+     */
     public function change_db($database): void
     {
         if (!mysqli_select_db($this->connection_id, $database)) {
@@ -100,6 +114,10 @@ class database
         $this->database = $database;
     }
 
+    /**
+     * @param $query
+     * @return mysqli_result|bool
+     */
     public function query($query): mysqli_result|bool
     {
         $this->last_query = $query;
@@ -116,6 +134,10 @@ class database
         return $this->result;
     }
 
+    /**
+     * @param $result
+     * @return false|array|null
+     */
     public function fetch_row($result = 0): false|array|null
     {
         if (!$result) {
@@ -124,6 +146,10 @@ class database
         return mysqli_fetch_assoc($result);
     }
 
+    /**
+     * @param $result
+     * @return int|string
+     */
     public function num_rows($result = 0): int|string
     {
         if (!$result) {
@@ -137,6 +163,10 @@ class database
         return mysqli_insert_id($this->connection_id);
     }
 
+    /**
+     * @param $result
+     * @return mixed
+     */
     public function fetch_single($result = 0)
     {
         if (!$result) {
@@ -148,6 +178,11 @@ class database
         return $temp[0];
     }
 
+    /**
+     * @param $table
+     * @param $data
+     * @return mysqli_result|bool
+     */
     public function easy_insert($table, $data): mysqli_result|bool
     {
         $query = "INSERT INTO `$table` (";
@@ -172,6 +207,10 @@ class database
         return $this->query($query);
     }
 
+    /**
+     * @param $text
+     * @return string
+     */
     public function escape($text): string
     {
         return mysqli_real_escape_string($this->connection_id, $text);
@@ -182,6 +221,10 @@ class database
         return mysqli_affected_rows($this->connection_id);
     }
 
+    /**
+     * @param $result
+     * @return void
+     */
     public function free_result($result): void
     {
         mysqli_free_result($result);

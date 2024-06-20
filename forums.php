@@ -25,6 +25,9 @@ $forums = 1;
 global $ir, $h;
 require_once('globals.php');
 
+/**
+ *
+ */
 class bbcode
 {
     public bbcode_engine|string $engine = '';
@@ -90,6 +93,10 @@ class bbcode
         $this->engine->cust_tag('/\[\*\]/', '<li>');
     }
 
+    /**
+     * @param $html
+     * @return array|string|null
+     */
     public function bbcode_parse($html): array|string|null
     {
         $html =
@@ -105,6 +112,10 @@ class bbcode
         return $this->engine->parse_bbcode($this->quote_corrector($html));
     }
 
+    /**
+     * @param $in
+     * @return mixed|string
+     */
     public function quote_corrector($in)
     {
         $quotes       = substr_count($in, '[/quote]');
@@ -134,6 +145,10 @@ class bbcode
     }
 }
 
+/**
+ * @param $src
+ * @return string
+ */
 function check_image($src): string
 {
     if (str_contains($src, '.php') || str_contains($src, '.asp')
@@ -164,6 +179,10 @@ function check_image($src): string
     return "<img src='{$src}' title='{$the_title}' alt='{$the_title}' />";
 }
 
+/**
+ * @param $tp
+ * @return string
+ */
 function forums_rank($tp): string
 {
     $new_rank = '#0 Inactive';
@@ -1422,6 +1441,10 @@ You have no permission to edit this post.<br />
 
 }
 
+/**
+ * @param $forum
+ * @return void
+ */
 function recache_forum($forum): void
 {
     global $db;
@@ -1483,6 +1506,10 @@ function recache_forum($forum): void
     echo ' ... Done<br />';
 }
 
+/**
+ * @param $topic
+ * @return void
+ */
 function recache_topic($topic): void
 {
     global $db;

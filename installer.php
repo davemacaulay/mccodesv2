@@ -54,6 +54,10 @@ default:
     break;
 }
 
+/**
+ * @param $highlight
+ * @return void
+ */
 function menuprint($highlight): void
 {
     $items =
@@ -274,6 +278,10 @@ if (!function_exists('get_magic_quotes_gpc'))
     }
 }
 
+/**
+ * @param $text
+ * @return mixed|string
+ */
 function gpc_cleanup($text)
 {
     if (get_magic_quotes_gpc())

@@ -355,6 +355,10 @@ function delforum(): void
     }
 }
 
+/**
+ * @param $forum
+ * @return void
+ */
 function recache_forum($forum): void
 {
     global $db;

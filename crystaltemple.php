@@ -24,6 +24,10 @@ declare(strict_types=1);
 global $db, $ir, $userid, $h, $set;
 require_once('globals.php');
 
+/**
+ * @param $goBackTo
+ * @return void
+ */
 function csrf_error($goBackTo): void
 {
     global $h;

@@ -28,6 +28,10 @@ if (!isset($_GET['action']))
     $_GET['action'] = '';
 }
 
+/**
+ * @param $goBackTo
+ * @return void
+ */
 function csrf_error($goBackTo): void
 {
     global $h;

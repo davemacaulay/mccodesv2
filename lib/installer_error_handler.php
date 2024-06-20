@@ -44,8 +44,16 @@ function error_critical($debug_error, $action,
     exit;
 }
 
+/**
+ * @param $errno
+ * @param $errstr
+ * @param $errfile
+ * @param $errline
+ * @param $errcontext
+ * @return void
+ */
 function error_php($errno, $errstr, $errfile = '', $errline = 0,
-        $errcontext = []): void
+                   $errcontext = []): void
 {
     // What's happened?
     // If it's a PHP warning or user error/warning, don't go further - indicates bad code, unsafe

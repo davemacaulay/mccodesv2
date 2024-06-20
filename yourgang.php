@@ -24,6 +24,10 @@ declare(strict_types=1);
 global $db, $ir, $h;
 require_once('globals.php');
 
+/**
+ * @param $goBackTo
+ * @return void
+ */
 function csrf_error($goBackTo): void
 {
     global $h;
@@ -36,6 +40,11 @@ function csrf_error($goBackTo): void
     exit;
 }
 
+/**
+ * @param $formid
+ * @param $goBackTo
+ * @return void
+ */
 function csrf_stdverify($formid, $goBackTo): void
 {
     if (!isset($_POST['verf'])
