@@ -1364,7 +1364,7 @@ function gang_staff_viewsurrenders()
         $surr = $db->fetch_row($q);
         $db->free_result($q);
         $warID = $surr['warID'];
-        if ($gangdata['gangID'] == $r['warDECLARER'])
+        if ($gangdata['gangID'] == $surr['warDECLARER'])
         {
             $f = 'warDECLARED';
         }
@@ -1383,7 +1383,7 @@ function gang_staff_viewsurrenders()
                 $db->query(
                         "SELECT `gangNAME`
          				 FROM `gangs`
-         				 WHERE `gangID` = {$r[$f]}");
+         				 WHERE `gangID` = {$surr[$f]}");
         $them = $db->fetch_single($ggq);
         $db->free_result($ggq);
         $event =
@@ -1391,13 +1391,13 @@ function gang_staff_viewsurrenders()
                         "<a href='gangs.php?action=view&amp;ID={$gangdata['gangID']}'>"
                                 . $gangdata['gangNAME']
                                 . '</a> have accepted the surrender from '
-                                . "<a href='gangs.php?action=view&amp;ID={$r[$f]}'>"
+                                . "<a href='gangs.php?action=view&amp;ID={$surr[$f]}'>"
                                 . $them . '</a>, the war is over!');
         $ev_time = time();
         $db->query(
                 "INSERT INTO `gangevents`
                  VALUES(NULL, {$gangdata['gangID']}, {$ev_time}, '$event'),
-                 (NULL, {$r[$f]}, {$ev_time}, '$event')");
+                 (NULL, {$surr[$f]}, {$ev_time}, '$event')");
         echo "You have accepted the surrender from {$them}, the war is over.";
     }
 }
