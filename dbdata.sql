@@ -424,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `forum_posts` (
   `fp_poster_name` text NOT NULL,
   `fp_time` int(11) NOT NULL default '0',
   `fp_subject` varchar(255) NOT NULL default '',
-  `fp_text` text NOT NULL default '',
+  `fp_text` text NOT NULL,
   `fp_editor_id` int(11) NOT NULL default '0',
   `fp_editor_name` text NOT NULL,
   `fp_editor_time` int(11) NOT NULL default '0',
