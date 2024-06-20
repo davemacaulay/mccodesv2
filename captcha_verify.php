@@ -84,7 +84,7 @@ for ($i = 0; $i <= 2; $i++)
                     4 => [10, $f_x - 10], 5 => [5, $f_y - 5],
                     6 => [10, $f_x - 10], 7 => [5, $f_y - 5],
                     8 => [10, $f_x - 10], 9 => [5, $f_y - 5],];
-    imagefilledpolygon($first, $points, 5, $red);
+    imagefilledpolygon($first, $points, $red);
 }
 imagestring($first, 4, rand(0, $f_x / 3), rand(0, (int)($f_y / 2.5)),
         $_SESSION['captcha'], $black);
