@@ -45,6 +45,7 @@ function staff_csrf_stdverify($formid, $goBackTo)
     {
         staff_csrf_error($goBackTo);
     }
+    return true;
 }
 if (strpos($_SERVER['PHP_SELF'], "sglobals.php") !== false)
 {
