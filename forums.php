@@ -167,7 +167,7 @@ function check_image($src)
 
     $alt_title = explode("/", $src);
     $the_title = $alt_title[count($alt_title) - 1];
-    return "<img src='{$src}' title='{$the_title}' alt='{$alt_title}' />";
+    return "<img src='{$src}' title='{$the_title}' alt='{$the_title}' />";
 }
 
 function forums_rank($tp)
