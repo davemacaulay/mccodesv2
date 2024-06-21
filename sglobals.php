@@ -142,18 +142,17 @@ if (!is_staff())
 }
 check_level();
 $h = new headers();
-$h->startheaders();
-$fm = money_formatter($ir['money']);
-$cm = money_formatter($ir['crystals'], '');
-$lv = date('F j, Y, g:i a', $ir['laston']);
-global $atkpage;
-$staffpage = 1;
-if ($atkpage)
-{
-    $h->userdata($ir, $lv, $fm, $cm, 0);
+if (!isset($nohdr) || !$nohdr) {
+    $h->startheaders();
+    $fm = money_formatter($ir['money']);
+    $cm = money_formatter($ir['crystals'], '');
+    $lv = date('F j, Y, g:i a', $ir['laston']);
+    global $atkpage;
+    $staffpage = 1;
+    if ($atkpage) {
+        $h->userdata($ir, $lv, $fm, $cm, 0);
+    } else {
+        $h->userdata($ir, $lv, $fm, $cm);
+    }
+    $h->smenuarea();
 }
-else
-{
-    $h->userdata($ir, $lv, $fm, $cm);
-}
-$h->smenuarea();
