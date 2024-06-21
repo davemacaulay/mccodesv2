@@ -79,7 +79,10 @@ echo "<hr /><b>Logs</b><br />
 &gt; <a href='staff_logs.php?action=maillogs'>Mail Logs</a><br />";
 if ($ir['user_level'] == 2)
 {
-    echo "&gt; <a href='staff_logs.php?action=stafflogs'>Staff Logs</a><br />";
+    echo "
+        &gt; <a href='staff_logs.php?action=stafflogs'>Staff Logs</a><br />
+        &gt; <a href='staff_logs.php?action=cron-fails'>Cron Fail Logs</a><br />
+    ";
 }
 if ($ir['user_level'] <= 3)
 {

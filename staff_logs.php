@@ -23,6 +23,8 @@ declare(strict_types=1);
 
 global $db, $ir, $h;
 require_once('sglobals.php');
+$_GET['id'] = array_key_exists('id', $_GET) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 1;
+$_GET['page'] = array_key_exists('page', $_GET) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
 if (!in_array($ir['user_level'], [2, 3, 5]))
 {
     echo 'You cannot access this area.<br />
@@ -58,6 +60,9 @@ case 'maillogs':
 case 'stafflogs':
     view_staff_logs();
     break;
+    case 'cron-fails':
+        view_cron_fail_logs($db);
+        break;
 default:
     echo 'Error: This script requires an action.';
     break;
@@ -764,5 +769,83 @@ function view_staff_logs(): void
                         . $i . '</a>&nbsp;';
         echo ($i % 25 == 0) ? '<br />' : '';
     }
+}
+
+/**
+ * @param database $db
+ * @param int $count
+ * @param int $items_per_page
+ * @return array
+ */
+function paginate(database $db, int $count, int $items_per_page = 25): array
+{
+    $current_page = $_GET['page'];
+    $ret          = '[Pages: ';
+    $page_count   = ceil($count / $items_per_page);
+    $limit        = $current_page * $items_per_page;
+    $get_data     = $db->query(
+        'SELECT * FROM logs_cron_fails ORDER BY handled, time_logged LIMIT ' . $limit . ' , 25'
+    );
+    $data         = [];
+    while ($row = $db->fetch_row($get_data)) {
+        $data[] = $row;
+    }
+    for ($i = 1; $i <= $page_count; ++$i) {
+        $ret .= '<a href="staff_logs.php?action=stafflogs&page=' . $i . '" ' . ($current_page === $i ? ' style="font-weight:700;"' : '') . '>' . $i . '</a>&nbsp;';
+    }
+    $ret = substr($ret, -6) . ']';
+    return [$ret, $data];
+}
+
+/**
+ * @param database $db
+ * @return void
+ * @throws Exception
+ */
+function view_cron_fail_logs(database $db): void
+{
+    if (!empty($_GET['id']) && isset($_GET['handled'])) {
+        $db->query(
+            'UPDATE logs_cron_fails SET handled = 1 WHERE id = ' . $_GET['id'],
+        );
+    }
+    $get_count = $db->query(
+        'SELECT COUNT(*) FROM logs_cron_fails',
+    );
+    $count     = (int)$db->fetch_single($get_count);
+    [$pages, $data] = paginate($db, $count);
+    echo $pages . '<br>';
+    echo '
+    <table class="table" style="width: 100%;">
+    <thead>
+        <tr>
+            <th scope="col">Cron</th>
+            <th scope="col">Method</th>
+            <th scope="col">Message</th>
+            <th scope="col">Time Logged</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    ';
+    foreach ($data as $row) {
+        $date = new DateTime($row['time_logged']);
+        echo '
+            <tr' . ($row['handled'] ? ' style="filter: invert(25%);"' : '') . '>
+                <td>' . $row['cron'] . '</td>
+                <td>' . $row['method'] . '</td>
+                <td>' . $row['message'] . '</td>
+                <td>' . $date->format('F jS, Y, H:i:s') . '</td>
+                <td>
+                    ' . (!$row['handled'] ? '<a href="staff_logs.php?action=cron-fails&page=' . $_GET['page'] . '&id=' . $row['id'] . '&handled=1">Flag as handled</a>' : '') . '
+                </td>
+            </tr>
+        ';
+    }
+    echo '
+    </tbody>
+    </table>
+    ';
+    echo $pages;
 }
 $h->endpage();
