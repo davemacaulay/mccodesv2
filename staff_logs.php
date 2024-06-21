@@ -21,7 +21,7 @@ declare(strict_types=1);
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-global $ir, $h;
+global $db, $ir, $h;
 require_once('sglobals.php');
 if (!in_array($ir['user_level'], [2, 3, 5]))
 {
