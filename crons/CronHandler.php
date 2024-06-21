@@ -7,10 +7,12 @@ if (($argc ?? 1) > 1) {
     parse_str($argv[1], $params);
     $cron = $params['cron'] ?? null;
     parse_str($argv[2], $params);
-    $code = $params['code'];
+    $code   = $params['code'];
+    $is_cli = defined('STDIN') || php_sapi_name() === 'cli';
 } else {
-    $cron = array_key_exists('cron', $_GET) && in_array($_GET['cron'], CronHandler::$crons) ? $_GET['cron'] : null;
-    $code = array_key_exists('code', $_GET) && ctype_alnum($_GET['code']) ? $_GET['code'] : null;
+    $cron   = array_key_exists('cron', $_GET) && in_array($_GET['cron'], CronHandler::$crons) ? $_GET['cron'] : null;
+    $code   = array_key_exists('code', $_GET) && ctype_alnum($_GET['code']) ? $_GET['code'] : null;
+    $is_cli = false;
 }
 global $db, $_CONFIG;
 if (empty($db)) {
