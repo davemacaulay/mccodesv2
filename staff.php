@@ -80,7 +80,8 @@ function display_basic_settings_form(): void
             Game Description:<br />
             <textarea rows='7' cols='50' name='game_description'>{$set['game_description']}</textarea><br />
             PayPal Address: <input type='text' name='paypal' value='{$set['paypal']}' /><br />
-            Gym/Crimes Validation: " . render_menu_options('validate_on', $idempotent_options, $set['validate_on']) . '<br />
+            Use Timestamps Instead of Cron Jobs: ".render_menu_options('use_timestamps_over_crons', $idempotent_options, $set['use_timestamps_over_crons']). '<br>
+            Gym/Crimes Validation: ' . render_menu_options('validate_on', $idempotent_options, $set['validate_on']) . '<br />
             Validation Period: ' . render_menu_options('validate_period', $period_options, $set['validate_period']) . '<br />
             Registration CAPTCHA: ' . render_menu_options('regcap_on', $idempotent_options, $set['regcap_on']) . '<br />
             Send Crystals: ' . render_menu_options('sendcrys_on', $idempotent_options, $set['sendcrys_on']) . '<br />
