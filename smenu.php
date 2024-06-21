@@ -35,7 +35,8 @@ if ($ir['user_level'] == 2)
 {
     echo "
 		&gt; <a href='staff.php?action=basicset'>Basic Settings</a><br />
-		&gt; <a href='staff.php?action=announce'>Add Announcement</a><br />";
+		&gt; <a href='staff.php?action=announce'>Add Announcement</a><br />
+		&gt; <a href='staff.php?action=fire-cron'>Fire Cron</a><br />";
 }
 if ($ir['user_level'] <= 3)
 {

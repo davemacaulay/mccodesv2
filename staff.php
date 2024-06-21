@@ -27,12 +27,64 @@ require_once('sglobals.php');
 if (!isset($_GET['action'])) {
     $_GET['action'] = 'index';
 }
+/**
+ * @return void
+ */
+function manually_fire_cron(): void
+{
+    global $db, $ir, $h;
+    if ((int)$ir['user_level'] !== 2) {
+        echo '403: Forbidden';
+        $h->endpage();
+        exit;
+    }
+    $get_crons = $db->query(
+        'SELECT id, name FROM cron_times ORDER BY name',
+    );
+    $crons = [];
+    while ($row = $db->fetch_row($get_crons)) {
+        $crons[] = $row['name'];
+    }
+    $_POST['cron'] = array_key_exists('cron', $_POST) && in_array($_POST['cron'], $crons) ? strtolower($_POST['cron']) : null;
+    if (array_key_exists('submit', $_POST)) {
+        if (empty($_POST['cron'])) {
+            echo 'Invalid cron name given';
+            $h->endpage();
+            exit;
+        }
+        require_once __DIR__.'/crons/CronHandler.php';
+        (CronHandler::getInstance($db))->run($_POST['cron'], 1);
+        stafflog_add('Manually fired cron: '.$_POST['cron']);
+        echo $_POST['cron'].' cron fired.';
+    }
+    echo '
+    <h3>Manually Fire Cron</h3>
+    There is no confirmation. Be certain you have selected the correct cron before submitting the form.<br>
+    <form action="staff.php?action=fire-cron" method="post">
+        <label for="cron">Select Cron</label>
+        <select name="cron" id="cron">
+            <option value="0" disabled selected>-- SELECT --</option>
+            ';
+            foreach ($crons as $cron) {
+                echo '<option value="'.$cron.'"'.($cron === $_POST['cron'] ? ' selected' : '').'>'.$cron.'</option>';
+            }
+    echo '
+        </select><br>
+        <button type="submit" name="submit">
+            Fire!
+        </button>
+    </form>';
+}
+
 switch ($_GET['action']) {
     case 'basicset':
         basicsettings();
         break;
     case 'announce':
         announcements();
+        break;
+    case 'fire-cron':
+        manually_fire_cron();
         break;
     default:
         index();
