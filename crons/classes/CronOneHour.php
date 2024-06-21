@@ -117,4 +117,9 @@ final class CronOneHour extends CronHandler
         );
         $this->updateAffectedRowCnt();
     }
+
+    public function getClassName(): string
+    {
+        return __CLASS__;
+    }
 }

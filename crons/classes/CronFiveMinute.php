@@ -25,6 +25,11 @@ final class CronFiveMinute extends CronHandler
         return self::$instance;
     }
 
+    public function getClassName(): string
+    {
+        return __CLASS__;
+    }
+
     /**
      * @param int $increments
      * @return void
