@@ -56,9 +56,7 @@ $diffs = [
 foreach ($diffs as $name => $conf) {
     $diff = get_time_diff($crons[$name]);
     if ($diff >= $conf['diff']) {
-        $times        = floor($diff / $conf['diff']);
-        $_GET['cron'] = $name;
-        $_GET['code'] = $_CONFIG['code'];
+        $times = floor($diff / $conf['diff']);
         (CronHandler::getInstance($db))->run($name, (int)$times);
     }
 }
