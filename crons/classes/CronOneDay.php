@@ -78,7 +78,6 @@ final class CronOneDay extends CronHandler
             } else {
                 $coud = $course_cache[$r['course']];
             }
-            $userid = $r['userid'];
             $this->db->query(
                 'INSERT INTO coursesdone (userid, courseid) VALUES (' . $r['userid'] . ', ' . $r['course'] . ')',
             );
@@ -110,10 +109,10 @@ final class CronOneDay extends CronHandler
                 'UPDATE users AS u
                 INNER JOIN userstats AS us ON u.userid = us.userid
                 SET u.course = 0' . $upd . '
-                WHERE u.userid = ' . $userid,
+                WHERE u.userid = ' . $r['userid'],
             );
             $this->updateAffectedRowCnt();
-            event_add($userid, 'Congratulations, you completed the ' . $coud['crNAME'] . ' and gained ' . $ev . '!');
+            event_add($r['userid'], 'Congratulations, you completed the ' . $coud['crNAME'] . ' and gained ' . $ev . '!');
             $this->updateAffectedRowCnt();
         }
         $this->db->free_result($q);
