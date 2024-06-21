@@ -513,11 +513,13 @@ EOF;
     <br />
     This is the cron info you need for section <b>1.2 Cronjobs</b> of the installation instructions.<br />
     <pre>
-    */5 * * * * php $path/cron_fivemins.php $code
-    * * * * * php $path/cron_minute.php $code
-    0 * * * * php $path/cron_hour.php $code
-    0 0 * * * php $path/cron_day.php $code
-    </pre>
+    * * * * * php $path/crons/CronHandler.php cron=minute-1 code=$code
+    */5 * * * * php $path/crons/CronHandler.php cron=minute-5 code=$code
+    0 * * * * php $path/crons/CronHandler.php cron=hour-1 code=$code
+    0 0 * * * php $path/crons/CronHandler.php cron=day-1 code=$code
+    </pre><br>
+    Alternatively, you can toggle the \"Use Timestamps Instead of Cron Jobs\" option in the Basic Settings on the Staff Panel to use timestamps instead.<br><br>
+    Note: You <em>must</em> use one <strong>or</strong> the other. Using neither will mean no ticks/refills, etc., and using both will mean double updates. 
        ";
     echo '<h3>Installer Security</h3>
     Attempting to remove installer... ';
