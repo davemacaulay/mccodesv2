@@ -263,3 +263,7 @@ class CronHandler
         ));
     }
 }
+
+if ($cron !== null && $is_cli) {
+    (CronHandler::getInstance($db))->run($cron, 1);
+}
