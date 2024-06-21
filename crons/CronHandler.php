@@ -171,6 +171,9 @@ class CronHandler
         foreach ($methods as $method) {
             try {
                 ($class::getInstance($this->db))->$method();
+                if (!defined('SILENT_CRONS') || SILENT_CRONS !== true) {
+                    echo 'Running: ' . $class->getClassName() . ': ' . $method . PHP_EOL;
+                }
             } catch (Exception|Throwable $e) {
                 $this->logError($method, $e->getMessage());
             }
