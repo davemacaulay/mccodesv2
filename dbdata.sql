@@ -1050,6 +1050,7 @@ INSERT INTO `settings` VALUES (NULL, 'ct_moneypercrys', '200', 'int');
 INSERT INTO `settings` VALUES (NULL, 'staff_pad', 'Here you can store notes for all staff to see.', 'string');
 INSERT INTO `settings` VALUES (NULL, 'willp_item', '0', 'int');
 INSERT INTO `settings` VALUES (NULL, 'jquery_location', 'js/jquery-1.7.1.min.js', 'string');
+INSERT INTO `settings` VALUES (NULL, 'use_timestamps_over_crons', '1', 'bool');
 
 
 -- --------------------------------------------------------
