@@ -23,15 +23,7 @@ declare(strict_types=1);
 
 global $db, $ir, $h;
 require_once('sglobals.php');
-$_GET['id'] = array_key_exists('id', $_GET) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 1;
-$_GET['page'] = array_key_exists('page', $_GET) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
-if (!in_array($ir['user_level'], [2, 3, 5]))
-{
-    echo 'You cannot access this area.<br />
-    &gt; <a href="staff.php">Go Back</a>';
-    $h->endpage();
-    exit;
-}
+check_access('view_logs');
 //This contains log stuffs
 if (!isset($_GET['action']))
 {
@@ -695,12 +687,6 @@ function view_mail_logs(): void
 function view_staff_logs(): void
 {
     global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'Page cannot be accessed.';
-        $h->endpage();
-        exit;
-    }
     echo '<h3>Staff Logs</h3>';
     if (!isset($_GET['st']))
     {
