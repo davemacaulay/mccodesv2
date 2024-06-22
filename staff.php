@@ -32,12 +32,8 @@ if (!isset($_GET['action'])) {
  */
 function manually_fire_cron(): void
 {
-    global $db, $ir, $h;
-    if ((int)$ir['user_level'] !== 2) {
-        echo '403: Forbidden';
-        $h->endpage();
-        exit;
-    }
+    check_access('administrator');
+    global $db, $h;
     $get_crons = $db->query(
         'SELECT id, name FROM cron_times ORDER BY name',
     );

@@ -765,21 +765,21 @@ function view_staff_logs(): void
  */
 function paginate(database $db, int $count, int $items_per_page = 25): array
 {
-    $current_page = $_GET['page'];
-    $ret          = '[Pages: ';
+    $current_page = $_GET['page'] ?? 1;
     $page_count   = ceil($count / $items_per_page);
     $limit        = $current_page * $items_per_page;
     $get_data     = $db->query(
         'SELECT * FROM logs_cron_fails ORDER BY handled, time_logged LIMIT ' . $limit . ' , 25'
     );
     $data         = [];
+    $ret          = '<div class="pagination" style="margin-top: 1em;">[Pages: ';
     while ($row = $db->fetch_row($get_data)) {
         $data[] = $row;
     }
-    for ($i = 1; $i <= $page_count; ++$i) {
-        $ret .= '<a href="staff_logs.php?action=stafflogs&page=' . $i . '" ' . ($current_page === $i ? ' style="font-weight:700;"' : '') . '>' . $i . '</a>&nbsp;';
+    for ($i = 1; $i < $page_count; ++$i) {
+        $ret .= '<a href="staff_logs.php?action=cron-fails&page=' . $i . '"' . ($current_page == $i ? ' style="font-weight:700;"' : '') . '>' . ($current_page == $i ? '('.$i.')' : $i) . '</a>&nbsp;';
     }
-    $ret = substr($ret, -6) . ']';
+    $ret = substr($ret, 0, -6) . ']</div>';
     return [$ret, $data];
 }
 
@@ -802,6 +802,7 @@ function view_cron_fail_logs(database $db): void
     [$pages, $data] = paginate($db, $count);
     echo $pages . '<br>';
     echo '
+    <h3>Failed Crons</h3>
     <table class="table" style="width: 100%;">
     <thead>
         <tr>
