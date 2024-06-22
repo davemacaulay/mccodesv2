@@ -199,7 +199,7 @@ OUT;
     {
         global $db, $ir;
         $query_extra = '';
-        if (isset($_GET['mysqldebug']) && $ir['user_level'] == 2) {
+        if (isset($_GET['mysqldebug']) && check_access('administrator', false)) {
             $query_extra = '<br />' . implode('<br />', $db->queries);
         }
         print

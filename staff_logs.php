@@ -23,13 +23,7 @@ declare(strict_types=1);
 
 global $ir, $h;
 require_once('sglobals.php');
-if (!in_array($ir['user_level'], [2, 3, 5]))
-{
-    echo 'You cannot access this area.<br />
-    &gt; <a href="staff.php">Go Back</a>';
-    $h->endpage();
-    exit;
-}
+check_access('view_logs');
 //This contains log stuffs
 if (!isset($_GET['action']))
 {
@@ -690,12 +684,6 @@ function view_mail_logs(): void
 function view_staff_logs(): void
 {
     global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'Page cannot be accessed.';
-        $h->endpage();
-        exit;
-    }
     echo '<h3>Staff Logs</h3>';
     if (!isset($_GET['st']))
     {
