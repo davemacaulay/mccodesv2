@@ -21,7 +21,7 @@ declare(strict_types=1);
  * Date: Fri, 20 Apr 12 08:50:30 +0000
  */
 
-global $ir, $h;
+global $db, $ir, $h;
 require_once('sglobals.php');
 check_access('view_logs');
 //This contains log stuffs
@@ -52,6 +52,9 @@ case 'maillogs':
 case 'stafflogs':
     view_staff_logs();
     break;
+    case 'cron-fails':
+        view_cron_fail_logs($db);
+        break;
 default:
     echo 'Error: This script requires an action.';
     break;
@@ -752,5 +755,84 @@ function view_staff_logs(): void
                         . $i . '</a>&nbsp;';
         echo ($i % 25 == 0) ? '<br />' : '';
     }
+}
+
+/**
+ * @param database $db
+ * @param int $count
+ * @param int $items_per_page
+ * @return array
+ */
+function paginate(database $db, int $count, int $items_per_page = 25): array
+{
+    $current_page = $_GET['page'] ?? 1;
+    $page_count   = ceil($count / $items_per_page);
+    $limit        = $current_page * $items_per_page;
+    $get_data     = $db->query(
+        'SELECT * FROM logs_cron_fails ORDER BY handled, time_logged LIMIT ' . $limit . ' , 25'
+    );
+    $data         = [];
+    $ret          = '<div class="pagination" style="margin-top: 1em;">[Pages: ';
+    while ($row = $db->fetch_row($get_data)) {
+        $data[] = $row;
+    }
+    for ($i = 1; $i < $page_count; ++$i) {
+        $ret .= '<a href="staff_logs.php?action=cron-fails&page=' . $i . '"' . ($current_page == $i ? ' style="font-weight:700;"' : '') . '>' . ($current_page == $i ? '('.$i.')' : $i) . '</a>&nbsp;';
+    }
+    $ret = substr($ret, 0, -6) . ']</div>';
+    return [$ret, $data];
+}
+
+/**
+ * @param database $db
+ * @return void
+ * @throws Exception
+ */
+function view_cron_fail_logs(database $db): void
+{
+    if (!empty($_GET['id']) && isset($_GET['handled'])) {
+        $db->query(
+            'UPDATE logs_cron_fails SET handled = 1 WHERE id = ' . $_GET['id'],
+        );
+    }
+    $get_count = $db->query(
+        'SELECT COUNT(*) FROM logs_cron_fails',
+    );
+    $count     = (int)$db->fetch_single($get_count);
+    [$pages, $data] = paginate($db, $count);
+    echo $pages . '<br>';
+    echo '
+    <h3>Failed Crons</h3>
+    <table class="table" style="width: 100%;">
+    <thead>
+        <tr>
+            <th scope="col">Cron</th>
+            <th scope="col">Method</th>
+            <th scope="col">Message</th>
+            <th scope="col">Time Logged</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    ';
+    foreach ($data as $row) {
+        $date = new DateTime($row['time_logged']);
+        echo '
+            <tr' . ($row['handled'] ? ' style="filter: invert(25%);"' : '') . '>
+                <td>' . $row['cron'] . '</td>
+                <td>' . $row['method'] . '</td>
+                <td>' . $row['message'] . '</td>
+                <td>' . $date->format('F jS, Y, H:i:s') . '</td>
+                <td>
+                    ' . (!$row['handled'] ? '<a href="staff_logs.php?action=cron-fails&page=' . $_GET['page'] . '&id=' . $row['id'] . '&handled=1">Flag as handled</a>' : '') . '
+                </td>
+            </tr>
+        ';
+    }
+    echo '
+    </tbody>
+    </table>
+    ';
+    echo $pages;
 }
 $h->endpage();

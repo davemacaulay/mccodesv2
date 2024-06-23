@@ -35,7 +35,7 @@ if (check_access('administrator', false)) {
     echo "
 		&gt; <a href='staff.php?action=basicset'>Basic Settings</a><br />
 		&gt; <a href='staff.php?action=announce'>Add Announcement</a><br />
-		";
+		&gt; <a href='staff.php?action=fire-cron'>Fire Cron</a><br />";
 }
 if (check_access(['manage_roles', 'manage_staff'], false)) {
     if (check_access('manage_roles', false)) {
@@ -102,7 +102,8 @@ if (check_access('view_logs', false)) {
     &gt; <a href='staff_logs.php?action=banklogs'>Bank Xfer Logs</a><br />
     &gt; <a href='staff_logs.php?action=itmlogs'>Item Xfer Logs</a><br />
     &gt; <a href='staff_logs.php?action=maillogs'>Mail Logs</a><br />
-    &gt; <a href='staff_logs.php?action=stafflogs'>Staff Logs</a><br />";
+    &gt; <a href='staff_logs.php?action=cron-fails'>Cron Fail Logs</a><br />
+    ";
 }
 if (check_access('manage_gangs', false))
 {
@@ -113,7 +114,6 @@ if (check_access('manage_gangs', false))
     &gt; <a href='staff_gangs.php?action=gwar'>Manage Gang Wars</a><br />
     &gt; <a href='staff_gangs.php?action=gedit'>Edit Gang</a><br />";
 }
-$secretary = ['view_user_inventory', 'credit_user', 'manage_player_reports', 'credit_item'];
 if (check_access('manage_shops', false)) {
 
     echo " <hr />

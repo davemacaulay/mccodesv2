@@ -298,7 +298,7 @@ You have no permission to view this forum.<br />
         $h->endpage();
         exit;
     }
-    if ($_GET['viewforum'] != 1 OR $ir['user_level'] == 2)
+    if ($_GET['viewforum'] != 1 || check_access('manage_forums', false))
     {
         $ntl =
                 "&nbsp;[<a href='forums.php?act=newtopicform&amp;forum={$_GET['viewforum']}'>New Topic</a>]";
@@ -679,7 +679,7 @@ function reply(): void
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner'])
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($forum['ff_auth'] == 'staff' && !check_access('manage_forums', false)))
     {
         echo '
         You have no permission to reply to this topic.<br />
@@ -1130,7 +1130,7 @@ function edit(): void
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner'])
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($forum['ff_auth'] == 'staff' && !check_access('manage_forums', false)))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -1445,7 +1445,7 @@ function recache_topic($topic): void
 function move(): void
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], [2, 3, 5]))
+    if (!!check_access('manage_forums', false))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1783,7 +1783,7 @@ function get_links(array $r, int &$no): array
         . urlencode(
             htmlentities($r['fp_text'], ENT_QUOTES,
                 'ISO-8859-1')) . "'>Quote Post</a>]";
-    $elink = $ir['user_level'] > 1 || $ir['userid'] == $r['fp_poster_id'] ? "[<a href='forums.php?act=edit&amp;post={$r['fp_id']}&amp;topic={$_GET['viewtopic']}'>Edit Post</a>]" : '';
+    $elink = check_access('manage_forums', false) || $ir['userid'] == $r['fp_poster_id'] ? "[<a href='forums.php?act=edit&amp;post={$r['fp_id']}&amp;topic={$_GET['viewtopic']}'>Edit Post</a>]" : '';
     $no++;
     $dlink = ($no > 1 && check_access('manage_forums', false)) ? "[<a href='forums.php?act=delepost&amp;post={$r['fp_id']}'>Delete Post</a>]" : '';
     return [$qlink, $elink, $dlink];
