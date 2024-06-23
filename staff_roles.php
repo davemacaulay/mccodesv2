@@ -347,10 +347,9 @@ class StaffRolesManagement
         $ret                = '';
         foreach ($permission_columns as $column) {
             $ret .= '
-                <div class="form-group">
-                    <label for="' . $column . '" class="switch">
+                <div style="display: inline-block; width: 33%;">
+                    <label for="' . $column . '">
                         <input type="checkbox" name="' . $column . '" id="' . $column . '" value="1"' . ($role && $role[$column] ? ' checked' : '') . '>
-                        <span class="slider round"></span>
                         ' . ucwords(str_replace('_', ' ', $column)) . '
                     </label>
                 </div>
