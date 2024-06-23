@@ -233,12 +233,168 @@ class StaffRolesManagement
         $this->db->query(
             'INSERT INTO users_roles (userid, staff_role) VALUES (' . $data['user']['userid'] . ', ' . $data['role']['id'] . ')',
         );
-        $log = 'granted staff role ' . $data['role']['name'] . ' to ' . $data['user']['username'] . ' ['.$data['user']['userid'].']';
+        $log = 'granted staff role ' . $data['role']['name'] . ' to ' . $data['user']['username'] . ' [' . $data['user']['userid'] . ']';
         stafflog_add(ucfirst($log));
         return [
             'type' => 'success',
             'message' => 'You\'ve ' . $log,
         ];
+    }
+
+    /**
+     * @return array|string[]
+     */
+    private function processGrantRevokePostData(): array
+    {
+        $nums = ['user', 'role'];
+        foreach ($nums as $num) {
+            $_POST[$num] = array_key_exists($num, $_POST) && is_numeric($_POST[$num]) ? (int)$_POST[$num] : null;
+        }
+        if (empty($_POST['user'])) {
+            return [
+                'type' => 'error',
+                'message' => 'Invalid user given',
+            ];
+        }
+        if (empty($_POST['role'])) {
+            return [
+                'type' => 'error',
+                'message' => 'Invalid role given',
+            ];
+        }
+        $get_user = $this->db->query(
+            'SELECT userid, username FROM users WHERE userid = ' . $_POST['user'],
+        );
+        $user     = $this->db->fetch_row($get_user);
+        $this->db->free_result($get_user);
+        if (empty($user)) {
+            return [
+                'type' => 'error',
+                'message' => 'User not found',
+            ];
+        }
+        $get_role = $this->db->query(
+            'SELECT id, name FROM staff_roles WHERE id = ' . $_POST['role'],
+        );
+        $role     = $this->db->fetch_row($get_role);
+        $this->db->free_result($get_role);
+        if (empty($role)) {
+            return [
+                'type' => 'error',
+                'message' => 'Role not found',
+            ];
+        }
+        return [
+            'type' => 'success',
+            'user' => $user,
+            'role' => $role,
+        ];
+    }
+
+    /**
+     * @return array|string[]
+     */
+    private function doRevokeRole(): array
+    {
+        $data = $this->processGrantRevokePostData();
+        if ($data['type'] !== 'success') {
+            return $data;
+        }
+        $get_has_role = $this->db->query(
+            'SELECT COUNT(*) FROM users_roles WHERE userid = ' . $data['user']['userid'] . ' AND staff_role = ' . $data['role']['id'],
+        );
+        if (!$this->db->fetch_single($get_has_role)) {
+            return [
+                'type' => 'error',
+                'message' => $data['user']['username'] . ' doesn\'t have the ' . $data['role']['name'] . ' role',
+            ];
+        }
+        $this->db->query(
+            'DELETE FROM users_roles WHERE userid = ' . $data['user']['userid'] . ' AND staff_role = ' . $data['role']['id'],
+        );
+        $log = 'revoked staff role ' . $data['role']['name'] . ' from ' . $data['user']['username'] . ' [' . $data['user']['userid'] . ']';
+        stafflog_add(ucfirst($log));
+        return [
+            'type' => 'success',
+            'message' => 'You\'ve ' . $log,
+        ];
+    }
+
+    /**
+     * @return void
+     */
+    private function viewGrantRole(): void
+    {
+        $template = file_get_contents($this->viewPath . '/staff-roles/role-grant.html');
+        echo strtr($template, [
+            '{{USER-MENU}}' => $this->renderUserMenuOpts(),
+            '{{ROLE-MENU}}' => $this->renderRoleMenuOpts(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    private function renderUserMenuOpts(): string
+    {
+        $ret       = '';
+        $get_users = $this->db->query(
+            'SELECT userid, username FROM users ORDER BY username'
+        );
+        while ($row = $this->db->fetch_row($get_users)) {
+            $ret .= '<option value="' . $row['userid'] . '">' . $row['username'] . '</option>';
+        }
+        $this->db->free_result($get_users);
+        return $ret;
+    }
+
+    /**
+     * @return string
+     */
+    private function renderRoleMenuOpts(): string
+    {
+        $ret   = '';
+        $roles = $this->getRoles();
+        foreach ($roles as $id => $role) {
+            $ret .= '<option value="' . $id . '">' . $role['name'] . '</a>';
+        }
+        return $ret;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @return void
+     */
+    private function viewRevokeRole(): void
+    {
+        $template = file_get_contents($this->viewPath . '/staff-roles/role-revoke.html');
+        echo strtr($template, [
+            '{{USER-MENU}}' => $this->renderRoledUserMenuOpts(),
+            '{{ROLE-MENU}}' => $this->renderRoleMenuOpts(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    private function renderRoledUserMenuOpts(): string
+    {
+        $ret       = '';
+        $get_users = $this->db->query(
+            'SELECT userid, username FROM users WHERE userid IN (SELECT userid FROM users_roles WHERE staff_role > 0) ORDER BY username'
+        );
+        while ($row = $this->db->fetch_row($get_users)) {
+            $ret .= '<option value="' . $row['userid'] . '">' . $row['username'] . '</option>';
+        }
+        $this->db->free_result($get_users);
+        return $ret;
     }
 
     /**
@@ -328,18 +484,6 @@ class StaffRolesManagement
     }
 
     /**
-     * @return string
-     */
-    private function renderRoleMenuOpts(): string
-    {
-        $ret = '';
-        foreach ($this->roles as $id => $role) {
-            $ret .= '<option value="' . $id . '">' . $role['name'] . '</a>';
-        }
-        return $ret;
-    }
-
-    /**
      * @param array|null $role
      * @return string
      */
@@ -379,62 +523,6 @@ class StaffRolesManagement
     }
 
     /**
-     * @return void
-     */
-    private function viewGrantRole(): void
-    {
-        $template = file_get_contents($this->viewPath . '/staff-roles/role-grant.html');
-        echo strtr($template, [
-            '{{USER-MENU}}' => $this->renderUserMenuOpts(),
-            '{{ROLE-MENU}}' => $this->renderRoleMenuOpts(),
-        ]);
-    }
-
-    /**
-     * @return string
-     */
-    private function renderUserMenuOpts(): string
-    {
-        $ret       = '';
-        $get_users = $this->db->query(
-            'SELECT userid, username FROM users ORDER BY username'
-        );
-        while ($row = $this->db->fetch_row($get_users)) {
-            $ret .= '<option value="' . $row['userid'] . '">' . $row['username'] . '</option>';
-        }
-        $this->db->free_result($get_users);
-        return $ret;
-    }
-
-    /**
-     * @return string
-     */
-    private function renderRoledUserMenuOpts(): string
-    {
-        $ret       = '';
-        $get_users = $this->db->query(
-            'SELECT userid, username FROM users WHERE userid IN (SELECT userid FROM users_roles WHERE staff_role > 0) ORDER BY username'
-        );
-        while ($row = $this->db->fetch_row($get_users)) {
-            $ret .= '<option value="' . $row['userid'] . '">' . $row['username'] . '</option>';
-        }
-        $this->db->free_result($get_users);
-        return $ret;
-    }
-
-    /**
-     * @return void
-     */
-    private function viewRevokeRole(): void
-    {
-        $template = file_get_contents($this->viewPath . '/staff-roles/role-revoke.html');
-        echo strtr($template, [
-            '{{USER-MENU}}' => $this->renderRoledUserMenuOpts(),
-            '{{ROLE-MENU}}' => $this->renderRoleMenuOpts(),
-        ]);
-    }
-
-    /**
      * @param database $db
      * @return self|null
      */
@@ -444,85 +532,6 @@ class StaffRolesManagement
             self::$inst = new self($db);
         }
         return self::$inst;
-    }
-
-    /**
-     * @return array|string[]
-     */
-    private function processGrantRevokePostData(): array
-    {
-        $nums = ['user', 'role'];
-        foreach ($nums as $num) {
-            $_POST[$num] = array_key_exists($num, $_POST) && is_numeric($_POST[$num]) ? (int)$_POST[$num] : null;
-        }
-        if (empty($_POST['user'])) {
-            return [
-                'type' => 'error',
-                'message' => 'Invalid user given',
-            ];
-        }
-        if (empty($_POST['role'])) {
-            return [
-                'type' => 'error',
-                'message' => 'Invalid role given',
-            ];
-        }
-        $get_user = $this->db->query(
-            'SELECT userid, username FROM users WHERE userid = ' . $_POST['user'],
-        );
-        $user     = $this->db->fetch_row($get_user);
-        $this->db->free_result($get_user);
-        if (empty($user)) {
-            return [
-                'type' => 'error',
-                'message' => 'User not found',
-            ];
-        }
-        $get_role = $this->db->query(
-            'SELECT id, name FROM staff_roles WHERE id = ' . $_POST['role'],
-        );
-        $role     = $this->db->fetch_row($get_role);
-        $this->db->free_result($get_role);
-        if (empty($role)) {
-            return [
-                'type' => 'error',
-                'message' => 'Role not found',
-            ];
-        }
-        return [
-            'type' => 'success',
-            'user' => $user,
-            'role' => $role,
-        ];
-    }
-
-    /**
-     * @return array|string[]
-     */
-    private function doRevokeRole(): array
-    {
-        $data = $this->processGrantRevokePostData();
-        if ($data['type'] !== 'success') {
-            return $data;
-        }
-        $get_has_role = $this->db->query(
-            'SELECT COUNT(*) FROM users_roles WHERE userid = ' . $data['user']['userid'] . ' AND staff_role = ' . $data['role']['id'],
-        );
-        if (!$this->db->fetch_single($get_has_role)) {
-            return [
-                'type' => 'error',
-                'message' => $data['user']['username'] . ' doesn\'t have the ' . $data['role']['name'] . ' role',
-            ];
-        }
-        $this->db->query(
-            'DELETE FROM users_roles WHERE userid = '.$data['user']['userid'].' AND staff_role = '.$data['role']['id'],
-        );
-        $log = 'revoked staff role ' . $data['role']['name'] . ' from ' . $data['user']['username'] . ' ['.$data['user']['userid'].']';
-        stafflog_add(ucfirst($log));
-        return [
-            'type' => 'success',
-            'message' => 'You\'ve ' . $log,
-        ];
     }
 }
 
