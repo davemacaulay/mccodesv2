@@ -72,6 +72,7 @@ class StaffRolesManagement
                 default => null,
             };
             if (!empty($response)) {
+                $this->setRoles();
                 echo '<div class="alert alert-' . $response['type'] . '">' . $response['message'] . '</div>';
                 match ($_GET['action'] ?? '') {
                     'grant' => $this->viewGrantRole(),
@@ -259,7 +260,8 @@ class StaffRolesManagement
     {
         $ret      = '';
         $template = file_get_contents($this->viewPath . '/staff-roles/role-index-entry.html');
-        foreach ($this->roles as $id => $role) {
+        $roles    = $this->getRoles();
+        foreach ($roles as $id => $role) {
             $ret .= strtr($template, [
                 '{{ROLE-ID}}' => $id,
                 '{{ROLE-NAME}}' => $role['name'],
