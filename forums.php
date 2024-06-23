@@ -563,7 +563,7 @@ function get_cached_userdata(int|string $fp_poster_id, array &$precache): array
     {
         $rank = forums_rank($memb['posts']);
         $av = $memb['forums_avatar']
-            ? '<img src="' . $memb['forums_avatar'] . '" width="150px" height="150px" />'
+            ? '<img src="' . $memb['forums_avatar'] . '" style="max-width:100px; max-height:100px;" />'
             : '<img src="noav.gif" />';
         $memb['forums_signature'] = $memb['forums_signature']
             ? $bbc->bbcode_parse($memb['forums_signature'])
