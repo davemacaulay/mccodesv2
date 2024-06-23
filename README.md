@@ -62,6 +62,9 @@ docker compose up -d
 * * *
 ### <a id="1p3"></a> 1.3 Cronjobs
 
+> [!NOTE]
+> If you are using Docker for the build process, you can skip this step. The cron jobs are already included in the Docker image.
+
 The Cronjobs are the thing most people are confused on, or they simply do not work for them. However, if you follow the below instructions correctly, your crons should work fine, unless your server is configured differently to a normal cPanel server. If you are not using cPanel, you will need Shell access to your server (through SSH or SFTP).
 
 **If you are using cPanel, follow these instructions:**
