@@ -242,4 +242,14 @@ class database
         mysqli_free_result($result);
     }
 
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return void
+     */
+    public function __call(string $name, array $arguments)
+    {
+        call_user_func_array([$this->connection_id, $name], $arguments);
+    }
+
 }
