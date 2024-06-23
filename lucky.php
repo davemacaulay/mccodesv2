@@ -65,7 +65,7 @@ if (isset($_GET['open']) && $_GET['open'])
                  WHERE `userid` = {$userid}");
         break;
     case 3:
-        $stole = min(rand($ir['money'] / 10, $ir['money'] / 5), 5000);
+        $stole = min(rand((int)($ir['money'] / 10), (int)($ir['money'] / 5)), 5000);
         echo 'Third outcome here (lost ' . money_formatter($stole) . ')';
         $db->query(
                 "UPDATE `users`
