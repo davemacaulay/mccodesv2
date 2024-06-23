@@ -73,7 +73,6 @@ class StaffRolesManagement
                 default => null,
             };
             if (!empty($response)) {
-                $this->setRoles();
                 echo '<div class="alert alert-' . $response['type'] . '">' . $response['message'] . '</div>';
                 match ($_GET['action'] ?? '') {
                     'grant' => $this->viewGrantRole(),
