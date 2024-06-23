@@ -429,7 +429,7 @@ EOF;
     fclose($f);
     echo '... file written.<br />';
     echo 'Writing base database schema...<br />';
-    $fo = fopen('dbdata.sql', 'r');
+    $fo = fopen('db/schema.sql', 'r');
     $query = '';
     $lines = explode("\n", fread($fo, 1024768));
     fclose($fo);
