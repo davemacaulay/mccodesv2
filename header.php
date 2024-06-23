@@ -126,7 +126,7 @@ EOF;
 <b>Brave:</b> {$ir['brave']}/{$ir['maxbrave']}<br />
 <img src='yellowbar.png' width='$brperc' height='10' /><img src='redbar.png' width='$bropp' height='10' /><br />
 <b>EXP:</b> {$experc}%<br />
-<img src='navybar.png' width='$experc' height='10' /><img src='redbar.png' width='$exopp' height='10' /><br />
+<img src='bluebar.png' width='$experc' height='10' /><img src='redbar.png' width='$exopp' height='10' /><br />
 <b>Health:</b> {$hpperc}%<br />
 <img src='greenbar.png' width='$hpperc' height='10' /><img src='redbar.png' width='$hpopp' height='10' /><br /><hr />
 <!-- Links -->
