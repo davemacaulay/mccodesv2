@@ -47,6 +47,7 @@ class StaffRolesManagement
      */
     private function setRoles(): void
     {
+        $this->roles = [];
         $get_roles = $this->db->query(
             'SELECT * FROM staff_roles ORDER BY id'
         );
