@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/views/assets/css/staff.css">
+<form action="staff_roles.php?action=grant" method="post" class="form-roles">
+    <div class="form-group">
+        <label for="user">User</label>
+        <select name="user" id="user" class="form-control" required>
+            <option value="0" disabled selected>-- SELECT --</option>
+            {{USER-MENU}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="role">Role</label>
+        <select name="role" id="role" class="form-control" required>
+            <option value="0" disabled selected>-- SELECT --</option>
+            {{ROLE-MENU}}
+        </select>
+    </div>
+    <div class="form-group">
+        <button type="submit" name="submit" class="btn">
+            Grant
+        </button>
+    </div>
+</form>
+
+<script src="/views/assets/js/staff.js"></script>

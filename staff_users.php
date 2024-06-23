@@ -74,13 +74,7 @@ default:
  */
 function new_user_form(): void
 {
-    global $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
+    check_access('manage_users');
     $csrf = request_csrf_html('staff_newuser');
     echo "
     Adding a new user.
@@ -137,14 +131,8 @@ function new_user_form(): void
  */
 function new_user_submit(): void
 {
-    global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
+    global $db, $h;
+    check_access('manage_users');
     staff_csrf_stdverify('staff_newuser', 'staff_users.php?action=newuser');
     $_POST['email'] =
             (isset($_POST['email'])
@@ -275,14 +263,7 @@ function new_user_submit(): void
  */
 function edit_user_begin(): void
 {
-    global $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
+    check_access('manage_users');
     $csrf = request_csrf_html('staff_edituser1');
     echo "
     <h3>Editing User</h3>
@@ -310,14 +291,8 @@ function edit_user_begin(): void
  */
 function edit_user_form(): void
 {
-    global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
+    global $db, $h;
+    check_access('manage_users');
     staff_csrf_stdverify('staff_edituser1', 'staff_users.php?action=edituser');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))
@@ -437,14 +412,8 @@ function edit_user_form(): void
  */
 function edit_user_sub(): void
 {
-    global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
+    global $db, $h;
+    check_access('manage_users');
     staff_csrf_stdverify('staff_edituser2', 'staff_users.php?action=edituser');
     $_POST['userid'] =
             (isset($_POST['userid']) && is_numeric($_POST['userid']))
@@ -657,12 +626,7 @@ function edit_user_sub(): void
 function deluser(): void
 {
     global $ir, $h, $db;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
+    check_access('manage_users');
     if (!isset($_GET['step']))
     {
         $_GET['step'] = '0';
@@ -821,13 +785,7 @@ function deluser(): void
 function inv_user_begin(): void
 {
     global $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
+    check_access('manage_users');
     $csrf = request_csrf_html('staff_viewinv');
     echo "
     <h3>Viewing User Inventory</h3>
@@ -849,13 +807,7 @@ function inv_user_begin(): void
 function inv_user_view(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
+    check_access('view_user_inventory');
     staff_csrf_stdverify('staff_viewinv', 'staff_users.php?action=invbeg');
     $_POST['user'] =
             (isset($_POST['user']) && is_numeric($_POST['user']))

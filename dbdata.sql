@@ -1050,6 +1050,7 @@ INSERT INTO `settings` VALUES (NULL, 'ct_moneypercrys', '200', 'int');
 INSERT INTO `settings` VALUES (NULL, 'staff_pad', 'Here you can store notes for all staff to see.', 'string');
 INSERT INTO `settings` VALUES (NULL, 'willp_item', '0', 'int');
 INSERT INTO `settings` VALUES (NULL, 'jquery_location', 'js/jquery-1.7.1.min.js', 'string');
+INSERT INTO `settings` VALUES (NULL, 'use_timestamps_over_crons', '1', 'bool');
 
 
 -- --------------------------------------------------------
@@ -1308,3 +1309,135 @@ CREATE TABLE `willps_accepted` (
 --
 -- Dumping data for table `willps_accepted`
 --
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `logs_cron_fails`
+--
+
+CREATE TABLE logs_cron_fails
+(
+    id            INT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cron          VARCHAR(32) NOT NULL DEFAULT '',
+    method        VARCHAR(32) NOT NULL DEFAULT '',
+    message       TEXT        NULL,
+    time_started  TIMESTAMP   NULL,
+    time_finished TIMESTAMP   NULL,
+    time_logged   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    handled       BOOL        NOT NULL DEFAULT FALSE,
+    INDEX (cron)
+);
+
+--
+-- Dumping data for table `logs_cron_fails`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `logs_cron_runtimes`
+--
+CREATE TABLE logs_cron_runtimes
+(
+    id            INT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cron          VARCHAR(32) NOT NULL DEFAULT '',
+    time_started  TIMESTAMP   NULL,
+    time_finished TIMESTAMP   NULL,
+    time_logged   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_cnt   INT         NOT NULL DEFAULT 0,
+    INDEX(cron)
+);
+
+--
+-- Dumping data for table `logs_cron_runtimes`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cron_times`
+--
+
+CREATE TABLE cron_times (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(32) NOT NULL UNIQUE,
+    last_run TIMESTAMP NULL
+);
+
+--
+-- Dumping data for table `cron_times`
+--
+
+INSERT INTO cron_times (name, last_run) VALUES ('minute-1', CONCAT(CONCAT(DATE_FORMAT(NOW(), '%Y-%m-%d'), ' '), SEC_TO_TIME((TIME_TO_SEC(NOW()) DIV 60) * 60)));
+INSERT INTO cron_times (name, last_run) VALUES ('minute-5', CONCAT(CONCAT(DATE_FORMAT(NOW(), '%Y-%m-%d'), ' '), SEC_TO_TIME((TIME_TO_SEC(NOW()) DIV 300) * 300)));
+INSERT INTO cron_times (name, last_run) VALUES ('hour-1', CONCAT(CONCAT(DATE_FORMAT(NOW(), '%Y-%m-%d'), ' '), SEC_TO_TIME((TIME_TO_SEC(NOW()) DIV 3600) * 3600)));
+INSERT INTO cron_times (name, last_run) VALUES ('day-1', CONCAT(CONCAT(DATE_FORMAT(NOW(), '%Y-%m-%d'), ' '), SEC_TO_TIME((TIME_TO_SEC(NOW()) DIV 86400) * 86400)));
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff_roles`
+--
+
+CREATE TABLE `staff_roles`
+(
+    `id`                    INT          NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `name`                  VARCHAR(255) NOT NULL DEFAULT '',
+    `administrator`         BOOL         NOT NULL DEFAULT FALSE,
+    `credit_all_users`      BOOL         NOT NULL DEFAULT FALSE,
+    `credit_item`           BOOL         NOT NULL DEFAULT FALSE,
+    `credit_user`           BOOL         NOT NULL DEFAULT FALSE,
+    `edit_newspaper`        BOOL         NOT NULL DEFAULT FALSE,
+    `manage_challenge_bots` BOOL         NOT NULL DEFAULT FALSE,
+    `manage_cities`         BOOL         NOT NULL DEFAULT FALSE,
+    `manage_courses`        BOOL         NOT NULL DEFAULT FALSE,
+    `manage_crimes`         BOOL         NOT NULL DEFAULT FALSE,
+    `manage_donator_packs`  BOOL         NOT NULL DEFAULT FALSE,
+    `manage_forums`         BOOL         NOT NULL DEFAULT FALSE,
+    `manage_gangs`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_houses`         BOOL         NOT NULL DEFAULT FALSE,
+    `manage_items`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_jobs`           BOOL         NOT NULL DEFAULT FALSE,
+    `manage_player_reports` BOOL         NOT NULL DEFAULT FALSE,
+    `manage_polls`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_punishments`    BOOL         NOT NULL DEFAULT FALSE,
+    `manage_roles`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_shops`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_staff`          BOOL         NOT NULL DEFAULT FALSE,
+    `manage_users`          BOOL         NOT NULL DEFAULT FALSE,
+    `mass_mail`             BOOL         NOT NULL DEFAULT FALSE,
+    `use_staff_forums`      BOOL         NOT NULL DEFAULT FALSE,
+    `view_logs`             BOOL         NOT NULL DEFAULT FALSE,
+    `view_user_inventory`   BOOL         NOT NULL DEFAULT FALSE
+);
+
+--
+-- Dumping data for table `willps_accepted`
+--
+
+INSERT INTO `staff_roles` (`name`, `administrator`) VALUES ('Administrator', true);
+INSERT INTO `staff_roles` (`name`, `view_user_inventory`, `credit_user`, `manage_player_reports`, `credit_item`, `view_logs`, `manage_gangs`, `manage_punishments`, `use_staff_forums`) VALUES ('Secretary', true, true, true, true, true, true, true, true);
+INSERT INTO `staff_roles` (`name`, `view_logs`, `manage_punishments`, `use_staff_forums`) VALUES ('Assistant', true, true, true);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users_roles`
+--
+
+CREATE TABLE users_roles
+(
+    id         INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    userid     INT NOT NULL REFERENCES users (userid),
+    staff_role INT NOT NULL REFERENCES staff_roles (id)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Dumping data for table `users_roles`
+--
+
+INSERT INTO users_roles (userid, staff_role) VALUES (1, 1);

@@ -1,0 +1,48 @@
+:root {
+    --alert-success-text-color: #e0f8e0;
+    --alert-success-bg-color: #012000;
+    --alert-success-border-color: #025902;
+    --alert-error-text-color: #f8e0e0;
+    --alert-error-bg-color: #200000;
+    --alert-error-border-color: #590202;
+}
+
+.form-group {
+    padding: 5px 0;
+}
+
+.form-control {
+    padding: 2px 1px;
+    margin: 1px;
+}
+
+button.btn {
+    padding: 0.8em 2rem;
+}
+
+form.form-roles {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.alert {
+    display: block;
+    padding: 1em 10em;
+    margin: 2em 3em;
+    border: 1px solid;
+    border-radius: 1em;
+}
+
+.alert-success {
+    color: var(--alert-success-text-color);
+    background-color: var(--alert-success-bg-color);
+    border-color: var(--alert-success-border-color);
+}
+
+.alert-error {
+    color: var(--alert-error-text-color);
+    background-color: var(--alert-error-bg-color);
+    border-color: var(--alert-error-border-color);
+}

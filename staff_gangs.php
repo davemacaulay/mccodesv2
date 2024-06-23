@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 global $h;
 require_once('sglobals.php');
+check_access('manage_gangs');
 //This contains gang stuffs
 if (!isset($_GET['action']))
 {
@@ -62,13 +63,6 @@ default:
 function admin_gang_record(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_POST['gang']) && is_numeric($_POST['gang']))
                     ? abs(intval($_POST['gang'])) : '';
@@ -165,13 +159,6 @@ function admin_gang_record(): void
 function admin_gang_credit(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_POST['gang']) && is_numeric($_POST['gang']))
                     ? abs(intval($_POST['gang'])) : '';
@@ -293,13 +280,6 @@ function admin_gang_credit(): void
 function admin_gang_wars(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     echo '
 	<h3>Manage Gang Wars</h3>
 	<table width="75%" border="2">
@@ -353,12 +333,6 @@ function admin_gang_wars(): void
 function admin_gang_wardelete(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $_GET['war'] =
             (isset($_GET['war']) && is_numeric($_GET['war']))
                     ? abs(intval($_GET['war'])) : 0;
@@ -406,13 +380,6 @@ function admin_gang_wardelete(): void
 function admin_gang_edit_begin(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_POST['gang']) && is_numeric($_POST['gang']))
                     ? abs(intval($_POST['gang'])) : '';
@@ -494,13 +461,6 @@ function admin_gang_edit_begin(): void
 function admin_gang_edit_name(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
                     ? abs(intval($_GET['gang'])) : 0;
@@ -584,13 +544,6 @@ function admin_gang_edit_name(): void
 function admin_gang_edit_prefix(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
                     ? abs(intval($_GET['gang'])) : 0;
@@ -659,12 +612,6 @@ function admin_gang_edit_prefix(): void
 function admin_gang_edit_finances(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
                     ? abs(intval($_GET['gang'])) : 0;
@@ -766,12 +713,6 @@ function admin_gang_edit_finances(): void
 function admin_gang_edit_staff(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
                     ? abs(intval($_GET['gang'])) : 0;
@@ -863,12 +804,6 @@ function admin_gang_edit_staff(): void
 function admin_gang_edit_capacity(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
                     ? abs(intval($_GET['gang'])) : 0;
@@ -950,13 +885,6 @@ function admin_gang_edit_capacity(): void
 function admin_gang_edit_crime(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
                     ? abs(intval($_GET['gang'])) : 0;
@@ -1047,12 +975,6 @@ function admin_gang_edit_crime(): void
 function admin_gang_edit_ament(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="index.php">Go Back</a>';
-        $h->endpage();
-        exit;
-    }
     $gang =
             (isset($_GET['gang']) && is_numeric($_GET['gang']))
                     ? abs(intval($_GET['gang'])) : '';
