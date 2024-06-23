@@ -101,8 +101,6 @@ EOF;
         }
 
         $gn = '';
-        global $staffpage;
-
         $bgcolor = 'FFFFFF';
 
         print
@@ -197,7 +195,7 @@ OUT;
      */
     public function endpage(): void
     {
-        global $db, $ir;
+        global $db;
         $query_extra = '';
         if (isset($_GET['mysqldebug']) && check_access('administrator', false)) {
             $query_extra = '<br />' . implode('<br />', $db->queries);
