@@ -1,24 +1,10 @@
 <?php
 declare(strict_types=1);
 /**
- * MCCodes Version 2.0.5b
- * Copyright (C) 2005-2012 Dabomstew
- * All rights reserved.
- *
- * Redistribution of this code in any form is prohibited, except in
- * the specific cases set out in the MCCodes Customer License.
- *
- * This code license may be used to run one (1) game.
- * A game is defined as the set of users and other game database data,
- * so you are permitted to create alternative clients for your game.
- *
- * If you did not obtain this code from MCCodes.com, you are in all likelihood
- * using it illegally. Please contact MCCodes to discuss licensing options
- * in this case.
- *
- * File: check.php
- * Signature: 0352c71843def0ca5c418c51bf95b8ee
- * Date: Fri, 20 Apr 12 08:50:30 +0000
+ * MCCodes v2 by Dabomstew & ColdBlooded
+ * 
+ * Repository: https://github.com/davemacaulay/mccodesv2
+ * License: MIT License
  */
 
 if (isset($_SERVER['REQUEST_METHOD']) && is_string($_SERVER['REQUEST_METHOD']))
