@@ -9,13 +9,18 @@ New to MCCodes? Or simply wanting reference on a simple task? That's what this b
 
 Contents
 --------   
-* [1\. Installation](#1p0)
-  * [1.1 Basic Installation](#1p1)
-  * [1.2 Cronjobs](#1p2)
-  * [1.3 PayPal Configuration](#1p3)
-* [2\. Basic Usage & Tips](#2p0)
-  * [2.1 Setting up Will Potions](#2p1)
-  * [2.2 Tips for running a game](#2p2)
+- [MCCodes 2.0](#mccodes-20)
+  - [Introduction](#introduction)
+  - [Contents](#contents)
+  - [1. Installation](#1-installation)
+    - [ 1.1 Basic Installation](#-11-basic-installation)
+    - [ 1.2 Docker Installation](#-12-docker-installation)
+      - [Enabling SSL (Optional)](#enabling-ssl-optional)
+    - [ 1.3 Cronjobs](#-13-cronjobs)
+    - [ 1.4 PayPal Configuration.](#-14-paypal-configuration)
+  - [2. Basic Usage \& Tips](#2-basic-usage--tips)
+    - [ 2.1 Setting up Will Potions](#-21-setting-up-will-potions)
+    - [ 2.2 Tips for running a game](#-22-tips-for-running-a-game)
 
 <a id="1p0"></a>1\. Installation
 ----------------   
@@ -31,8 +36,54 @@ Got all the above? Good. Upload all the files and directories in the upload fold
 webserver. Normally, you will be uploading to either the public\_html folder, or the root level folder. A good way to check this is to upload one file then try to access it through your domain and see if it works. If it doesn't, you've got the path wrong. Once done, run install.php. First, your server diagnostics will be checked. If one of these tests fails, you will need to correct it before moving on. Next, you need to fill in your database info, and a few basic  
 settings. Make sure the PayPal email you specify is the main email of the PayPal account, and that the account is at least Premier. Otherwise, the basic settings are up to you. After you submit this form, the installer should hopefully run, and insert all the tables and entries into SQL you need. If not, go back and check your config. Now the basic installation is complete, and you're ready to move on to setting up the Cron Jobs.
 
-* * *   
-### <a id="1p2"></a> 1.2 Cronjobs
+* * *  
+### <a id="ip2"></a> 1.2 Docker Installation
+
+This mode of installation is currently intended for development but might be suitable for production with the appropriate adjustments.
+
+First, ensure you have [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed.
+
+Create the files `db_password.txt` and `app_key.txt` in the `docker/secrets/` folder within your project. The `db_password.txt` file stores the root user password for the database, and the `app_key.txt` file stores the code (usually randomly generated in `installer.php`) used to secure certain scripts, such as cron scripts.
+
+> [!NOTE] 
+> Before running for the first time, you can modify the `db/initial_data.sql` file, where the admin user and some settings are created. After the initial run, this file is ignored, and changes must be made directly in the database.
+
+Once everything is set up, run the following command to deploy the containers and synchronize all changes to the source files after saving:
+
+```shell
+docker compose watch
+```
+
+Alternatively, the containers can be run without syncing by using:
+
+```shell
+docker compose up -d
+```
+
+#### Enabling SSL (Optional)
+
+A self signed certificate can be created with `mkcert`. Follow the [installation instructions](https://github.com/FiloSottile/mkcert?tab=readme-ov-file#installation) and run:
+
+```shell
+mkcert -cert-file docker/ssl/cert.pem -key-file docker/ssl/cert-key.pem localhost 127.0.0.1 ::1
+```
+
+With the certificate files created in the `docker/ssl/` folder, add the SSL_ENABLED=true argument to your docker-compose:
+
+```YAML
+services:
+  web:
+    build:
+      context: .
+      args:
+        SSL_ENABLED: true
+```
+
+* * *
+### <a id="1p3"></a> 1.3 Cronjobs
+
+> [!NOTE]
+> If you are using Docker for the build process, you can skip this step. The cron jobs are already included in the Docker image.
 
 The Cronjobs are the thing most people are confused on, or they simply do not work for them. However, if you follow the below instructions correctly, your crons should work fine, unless your server is configured differently to a normal cPanel server. If you are not using cPanel, you will need Shell access to your server (through SSH or SFTP).
 
@@ -67,7 +118,7 @@ The Cronjobs are the thing most people are confused on, or they simply do not wo
 * If everything goes to plan, you should now have working crons.
 
 * * *   
-### <a id="1p3"></a> 1.3 PayPal Configuration.
+### <a id="1p4"></a> 1.4 PayPal Configuration.
 
 MCC2 uses several PayPal devices to ensure that donations are credited securely and accurately. However, some of these devices must be enabled in your PayPal account before MCC2 can use them. If these steps are not followed, your donation system will not work properly. Follow these steps to get it up and working:
 

@@ -1,0 +1,5 @@
+# must be ended with a new line "LF" (Unix) and not "CRLF" (Windows)
+*/5 * * * * /usr/local/bin/run_cron_job.sh cron_fivemins.php
+* * * * * /usr/local/bin/run_cron_job.sh cron_minute.php
+0 * * * * /usr/local/bin/run_cron_job.sh cron_hour.php
+0 0 * * * /usr/local/bin/run_cron_job.sh cron_day.php

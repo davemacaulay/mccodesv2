@@ -1,21 +1,47 @@
 services:
   web:
-    image: php:8.3-apache
+    build:
+      context: .
     ports:
-      - "4567:80"
-      - "4568:443"
+      - 9000:80
+      - 9001:443
     depends_on:
-      - db
-    volumes:
-      - .:/var/www/html/.
-    restart: "no"
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_NAME: mccodes
+      DB_USER: root
+      DB_PASS_FILE: /run/secrets/db_password
+      APP_KEY_FILE: /run/secrets/app_key
+    secrets:
+      - db_password
+      - app_key
+    develop:
+      watch:
+       - action: sync
+         path: .
+         target: /var/www/html
   db:
-    image: mysql
+    image: mysql:8.4.0
     ports:
       - "3306:3306"
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/initial_data.sql:/docker-entrypoint-initdb.d/02-initial_data.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 10s
+      timeout: 15s
+      retries: 5
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass1
-      MYSQL_DATABASE: mccv2
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_DATABASE: mccodes
+    secrets:
+      - db_password
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
@@ -26,6 +52,13 @@ services:
       - web
     environment:
       PMA_HOST: db
+secrets:
+  db_password:
+    file: docker/secrets/db_password.txt
+  app_key:
+    file: docker/secrets/app_key.txt
+volumes:
+  db_data:
 
 # Note:
 # If you encounter either mysqli not being found or captcha images not loading, chances are that the docker image was updated and those modules are no longer part of it
@@ -38,6 +71,3 @@ services:
 
 # After installation, the extensions should automatically be enabled (where applicable). If not, you can enable them manually.
 # docker-php-ext-enable mysqli gd
-
-# Note (cont.)
-# Be sure to restart the Apache container to apply your changes!
