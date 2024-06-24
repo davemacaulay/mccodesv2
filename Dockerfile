@@ -1,4 +1,17 @@
 FROM php:8.3-apache
+
+COPY ./docker/ssl/configure_ssl.sh /usr/local/bin/configure_ssl.sh
+RUN chmod +x /usr/local/bin/configure_ssl.sh
+
+COPY ./docker/ssl /docker/ssl
+
+ARG SSL_ENABLED
+
+RUN /usr/local/bin/configure_ssl.sh
+
+EXPOSE 80
+EXPOSE 443
+
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     cron \

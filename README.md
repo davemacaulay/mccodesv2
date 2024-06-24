@@ -15,6 +15,7 @@ Contents
   - [1. Installation](#1-installation)
     - [ 1.1 Basic Installation](#-11-basic-installation)
     - [ 1.2 Docker Installation](#-12-docker-installation)
+      - [Enabling SSL (Optional)](#enabling-ssl-optional)
     - [ 1.3 Cronjobs](#-13-cronjobs)
     - [ 1.4 PayPal Configuration.](#-14-paypal-configuration)
   - [2. Basic Usage \& Tips](#2-basic-usage--tips)
@@ -57,6 +58,25 @@ Alternatively, the containers can be run without syncing by using:
 
 ```shell
 docker compose up -d
+```
+
+#### Enabling SSL (Optional)
+
+A self signed certificate can be created with `mkcert`. Follow the [installation instructions](https://github.com/FiloSottile/mkcert?tab=readme-ov-file#installation) and run:
+
+```shell
+mkcert -cert-file docker/ssl/cert.pem -key-file docker/ssl/cert-key.pem localhost 127.0.0.1 ::1
+```
+
+With the certificate files created in the `docker/ssl/` folder, add the SSL_ENABLED=true argument to your docker-compose:
+
+```YAML
+services:
+  web:
+    build:
+      context: .
+      args:
+        SSL_ENABLED: true
 ```
 
 * * *

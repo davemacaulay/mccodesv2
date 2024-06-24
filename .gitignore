@@ -3,3 +3,4 @@
 config.php
 
 docker/secrets/
+docker/ssl/**/*.pem
