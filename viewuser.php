@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -206,7 +206,7 @@ else
 				<br /><br />
 				[<a href='contactlist.php?action=add&ID={$r['userid']}'>Add Contact</a>]
    		";
-        if (in_array($ir['user_level'], [2, 3, 5]))
+        if (check_access('manage_punishments'))
         {
             echo "
         <br /><br />
@@ -229,7 +229,7 @@ else
 			</td>
 			<td>
    		';
-        if (in_array($ir['user_level'], [2, 3, 5]))
+        if (check_access('manage_punishments'))
         {
             $r['lastiph'] = filter_var($r['lastip'], FILTER_VALIDATE_IP) ? @gethostbyaddr($r['lastip']) : null;
             $r['lastiph'] = checkblank($r['lastiph']);
