@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 global $db, $ir, $h;
 require_once('globals.php');
-if (!check_access('manage_punishments', false))
+if (!check_access('manage_punishments'))
 {
     echo 'You cannot access this area.
     <br />&gt; <a href="index.php">Go Home</a>';
@@ -41,7 +41,7 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
         $h->endpage();
         exit;
     }
-    if (check_access('administrator', false, $_POST['user']))
+    if (check_access('administrator', $_POST['user']))
     {
         echo 'You cannot mailban admins, please destaff them first.
         <br />&gt; <a href="mailban.php">Go Back</a>';

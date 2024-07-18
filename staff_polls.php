@@ -9,7 +9,12 @@ declare(strict_types=1);
 
 global $ir, $h;
 require_once('sglobals.php');
-check_access('manage_polls');
+if (check_access('manage_polls')) {
+    echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+    $h->endpage();
+    exit;
+}
 //This contains shop stuffs
 if (!isset($_GET['action']))
 {

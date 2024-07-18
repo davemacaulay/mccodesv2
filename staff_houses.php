@@ -2,14 +2,19 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
 
 global $ir, $h;
 require_once('sglobals.php');
-check_access('manage_houses');
+if (!check_access('manage_houses')) {
+    echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+    $h->endpage();
+    exit;
+}
 //This contains house stuffs
 if (!isset($_GET['action']))
 {

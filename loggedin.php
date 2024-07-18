@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -11,7 +11,7 @@ $housequery = 1;
 global $db, $ir, $userid, $h, $set, $lv, $cm, $fm;
 require_once('globals.php');
 if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/installer.php')
-        && check_access('administrator', false))
+        && check_access('administrator'))
 {
     echo '
 	<span style="font-weight: bold; font-size: 42px; color: red;">

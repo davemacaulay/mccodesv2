@@ -2,14 +2,19 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
 
 global $ir, $h;
 require_once('sglobals.php');
-check_access('manage_punishments');
+if (!check_access('manage_punishments')) {
+    echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+    $h->endpage();
+    exit;
+}
 //This contains punishment stuffs
 if (!isset($_GET['action']))
 {
@@ -125,7 +130,7 @@ function fed_user_submit(): void
         $h->endpage();
         exit;
     }
-    if (check_access('administrator', false, $_POST['user'])) {
+    if (check_access('administrator', $_POST['user'])) {
         echo 'You cannot fed admins, please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=fedform">Go Back</a>';
         $h->endpage();
@@ -204,7 +209,7 @@ function fed_edit_submit(): void
         $h->endpage();
         exit;
     }
-    if (check_access('administrator', false, $_POST['user'])) {
+    if (check_access('administrator', $_POST['user'])) {
         echo 'You cannot fed admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=fedeform">Go Back</a>';
         $h->endpage();
@@ -355,7 +360,7 @@ function forum_user_submit(): void
         $h->endpage();
         exit;
     }
-    if (check_access('administrator', false, $_POST['user'])) {
+    if (check_access('administrator', $_POST['user'])) {
         echo 'You cannot forum ban admins please destaff them first.<br />
         &gt; <a href="staff_punit.php?action=forumform">Go Back</a>';
         $h->endpage();

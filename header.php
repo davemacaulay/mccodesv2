@@ -197,7 +197,7 @@ OUT;
     {
         global $db;
         $query_extra = '';
-        if (isset($_GET['mysqldebug']) && check_access('administrator', false)) {
+        if (isset($_GET['mysqldebug']) && check_access('administrator')) {
             $query_extra = '<br />' . implode('<br />', $db->queries);
         }
         print

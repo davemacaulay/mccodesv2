@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -1267,13 +1267,12 @@ function userBox(int|string $target_id): string
 
 /**
  * @param string|array $permissions
- * @param bool $exit
  * @param int|null $target_id
- * @return bool|void
+ * @return bool
  */
-function check_access(string|array $permissions, bool $exit = true, ?int $target_id = null)
+function check_access(string|array $permissions, ?int $target_id = null): bool
 {
-    global $db, $h, $userid;
+    global $db, $userid;
     // We want an array
     if (is_string($permissions)) {
         $permissions = [$permissions];
@@ -1294,12 +1293,6 @@ function check_access(string|array $permissions, bool $exit = true, ?int $target
     }
     // They don't have any
     if (!$target_roles) {
-        // Do we exit?
-        if ($exit) {
-            echo '403: Forbidden';
-            $h->endpage();
-            exit;
-        }
         return false;
     }
     // Get the corresponding role data
@@ -1317,7 +1310,7 @@ function check_access(string|array $permissions, bool $exit = true, ?int $target
             if ($row['administrator']) {
                 $value = true;
             }
-            // If we've not already added it and it's true, add it
+            // If we've not already added it, and it's true, add it
             if (!array_key_exists($key, $role_permissions) && $value) {
                 $role_permissions[] = $key;
             }
@@ -1327,12 +1320,6 @@ function check_access(string|array $permissions, bool $exit = true, ?int $target
     $matches = array_intersect($role_permissions, $permissions);
     // No matches
     if (empty($matches)) {
-        // Again, do we exit?
-        if ($exit) {
-            echo '403: Forbidden';
-            $h->endpage();
-            exit;
-        }
         return false;
     }
     // No need to exit. Access granted!

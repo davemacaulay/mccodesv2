@@ -2,7 +2,12 @@
 declare(strict_types=1);
 global $db, $ir, $h;
 require __DIR__ . '/sglobals.php';
-check_access('manage_roles');
+if (!check_access('manage_roles')) {
+    echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+    $h->endpage();
+    exit;
+}
 
 /**
  *

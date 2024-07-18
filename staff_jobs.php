@@ -9,7 +9,12 @@ declare(strict_types=1);
 
 global $ir, $h;
 require_once('sglobals.php');
-check_access('manage_jobs');
+if (!check_access('manage_jobs')) {
+    echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+    $h->endpage();
+    exit;
+}
 if (!isset($_GET['action']))
 {
     $_GET['action'] = '';

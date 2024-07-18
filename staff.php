@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -17,8 +17,13 @@ if (!isset($_GET['action'])) {
  */
 function manually_fire_cron(): void
 {
-    check_access('administrator');
     global $db, $h;
+    if (!check_access('administrator')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     $get_crons = $db->query(
         'SELECT id, name FROM cron_times ORDER BY name',
     );
@@ -209,7 +214,7 @@ function update_basic_settings(): void
 function basicsettings(): void
 {
     global $h;
-    if (!check_access('administrator', false)) {
+    if (!check_access('administrator')) {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
         $h->endpage();
@@ -236,8 +241,13 @@ function basicsettings(): void
  */
 function announcements(): void
 {
-    global $db, $ir, $h;
-    check_access('administrator');
+    global $db, $h;
+    if (!check_access('administrator')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     if (!empty($_POST['text'])) {
         staff_csrf_stdverify('staff_announcement', 'staff.php?action=announce');
         $_POST['text'] =
@@ -278,8 +288,8 @@ function announcements(): void
  */
 function index(): void
 {
-    global $db, $ir, $set, $_CONFIG;
-    if (check_access('administrator', false)) {
+    global $db, $set, $_CONFIG;
+    if (check_access('administrator')) {
         $versq = $db->query('SELECT VERSION()');
         $mv    = $db->fetch_single($versq);
         $db->free_result($versq);

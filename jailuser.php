@@ -2,14 +2,19 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
 
 global $db, $ir, $userid, $h;
 require_once('globals.php');
-check_access('manage_punishments');
+if (!check_access('manage_punishments')) {
+    echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+    $h->endpage();
+    exit;
+}
 $_POST['user'] =
         (isset($_POST['user']) && is_numeric($_POST['user']))
                 ? abs(intval($_POST['user'])) : '';
@@ -35,7 +40,7 @@ if (!empty($_POST['user']) && !empty($_POST['reason'])
         $h->endpage();
         exit;
     }
-    if (check_access('administrator', false, $_POST['user']))
+    if (check_access('administrator', $_POST['user']))
     {
         echo 'You cannot fed admins, please destaff them first.
         <br />&gt; <a href="jailuser.php">Go Back</a>';

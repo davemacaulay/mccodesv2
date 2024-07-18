@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -17,43 +17,93 @@ if (!isset($_GET['action']))
 switch ($_GET['action'])
 {
 case 'newitem':
-    check_access('manage_items');
+    if (!check_access('manage_items')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     new_item_form();
     break;
 case 'newitemsub':
-    check_access('manage_items');
+    if (!check_access('manage_items')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     new_item_submit();
     break;
 case 'giveitem':
-    check_access('credit_item');
+    if (!check_access('credit_item')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     give_item_form();
     break;
 case 'giveitemsub':
-    check_access('credit_item');
+    if (!check_access('credit_item')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     give_item_submit();
     break;
 case 'killitem':
-    check_access('manage_items');
+    if (!check_access('manage_items')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     kill_item_form();
     break;
 case 'killitemsub':
-    check_access('manage_items');
+    if (!check_access('manage_items')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     kill_item_submit();
     break;
 case 'edititem':
-    check_access('manage_items');
+    if (!check_access('manage_items')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     edit_item_begin();
     break;
 case 'edititemform':
-    check_access('manage_items');
+    if (!check_access('manage_items')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     edit_item_form();
     break;
 case 'edititemsub':
-    check_access('manage_items');
+    if (!check_access('manage_items')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     edit_item_sub();
     break;
 case 'newitemtype':
-    check_access('manage_items');
+    if (!check_access('manage_items')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     newitemtype();
     break;
 default:
