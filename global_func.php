@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -1263,4 +1263,97 @@ function get_site_settings(): array
 function userBox(int|string $target_id): string
 {
     return $target_id;
+}
+
+/**
+ * @param string|array $permissions
+ * @param int|null $target_id
+ * @return bool
+ */
+function check_access(string|array $permissions, ?int $target_id = null): bool
+{
+    global $db, $userid;
+    // We want an array
+    if (is_string($permissions)) {
+        $permissions = [$permissions];
+    }
+    // We're quite permissive with formats allowed in $permissions, turn them back into "true" permission format
+    $permissions = array_map(function ($permission) {
+        return strtolower(str_replace([' ', '-'], '_', $permission));
+    }, $permissions);
+    // If target_id isn't provided, use the current user
+    $target_id ??= (int)$userid;
+    // Get the target's roles
+    $get_user_roles = $db->query(
+        'SELECT staff_role FROM users_roles WHERE userid = '.$target_id,
+    );
+    $target_roles = [];
+    while ($role = $db->fetch_row($get_user_roles)) {
+        $target_roles[] = $role['staff_role'];
+    }
+    // They don't have any
+    if (!$target_roles) {
+        return false;
+    }
+    // Get the corresponding role data
+    $get_staff_roles = $db->query(
+        'SELECT * FROM staff_roles WHERE id IN ('.implode(',', $target_roles).')',
+    );
+    $role_permissions = [];
+    while ($row = $db->fetch_row($get_staff_roles)) {
+        foreach ($row as $key => $value) {
+            // id and name aren't permissions
+            if (in_array($key, ['id', 'name'])) {
+                continue;
+            }
+            // If the target has the `administrator` permission, grant all accesses
+            if ($row['administrator']) {
+                $value = true;
+            }
+            // If we've not already added it, and it's true, add it
+            if (!array_key_exists($key, $role_permissions) && $value) {
+                $role_permissions[] = $key;
+            }
+        }
+    }
+    // Check the given permissions against the roles' combined permissions
+    $matches = array_intersect($role_permissions, $permissions);
+    // No matches
+    if (empty($matches)) {
+        return false;
+    }
+    // No need to exit. Access granted!
+    return true;
+}
+
+/**
+ * @return bool
+ */
+function is_staff(): bool
+{
+    global $db, $userid;
+    $preliminary = $db->query(
+        'SELECT COUNT(*) FROM users_roles WHERE staff_role > 0 AND userid = '.$userid,
+    );
+    return $db->fetch_single($preliminary) > 0;
+}
+
+function get_online_staff(?int $online_cutoff = null): array
+{
+    global $db;
+    $online_cutoff ??= time() - 900;
+    $q = $db->query(
+        'SELECT u.userid, u.username, u.laston
+        FROM users AS u
+        INNER JOIN users_roles AS ur ON ur.userid = u.userid
+        WHERE ur.staff_role > 0 AND u.laston > ' .$online_cutoff. '
+        GROUP BY u.userid
+        ORDER BY userid'
+    );
+    $rows = [];
+    while ($r = $db->fetch_row($q)) {
+        $rows[] = $r;
+    }
+    $db->free_result($q);
+    return $rows;
 }

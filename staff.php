@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -12,12 +12,65 @@ require_once('sglobals.php');
 if (!isset($_GET['action'])) {
     $_GET['action'] = 'index';
 }
+/**
+ * @return void
+ */
+function manually_fire_cron(): void
+{
+    global $db, $h;
+    if (!check_access('administrator')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
+    $get_crons = $db->query(
+        'SELECT id, name FROM cron_times ORDER BY name',
+    );
+    $crons = [];
+    while ($row = $db->fetch_row($get_crons)) {
+        $crons[] = $row['name'];
+    }
+    $_POST['cron'] = array_key_exists('cron', $_POST) && in_array($_POST['cron'], $crons) ? strtolower($_POST['cron']) : null;
+    if (array_key_exists('submit', $_POST)) {
+        if (empty($_POST['cron'])) {
+            echo 'Invalid cron name given';
+            $h->endpage();
+            exit;
+        }
+        require_once __DIR__.'/crons/CronHandler.php';
+        (CronHandler::getInstance($db))->run($_POST['cron'], 1);
+        stafflog_add('Manually fired cron: '.$_POST['cron']);
+        echo $_POST['cron'].' cron fired.';
+    }
+    echo '
+    <h3>Manually Fire Cron</h3>
+    There is no confirmation. Be certain you have selected the correct cron before submitting the form.<br>
+    <form action="staff.php?action=fire-cron" method="post">
+        <label for="cron">Select Cron</label>
+        <select name="cron" id="cron">
+            <option value="0" disabled selected>-- SELECT --</option>
+            ';
+            foreach ($crons as $cron) {
+                echo '<option value="'.$cron.'"'.($cron === $_POST['cron'] ? ' selected' : '').'>'.$cron.'</option>';
+            }
+    echo '
+        </select><br>
+        <button type="submit" name="submit">
+            Fire!
+        </button>
+    </form>';
+}
+
 switch ($_GET['action']) {
     case 'basicset':
         basicsettings();
         break;
     case 'announce':
         announcements();
+        break;
+    case 'fire-cron':
+        manually_fire_cron();
         break;
     default:
         index();
@@ -65,7 +118,8 @@ function display_basic_settings_form(): void
             Game Description:<br />
             <textarea rows='7' cols='50' name='game_description'>{$set['game_description']}</textarea><br />
             PayPal Address: <input type='text' name='paypal' value='{$set['paypal']}' /><br />
-            Gym/Crimes Validation: " . render_menu_options('validate_on', $idempotent_options, $set['validate_on']) . '<br />
+            Use Timestamps Instead of Cron Jobs: ".render_menu_options('use_timestamps_over_crons', $idempotent_options, $set['use_timestamps_over_crons']). '<br>
+            Gym/Crimes Validation: ' . render_menu_options('validate_on', $idempotent_options, $set['validate_on']) . '<br />
             Validation Period: ' . render_menu_options('validate_period', $period_options, $set['validate_period']) . '<br />
             Registration CAPTCHA: ' . render_menu_options('regcap_on', $idempotent_options, $set['regcap_on']) . '<br />
             Send Crystals: ' . render_menu_options('sendcrys_on', $idempotent_options, $set['sendcrys_on']) . '<br />
@@ -159,8 +213,8 @@ function update_basic_settings(): void
  */
 function basicsettings(): void
 {
-    global $ir, $h;
-    if ($ir['user_level'] != 2) {
+    global $h;
+    if (!check_access('administrator')) {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
         $h->endpage();
@@ -187,10 +241,10 @@ function basicsettings(): void
  */
 function announcements(): void
 {
-    global $db, $ir, $h;
-    if ($ir['user_level'] != 2) {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
+    global $db, $h;
+    if (!check_access('administrator')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -234,8 +288,8 @@ function announcements(): void
  */
 function index(): void
 {
-    global $db, $ir, $set, $_CONFIG;
-    if ($ir['user_level'] == 2) {
+    global $db, $set, $_CONFIG;
+    if (check_access('administrator')) {
         $versq = $db->query('SELECT VERSION()');
         $mv    = $db->fetch_single($versq);
         $db->free_result($versq);

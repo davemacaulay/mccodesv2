@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -56,7 +56,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == 0)
     header("Location: {$login_url}");
     exit;
 }
-$userid = $_SESSION['userid'] ?? 0;
+$userid = (int)($_SESSION['userid'] ?? 0);
 require 'header.php';
 
 include 'config.php';
@@ -69,6 +69,15 @@ $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
 $db->connect();
 $c = $db->connection_id;
 $set = get_site_settings();
+if ($set['use_timestamps_over_crons']) {
+    define('SILENT_CRONS', true);
+    try {
+        require_once __DIR__ . '/crons/cronless_crons.php';
+    } catch (Exception $e) {
+        echo 'An error occurred' . (defined('DEBUG') && DEBUG ? ':<br>'.$e->getMessage() : '');
+        exit;
+    }
+}
 global $jobquery, $housequery;
 if (isset($jobquery) && $jobquery)
 {
@@ -121,25 +130,24 @@ if ($ir['force_logout'] > 0)
     header("Location: {$login_url}");
     exit;
 }
-if (!in_array($ir['user_level'], [2, 3, 5]))
+if (!is_staff())
 {
     echo 'This page cannot be accessed.<br />&gt; <a href="index.php">Go Home</a>';
     die;
 }
 check_level();
 $h = new headers();
-$h->startheaders();
-$fm = money_formatter($ir['money']);
-$cm = money_formatter($ir['crystals'], '');
-$lv = date('F j, Y, g:i a', $ir['laston']);
-global $atkpage;
-$staffpage = 1;
-if ($atkpage)
-{
-    $h->userdata($ir, $lv, $fm, $cm, 0);
+if (!isset($nohdr) || !$nohdr) {
+    $h->startheaders();
+    $fm = money_formatter($ir['money']);
+    $cm = money_formatter($ir['crystals'], '');
+    $lv = date('F j, Y, g:i a', $ir['laston']);
+    global $atkpage;
+    $staffpage = 1;
+    if ($atkpage) {
+        $h->userdata($ir, $lv, $fm, $cm, 0);
+    } else {
+        $h->userdata($ir, $lv, $fm, $cm);
+    }
+    $h->smenuarea();
 }
-else
-{
-    $h->userdata($ir, $lv, $fm, $cm);
-}
-$h->smenuarea();

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -29,7 +29,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == 0)
     header("Location: {$login_url}");
     exit;
 }
-$userid = $_SESSION['userid'] ?? 0;
+$userid = (int)($_SESSION['userid'] ?? 0);
 require 'header.php';
 
 global $_CONFIG;
@@ -42,6 +42,15 @@ $db->configure($_CONFIG['hostname'], $_CONFIG['username'],
 $db->connect();
 $c = $db->connection_id;
 $set = get_site_settings();
+if ($set['use_timestamps_over_crons']) {
+    define('SILENT_CRONS', true);
+    try {
+        require_once __DIR__ . '/crons/cronless_crons.php';
+    } catch (Exception $e) {
+        echo 'An error occurred' . (defined('DEBUG') && DEBUG ? ':<br>'.$e->getMessage() : '');
+        exit;
+    }
+}
 global $jobquery, $housequery;
 if (isset($jobquery) && $jobquery)
 {

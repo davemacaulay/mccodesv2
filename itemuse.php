@@ -107,7 +107,7 @@ else
             }
         }
         echo $r['itmname'] . ' used successfully!';
-        item_remove($userid, $r['inv_itemid'], 1);
+        item_remove($userid, (int)$r['inv_itemid'], 1);
     }
 }
 $h->endpage();

@@ -9,13 +9,6 @@ declare(strict_types=1);
 
 global $ir, $h;
 require_once('sglobals.php');
-if ($ir['user_level'] != 2)
-{
-    echo 'You cannot access this area.<br />
-    &gt; <a href="staff.php">Go Back</a>';
-    $h->endpage();
-    exit;
-}
 if (!isset($_GET['action']))
 {
     $_GET['action'] = '';
@@ -23,27 +16,48 @@ if (!isset($_GET['action']))
 switch ($_GET['action'])
 {
 case 'editnews':
+    if (!check_access('edit_newspaper')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     newspaper_form();
     break;
 case 'subnews':
+    if (!check_access('edit_newspaper')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     newspaper_submit();
     break;
 case 'givedpform':
+    if (!check_access('manage_donator_packs')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     give_dp_form();
     break;
 case 'givedpsub':
+    if (!check_access('manage_donator_packs')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     give_dp_submit();
     break;
-case 'stafflist':
-    staff_list();
-    break;
-case 'userlevel':
-    userlevel();
-    break;
-case 'userlevelform':
-    userlevelform();
-    break;
 case 'massmailer':
+    if (!check_access('mass_mail')) {
+        echo 'You cannot access this area.
+        <br />&gt; <a href="index.php">Go Home</a>';
+        $h->endpage();
+        exit;
+    }
     massmailer();
     break;
 default:
@@ -188,246 +202,12 @@ function give_dp_submit(): void
     exit;
 }
 
-/**
- * @param $userid
- * @param $level
- * @param $desc
- * @param $csrf
- * @return string
- */
-function staff_userlevel_innerform($userid, $level, $desc, $csrf): string
-{
-    return "
-<form action='staff_special.php?action=userlevel' method='post'>
-<input type='hidden' name='ID' value='{$userid}' />
-<input type='hidden' name='level' value='{$level}' />
-{$csrf}
-<input type='submit' value='{$desc}' />
-</form>
-";
-}
-
-/**
- * @return void
- */
-function staff_list(): void
+function populate_recipients(array &$recipients, mysqli_result|false $get_users): void
 {
     global $db;
-    echo "
-    <h3>Staff Management</h3>
-    <b>Admins</b>
-    <br />
-    <table width='80%' cellpadding='1' cellspacing='1' class='table'>
-    		<tr>
-    			<th>User</th>
-    			<th>Status</th>
-    			<th>Links</th>
-    		</tr>
-       ";
-    $csrf = request_csrf_html('staff_userlevel');
-    $staff = [];
-    $q =
-            $db->query(
-                'SELECT `userid`, `laston`, `username`, `level`, `money`,
- 				 	 `user_level`
- 				 	 FROM `users`
- 				 	 WHERE `user_level` IN(2, 3, 5)
- 				 	 ORDER BY `userid` ASC');
-    while ($r = $db->fetch_row($q))
-    {
-        $staff[$r['userid']] = $r;
+    while ($row = $db->fetch_row($get_users)) {
+        $recipients[] = $row['userid'];
     }
-    $db->free_result($q);
-    foreach ($staff as $r)
-    {
-        if ($r['user_level'] == 2)
-        {
-            $on =
-                    (($r['laston'] >= $_SERVER['REQUEST_TIME'] - 15) * 60)
-                            ? '<span style="color: green;">Online</span>'
-                            : '<span style="color: red;">Offline</span>';
-            echo "
-    		<tr>
-    			<td>
-    				<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a>
-    				[{$r['userid']}]
-    			</td>
-    			<td>$on</td>
-    			<td>
-    				"
-                    . staff_userlevel_innerform($r['userid'], 3, 'Secretary',
-                            $csrf) . '
-    				&middot; '
-                    . staff_userlevel_innerform($r['userid'], 5, 'Assistant',
-                            $csrf) . '
-    				&middot; '
-                    . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . '
-    			</td>
-    		</tr>
-       		';
-        }
-    }
-    echo "
-    </table>
-    <b>Secretaries</b>
-    <br />
-    <table width='80%' cellpadding='1' cellspacing='1' class='table'>
-    		<tr>
-    			<th>User</th>
-    			<th>Status</th>
-    			<th>Links</th>
-    		</tr>
-       ";
-    foreach ($staff as $r)
-    {
-        if ($r['user_level'] == 3)
-        {
-            $on =
-                    (($r['laston'] >= $_SERVER['REQUEST_TIME'] - 15) * 60)
-                            ? '<span style="color: green;">Online</span>'
-                            : '<span style="color: red;">Offline</span>';
-            echo "
-    		<tr>
-    			<td>
-    				<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a>
-    				[{$r['userid']}]
-    			</td>
-    			<td>$on</td>
-    			<td>
-    				"
-                    . staff_userlevel_innerform($r['userid'], 2, 'Admin',
-                            $csrf) . '
-    				&middot; '
-                    . staff_userlevel_innerform($r['userid'], 5, 'Assistant',
-                            $csrf) . '
-    				&middot; '
-                    . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . '
-    			</td>
-    		</tr>
-       		';
-        }
-    }
-    echo "
-    </table>
-    <b>Assistants</b>
-    <br />
-    <table width='80%' cellpadding='1' cellspacing='1' class='table'>
-    		<tr>
-    			<th>User</th>
-    			<th>Status</th>
-    			<th>Links</th>
-    		</tr>
-       ";
-    foreach ($staff as $r)
-    {
-        if ($r['user_level'] == 5)
-        {
-            $on =
-                    (($r['laston'] >= $_SERVER['REQUEST_TIME'] - 15) * 60)
-                            ? '<span style="color: green;">Online</span>'
-                            : '<span style="color: red;">Offline</span>';
-            echo "
-    		<tr>
-    			<td>
-    				<a href='viewuser.php?u={$r['userid']}'>{$r['username']}</a>
-    				[{$r['userid']}]
-    			</td>
-    			<td>$on</td>
-    			<td>
-    				"
-                    . staff_userlevel_innerform($r['userid'], 2, 'Admin',
-                            $csrf) . '
-    				&middot; '
-                    . staff_userlevel_innerform($r['userid'], 3, 'Secretary',
-                            $csrf) . '
-    				&middot; '
-                    . staff_userlevel_innerform($r['userid'], 1, 'Member',
-                            $csrf) . '
-    			</td>
-    		</tr>
-       		';
-        }
-    }
-    echo '</table>';
-}
-
-/**
- * @return void
- */
-function userlevel(): void
-{
-    global $db, $h;
-    staff_csrf_stdverify('staff_userlevel',
-            'staff_special.php?action=userlevelform');
-    $_POST['level'] =
-            (isset($_POST['level'])
-                    && in_array($_POST['level'], [1, 2, 3, 4, 5]))
-                    ? abs(intval($_POST['level'])) : 0;
-    $_POST['ID'] =
-            (isset($_POST['ID']) && is_numeric($_POST['ID']))
-                    ? abs(intval($_POST['ID'])) : 0;
-    if ($_POST['ID'] == 0 || $_POST['level'] == 0)
-    {
-        echo 'Invalid input.<br />
-        &gt; <a href="staff_special.php?action=userlevelform">Go Home</a>';
-        $h->endpage();
-        exit;
-    }
-    $d =
-            $db->query(
-                    'SELECT COUNT(`userid`)
-                     FROM `users`
-                     WHERE `userid` = ' . $_POST['ID']);
-    if ($db->fetch_single($d) == 0)
-    {
-        $db->free_result($d);
-        echo 'Invalid user.<br />
-        &gt; <a href="staff_special.php?action=userlevelform">Go Home</a>';
-        $h->endpage();
-        exit;
-    }
-    $db->free_result($d);
-    $db->query(
-            "UPDATE `users`
-             SET `user_level` = {$_POST['level']}
-             WHERE `userid` = {$_POST['ID']}");
-    stafflog_add('Adjusted user ID ' . $_POST['ID'] . '\'s staff status.');
-    echo 'User\'s level adjusted.<br />
-    &gt; <a href="staff.php">Go Home</a>';
-    $h->endpage();
-    exit;
-}
-
-/**
- * @return void
- */
-function userlevelform(): void
-{
-    $csrf = request_csrf_html('staff_userlevel');
-    echo "
-    <h3>User Level Adjust</h3>
-    <form action='staff_special.php?action=userlevel' method='post'>
-    	User: " . user_dropdown('ID')
-            . "
-    	<br />
-    	User Level:
-    	<br />
-    	<input type='radio' name='level' value='1' /> Member
-    	<br />
-    	<input type='radio' name='level' value='2' /> Admin
-    	<br />
-    	<input type='radio' name='level' value='3' /> Secretary
-    	<br />
-    	<input type='radio' name='level' value='4' /> IRC Op
-    	<br />
-    	<input type='radio' name='level' value='5' /> Assistant
-    	<br />
-    	{$csrf}
-    	<input type='submit' value='Adjust' />
-    </form>
-    ";
 }
 
 /**
@@ -436,65 +216,76 @@ function userlevelform(): void
 function massmailer(): void
 {
     global $db, $h;
-    $_POST['text'] =
-            (isset($_POST['text']))
-                    ? $db->escape(strip_tags(stripslashes($_POST['text'])))
-                    : '';
-    $_POST['cat'] =
-            (isset($_POST['cat']) && in_array($_POST['cat'], [1, 2, 3]))
-                    ? $_POST['cat'] : '';
-    $_POST['level'] =
-            (isset($_POST['level'])
-                    && in_array($_POST['level'], [1, 2, 3, 5]))
-                    ? abs((int) $_POST['level']) : '';
-    if (!empty($_POST['text'])
-            && (!empty($_POST['cat']) || empty($_POST['level'])))
-    {
-        if (!empty($_POST['cat']) && !empty($_POST['level']))
-        {
-            echo 'Please select one of the sending options, not both.<br />
-            &gt; <a href="staff_special.php?action=massmailer">Try again</a>';
+    $_POST['text']  =
+        (isset($_POST['text']))
+            ? $db->escape(strip_tags(stripslashes($_POST['text'])))
+            : '';
+    $_POST['recipients'] = array_key_exists('recipients', $_POST) ? $_POST['recipients'] : null;
+    $_POST['recipient-roles'] = array_key_exists('recipient-roles', $_POST) && is_array($_POST['recipient-roles']) ? $_POST['recipient-roles'] : null;
+    if (!empty($_POST['text'])) {
+        staff_csrf_stdverify('staff_massmailer',
+                'staff_special.php?action=massmailer');
+        $recipients = [];
+        $subj       = 'Mass mail from Administrator';
+        if ($_POST['recipients'] === 'all') {
+            $get_users = $db->query(
+                'SELECT userid FROM users WHERE user_level > 0',
+            );
+            populate_recipients($recipients, $get_users);
+        } elseif ($_POST['recipients'] === 'staff') {
+            $get_users = $db->query(
+                'SELECT userid FROM users_roles WHERE staff_role > 0',
+            );
+            while ($row = $db->fetch_row($get_users)) {
+                $recipients[] = $row['userid'];
+            }
+        } elseif ($_POST['recipients'] === 'admin') {
+            $get_roles = $db->query(
+                'SELECT id FROM staff_roles WHERE administrator = true',
+            );
+            $roles     = [];
+            while ($role = $db->fetch_row($get_roles)) {
+                $roles[] = $role['id'];
+            }
+            $get_users = $db->query(
+                'SELECT userid FROM users_roles WHERE staff_role IN (' . implode(',', $roles) . ')',
+            );
+            populate_recipients($recipients, $get_users);
+        } elseif (!empty($_POST['recipient-roles'])) {
+            $recipient_roles = implode(',', array_unique(array_filter(array_map(function ($role) {
+                return abs(intval($role));
+            }, $_POST['recipient-roles']))));
+            if (empty($recipient_roles)) {
+                echo 'Invalid role(s) selected';
+                $h->endpage();
+                exit;
+            }
+            $check_roles = $db->query(
+                'SELECT COUNT(id) FROM staff_roles WHERE id IN (' . $recipient_roles . ')'
+            );
+            if ((int)$db->fetch_single($check_roles) !== count($_POST['recipient-roles'])) {
+                echo 'Invalid role(s) selected';
+                $h->endpage();
+                exit;
+            }
+            $get_users = $db->query(
+                'SELECT userid FROM users_roles WHERE staff_role IN (' . $recipient_roles . ') GROUP BY userid'
+            );
+            populate_recipients($recipients, $get_users);
+        }
+        if (empty($recipients)) {
+            echo 'No recipients found';
             $h->endpage();
             exit;
         }
-        staff_csrf_stdverify('staff_massmailer',
-                'staff_special.php?action=massmailer');
-        $subj = 'Mass mail from Administrator';
-        if ($_POST['cat'] == 1)
-        {
-            $q =
-                    $db->query(
-                        'SELECT `userid`
-                             FROM `users`
-                             WHERE `user_level` != 0');
-        } elseif ($_POST['cat'] == 2) {
-            $q =
-                $db->query(
-                    'SELECT `userid`
-                             FROM `users`
-                             WHERE `user_level` > 1');
-        } elseif ($_POST['cat'] == 3) {
-            $q =
-                $db->query(
-                    'SELECT `userid`
-                             FROM users
-                             WHERE `user_level` = 2');
-        } else {
-            $q =
-                $db->query(
-                    "SELECT `userid`
-                             FROM `users`
-                             WHERE `user_level` = {$_POST['level']}");
-        }
-        $uc = [];
+        $uc        = [];
         $send_time = time();
-        while ($r = $db->fetch_row($q))
-        {
+        foreach ($recipients as $recipient) {
             $db->query(
-                    "INSERT INTO `mail`
-                     VALUES(NULL, 0, 0, {$r['userid']}, {$send_time},
+                "INSERT INTO `mail`
+                     VALUES(NULL, 0, 0, {$recipient}, {$send_time},
                      '$subj', '{$_POST['text']}')");
-            $uc[] = $r['userid'];
+            $uc[] = $recipient;
         }
 
         $us_im = implode(',', $uc);
@@ -512,29 +303,35 @@ function massmailer(): void
     else
     {
         $csrf = request_csrf_html('staff_massmailer');
+        $get_roles = $db->query(
+            'SELECT id, name FROM staff_roles ORDER BY id',
+        );
         echo "
         <b>Mass Mailer</b>
         <br />
         <form action='staff_special.php?action=massmailer' method='post'>
-        	Text: <br />
-        	<textarea name='text' rows='7' cols='40'></textarea>
-        	<br />
-        	<input type='radio' name='cat' value='1' /> Send to all members
-        	<input type='radio' name='cat' value='2' /> Send to staff only
-        	<input type='radio' name='cat' value='3' /> Send to admins only
-        	<br />
-        	OR Send to user level:
-        	<br />
-        	<input type='radio' name='level' value='1' /> Member
-        	<br />
-        	<input type='radio' name='level' value='2' /> Admin
-        	<br />
-        	<input type='radio' name='level' value='3' /> Secretary
-        	<br />
-        	<input type='radio' name='level' value='5' /> Assistant
-        	<br />
-        	{$csrf}
-        	<input type='submit' value='Send' />
+            Text: <br />
+            <textarea name='text' rows='7' cols='40'></textarea>
+            <br />
+            <input type='radio' name='recipients' value='all' /> Send to all members
+            <input type='radio' name='recipients' value='staff' /> Send to staff only
+            <input type='radio' name='recipients' value='admin' /> Send to admins only
+            <br />
+            OR Send to specific staff role(s):
+            <br />
+            ";
+        while ($role = $db->fetch_row($get_roles)) {
+            echo '
+                    <label for="role-' . $role['id'] . '">
+                        <input type="checkbox" name="recipient-roles[]" id="role-' . $role['id'] . '" value="' . $role['id'] . '" />
+                        ' . $role['name'] . '
+                    </label><br>
+                ';
+        }
+        echo "
+            <br />
+            {$csrf}
+            <input type='submit' value='Send' />
         </form>
            ";
     }

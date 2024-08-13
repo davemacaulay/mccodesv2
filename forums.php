@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -200,7 +200,7 @@ function idx(): void
     }
     echo "\n</table>";
     $db->free_result($q);
-    if ($ir['user_level'] > 1)
+    if (check_access('use_staff_forums'))
     {
         echo "<hr /><a name='staff'><h3>Staff-Only Forums</h3></a><hr />";
         $q =
@@ -274,8 +274,8 @@ function viewforum(): void
     $r = $db->fetch_row($q);
     $db->free_result($q);
     if (($r['ff_auth'] == 'gang' && $ir['gang'] != $r['ff_owner']
-            && $ir['user_level'] < 2)
-            || ($r['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            && !check_access('manage_forums'))
+            || ($r['ff_auth'] == 'staff' && !check_access('use_staff_forums')))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -284,7 +284,7 @@ You have no permission to view this forum.<br />
         $h->endpage();
         exit;
     }
-    if ($_GET['viewforum'] != 1 OR $ir['user_level'] == 2)
+    if ($_GET['viewforum'] != 1 || check_access('manage_forums'))
     {
         $ntl =
                 "&nbsp;[<a href='forums.php?act=newtopicform&amp;forum={$_GET['viewforum']}'>New Topic</a>]";
@@ -422,8 +422,8 @@ function viewtopic(): void
     $topic = get_topic($_GET['viewtopic']);
     $forum = get_forum((int)$topic['ft_forum_id']);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner']
-            && $ir['user_level'] < 2)
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            && !check_access('manage_forums'))
+            || ($forum['ff_auth'] == 'staff' && !check_access('use_staff_forums')))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -449,7 +449,7 @@ You have no permission to view this forum.<br />
         $st = ($pages - 1) * 20;
     }
     display_pagination($pages, $st, -20, (int)$topic['ft_id']);
-    topic_management_options($ir['user_level']);
+    topic_management_options();
     $q3 =
             $db->query(
                     "SELECT `fp_poster_name`, `fp_editor_time`,
@@ -549,7 +549,7 @@ function get_cached_userdata(int|string $fp_poster_id, array &$precache): array
     {
         $rank = forums_rank($memb['posts']);
         $av = $memb['forums_avatar']
-            ? '<img src="' . $memb['forums_avatar'] . '" width="150px" height="150px" />'
+            ? '<img src="' . $memb['forums_avatar'] . '" style="max-width:100px; max-height:100px;" />'
             : '<img src="noav.gif" />';
         $memb['forums_signature'] = $memb['forums_signature']
             ? $bbc->bbcode_parse($memb['forums_signature'])
@@ -559,15 +559,13 @@ function get_cached_userdata(int|string $fp_poster_id, array &$precache): array
 }
 
 /**
- * @param $user_level
  * @return void
  */
-function topic_management_options($user_level): void
+function topic_management_options(): void
 {
-    echo '<br />';
-    if ($user_level > 1) {
-        echo "
-	<form action='forums.php?act=move&amp;topic={$_GET['viewtopic']}' method='post'>
+    echo '<br>';
+    if (check_access('manage_forums')) {
+        echo "<form action='forums.php?act=move&amp;topic={$_GET['viewtopic']}' method='post'>
     <b>Move topic to:</b> " . forum_dropdown('forum', -1)
             . "
 	<input type='submit' value='Move' />
@@ -581,8 +579,7 @@ function topic_management_options($user_level): void
 	</a>
 	<a href='forums.php?act=deletopic&amp;topic={$_GET['viewtopic']}'>
 		<img src='delete.gif' alt='Delete Topic' title='Delete Topic' />
-	</a><br />
-            ";
+	</a><br />";
     }
     echo "<table cellspacing='1' class='table' width='100%'>\n";
 }
@@ -668,7 +665,7 @@ function reply(): void
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner'])
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($forum['ff_auth'] == 'staff' && !check_access('manage_forums')))
     {
         echo '
         You have no permission to reply to this topic.<br />
@@ -782,7 +779,7 @@ function newtopicform(): void
     $r = $db->fetch_row($q);
     $db->free_result($q);
     if (($r['ff_auth'] == 'gang' && $ir['gang'] != $r['ff_owner'])
-            || ($r['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($r['ff_auth'] == 'staff' && !check_access('use_staff_forums')))
     {
         echo '
         You have no permission to view this forum.<br />
@@ -854,7 +851,7 @@ function newtopic(): void
     $r = $db->fetch_row($q);
     $db->free_result($q);
     if (($r['ff_auth'] == 'gang' && $ir['gang'] != $r['ff_owner'])
-            || ($r['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($r['ff_auth'] == 'staff' && !check_access('use_staff_forums')))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -1011,7 +1008,7 @@ function quote(): void
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner'])
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($forum['ff_auth'] == 'staff' && !check_access('use_staff_forums')))
     {
         echo '
 You have no permission to reply to this topic.<br />
@@ -1119,7 +1116,7 @@ function edit(): void
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner'])
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($forum['ff_auth'] == 'staff' && !check_access('manage_forums')))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -1153,7 +1150,7 @@ You have no permission to view this forum.<br />
     }
     $post = $db->fetch_row($q3);
     $db->free_result($q3);
-    if (!($ir['user_level'] > 1 || $ir['userid'] == $post['fp_poster_id']))
+    if (!(check_access('manage_forums') || $ir['userid'] == $post['fp_poster_id']))
     {
         echo '
 You have no permission to edit this post.<br />
@@ -1243,7 +1240,7 @@ function editsub(): void
     $forum = $db->fetch_row($q2);
     $db->free_result($q2);
     if (($forum['ff_auth'] == 'gang' && $ir['gang'] != $forum['ff_owner'])
-            || ($forum['ff_auth'] == 'staff' && $ir['user_level'] < 2))
+            || ($forum['ff_auth'] == 'staff' && !check_access('use_staff_forums')))
     {
         echo '
 You have no permission to view this forum.<br />
@@ -1267,7 +1264,7 @@ You have no permission to view this forum.<br />
     }
     $post = $db->fetch_row($q3);
     $db->free_result($q3);
-    if (!($ir['user_level'] > 1 || $ir['userid'] == $post['fp_poster_id']))
+    if (!(check_access('manage_forums') || $ir['userid'] == $post['fp_poster_id']))
     {
         echo '
 You have no permission to edit this post.<br />
@@ -1434,7 +1431,7 @@ function recache_topic($topic): void
 function move(): void
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], [2, 3, 5]))
+    if (!!check_access('manage_forums'))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1504,8 +1501,8 @@ function move(): void
  */
 function lock(): void
 {
-    global $ir, $h, $db;
-    if (!in_array($ir['user_level'], [2, 3, 5]))
+    global $h, $db;
+    if (!check_access('manage_forums'))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1565,7 +1562,7 @@ function lock(): void
 function pin(): void
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], [2, 3, 5]))
+    if (!check_access('manage_forums'))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1625,7 +1622,7 @@ function pin(): void
 function delepost(): void
 {
     global $ir, $h, $db;
-    if (!in_array($ir['user_level'], [2, 3, 5]))
+    if (!check_access('manage_forums'))
     {
         echo 'There seems to be a error somewhere.<br />
         &gt; <a href="forums.php" title="Go Back">go back</a>';
@@ -1772,9 +1769,9 @@ function get_links(array $r, int &$no): array
         . urlencode(
             htmlentities($r['fp_text'], ENT_QUOTES,
                 'ISO-8859-1')) . "'>Quote Post</a>]";
-    $elink = $ir['user_level'] > 1 || $ir['userid'] == $r['fp_poster_id'] ? "[<a href='forums.php?act=edit&amp;post={$r['fp_id']}&amp;topic={$_GET['viewtopic']}'>Edit Post</a>]" : '';
+    $elink = check_access('manage_forums') || $ir['userid'] == $r['fp_poster_id'] ? "[<a href='forums.php?act=edit&amp;post={$r['fp_id']}&amp;topic={$_GET['viewtopic']}'>Edit Post</a>]" : '';
     $no++;
-    $dlink = ($no > 1 && $ir['user_level'] > 1) ? "[<a href='forums.php?act=delepost&amp;post={$r['fp_id']}'>Delete Post</a>]" : '';
+    $dlink = ($no > 1 && check_access('manage_forums')) ? "[<a href='forums.php?act=delepost&amp;post={$r['fp_id']}'>Delete Post</a>]" : '';
     return [$qlink, $elink, $dlink];
 }
 

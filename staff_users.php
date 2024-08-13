@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /**
  * MCCodes v2 by Dabomstew & ColdBlooded
- * 
+ *
  * Repository: https://github.com/davemacaulay/mccodesv2
  * License: MIT License
  */
@@ -74,10 +74,10 @@ default:
  */
 function new_user_form(): void
 {
-    global $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
+    global $h;
+    if (!check_access('manage_users')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -137,11 +137,10 @@ function new_user_form(): void
  */
 function new_user_submit(): void
 {
-    global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
+    global $db, $h;
+    if (!check_access('manage_users')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -275,11 +274,10 @@ function new_user_submit(): void
  */
 function edit_user_begin(): void
 {
-    global $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
+    global $h;
+    if (!check_access('manage_users')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -310,11 +308,10 @@ function edit_user_begin(): void
  */
 function edit_user_form(): void
 {
-    global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
+    global $db, $h;
+    if (!check_access('manage_users')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -437,11 +434,10 @@ function edit_user_form(): void
  */
 function edit_user_sub(): void
 {
-    global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
+    global $db, $h;
+    if (!check_access('manage_users')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -657,9 +653,9 @@ function edit_user_sub(): void
 function deluser(): void
 {
     global $ir, $h, $db;
-    if ($ir['user_level'] != 2)
-    {
-        echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
+    if (!check_access('manage_users')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -821,10 +817,9 @@ function deluser(): void
 function inv_user_begin(): void
 {
     global $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
+    if (!check_access('manage_users')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -849,10 +844,9 @@ function inv_user_begin(): void
 function inv_user_view(): void
 {
     global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
-    {
-        echo 'You cannot access this area.<br />
-        &gt; <a href="staff.php">Go Back</a>';
+    if (!check_access('view_user_inventory')) {
+        echo 'You cannot access this area.
+    <br />&gt; <a href="index.php">Go Home</a>';
         $h->endpage();
         exit;
     }
@@ -944,8 +938,8 @@ function inv_user_view(): void
  */
 function inv_delete(): void
 {
-    global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
+    global $db, $h;
+    if (!check_access('manage_user_inventory'))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -999,8 +993,8 @@ function inv_delete(): void
  */
 function credit_user_form(): void
 {
-    global $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
+    global $h;
+    if (!check_access('credit_user'))
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
         $h->endpage();
@@ -1030,8 +1024,8 @@ function credit_user_form(): void
  */
 function credit_user_submit(): void
 {
-    global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
+    global $db, $h;
+    if (!check_access('credit_user'))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
@@ -1099,8 +1093,8 @@ function credit_user_submit(): void
  */
 function mcredit_user_form(): void
 {
-    global $ir, $h;
-    if ($ir['user_level'] != 2)
+    global $h;
+    if (!check_access('credit_all_users'))
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
         $h->endpage();
@@ -1127,8 +1121,8 @@ function mcredit_user_form(): void
  */
 function mcredit_user_submit(): void
 {
-    global $db, $ir, $h;
-    if ($ir['user_level'] != 2)
+    global $db, $h;
+    if (!check_access('credit_all_users'))
     {
         echo 'You cannot access this area.<br />&gt; <a href="staff.php">Go Back</a>';
         $h->endpage();
@@ -1175,8 +1169,8 @@ function mcredit_user_submit(): void
  */
 function reports_view(): void
 {
-    global $db, $ir, $h;
-    if (!in_array($ir['user_level'], [2, 3]))
+    global $db, $h;
+    if (!check_access('manage_player_reports'))
     {
         echo 'You cannot access this area.<br />
         &gt; <a href="staff.php">Go Back</a>';
